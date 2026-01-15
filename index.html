@@ -1,64 +1,63 @@
 ---
 layout: default
-title: 你的主页标题
+title: 我的个人主页
 ---
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="我的个人主页">
-    <title>我的个人主页</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>欢迎来到我的个人主页</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">关于我</a></li>
-                <li><a href="#projects">项目展示</a></li>
-                <li><a href="#contact">联系方式</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <section id="about">
-        <h2>关于我</h2>
-        <p>你好，我是[你的名字]，欢迎来到我的网站！</p>
-    </section>
+<div class="profile-container">
+    <div class="profile-left">
+        <h1 class="name-zh">你的中文名</h1>
+        <h2 class="name-en">Your English Name</h2>
 
-    <section id="projects">
-        <h2>我的项目</h2>
-        <p>这里展示我的一些项目。</p>
-    </section>
+        <div class="social-buttons">
+            <a href="https://github.com/assassinlike" class="my-btn" target="_blank">GitHub</a>
+            <a href="https://osu.ppy.sh/home" class="my-btn" target="_blank">OSU</a>
+        </div>
 
-    <section id="contact">
-        <h2>联系方式</h2>
-        <p>你可以通过以下方式联系我：</p>
-        <ul>
-            <li>Email: [你的邮箱]</li>
-            <li>GitHub: [你的GitHub链接]</li>
-        </ul>
-    </section>
-    <hr> <nav>
-    <ul style="list-style: none; padding-left: 0;">
-      <li style="margin-bottom: 10px;">
-        <a href="/" class="btn" style="display: block; text-align: center;">科研</a>
-      </li>
-      <li style="margin-bottom: 10px;">
-        <a href="/about.html" class="btn" style="display: block; text-align: center;">兴趣科研</a>
-      </li>
-      <li style="margin-bottom: 10px;">
-        <a href="/projects.html" class="btn" style="display: block; text-align: center;">文章</a>
-      </li>
-    </ul>
-  </nav>
+        <div class="contact-text">
+            <div>Email: your-email@example.com</div>
+            <div>Tel: +86 123-4567-8910</div>
+        </div>
+    </div>
 
-    <footer>
-        <p>&copy; 2025 [你的名字] - All Rights Reserved</p>
-    </footer>
-</body>
-</html>
+    <div class="profile-avatar">
+        <img src="https://avatars.githubusercontent.com/u/你的用户ID?v=4" alt="头像">
+    </div>
+</div>
 
+<div class="intro-box">
+    <h3>👋 自我介绍</h3>
+    <p>
+        这里是可以编辑的自我介绍区域。你可以在这里写下你的背景、研究方向或者任何你想说的话。
+        Midnight 主题原本的深色背景上，这个浅色盒子会很显眼。
+    </p>
+</div>
 
+<div class="hover-menu-container">
+    
+    <div class="menu-item">
+        <span class="menu-title">科研</span>
+        <div class="submenu-content">
+            <p><strong>· 正在进行的项目</strong><br>描述一下项目A...</p>
+            <p><strong>· 过去的研究</strong><br>描述一下研究B...</p>
+            <a href="#">查看更多详情 &rarr;</a>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <span class="menu-title">兴趣科研</span>
+        <div class="submenu-content">
+            <p><strong>· 个人开发</strong><br>比如写的小工具...</p>
+            <p><strong>· 探索方向</strong><br>最近感兴趣的领域...</p>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <span class="menu-title">文章</span>
+        <div class="submenu-content">
+            <a href="#">📄 第一篇论文标题 (2025)</a>
+            <a href="#">📄 技术博客：关于Jekyll (2024)</a>
+            <a href="#">📄 随笔：我的思考</a>
+        </div>
+    </div>
+
+</div>
