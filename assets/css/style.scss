@@ -2,7 +2,131 @@
 ---
 @import "{{ site.theme }}";
 
-// 隐藏 View on GitHub 按钮
-.buttons, .downloads {
+/* 1. 强制隐藏 View on GitHub 按钮 */
+header a.btn, .view {
   display: none !important;
+}
+
+/* 2. 自定义头部布局 (左名右图) */
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-left {
+  flex: 1;
+}
+
+.name-zh {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.name-en {
+  font-size: 1.5em;
+  color: #888;
+  margin: 5px 0 20px 0;
+}
+
+.social-buttons {
+  margin-bottom: 15px;
+}
+
+.social-buttons .my-btn {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #333; /* 按钮颜色 */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  font-size: 0.9em;
+}
+
+.social-buttons .my-btn:hover {
+  background-color: #555;
+}
+
+.contact-text {
+  font-size: 0.9em;
+  color: #666;
+  line-height: 1.6;
+}
+
+.profile-avatar img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%; /* 圆形头像 */
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-left: 20px;
+}
+
+/* 3. 自我介绍框 (浅色背景) */
+.intro-box {
+  background: rgba(255, 255, 255, 0.8); /* 浅白色背景 */
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  border: 1px solid #ddd;
+}
+
+/* 4. 悬停展开菜单 (科研/兴趣/文章) */
+.hover-menu-container {
+  display: flex;
+  justify-content: space-between; /* 三个按钮横向分布 */
+  gap: 20px;
+}
+
+.menu-item {
+  flex: 1;
+  position: relative;
+  background: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.menu-item:hover {
+  background: #eee;
+}
+
+.menu-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 10px;
+  display: block;
+}
+
+/* 隐藏的二级内容 */
+.submenu-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+  background: #fff;
+  text-align: left;
+  padding: 0 10px;
+}
+
+/* 鼠标悬停时展开 */
+.menu-item:hover .submenu-content {
+  max-height: 500px; /* 足够大以显示内容 */
+  padding-bottom: 10px;
+}
+
+.submenu-content p, .submenu-content a {
+  margin: 10px 0;
+  display: block;
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px dashed #ddd;
 }
