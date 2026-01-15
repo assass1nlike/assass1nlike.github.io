@@ -1,0 +1,8 @@
+---
+---
+@import "{{ site.theme }}";
+
+// 隐藏 View on GitHub 按钮
+.buttons, .downloads {
+  display: none !important;
+}
