@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>文字 · 2023年终总结</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/piece_top.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/piece_top.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/piece_top.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/piece_top.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/piece_top.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/piece_top.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/piece_top.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/piece_top.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/piece_top.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/piece_top.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/piece_top.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/piece_top.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/piece_top.ico/favicon-16x16.png">
+<link rel="manifest" href="/piece_top.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/piece_top.ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+  <style>
+    :root{
+        --latest-x: 73vw;
+        --1stlatest-y: 23vh;
+        --size1: 0.83vw;
+        --pad1: 0.62vw;
+        --thick1: 1px;
+        --del_y: 18.5vh;
+        --bg_x: 31vw;
+        --size_name: 1.9vw;
+        --size_engname: 1.3vw;
+        --size-info: 1vw;
+        --botton-interval: 5vw;
+        --bt-interval: 6vw;
+        --main-width:64.8vw;
+        --main-height: 18.5vh;
+    }
+    html{
+      height: 100%;
+      background: #0f0615;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: white;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #1c0f29, #0f0615);
+      position: relative;
+      padding-top: 72vh;
+    }
+
+    .hover-link {
+  color: white;
+  text-decoration: none;
+  font-size: var(--size1);
+  transition: color 0.2s, text-decoration 0.2s; /* 平滑过渡 */
+}
+
+.hover-link:hover {
+  color: purple;        /* 或 #800080、#9d4edd 等你喜欢的紫色 */
+  text-decoration: underline;
+}
+
+    /* 通用可点击图片类 */
+    .clickable-image {
+      position: absolute;
+      display: inline-block;
+      /* 不设 left/top，由内联 style 控制 */
+    }
+
+    .clickable-image img {
+      width: 3.13vw;
+      height: auto;
+    }
+
+
+    .rounded-box {
+  width: 15.6vw;
+  min-height: 9.25vh; /* 改为 min-height，允许更高 */
+  background: rgba(255, 255, 255, 0.03);
+  border: var(--thick1) solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.78vw;
+  padding: var(--pad1);
+  box-sizing: border-box;
+  backdrop-filter: blur(1px);
+  /* 移除 position 和 left/top */
+}
+    .update-box {
+  width: 15.6vw;
+  background: rgba(255, 255, 255, 0.03);
+  border: var(--thick1) solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.78vw;
+  padding: var(--pad1);
+  box-sizing: border-box;
+  backdrop-filter: blur(1px);
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+
+/* 更新框：可设最小高度 */
+.update-box.update {
+  min-height: 9.26vh;
+}
+
+    /* 文字内容 */
+    .content {
+      text-align: center;
+      padding-top: 13.9vh; /* 根据实际图片位置调整 */
+    }
+
+    .article p {
+  text-indent: 2em;
+  margin: 0 0 1em 0; /* 上 右 下 左 */
+  line-height: 1.6;
+}
+
+    .dropdown-group {
+  position: absolute;
+  left: 31.25vw;
+  top: 37vh;
+  width: 11.5vw;
+}
+
+/* 单个下拉菜单 */
+.flow-dropdown {
+  background: #000;
+  border: 1px solid white;
+  border-radius: 0.3vw;
+  overflow: hidden;
+  height: 4.5vh; /* 初始高度 = 按钮高度 */
+  width: 36.5vw;
+  transition: height 0.35s ease;
+  margin-bottom: 0.42vh; /* 菜单间小间距 */
+  box-shadow: 0 0.1vh 0.3vh rgba(0,0,0,0.3);
+}
+
+.flow-dropdown .dropdown-header {
+  padding: 0.31vh 0.62vw;
+  color: white;
+  font-size: 1.15vw;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.flow-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+
+.flow-dropdown a {
+  display: block;
+  padding: 1vh 0.83vw;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.flow-dropdown a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+  </style>
+</head>
+<body>
+
+  <a href="http://www.assassinlike.top" class="clickable-image" style="left: 5.21vw; top: 3.7vh;">
+    <img src="../../figs/piece.png" alt="main_icon">
+  </a>
+  <a href="http://www.assassinlike.top" class="clickable-image" style="left: 8.59vw; top: 5.09vh;">
+    <img src="../../figs/rhp.png" alt="main_text" style="width: 15.63vw;">
+  </a>
+
+  <div class="dropdown-container" style="
+  position: absolute;
+  right: 20.83vw;
+  top: 3.7vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+">
+  <!-- 触发文字 -->
+  <div class="dropdown-trigger" style="
+    cursor: pointer;
+    padding: 0.56vh 0.62vw;
+    background: #0f0615;
+    border-radius: 0.3vw;
+    display: inline-block;
+    color: white;
+    font-weight: 500;
+  ">
+    Language
+  </div>
+
+  <!-- 下拉列表 -->
+  <ul class="dropdown-list" style="
+    list-style: none;
+    margin: 0.42vh 0 0 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #0f0615;
+    border: 1px solid #ddd;
+    border-radius: 0.3vw;
+    box-shadow: 0 0.21vh 0.63vh rgba(0,0,0,0.15);
+    min-width: 8.3vw;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.42vh);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  ">
+    <li>
+      <a href="/index.html" 
+         style="
+           display: block;
+           padding: 0.52vh 0.83vw;
+           color: white;
+           text-decoration: none;
+           transition: background 0.2s;
+         "
+         onmouseover="this.style.background='#f8f9fa'"
+         onmouseout="this.style.background=''"
+      >
+        简体中文&check;
+      </a>
+    </li>
+    <li>
+      <a href=/eng.html 
+         style="
+           display: block;
+           padding: 0.52vh 0.83vw;
+           color: white;
+           text-decoration: none;
+           transition: background 0.2s;
+         "
+         onmouseover="this.style.background='#f8f9fa'"
+         onmouseout="this.style.background=''"
+      >
+        English
+      </a>
+    </li>
+  </ul>
+</div>
+
+<img src="../../figs/2023an.jpg"
+     style="
+       position: absolute;
+       left: 50%;
+       top: 8vh;
+       width: 38vw;
+       transform: translateX(-50%); /* 水平居中关键 */
+       border-radius: 12px;         /* 圆角 */
+       box-shadow: 
+         0 10px 30px rgba(0, 0, 0, 0.4),
+         0 0 0 2px rgba(255, 255, 255, 0.1),
+         0 0 20px rgba(100, 50, 200, 0.2);
+       backdrop-filter: blur(2px);  /* 若作为容器背景时有用，对 <img> 本身无效，但保留无害 */
+       object-fit: cover;           /* 保证图片比例不拉伸（可选） */
+     ">
+
+<span style="
+  position: absolute;
+  left: 30vw;
+  top: 65vh;
+  color: white;
+  font-family: 'Helvetica Neue';
+  font-size: 1.5vw;
+  opacity: 0.9;
+  font-weight: bold;
+">2023年终总结</span>
+<span style="
+  position: absolute;
+  left: 41vw;
+  top: 66.4vh;
+  color: white;
+  font-family: 'Helvetica Neue';
+  font-size: 0.9vw;
+  opacity: 0.9;
+">written in 2024.2.10, 农历正月初一</span>
+
+<div class="article"
+style="
+  width: 90%;
+  max-width: 40vw;
+  margin: 0 auto;          /* 移除 margin-top */
+  padding: 20px 20px 20px 20px; /* 上=80px, 其他=20px */
+  font-family: Helvetica Neue;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: white;
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+  text-align: justify;
+  
+">
+<p>0.自从上次过年，一瞬间的逸兴遄飞让我写下一篇成分复杂、雅俗难分的朋友圈后，我便决定今后每个春节都写下这样一段文字——纪录今年发生的重要心路历程转变，亦或分析得出的思考成果，亦或我身上的，重要又非公众皆知的大事。
+</p>
+<p>顺着朦胧的回忆摸索，我在上个春节过去不久，距离下次过年还有十多个月便思量而期待着下次年终总结的时候，觉得此事彼事皆能化为明年笔下舞出的文字，内容不缺。然而在我此刻起笔前的一两天里，我想到你眼下这些内容应当是些什么的时候，目之所及尽是空白。
+</p>
+<p>其最主要的原因恰是最朴实无华的：
+</p><p>
+忘了。
+</p><p>
+我曾熬夜看资料、码公式、与分不清数学和计算机学中“函数”意义的审核员拉扯、处理逆天的引用机制导致的七十多条错误，呕心沥血地制成了一百度百科词条——“函数迭代”，传送门在此
+</p><p>
+https://baike.baidu.com/item/函数迭代/62699305
+</p><p>
+我当然认为此事富有意义，在很长一段时间里将其供奉在思绪的珍宝宫殿里，但依旧难挡时间的阻隔。直到我有天发现了百度账号头像上的红点，点开发现是有人为我的词条发来感谢时，我才重新想起这个已经有近四千人浏览过的内容。
+</p><p>
+与此同时，我还正在哔哩哔哩如李白般感叹世人的肤浅流俗呢，正为搔首弄姿的流量密码轻易的爆火与我高投入内容的石沉大海间的差异无奈叹息呢，竟然把这个浏览量超过我好几个视频总和的词条忘了。
+</p><p>
+可见忘却的力量。A远好于B，但A被忘了，A照样废。对了，夹带私货地，把我投稿内容的传送门也给一下
+</p><p>
+https://www.bilibili.com/video/BV1Fv421272a/?spm_id_from=333.337.search-card.all.click
+</p><p>
+（不火有不火的原因，我对网络平台太多的无知注定了此，我该。而且，搔首弄姿的流量密码，背后付出的也不一定少，尊敬给到）
+</p><p>
+这一条说完，回到关于我大脑一片空白的内容，引出下一条原因：
+</p><p>
+没有大事可说。
+</p><p>
+评价一下我这两年的不同，前者更像是在做一个转变，后者则是一种对状态的保持。在多数层面上，变的意义都要远超于不变。不说那些装B的高级知识，单纯就举中考数学第24题的例子，是不是动抛比静抛难？也有说法叫“永恒的不变就是变本身”，同样让不变绝对地处于变之下。
+</p><p>
+因而对于去年有关变的事情，我自然是印象更深。八下在学校的一天，我在中午左右的时间经历了裹挟着表达欲望的逸兴遄飞，当即下笔，直至晚上“荣誉自习室”九点结束前几分钟方才结束。我应该是写满了十余篇单面的A4纸，记录内容便是值得在眼下文章中出现的东西（当然，自己写自己看，肯定是写得更骚了）。我至今都疑惑，我脑中对那些内容的几个朦胧的印象，是怎么化作那般巨量的语言。但当时可能随意将其藏在某处，至今难觅了。若能再见，定要查明上述问题的原因。
+</p><p>
+1.虽说去年变而今年不变，但此不变只是部分人的表象。因持此观念的人众多，以致于形成了一种无言的风气，是我本人都对这不变中的变有所忽略了。这很像人们对乐器水平的考量：从无基础到中等水平，从不堪入耳的呕哑嘲哳到悦耳动听的美妙旋律，这是众人都能分辨的；但在高水平层面上的些微精进，若非内行，难得其要。可能这也是为什么乐器兴趣班中很少出高水平学员：家长看到自家孩子从零基础到能在众人前演奏，这进步是显而易见的；但在精微处的打磨，就不是大众欣赏者能分辨的了，因而家长就会怀疑，在学下去有何
+用？进而这种观念织成了一个共识，连学乐器的人自己都对“不会到会”过程的重视程度强于高阶水平上的精进，即使后者在价值上可能远超前者。（当然，原因也可能是兴趣班水平就是不行，或者学乐器真的太费了）
+</p><p>
+这种错误可能会让一系列的荒谬行为有机可乘，在我看来本质都是一个：能力认知残缺。它几乎可以将任何离谱行为作为直接推论，例如错误目标（再练下去也看不出来有啥进步啊，是不是登峰造极了？那当下目标就是成为下一个郎朗！）、错误妥协（这曲子再练下去也看不出来有啥进步啊，是不是这首登峰造极了？那这会ta让我练练第三钢琴协奏曲，没毛病啊，咱这水平终究得练的）。额外说一句，一定要厚着脸皮解决错误妥协，因为你是为了弹好琴才练琴。别怕麻烦，和你的教师好好谈谈接下来练什么曲子。如果这一时的脸皮都厚不起来，琴技的不进反退可能就要来了。
+</p><p>
+练琴的人永远要保持批判性、保持警惕、保持客观、保持认知明确。要经常检查，自己练到什么程度了，这两天的练习过快了还是过慢了。最重要的是，要对此多方求证，让自己完全相信自己对这些事情的判断。这一方面会让你将其放在任务最高位，因为你为了绝对确认，必然会花大心思考量；另一方面会让你屏蔽外界的错误言论，以免忽略不变中的变。
+</p><p>
+2.然而，上述的要求对学琴者来说，要求其高度理性。其中的任意环节都可能因非理智因素受到严重影响，比如过度自信和过度不自信（实际指标和个人感受背道而驰，你很容易服从自己的感觉，很难相信那些冰冷的数据）、舆论压力（众人皆醉你独醒，别人都说你错，你很容易在三人成虎的舆论中迷失，很难不反复怀疑自己）。
+</p><p>
+人类三次自恋创伤中，有关弗洛伊德的那个能很好地印证这件事情：人类并没有用自己引以为傲的理智做决策，大多数行为都是潜意识操控的。因而，事的层面上无处有证据，人的层面上遍地是反言，学琴者很难通过诸如我这一纸荒唐言的文字们，就坚守死自己理智的防线。
+</p><p>
+这本来就是不现实的。那我们的正确判断应当如何建立呢？这时一句名言就派上了用场：
+</p><p>
+“读万卷书，不如行万里路。”理论放在事情里印证后，力量就更足了。
+</p><p>
+哪怕它近乎确之凿凿，你也不敢信那些文字们。那对于这件事，你便选择一个立场，静观事物最后的发展。你可能发现白纸黑字没有众说纷纭带给你的主观冲击大，但它们却总能指引正确的方向。也有可能它们被证实是错的，但我可以确切地说，那是你1.最后一段的“多方求证”环节没做到位。
+</p><p>
+至于什么样的程度算到位、什么算没到位，“多方求证”中再遇到信息不对称等困难时该如何处理，属于更进一步的具体内容。我没经历过相关的事情，也不好妄自定论，就先不说了。你也不想看到我贼喊捉贼，自己都不理性。
+</p><p>
+3.在去年的朋友圈中，你会发现我提及了一个完全未知的概念：“封神”。在此对其含义予以说明：如果一个人的思想有了跨越式的进步并带动行为，或者ta的修身效率（主要是学习，也有运动、道德提升的效率）大幅提高，就说ta被封神了。
+</p><p>
+前一种可能没什么好说的，人们的思想提升本来就很难通过主观想法实现。悟了就是悟了，没悟的话，就算浑身是劲，也无能为力。但后者看似可以通过主观意志达到。只要我身怀钢铁意志，天天坚持不懈怠一点，就可以做到。
+</p><p>
+在此我想说的是，可以主动追求前一种封神，后一种则不行。虽然说了前一种是难以通过主观想法实现的，但可以退而求其次：我不能想悟就悟，那我就尽可能让我悟。多看看书，多思考分析，都是好事。
+</p><p>
+而为什么后一种封神不能主动追求呢？我列举了几条理由，而它们都基于如下的内容：
+</p><p>
+“封神”必然会演化为一种自给的激励。因为它的存在相当于自建的评价系统：如同学生发奋苦读，考试成绩单就证明了学生的努力不白费；我坚持不懈怠，“封神”成功就证明了我的修身效率因我的不懈而大幅提升了。而这套系统更强的一点是，它给予的是持续不断的回馈奖励——从封神的那天开始，我再坚持不懈，保持这种状态一天，就多记录一天，颇似戒烟戒酒戒毒的数天数，天天有进步，天天有激励。明确这一点后，就可以列举理由了：
+</p><p>
+I)封神只有封成功和封失败两种可能，不存在中间态。这种对中间态的否定就是对从始态到中间态的努力的否定，因为我只要没达到终态（封神成功），我付出了四分之三的努力和不付出任何努力完全等价。这件事无需思考便可知其错误，因为我努力是为了我的梦想，而不是为了封个自己设立的神。而对梦想来说，努力了就有用；对封神来说，没让自己达到标准的努力就没有任何用。试想一下，你早上四点起床挑灯早读，一点不敢懈怠地紧绷着弦学到中午，吃完饭之后带着手机去拉一趟翔。没成想，被各种应用中心理学家设计的，控制多巴胺的程序搞到了，蹲得腿都麻了还没出来。等到菊花向你报警，然后你从这些事物中出来并重新回到思考状态时，你距离吃完午饭已经有一个小时了。此时你深知，即使接下来再学下去，今天的效率也不能说是有大幅提高了，今儿的神肯定是封不成了。此时你虽然在愧疚中还能在学一波，但却自废武功地认为我学的习不为封神又有何用，于是认为还不如懈怠一下呢。这时唯一能阻止你堕落的东西被废了，剩下的一切都会坚定地支持你，包括但不限于自身的欲望，心理学家设计的程序，搔首弄姿的流量密码，不计其数。等到晚上你十分认真地放下这些，取关了一切可能扰乱你拉翔节奏的事物，早早睡去为了第二天的四点起床，想着明天一定能挑战成功。然后你明天可能在晚饭后拉翔，然后在晚饭时失败，后天可能一早就拉翔......
+</p><p>
+II)封神的成功与否是需要判定的，这种判定只能由自己完成，而这本身就会影响效率。可能有一天中午，你觉得自己今儿拉翔的时候怎么没思考一下哲学，这时间都浪费了。再低效一点，可能今天就算不上封神了。怎么才是能算上，怎么是算不上呢？你可能又花了一个拉翔的时间来思考界定标准。又或者，你把弦紧绷着成功学到了晚上，回首这一天的时候又在想，今儿拉翔时间是不是有点长了，感觉效率还不如从前呢......
+</p><p>
+III)事实上，有上进而不懈的态度者，就是神。但按这个概念来说，有这种态度不意味着能被封神，因为可能会出现信息差、必要试错或难免错误等主观意志下的不可抗力。比如你在学一个系列课程时，突然有一处听不懂了。你用了好几个拉翔的时间来为之绞尽脑汁，无果。但事实上，这是课程对于前置知识的铺垫没做到位，对此造成的效率下降其实并不怪你。还有其他时候，低效的过程是不得不经历的，为了封神而一味逃避这些过程不可取。当然，你也别莽到没学函数就想学导数，这些事有的时候也是可以通过询问来避免的。
+</p><p>
+IV)封神的效率提升是一种手段，而不是目的。努力是为了达到梦想，封神状态下的你更容易达到梦想，但这不等价于努力就是为了封神。毫不懈怠地奋斗百分百能封神，但百分百能达到梦想吗？如果选择以封神为最终目标，那这达到梦想的百分百中所残缺的部分就被忽略了。
+</p><p>
+自学者因缺少peer pressure，很可能会为了封神带来的回馈而为之愈败愈战。这和一些APP中的打卡运动的刺激方式相同。牢记IV)可以缓解这一点：运动者运动不是为了完成打卡任务，而是强身健体，至多是说坚持打卡更容易强身健体；努力不是为了封神，而是达到梦想，至多是说封神了则能更容易达到梦想。保持坚定的意志，明确梦想的方向，这就足够了，不需要封神这个中间商。
+</p><p>
+4.经常暗中偷窥我朋友圈的人都知道，我近期大部分的朋友圈都是和我那本所谓小说有关的。这部小说是我近几个月的最主要娱乐方式，因而，它虽然比不上前面的长篇理论，我依旧提到了它。但我大功未成，尚难剧透，所以也没什么可说的。你可能要问了，我啥也不说还吊人胃口，不显得出生吗？事实上，这是在印证3.III)中的内容：你虽然很认真地阅读我的文字，却没能得到有用的信息。但你要是真的听进去我的话，此刻就不会生气，因为这是文章的问题，由此造成的效率下降不怪你。
+</p><p>
+至此停笔，我23年经历的事情凝结成经验仅写这些，真的榨干了。最后遵循一下历年规定，发一张美图来作为收尾。一方面是为了形成更强的雅俗共赏表现力，另一方面也是自我的激励，年终总结过后要面对更好的生活和更广阔的未来，不能失了少年的真情。前路漫漫，望得云霄冲九天，映美人笑颜。
+
+</div>
+
+<script>
+  // 为页面上所有 .dropdown-container 绑定悬停展开逻辑
+  document.querySelectorAll('.dropdown-container').forEach(function(container) {
+    const list = container.querySelector('.dropdown-list');
+    if (list) {
+      container.addEventListener('mouseenter', function() {
+        list.style.opacity = '1';
+        list.style.visibility = 'visible';
+        list.style.transform = 'translateY(0)';
+      });
+      container.addEventListener('mouseleave', function() {
+        list.style.opacity = '0';
+        list.style.visibility = 'hidden';
+        list.style.transform = 'translateY(-8px)';
+      });
+    }
+  });
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  document.getElementById('update-date').textContent = `${year}.${month}.${day}`;
+</script>
+
+</body>
+</html>
