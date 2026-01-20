@@ -1,64 +1,467 @@
----
-layout: default
-title: assassinlike's homepage
----
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>assassinlike's homepage</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/piece_top.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/piece_top.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/piece_top.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/piece_top.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/piece_top.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/piece_top.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/piece_top.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/piece_top.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/piece_top.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/piece_top.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/piece_top.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/piece_top.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/piece_top.ico/favicon-16x16.png">
+<link rel="manifest" href="/piece_top.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/piece_top.ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+  <style>
+    :root{
+        --latest-x: 73vw;
+        --1stlatest-y: 23vh;
+        --size1: 0.83vw;
+        --pad1: 0.62vw;
+        --thick1: 1px;
+        --del_y: 18.5vh;
+        --bg_x: 31vw;
+        --size_name: 1.9vw;
+        --size_engname: 1.3vw;
+        --size-info: 1vw;
+        --botton-interval: 5vw;
+        --bt-interval: 6vw;
+        --main-width:64.8vw;
+        --main-height: 18.5vh;
+    }
+    html{
+      height: 100%;
+      background: #0f0615;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: white;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #201132, #0f0615);
+      position: relative;
+    }
 
-<div class="profile-container">
-    <div class="profile-left">
-        <h1 class="name-zh">Zang Yihe</h1>
-        <h2 class="name-en">assassinlike</h2>
+    .hover-link {
+  color: white;
+  text-decoration: none;
+  font-size: var(--size1);
+  transition: color 0.2s, text-decoration 0.2s; /* 平滑过渡 */
+}
 
-        <div class="social-buttons">
-            <a href="https://github.com/assassinlike" class="my-btn" target="_blank">GitHub</a>
-            <a href="https://osu.ppy.sh/users/36703588" class="my-btn" target="_blank">OSU</a>
-        </div>
+.hover-link:hover {
+  color: purple;        /* 或 #800080、#9d4edd 等你喜欢的紫色 */
+  text-decoration: underline;
+}
 
-        <div class="contact-text">
-            <div>Email: assassinlikeagat@gmail.com</div>
-            <div>Tel: +86 130-3913-0956</div>
-        </div>
-    </div>
+    /* 通用可点击图片类 */
+    .clickable-image {
+      position: absolute;
+      display: inline-block;
+      /* 不设 left/top，由内联 style 控制 */
+    }
 
-    <div class="profile-avatar">
-        <img src=bg.jpg alt="头像">
-    </div>
+    .clickable-image img {
+      width: 3.13vw;
+      height: auto;
+    }
+
+
+    .rounded-box {
+  width: 15.6vw;
+  min-height: 9.25vh; /* 改为 min-height，允许更高 */
+  background: rgba(255, 255, 255, 0.1);
+  border: var(--thick1) solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.78vw;
+  padding: var(--pad1);
+  box-sizing: border-box;
+  backdrop-filter: blur(1px);
+  /* 移除 position 和 left/top */
+}
+    .update-box {
+  width: 15.6vw;
+  background: rgba(255, 255, 255, 0.1);
+  border: var(--thick1) solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.78vw;
+  padding: var(--pad1);
+  box-sizing: border-box;
+  backdrop-filter: blur(1px);
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+
+/* 更新框：可设最小高度 */
+.update-box.update {
+  min-height: 9.26vh;
+}
+
+    .text-new {
+      position: absolute;
+      left: 10.4vw;        /* 距离左边 200px */
+      top: 37vh;         /* 距离顶部 300px */
+      width: 36.5vw;       /* 宽度 */
+      height: 10.8vh;      /* 高度 */
+      background: rgba(255, 255, 255, 0.02); /* 半透明白色背景 */
+      border: var(--thick1) solid rgba(255, 255, 255, 0.3);
+      border-radius: 0.78vw; /* 圆角大小 */
+      padding: var(--pad1) 1.56vw var(--pad1) 1.56vw;       /* 内边距 */
+      box-sizing: border-box;
+    }
+
+    /* 文字内容 */
+    .content {
+      text-align: center;
+      padding-top: 13.9vh; /* 根据实际图片位置调整 */
+    }
+
+    .dropdown-group {
+  position: absolute;
+  left: 31.25vw;
+  top: 37vh;
+  width: 11.5vw;
+}
+
+/* 单个下拉菜单 */
+.flow-dropdown {
+  background: #000;
+  border: 1px solid white;
+  border-radius: 0.3vw;
+  overflow: hidden;
+  height: 4.5vh; /* 初始高度 = 按钮高度 */
+  width: 36.5vw;
+  transition: height 0.35s ease;
+  margin-bottom: 0.42vh; /* 菜单间小间距 */
+  box-shadow: 0 0.1vh 0.3vh rgba(0,0,0,0.3);
+}
+
+.flow-dropdown .dropdown-header {
+  padding: 0.31vh 0.62vw;
+  color: white;
+  font-size: 1.15vw;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.flow-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+
+.flow-dropdown a {
+  display: block;
+  padding: 1vh 0.83vw;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.flow-dropdown a:hover {
+  background: rgba(255,255,255,0.1);
+}
+.flow-dropdown.two-items {
+  height: 4.5vh;
+}
+.flow-dropdown.two-items:hover {
+  height: 13.4vh; 
+}
+
+/* 3项高度 */
+.flow-dropdown.three-items {
+  height: 4.5vh;
+}
+.flow-dropdown.three-items:hover {
+  height: 18.2vh;
+}
+.flow-dropdown .dropdown-header > span {
+  display: inline-block !important;
+  transition: transform 0.3s ease !important;
+}
+
+.flow-dropdown:hover .dropdown-header > span {
+  transform: rotate(180deg) !important;
+}
+
+  </style>
+</head>
+<body>
+
+  <a href="http://www.assassinlike.top" class="clickable-image" style="left: 5.21vw; top: 3.7vh;">
+    <img src="figs/piece.png" alt="main_icon">
+  </a>
+  <a href="http://www.assassinlike.top" class="clickable-image" style="left: 8.59vw; top: 5.09vh;">
+    <img src="figs/rhp.png" alt="main_text" style="width: 15.63vw;">
+  </a>
+
+  <div class="dropdown-container" style="
+  position: absolute;
+  right: 20.83vw;
+  top: 3.7vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+">
+  <!-- 触发文字 -->
+  <div class="dropdown-trigger" style="
+    cursor: pointer;
+    padding: 0.56vh 0.62vw;
+    background: #0f0615;
+    border-radius: 0.3vw;
+    display: inline-block;
+    color: white;
+    font-weight: 500;
+  ">
+    Language
+  </div>
+
+  <!-- 下拉列表 -->
+  <ul class="dropdown-list" style="
+    list-style: none;
+    margin: 0.42vh 0 0 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #0f0615;
+    border: 1px solid #ddd;
+    border-radius: 0.3vw;
+    box-shadow: 0 0.21vh 0.63vh rgba(0,0,0,0.15);
+    min-width: 8.3vw;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.42vh);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  ">
+    <li>
+      <a href="/index.html" 
+         style="
+           display: block;
+           padding: 0.52vh 0.83vw;
+           color: white;
+           text-decoration: none;
+           transition: background 0.2s;
+         "
+         onmouseover="this.style.background='#f8f9fa'"
+         onmouseout="this.style.background=''"
+      >
+        简体中文&check;
+      </a>
+    </li>
+    <li>
+      <a href=/eng.html 
+         style="
+           display: block;
+           padding: 0.52vh 0.83vw;
+           color: white;
+           text-decoration: none;
+           transition: background 0.2s;
+         "
+         onmouseover="this.style.background='#f8f9fa'"
+         onmouseout="this.style.background=''"
+      >
+        English
+      </a>
+    </li>
+  </ul>
 </div>
 
-<div class="intro-box">
-    <p style="font-family: 'cursive'; font-size: 20px;">
-        "Till the epilogue of time."
-    </p>
-    <p>
-        Tips:这里的句子每天都会刷新。它会给你留下怎样的痕迹呢？
-    </p>
+
+  <a href="/figs/bg.jpg" class="clickable-image" style="left: var(--bg_x); top: 13.89vh;">
+    <img src="figs/bg.jpg" alt="bg" style="width: 7.81vw; border-radius: 0.42vw;">
+  </a>
+  <p style="font-weight: bold; 
+  position: absolute; left: calc(var(--bg_x) + 10.4vw); top: 15vh; 
+  font-size: var(--size_name);">
+  Yihe Zang
+  </p>
+  </a>
+  <p style="font-weight: bold; position: absolute; left: calc(var(--bg_x) + 10.4vw); top: 23vh; font-size: var(--size_engname);">
+  assassinlike
+  </p>
+  <a href="/figs/bg.jpg" class="clickable-image" target="_blank" rel="noopener noreferrer"
+   style="
+     position: relative;
+     display: inline-block;
+     left: var(--bg_x);
+     top: 13.89vh;
+   ">
+  <img src="figs/bg.jpg" alt="bg" style="width: 7.8vw; border-radius: 0.42vw; display: block;">
+  
+  <!-- 颜色叠加层 -->
+  <div style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.42vw;
+    background-color: rgba(45, 15, 75, 0.4);
+    pointer-events: none;
+  "></div>
+</a>
+
+
+  <a href="https://github.com/assassinlike" target="_blank" rel="noopener noreferrer" 
+  class="clickable-image" 
+  style="left: var(--bg_x); top: 33vh;">
+    <img src="figs/rgithub.png" alt="github" style="width: 4.17vw; border-radius: 0.25vw; filter: blur(5px); grayscale(100%);">
+    <div style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.04vw;
+    font-weight: bold;
+    text-shadow: 0 0 0.21vw rgba(0,0,0,0.7);
+    pointer-events: none; /* 确保点击穿透到 <a> */
+    white-space: nowrap;
+  ">
+    GitHub
+  </div>
+  </a>
+  <a href="https://osu.ppy.sh/users/36703588  " target="_blank" rel="noopener noreferrer" 
+  class="clickable-image" 
+  style="left: calc(var(--bg_x) + var(--botton-interval)); top: 33vh;">
+    <img src="figs/osu.png" alt="osu" style="width: 4.17vw; border-radius: 0.25vw; filter: blur(5px); grayscale(100%);">
+    <div style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.04vw;
+    font-weight: bold;
+    text-shadow: 0 0 0.21vw rgba(0,0,0,0.7);
+    pointer-events: none; /* 确保点击穿透到 <a> */
+    white-space: nowrap;
+  ">
+    OSU!
+  </div>
+  </a>
+
+  <p style="font-weight: bold; 
+  position: absolute; left: calc(var(--bg_x) + var(--botton-interval) + var(--bt-interval)); top: 32.5vh; 
+  font-size: var(--size_info);">
+  Tel:13039130956
+  </p>
+  <p style="font-weight: bold; 
+  position: absolute; left: calc(var(--bg_x) + var(--botton-interval) + var(--bt-interval) + 7.81vw); top: 32.5vh; 
+  font-size: var(--size_info);">
+  Email:assassinlikeagat@gmail.com
+  </p>
+
+
+  <div class="text-new" style="left: 31.25vw; top: 44vh;">
+    <div>
+      <span style="font-family: Georgia; font-size: x-large;">
+        "Till the epilogue of time."&nbsp;&nbsp;</span>
+      <span id="update-date" style="font-family: Georgia;"></span>
+      <br><br>
+      <div style="font-size: medium; text-align: right;">——梦到哪句说哪句，每天刷新</div>
+
+    </div>
+  </div>
+
+
+  <!-- 外层容器：控制整体位置 -->
+<div style="
+  position: absolute;
+  left: var(--latest-x);
+  top: var(--1stlatest-y);
+  width: 15.6vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1.85vh; /* 固定间距 */
+">
+
+  <!-- 最近一次公告：高度自适应 -->
+  <div id="announcement-box" class="update-box" style="min-height: 7.41vh;">
+    <div style="font-weight: bold;">最近一次公告</div><br>
+    <div>近期一篇论文于 ICML2026 <br>under review, 同时已有的科研结果也很有限，“科研”栏几乎是∅。
+      目前主要内容在“兴趣科研-纯数学”；想要一些能看懂的内容，见“兴趣科研-零碎理科”</div>
+    <br>
+    <a href="/logs" class="hover-link">查看历史公告 &rarr;</a>
+  </div>
+
+  <!-- 最近一次更新：固定高度 -->
+  <div class="update-box" style="height: 9.26vh; display: flex; flex-direction: column; justify-content: space-between;">
+    <div style="font-weight: bold;">最近一次更新</div>
+    <a href="/updates" class="hover-link">查看历史更新 &rarr;</a>
+  </div>
+
 </div>
 
-<div class="hover-menu-container">
-    
-    <div class="menu-item">
-        <span class="menu-title">科研</span>
-        <div class="submenu-content">
-            <a href="various_papers.html">广读论文</a>
-            <a href="researchs.html">查看全部 &rarr;</a>
-        </div>
-    </div>
 
-    <div class="menu-item">
-        <span class="menu-title">兴趣科研</span>
-        <div class="submenu-content">
-            <a href="math4ai.html">math for AI</a>
-            <a href="math.html">纯数学</a>
-            <a href="interests.html">查看全部 &rarr;</a>
-        </div>
-    </div>
-
-    <div class="menu-item">
-        <span class="menu-title">笔下文字</span>
-        <div class="submenu-content">
-            <a href="annual.html">年终总结</a>
-            <a href="words.html">查看全部 &rarr;</a>
-        </div>
-    </div>
-
+<div class="dropdown-group" style="
+  position: absolute;
+  left: 31.3vw;
+  top: 64vh;
+  width: 11.5vw;
+">
+   <div class="flow-dropdown two-items">
+    <div class="dropdown-header" style="font-weight: bold;">科研<span>▼</span></div>
+    <ul style="font-size: 0.91vw;">
+      <li><a 
+        href="https://github.com/assassinlike/osu-std-auto-mapper  "
+        style="font-weight: bold;"
+      >gradient steering</a></li>
+      <li><a href="https://github.com/assassinlike" style="font-weight: bold;">查看全部&rarr;</a></li>
+    </ul>
+  </div>
+  <div class="flow-dropdown three-items">
+    <div class="dropdown-header" style="font-weight: bold;">兴趣科研<span>▼</span></div>
+    <ul style="font-size: 0.91vw;">
+      <li><a href="/interest/math-ai.html" style="font-weight: bold;">math and AI</a></li>
+      <li><a href="/interest/math.html" style="font-weight: bold;">纯数学</a></li>
+      <li><a href="/interest/overall.ntml" style="font-weight: bold;">查看全部&rarr;</a></li>
+    </ul>
+  </div>
+  <div class="flow-dropdown two-items">
+    <div class="dropdown-header" style="font-weight: bold;">文字<span>▼</span></div>
+    <ul style="font-size: 0.91vw;">
+      <li><a href="/words/annual.html" style="font-weight: bold;">年终总结</a></li>
+      <li><a href="/words/overall.html" style="font-weight: bold;">查看全部&rarr;</a></li>
+    </ul>
+  </div>
 </div>
 
+<script>
+  // 为页面上所有 .dropdown-container 绑定悬停展开逻辑
+  document.querySelectorAll('.dropdown-container').forEach(function(container) {
+    const list = container.querySelector('.dropdown-list');
+    if (list) {
+      container.addEventListener('mouseenter', function() {
+        list.style.opacity = '1';
+        list.style.visibility = 'visible';
+        list.style.transform = 'translateY(0)';
+      });
+      container.addEventListener('mouseleave', function() {
+        list.style.opacity = '0';
+        list.style.visibility = 'hidden';
+        list.style.transform = 'translateY(-8px)';
+      });
+    }
+  });
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  document.getElementById('update-date').textContent = `${year}.${month}.${day}`;
+</script>
+
+</body>
+</html>
