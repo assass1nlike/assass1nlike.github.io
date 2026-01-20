@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>兴趣科研 · 纯数学</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/piece_top.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/piece_top.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/piece_top.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/piece_top.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/piece_top.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/piece_top.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/piece_top.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/piece_top.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/piece_top.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/piece_top.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/piece_top.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/piece_top.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/piece_top.ico/favicon-16x16.png">
+<link rel="manifest" href="/piece_top.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/piece_top.ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+  <style>
+    :root{
+        --latest-x: 1400px;
+        --1stlatest-y: 250px;
+        --size1: 16px;
+        --pad1: 12px;
+        --thick1: 1px;
+        --del_y: 200px;
+        --bg_x: 600px;
+        --size_name: 35px;
+        --size-info: 20px;
+        --botton-interval: 100px;
+        --bt-interval: 100px;
+        --main-width:700px;
+        --main-height: 200px
+    }
+    html{
+      height: 100%;
+      background: #0f0615;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: white;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #201132, #0f0615);
+      position: relative;
+    }
+
+    .hover-link {
+  color: white;
+  text-decoration: none;
+  font-size: var(--size1);
+  transition: color 0.2s, text-decoration 0.2s; /* 平滑过渡 */
+}
+
+.hover-link:hover {
+  color: purple;        /* 或 #800080、#9d4edd 等你喜欢的紫色 */
+  text-decoration: underline;
+}
+
+    /* 通用可点击图片类 */
+    .clickable-image {
+      position: absolute;
+      display: inline-block;
+      /* 不设 left/top，由内联 style 控制 */
+    }
+
+    .clickable-image img {
+      width: 60px;
+      height: auto;
+    }
+
+
+    .rounded-box {
+  width: 300px;
+  min-height: 100px; /* 改为 min-height，允许更高 */
+  background: rgba(255, 255, 255, 0.1);
+  border: var(--thick1) solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: var(--pad1);
+  box-sizing: border-box;
+  backdrop-filter: blur(5px);
+  /* 移除 position 和 left/top */
+}
+    .update-box {
+  width: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border: var(--thick1) solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: var(--pad1);
+  box-sizing: border-box;
+  backdrop-filter: blur(5px);
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+
+/* 更新框：可设最小高度 */
+.update-box.update {
+  min-height: 100px;
+}
+
+    .text-new {
+      position: absolute;
+      left: 200px;        /* 距离左边 200px */
+      top: 400px;         /* 距离顶部 300px */
+      width: 700px;       /* 宽度 */
+      height: 100px;      /* 高度 */
+      background: rgba(255, 255, 255, 0.02); /* 半透明白色背景 */
+      border: var(--thick1) solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px; /* 圆角大小 */
+      padding: var(--pad1) 30px var(--pad1) 30px;       /* 内边距 */
+      box-sizing: border-box;
+    }
+
+    /* 文字内容 */
+    .content {
+      text-align: center;
+      padding-top: 150px; /* 根据实际图片位置调整 */
+    }
+
+    .dropdown-group {
+  position: absolute;
+  left: 600px;
+  top: 400px;
+  width: 220px;
+}
+
+/* 单个下拉菜单 */
+.flow-dropdown {
+  background: #000;
+  border: 1px solid white;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 48px; /* 初始高度 = 按钮高度 */
+  width: 700px;
+  transition: height 0.35s ease;
+  margin-bottom: 8px; /* 菜单间小间距 */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.flow-dropdown .dropdown-header {
+  padding: 6px 12px;
+  color: white;
+  font-size: 22px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.flow-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+
+.flow-dropdown a {
+  display: block;
+  padding: 12px 16px;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.flow-dropdown a:hover {
+  background: rgba(255,255,255,0.1);
+}
+.flow-dropdown.two-items {
+  height: 48px;
+}
+.flow-dropdown.two-items:hover {
+  height: 140px; 
+}
+
+/* 3项高度 */
+.flow-dropdown.three-items {
+  height: 48px;
+}
+.flow-dropdown.three-items:hover {
+  height: 180px;
+}
+.flow-dropdown .dropdown-header > span {
+  display: inline-block !important;
+  transition: transform 0.3s ease !important;
+}
+
+.flow-dropdown:hover .dropdown-header > span {
+  transform: rotate(180deg) !important;
+}
+
+  </style>
+</head>
+<body>
+
+  <a href="http://www.assassinlike.top" class="clickable-image" style="left: 100px; top: 40px;">
+    <img src="../figs/piece.png" alt="main_icon">
+  </a>
+  <a href="http://www.assassinlike.top" class="clickable-image" style="left: 165px; top: 55px;">
+    <img src="../figs/rhp.png" alt="main_text" style="width: 300px">
+  </a>
+
+  <div class="dropdown-container" style="
+  position: absolute;
+  right: 400px;
+  top: 40px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+">
+  <!-- 触发文字 -->
+  <div class="dropdown-trigger" style="
+    cursor: pointer;
+    padding: 6px 12px;
+    background: #0f0615;
+    border-radius: 6px;
+    display: inline-block;
+    color: white;
+    font-weight: 500;
+  ">
+    Language
+  </div>
+
+  <!-- 下拉列表 -->
+  <ul class="dropdown-list" style="
+    list-style: none;
+    margin: 8px 0 0 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #0f0615;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-width: 160px;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  ">
+    <li>
+      <a href="/index.html" 
+         style="
+           display: block;
+           padding: 10px 16px;
+           color: white;
+           text-decoration: none;
+           transition: background 0.2s;
+         "
+         onmouseover="this.style.background='#f8f9fa'"
+         onmouseout="this.style.background=''"
+      >
+        简体中文&check;
+      </a>
+    </li>
+    <li>
+      <a href=/eng.html 
+         style="
+           display: block;
+           padding: 10px 16px;
+           color: white;
+           text-decoration: none;
+           transition: background 0.2s;
+         "
+         onmouseover="this.style.background='#f8f9fa'"
+         onmouseout="this.style.background=''"
+      >
+        English
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+<div class="updates-wrapper" style="
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* 水平居中 */
+  top: 200px;                  /* 控制到顶部距离 */
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+">
+  <div class="update-box" style="height:100px; width: 600px;display:flex; flex-direction:column; justify-content:space-between;">
+    <div style="font-weight:bold;">(强)形变收缩核在商映射下保持不变</div>
+    <a href="/updates" class="hover-link">查看历史更新 &rarr;</a>
+  </div>
+
+  <div class="update-box" style="min-height:120px; display:flex; flex-direction:column; justify-content:space-between;">
+    <div style="font-weight:bold;">证明唯一分解整环(UFD)的两种定义等价</div>
+    <a href="/updates" class="hover-link">查看历史公告 &rarr;</a>
+  </div>
+</div>
+
+
+<script>
+  // 为页面上所有 .dropdown-container 绑定悬停展开逻辑
+  document.querySelectorAll('.dropdown-container').forEach(function(container) {
+    const list = container.querySelector('.dropdown-list');
+    if (list) {
+      container.addEventListener('mouseenter', function() {
+        list.style.opacity = '1';
+        list.style.visibility = 'visible';
+        list.style.transform = 'translateY(0)';
+      });
+      container.addEventListener('mouseleave', function() {
+        list.style.opacity = '0';
+        list.style.visibility = 'hidden';
+        list.style.transform = 'translateY(-8px)';
+      });
+    }
+  });
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  document.getElementById('update-date').textContent = `${year}.${month}.${day}`;
+</script>
+
+</body>
+</html>
