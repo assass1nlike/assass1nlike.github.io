@@ -86,16 +86,68 @@
   backdrop-filter: blur(1px);
   /* 移除 position 和 left/top */
 }
-    .update-box {
-  width: 15.6vw;
+
+.update-box {
+  width: 31.3vw;
+  min-height: 11.1vh;
+  position: relative;
+  display: flex;
   background: rgba(255, 255, 255, 0.03);
   border: var(--thick1) solid rgba(255, 255, 255, 0.3);
   border-radius: 0.78vw;
   padding: var(--pad1);
   box-sizing: border-box;
   backdrop-filter: blur(1px);
-  word-wrap: break-word;
-  white-space: normal;
+  overflow: hidden; /* 防止伪元素溢出 */
+}
+
+/* 全局背景：使用同一张图，全尺寸覆盖 */
+.update-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('your-image.jpg'); /* 替换为你的图片路径 */
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px); /* 整体模糊作为底图 */
+  z-index: -1;
+}
+
+/* 左侧文字区域（占20%） */
+.text-content {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+  color: white; /* 根据需要调整文字颜色 */
+  font-weight: bold;
+}
+
+.year {
+  font-size: x-large;
+}
+
+.view-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 右侧清晰图片覆盖层（占80%） */
+.image-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 100%;
+  background-image: url('your-image.jpg'); /* 同一张图 */
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
 }
 
 
@@ -200,10 +252,10 @@
 <body>
 
   <a href="http://www.assassinlike.top" class="clickable-image" style="left: 5.21vw; top: 3.7vh;">
-    <img src="../figs/piece.png" alt="main_icon">
+    <img src="/figs/piece.png" alt="main_icon">
   </a>
   <a href="http://www.assassinlike.top" class="clickable-image" style="left: 8.59vw; top: 5.09vh;">
-    <img src="../figs/rhp.png" alt="main_text" style="width: 15.63vw;">
+    <img src="/figs/rhp.png" alt="main_text" style="width: 15.63vw;">
   </a>
 
   <div class="dropdown-container" style="
@@ -288,10 +340,13 @@
   flex-direction: column;
   gap: 30px;
 ">
-  <div class="update-box" style="min-height:11.1vh; width: 31.3vw; display:flex; flex-direction:column; justify-content:space-between;">
-    <div style="font-weight:bold; font-size: x-large;">2024</div>
-    <a href="annual/2024.html" class="hover-link" style="font-weight: bold;">view</a>
+  <div class="update-box">
+  <div class="text-content">
+    <div class="year">2024</div>
+    <a href="annual/2024.html" class="hover-link view-link">view</a>
   </div>
+  <div class="image-overlay"></div>
+</div>
 
   <div class="update-box" style="min-height:11.1vh; width: 31.3vw; display:flex; flex-direction:column; justify-content:space-between;">
     <div style="font-weight:bold; font-size: x-large;">2023</div>
