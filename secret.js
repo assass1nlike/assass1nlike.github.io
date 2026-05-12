@@ -1,9 +1,12 @@
 const SECRET_ROOM_NAME = 'main';
-const SECRET_ROOM_CACHE_KEY = 'assassinlike.secret.room.messages.v2';
-const SECRET_ROOM_LEGACY_CACHE_KEY = 'assassinlike.secret.room.messages.v1';
-const SECRET_SESSION_KEY = 'assassinlike.secret.room.identity.v1';
+const SECRET_ROOM_CACHE_KEY = 'assassinlike.secret.room.records.v3';
+const SECRET_ROOM_LEGACY_CACHE_KEYS = [
+  'assassinlike.secret.room.messages.v2',
+  'assassinlike.secret.room.messages.v1',
+];
 const SECRET_DRAFT_KEY = 'assassinlike.secret.room.draft.v1';
 const SECRET_REMOTE_POLL_MS = 5000;
+const SECRET_MESSAGE_BODY_VERSION = 2;
 
 const SECRET_IDENTITY_DEFINITIONS = [
   {
@@ -11,12 +14,24 @@ const SECRET_IDENTITY_DEFINITIONS = [
     label: 'assassinlike',
     passwordHash: '80264b1cd82539fe49d2b09eeba91da04285159af5c77e79341540b4b8ef1fbc',
     badge: 'A',
+    keyEnvelope: {
+      iterations: 210000,
+      salt: '22fTP+PsJun/zZB14U4nXA==',
+      iv: '56ywfqgAK/gsS5qe',
+      wrappedKey: 'NmvqmiIPAob1uVS86E76jLjhrjvBHptk7bm4bfpuqld77QH0YBRoK7+d1Q+PfOaa',
+    },
   },
   {
     id: 'vitality-x',
     label: 'vitality x',
     passwordHash: 'eb3a8bbecb2c9d7ad869180a9cdbcd9feaaaa7dfcdd910cd9fef8d89e8fb563c',
     badge: 'V',
+    keyEnvelope: {
+      iterations: 210000,
+      salt: 'FcnXn5Hmf8uJXvfWkVzIzQ==',
+      iv: 'SJOYyqOgjLt+m7/M',
+      wrappedKey: 'FT+Rf5VxkH+V21gpNUE5oe5j9izw5VyyTh0sQofpiyEnDADuMDJVNI5ilyg5F5vF',
+    },
   },
 ];
 
@@ -24,10 +39,12 @@ const SECRET_REMOTE_CONFIG = normalizeRemoteConfig(window.SECRET_SPACE_CONFIG);
 
 const secretState = {
   identity: null,
+  crypto: null,
   messages: [],
+  encryptedRecords: [],
   remoteStatus: '',
   remoteError: '',
-  remoteSeeded: false,
+  rejectedRemoteRows: 0,
   pollTimer: null,
   lastRenderedSignature: '',
 };
@@ -40,21 +57,11 @@ window.addEventListener('beforeunload', () => {
   stopRemotePolling();
 });
 
-async function initSecretRoom() {
+function initSecretRoom() {
   const host = document.getElementById('secret-app');
   if (!host) {
     return;
   }
-
-  const identityId = readSessionIdentity();
-  if (identityId) {
-    const identity = getIdentityById(identityId);
-    if (identity) {
-      await openSecretSpace(host, identity);
-      return;
-    }
-  }
-
   renderLogin(host);
 }
 
@@ -69,7 +76,7 @@ function renderLogin(host, errorMessage = '') {
         <div class="secret-kicker">private entry</div>
         <h1 class="secret-title">输入密码进入秘密空间</h1>
         <p class="secret-summary">
-          这里是一个仅对已知身份开放的消息区。输入正确密码后，系统会识别你的身份并打开聊天界面。
+          密码只在当前浏览器内用于解开房间密钥。远程空间只保存加密后的消息正文。
         </p>
         <div class="secret-badges">${remoteBadge}</div>
       </div>
@@ -89,7 +96,7 @@ function renderLogin(host, errorMessage = '') {
         </label>
         <button class="secret-submit" type="submit">进入</button>
         <div class="secret-login-hint">
-          仅支持两个身份：assassinlike 与 vitality x。要实现跨设备同步，请在 <code>secret-config.js</code> 中配置远程后端。
+          仅支持两个身份：assassinlike 与 vitality x。锁定或刷新页面后需要重新输入密码。
         </div>
         ${errorMessage ? `<div class="secret-error" role="alert">${escapeHtml(errorMessage)}</div>` : ''}
       </form>
@@ -109,19 +116,21 @@ function renderLogin(host, errorMessage = '') {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const password = String(input?.value || '').trim();
-    const identity = await resolveIdentity(password);
-    if (!identity) {
-      renderLogin(host, '密码不正确。');
+    const session = await authenticateSecret(password);
+    if (!session) {
+      renderLogin(host, '密码不正确，或当前浏览器不支持 Web Crypto。');
       return;
     }
 
-    writeSessionIdentity(identity.id);
-    await openSecretSpace(host, identity);
+    clearLegacyLocalCaches();
+    await openSecretSpace(host, session);
   });
 }
 
-async function openSecretSpace(host, identity) {
+async function openSecretSpace(host, session) {
+  const { identity } = session;
   secretState.identity = identity;
+  secretState.crypto = session.crypto;
   stopRemotePolling();
 
   host.innerHTML = `
@@ -132,7 +141,7 @@ async function openSecretSpace(host, identity) {
           <h1 class="secret-title">秘密空间</h1>
           <p class="secret-summary">
             当前身份：<strong>${escapeHtml(identity.label)}</strong>。
-            这里的消息会在远程空间中同步，并保留完整历史。
+            消息会先在本机加密，再写入远程空间。
           </p>
           <div id="secret-remote-status" class="secret-remote-status"></div>
         </div>
@@ -162,7 +171,7 @@ async function openSecretSpace(host, identity) {
               required
             ></textarea>
             <div class="secret-compose-meta">
-              <div class="secret-compose-tip">消息会写入远程历史；如果远程暂时不可用，会回退到本地缓存。</div>
+              <div class="secret-compose-tip">消息正文不会以明文写入远程或本地缓存。</div>
               <button class="secret-submit" type="submit">发送</button>
             </div>
           </form>
@@ -171,7 +180,7 @@ async function openSecretSpace(host, identity) {
         <aside id="secret-history-panel" class="secret-history-panel" hidden>
           <div class="secret-history-head">
             <div class="secret-history-title">历史信息</div>
-            <div class="secret-history-subtitle">按时间倒序浏览全部记录</div>
+            <div class="secret-history-subtitle">按时间倒序浏览已解密记录</div>
           </div>
           <div id="secret-history-list" class="secret-history-list"></div>
         </aside>
@@ -189,16 +198,8 @@ async function openSecretSpace(host, identity) {
   const syncButton = document.getElementById('secret-sync-button');
   const statusHost = document.getElementById('secret-remote-status');
 
-  const draft = readDraft(identity.id);
-  if (input && draft) {
-    input.value = draft;
-  }
-
   if (input) {
     input.focus();
-    input.addEventListener('input', () => {
-      writeDraft(identity.id, input.value);
-    });
     input.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
         event.preventDefault();
@@ -215,37 +216,27 @@ async function openSecretSpace(host, identity) {
         return;
       }
 
-      const message = {
-        id: generateMessageId(identity.id),
-        room: SECRET_ROOM_NAME,
-        author_id: identity.id,
-        author_label: identity.label,
-        body: text,
-        created_at: new Date().toISOString(),
-      };
+      const record = await createEncryptedRecord(identity, text);
 
       if (input) {
         input.value = '';
       }
-      writeDraft(identity.id, '');
 
       try {
         if (SECRET_REMOTE_CONFIG.enabled) {
-          await upsertRemoteMessages([message]);
-          await syncSecretMessages({ forceRemote: true });
+          await insertRemoteRecords([record]);
+          await syncSecretMessages({ forceRemote: true, statusHost, thread, historyList, identity });
         } else {
-          const nextMessages = [...secretState.messages, message];
-          secretState.messages = sortMessages(nextMessages);
-          persistLocalCache(secretState.messages);
-          renderSecretMessages(thread, historyList, identity, secretState.messages);
+          const records = dedupeRecords([...secretState.encryptedRecords, record]);
+          await acceptRecords(records, { statusHost, thread, historyList, identity });
+          secretState.remoteStatus = '本地模式';
           updateSecretStatus(statusHost);
         }
       } catch (error) {
         secretState.remoteError = error.message;
-        const nextMessages = [...secretState.messages, message];
-        secretState.messages = sortMessages(nextMessages);
-        persistLocalCache(secretState.messages);
-        renderSecretMessages(thread, historyList, identity, secretState.messages);
+        const records = dedupeRecords([...secretState.encryptedRecords, record]);
+        await acceptRecords(records, { statusHost, thread, historyList, identity });
+        secretState.remoteStatus = '远程写入失败，已保存在本地加密缓存';
         updateSecretStatus(statusHost);
       }
     });
@@ -264,16 +255,17 @@ async function openSecretSpace(host, identity) {
 
   if (syncButton) {
     syncButton.addEventListener('click', async () => {
-      await syncSecretMessages({ forceRemote: true, announce: true });
+      await syncSecretMessages({ forceRemote: true, announce: true, statusHost, thread, historyList, identity });
     });
   }
 
   if (lockButton) {
     lockButton.addEventListener('click', () => {
       stopRemotePolling();
-      clearSessionIdentity();
       secretState.identity = null;
+      secretState.crypto = null;
       secretState.messages = [];
+      secretState.encryptedRecords = [];
       renderLogin(host);
     });
   }
@@ -292,64 +284,61 @@ async function syncSecretMessages(options = {}) {
     identity = secretState.identity,
   } = options;
 
-  if (!identity) {
+  if (!identity || !secretState.crypto) {
     return [];
   }
 
-  const remoteEnabled = SECRET_REMOTE_CONFIG.enabled;
-  if (!remoteEnabled && !forceRemote) {
-    const localMessages = sortMessages(readLocalMessages());
-    secretState.messages = localMessages;
+  if (!SECRET_REMOTE_CONFIG.enabled && !forceRemote) {
+    const records = readLocalRecords();
     secretState.remoteStatus = '本地模式';
     secretState.remoteError = '';
-    persistLocalCache(localMessages);
-    renderSecretMessages(thread, historyList, identity, localMessages);
-    updateSecretStatus(statusHost);
-    return localMessages;
+    return acceptRecords(records, { statusHost, thread, historyList, identity });
   }
 
-  if (!remoteEnabled) {
-    const localMessages = sortMessages(readLocalMessages());
-    secretState.messages = localMessages;
-    secretState.remoteStatus = '当前未配置远程后端，仍在使用本地缓存';
+  if (!SECRET_REMOTE_CONFIG.enabled) {
+    const records = readLocalRecords();
+    secretState.remoteStatus = '当前未配置远程后端，仍在使用本地加密缓存';
     secretState.remoteError = '';
-    persistLocalCache(localMessages);
-    renderSecretMessages(thread, historyList, identity, localMessages);
-    updateSecretStatus(statusHost);
-    return localMessages;
+    return acceptRecords(records, { statusHost, thread, historyList, identity });
   }
 
   secretState.remoteStatus = announce ? '正在同步远程消息…' : secretState.remoteStatus;
   updateSecretStatus(statusHost);
 
   try {
-    let remoteMessages = await fetchRemoteMessages();
-    if (!remoteMessages.length) {
-      const localMessages = sortMessages(readLocalMessages());
-      if (localMessages.length && !secretState.remoteSeeded) {
-        await upsertRemoteMessages(localMessages);
-        secretState.remoteSeeded = true;
-        remoteMessages = await fetchRemoteMessages();
-      }
+    const remoteRecords = await fetchRemoteRecords();
+    const localRecords = readLocalRecords();
+    const mergedRecords = dedupeRecords([...localRecords, ...remoteRecords]);
+    const unsyncedRecords = localRecords.filter((record) => !remoteRecords.some((remote) => remote.id === record.id));
+    if (unsyncedRecords.length) {
+      await insertRemoteRecords(unsyncedRecords).catch(() => {});
     }
 
-    const nextMessages = sortMessages(remoteMessages);
-    secretState.messages = nextMessages;
-    secretState.remoteStatus = `远程同步完成 · ${nextMessages.length} 条`;
+    const messages = await acceptRecords(mergedRecords, { statusHost, thread, historyList, identity });
+    secretState.remoteStatus = `远程同步完成 · ${messages.length} 条`;
     secretState.remoteError = '';
-    persistLocalCache(nextMessages);
-    renderSecretMessages(thread, historyList, identity, nextMessages);
     updateSecretStatus(statusHost);
-    return nextMessages;
+    return messages;
   } catch (error) {
-    const cachedMessages = sortMessages(readLocalMessages());
-    secretState.messages = cachedMessages;
-    secretState.remoteStatus = '远程同步失败，已回退到本地缓存';
+    const records = readLocalRecords();
+    const messages = await acceptRecords(records, { statusHost, thread, historyList, identity });
+    secretState.remoteStatus = '远程同步失败，已回退到本地加密缓存';
     secretState.remoteError = error.message;
-    renderSecretMessages(thread, historyList, identity, cachedMessages);
     updateSecretStatus(statusHost);
-    return cachedMessages;
+    return messages;
   }
+}
+
+async function acceptRecords(records, context = {}) {
+  const encryptedRecords = dedupeRecords(records).filter((record) => isEncryptedRecord(record));
+  const { messages, rejected } = await decryptRecords(encryptedRecords);
+  secretState.encryptedRecords = encryptedRecords;
+  secretState.messages = sortMessages(messages);
+  secretState.rejectedRemoteRows = rejected + records.length - encryptedRecords.length;
+  persistLocalRecords(encryptedRecords);
+  renderSecretMessages(context.thread, context.historyList, context.identity || secretState.identity, secretState.messages);
+  updateSecretStatus(context.statusHost);
+  return secretState.messages;
 }
 
 function renderSecretMessages(threadHost, historyHost, identity, messages) {
@@ -365,7 +354,7 @@ function renderThread(host, identity, messages) {
   }
 
   if (!messages.length) {
-    host.innerHTML = '<div class="secret-empty">还没有消息。先写第一条。</div>';
+    host.innerHTML = '<div class="secret-empty">还没有可解密的消息。先写第一条。</div>';
     return;
   }
 
@@ -391,7 +380,7 @@ function renderHistory(host, messages) {
   }
 
   if (!messages.length) {
-    host.innerHTML = '<div class="secret-empty">没有历史记录。</div>';
+    host.innerHTML = '<div class="secret-empty">没有可解密的历史记录。</div>';
     return;
   }
 
@@ -410,9 +399,8 @@ function renderHistory(host, messages) {
   host.innerHTML = items.join('');
 }
 
-async function fetchRemoteMessages() {
-  const endpoint = buildRemoteEndpoint();
-  const response = await fetch(endpoint, {
+async function fetchRemoteRecords() {
+  const response = await fetch(buildRemoteSelectEndpoint(), {
     method: 'GET',
     headers: buildRemoteHeaders(),
   });
@@ -422,44 +410,47 @@ async function fetchRemoteMessages() {
   }
 
   const data = await response.json();
-  return Array.isArray(data) ? data.map(normalizeMessage).filter(Boolean) : [];
+  return Array.isArray(data) ? data.map(normalizeRecord).filter(Boolean) : [];
 }
 
-async function upsertRemoteMessages(messages) {
-  if (!messages.length) {
+async function insertRemoteRecords(records) {
+  const safeRecords = dedupeRecords(records).filter((record) => isEncryptedRecord(record));
+  if (!safeRecords.length) {
     return [];
   }
 
-  const endpoint = `${buildRemoteEndpoint()}&on_conflict=id`;
-  const response = await fetch(endpoint, {
+  const response = await fetch(buildRemoteTableEndpoint(), {
     method: 'POST',
     headers: {
       ...buildRemoteHeaders(),
-      Prefer: 'resolution=merge-duplicates,return=representation',
+      Prefer: 'return=representation',
     },
-    body: JSON.stringify(messages.map((message) => ({
-      id: message.id,
-      room: message.room || SECRET_ROOM_NAME,
-      author_id: message.author_id,
-      author_label: message.author_label,
-      body: message.body,
-      created_at: message.created_at,
+    body: JSON.stringify(safeRecords.map((record) => ({
+      id: record.id,
+      room: record.room || SECRET_ROOM_NAME,
+      author_id: record.author_id,
+      author_label: record.author_label,
+      body: record.body,
+      created_at: record.created_at,
     }))),
   });
 
-  if (!response.ok) {
+  if (!response.ok && response.status !== 409) {
     const text = await response.text().catch(() => '');
     throw new Error(`远程写入失败 (${response.status}) ${text}`.trim());
   }
 
   const data = await response.json().catch(() => []);
-  return Array.isArray(data) ? data.map(normalizeMessage).filter(Boolean) : [];
+  return Array.isArray(data) ? data.map(normalizeRecord).filter(Boolean) : [];
 }
 
 function updateSecretStatus(statusHost) {
   const statusText = SECRET_REMOTE_CONFIG.enabled
     ? secretState.remoteStatus || '远程待同步'
     : '当前为本地模式';
+  const rejectedText = secretState.rejectedRemoteRows
+    ? ` · 已忽略 ${secretState.rejectedRemoteRows} 条无效或旧版明文记录`
+    : '';
   const errorText = secretState.remoteError ? ` · ${secretState.remoteError}` : '';
 
   if (statusHost) {
@@ -467,6 +458,7 @@ function updateSecretStatus(statusHost) {
       <span class="secret-status-badge ${SECRET_REMOTE_CONFIG.enabled ? 'is-online' : 'is-offline'}">
         ${escapeHtml(statusText)}
       </span>
+      ${rejectedText ? `<span class="secret-status-error">${escapeHtml(rejectedText)}</span>` : ''}
       ${errorText ? `<span class="secret-status-error">${escapeHtml(errorText)}</span>` : ''}
     `;
   }
@@ -497,10 +489,265 @@ function stopRemotePolling() {
   }
 }
 
-function buildRemoteEndpoint() {
+async function authenticateSecret(password) {
+  if (!window.crypto?.subtle) {
+    return null;
+  }
+
+  const digest = await sha256Hex(password);
+  const identity = SECRET_IDENTITY_DEFINITIONS.find((item) => item.passwordHash === digest);
+  if (!identity) {
+    return null;
+  }
+
+  try {
+    const roomKey = await unwrapRoomKey(password, identity);
+    const aesKey = await crypto.subtle.importKey('raw', roomKey, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
+    return {
+      identity,
+      crypto: {
+        aesKey,
+      },
+    };
+  } catch (_error) {
+    return null;
+  }
+}
+
+async function unwrapRoomKey(password, identity) {
+  const envelope = identity.keyEnvelope;
+  const passwordKey = await crypto.subtle.importKey(
+    'raw',
+    encodeText(password),
+    'PBKDF2',
+    false,
+    ['deriveKey'],
+  );
+  const wrappingKey = await crypto.subtle.deriveKey(
+    {
+      name: 'PBKDF2',
+      salt: base64ToBytes(envelope.salt),
+      iterations: envelope.iterations,
+      hash: 'SHA-256',
+    },
+    passwordKey,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['decrypt'],
+  );
+
+  const rawKey = await crypto.subtle.decrypt(
+    {
+      name: 'AES-GCM',
+      iv: base64ToBytes(envelope.iv),
+      additionalData: encodeText(buildRoomKeyAad(identity.id)),
+    },
+    wrappingKey,
+    base64ToBytes(envelope.wrappedKey),
+  );
+  return rawKey;
+}
+
+async function createEncryptedRecord(identity, body) {
+  const record = {
+    id: generateMessageId(identity.id),
+    room: SECRET_REMOTE_CONFIG.room || SECRET_ROOM_NAME,
+    author_id: identity.id,
+    author_label: identity.label,
+    body: '',
+    created_at: new Date().toISOString(),
+  };
+  record.body = await encryptMessageBody(record, body);
+  return record;
+}
+
+async function encryptMessageBody(record, body) {
+  const nonce = crypto.getRandomValues(new Uint8Array(12));
+  const payload = JSON.stringify({ body: String(body || '') });
+  const ciphertext = await crypto.subtle.encrypt(
+    {
+      name: 'AES-GCM',
+      iv: nonce,
+      additionalData: encodeText(buildMessageAad(record)),
+    },
+    secretState.crypto.aesKey,
+    encodeText(payload),
+  );
+
+  return JSON.stringify({
+    v: SECRET_MESSAGE_BODY_VERSION,
+    alg: 'AES-GCM',
+    kid: 'secret-room-v1',
+    nonce: bytesToBase64(nonce),
+    ciphertext: bytesToBase64(ciphertext),
+  });
+}
+
+async function decryptRecords(records) {
+  const messages = [];
+  let rejected = 0;
+
+  for (const record of records) {
+    try {
+      const message = await decryptRecord(record);
+      if (message) {
+        messages.push(message);
+      } else {
+        rejected += 1;
+      }
+    } catch (_error) {
+      rejected += 1;
+    }
+  }
+
+  return { messages, rejected };
+}
+
+async function decryptRecord(record) {
+  const envelope = parseEncryptedEnvelope(record.body);
+  if (!envelope) {
+    return null;
+  }
+
+  const plaintext = await crypto.subtle.decrypt(
+    {
+      name: 'AES-GCM',
+      iv: base64ToBytes(envelope.nonce),
+      additionalData: encodeText(buildMessageAad(record)),
+    },
+    secretState.crypto.aesKey,
+    base64ToBytes(envelope.ciphertext),
+  );
+
+  const payload = JSON.parse(decodeText(plaintext));
+  const body = typeof payload.body === 'string' ? payload.body : '';
+  if (!body) {
+    return null;
+  }
+
+  return {
+    id: record.id,
+    room: record.room,
+    author_id: record.author_id,
+    author_label: record.author_label,
+    body,
+    created_at: record.created_at,
+  };
+}
+
+function parseEncryptedEnvelope(value) {
+  try {
+    const envelope = JSON.parse(String(value || ''));
+    if (
+      envelope &&
+      envelope.v === SECRET_MESSAGE_BODY_VERSION &&
+      envelope.alg === 'AES-GCM' &&
+      typeof envelope.nonce === 'string' &&
+      typeof envelope.ciphertext === 'string'
+    ) {
+      return envelope;
+    }
+  } catch (_error) {
+    return null;
+  }
+  return null;
+}
+
+function isEncryptedRecord(record) {
+  return Boolean(normalizeRecord(record) && parseEncryptedEnvelope(record.body));
+}
+
+function normalizeRecord(record) {
+  if (!record || typeof record !== 'object') {
+    return null;
+  }
+
+  const id = String(record.id || '');
+  const body = String(record.body || '');
+  if (!id || !body) {
+    return null;
+  }
+
+  return {
+    id,
+    room: String(record.room || SECRET_ROOM_NAME),
+    author_id: String(record.author_id || ''),
+    author_label: String(record.author_label || ''),
+    body,
+    created_at: String(record.created_at || new Date().toISOString()),
+  };
+}
+
+function dedupeRecords(records) {
+  const byId = new Map();
+  for (const raw of records) {
+    const record = normalizeRecord(raw);
+    if (!record) {
+      continue;
+    }
+    byId.set(record.id, record);
+  }
+  return [...byId.values()].sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
+}
+
+function sortMessages(messages) {
+  return [...messages]
+    .filter(Boolean)
+    .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
+}
+
+function buildMessagesSignature(messages) {
+  return messages.map((message) => `${message.id}|${message.created_at}|${message.body}`).join('\n');
+}
+
+function generateMessageId(authorId) {
+  const random = new Uint8Array(8);
+  crypto.getRandomValues(random);
+  return `${authorId}-${Date.now()}-${bytesToHex(random)}`;
+}
+
+function persistLocalRecords(records) {
+  const serialized = JSON.stringify(dedupeRecords(records).filter((record) => isEncryptedRecord(record)));
+  try {
+    localStorage.setItem(SECRET_ROOM_CACHE_KEY, serialized);
+  } catch (_error) {
+    // Ignore persistence failures.
+  }
+}
+
+function readLocalRecords() {
+  try {
+    const primary = localStorage.getItem(SECRET_ROOM_CACHE_KEY);
+    if (primary) {
+      return dedupeRecords(JSON.parse(primary));
+    }
+  } catch (_error) {
+    return [];
+  }
+  return [];
+}
+
+function clearLegacyLocalCaches() {
+  try {
+    for (const key of SECRET_ROOM_LEGACY_CACHE_KEYS) {
+      localStorage.removeItem(key);
+    }
+    for (const identity of SECRET_IDENTITY_DEFINITIONS) {
+      localStorage.removeItem(`${SECRET_DRAFT_KEY}.${identity.id}`);
+    }
+  } catch (_error) {
+    // Ignore cleanup failures.
+  }
+}
+
+function buildRemoteTableEndpoint() {
   const base = SECRET_REMOTE_CONFIG.supabaseUrl.replace(/\/+$/, '');
+  return `${base}/rest/v1/secret_messages`;
+}
+
+function buildRemoteSelectEndpoint() {
   const room = encodeURIComponent(SECRET_REMOTE_CONFIG.room || SECRET_ROOM_NAME);
-  return `${base}/rest/v1/secret_messages?select=id,room,author_id,author_label,body,created_at&room=eq.${room}&order=created_at.asc`;
+  return `${buildRemoteTableEndpoint()}?select=id,room,author_id,author_label,body,created_at&room=eq.${room}&order=created_at.asc`;
 }
 
 function buildRemoteHeaders() {
@@ -530,110 +777,19 @@ function normalizeRemoteConfig(config) {
   };
 }
 
-function normalizeMessage(message) {
-  if (!message || typeof message !== 'object') {
-    return null;
-  }
-
-  return {
-    id: String(message.id || ''),
-    room: String(message.room || SECRET_ROOM_NAME),
-    author_id: String(message.author_id || ''),
-    author_label: String(message.author_label || ''),
-    body: String(message.body || ''),
-    created_at: String(message.created_at || new Date().toISOString()),
-  };
+function buildRoomKeyAad(identityId) {
+  return `assassinlike.secret.room-key.v1.${identityId}`;
 }
 
-function sortMessages(messages) {
-  return [...messages]
-    .map(normalizeMessage)
-    .filter(Boolean)
-    .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
-}
-
-function buildMessagesSignature(messages) {
-  return messages.map((message) => `${message.id}|${message.created_at}|${message.body}`).join('\n');
-}
-
-function generateMessageId(authorId) {
-  const suffix = Math.random().toString(16).slice(2, 10);
-  return `${authorId}-${Date.now()}-${suffix}`;
-}
-
-function persistLocalCache(messages) {
-  const serialized = JSON.stringify(messages);
-  try {
-    localStorage.setItem(SECRET_ROOM_CACHE_KEY, serialized);
-    localStorage.setItem(SECRET_ROOM_LEGACY_CACHE_KEY, serialized);
-  } catch (_error) {
-    // Ignore persistence failures.
-  }
-}
-
-function readLocalMessages() {
-  try {
-    const primary = localStorage.getItem(SECRET_ROOM_CACHE_KEY);
-    if (primary) {
-      return sortMessages(JSON.parse(primary));
-    }
-    const legacy = localStorage.getItem(SECRET_ROOM_LEGACY_CACHE_KEY);
-    if (legacy) {
-      return sortMessages(JSON.parse(legacy));
-    }
-  } catch (_error) {
-    return [];
-  }
-  return [];
-}
-
-function readDraft(identityId) {
-  try {
-    return localStorage.getItem(`${SECRET_DRAFT_KEY}.${identityId}`) || '';
-  } catch (_error) {
-    return '';
-  }
-}
-
-function writeDraft(identityId, value) {
-  try {
-    localStorage.setItem(`${SECRET_DRAFT_KEY}.${identityId}`, String(value || ''));
-  } catch (_error) {
-    // Ignore draft failures.
-  }
-}
-
-function readSessionIdentity() {
-  try {
-    return sessionStorage.getItem(SECRET_SESSION_KEY) || '';
-  } catch (_error) {
-    return '';
-  }
-}
-
-function writeSessionIdentity(identityId) {
-  try {
-    sessionStorage.setItem(SECRET_SESSION_KEY, identityId);
-  } catch (_error) {
-    // Ignore session failures.
-  }
-}
-
-function clearSessionIdentity() {
-  try {
-    sessionStorage.removeItem(SECRET_SESSION_KEY);
-  } catch (_error) {
-    // Ignore session failures.
-  }
-}
-
-function getIdentityById(identityId) {
-  return SECRET_IDENTITY_DEFINITIONS.find((item) => item.id === identityId) || null;
-}
-
-async function resolveIdentity(password) {
-  const digest = await sha256Hex(password);
-  return SECRET_IDENTITY_DEFINITIONS.find((item) => item.passwordHash === digest) || null;
+function buildMessageAad(record) {
+  return [
+    'assassinlike.secret.message.v2',
+    record.id,
+    record.room || SECRET_ROOM_NAME,
+    record.author_id,
+    record.author_label,
+    record.created_at,
+  ].join('|');
 }
 
 function scrollThreadToBottom(host) {
@@ -658,9 +814,38 @@ function formatSecretTimestamp(value) {
 }
 
 async function sha256Hex(value) {
-  const data = new TextEncoder().encode(String(value || ''));
-  const digest = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+  const digest = await crypto.subtle.digest('SHA-256', encodeText(value));
+  return bytesToHex(new Uint8Array(digest));
+}
+
+function encodeText(value) {
+  return new TextEncoder().encode(String(value || ''));
+}
+
+function decodeText(value) {
+  return new TextDecoder().decode(value);
+}
+
+function bytesToHex(bytes) {
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function bytesToBase64(bytes) {
+  const array = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  let binary = '';
+  for (const byte of array) {
+    binary += String.fromCharCode(byte);
+  }
+  return btoa(binary);
+}
+
+function base64ToBytes(value) {
+  const binary = atob(String(value || ''));
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return bytes;
 }
 
 function escapeHtml(value) {
