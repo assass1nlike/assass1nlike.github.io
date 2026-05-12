@@ -45,6 +45,7 @@ const secretState = {
   remoteStatus: '',
   remoteError: '',
   rejectedRemoteRows: 0,
+  legacyPlaintextRows: 0,
   pollTimer: null,
   lastRenderedSignature: '',
 };
@@ -222,20 +223,24 @@ async function openSecretSpace(host, session) {
         input.value = '';
       }
 
+      const optimisticRecords = dedupeRecords([...secretState.encryptedRecords, record]);
+      await acceptRecords(optimisticRecords, { statusHost, thread, historyList, identity });
+      secretState.remoteStatus = SECRET_REMOTE_CONFIG.enabled
+        ? '正在加密发送…'
+        : '本地模式';
+      secretState.remoteError = '';
+      updateSecretStatus(statusHost);
+
       try {
         if (SECRET_REMOTE_CONFIG.enabled) {
           await insertRemoteRecords([record]);
           await syncSecretMessages({ forceRemote: true, statusHost, thread, historyList, identity });
         } else {
-          const records = dedupeRecords([...secretState.encryptedRecords, record]);
-          await acceptRecords(records, { statusHost, thread, historyList, identity });
           secretState.remoteStatus = '本地模式';
           updateSecretStatus(statusHost);
         }
       } catch (error) {
         secretState.remoteError = error.message;
-        const records = dedupeRecords([...secretState.encryptedRecords, record]);
-        await acceptRecords(records, { statusHost, thread, historyList, identity });
         secretState.remoteStatus = '远程写入失败，已保存在本地加密缓存';
         updateSecretStatus(statusHost);
       }
@@ -330,11 +335,17 @@ async function syncSecretMessages(options = {}) {
 }
 
 async function acceptRecords(records, context = {}) {
-  const encryptedRecords = dedupeRecords(records).filter((record) => isEncryptedRecord(record));
+  const normalizedRecords = dedupeRecords(records);
+  const encryptedRecords = normalizedRecords.filter((record) => isEncryptedRecord(record));
+  const legacyMessages = normalizedRecords
+    .filter((record) => !isEncryptedRecord(record))
+    .map(normalizeLegacyPlaintextMessage)
+    .filter(Boolean);
   const { messages, rejected } = await decryptRecords(encryptedRecords);
   secretState.encryptedRecords = encryptedRecords;
-  secretState.messages = sortMessages(messages);
-  secretState.rejectedRemoteRows = rejected + records.length - encryptedRecords.length;
+  secretState.messages = sortMessages([...legacyMessages, ...messages]);
+  secretState.legacyPlaintextRows = legacyMessages.length;
+  secretState.rejectedRemoteRows = rejected;
   persistLocalRecords(encryptedRecords);
   renderSecretMessages(context.thread, context.historyList, context.identity || secretState.identity, secretState.messages);
   updateSecretStatus(context.statusHost);
@@ -448,8 +459,11 @@ function updateSecretStatus(statusHost) {
   const statusText = SECRET_REMOTE_CONFIG.enabled
     ? secretState.remoteStatus || '远程待同步'
     : '当前为本地模式';
+  const legacyText = secretState.legacyPlaintextRows
+    ? ` · 兼容显示 ${secretState.legacyPlaintextRows} 条旧版明文记录`
+    : '';
   const rejectedText = secretState.rejectedRemoteRows
-    ? ` · 已忽略 ${secretState.rejectedRemoteRows} 条无效或旧版明文记录`
+    ? ` · 已忽略 ${secretState.rejectedRemoteRows} 条无法解密记录`
     : '';
   const errorText = secretState.remoteError ? ` · ${secretState.remoteError}` : '';
 
@@ -458,7 +472,8 @@ function updateSecretStatus(statusHost) {
       <span class="secret-status-badge ${SECRET_REMOTE_CONFIG.enabled ? 'is-online' : 'is-offline'}">
         ${escapeHtml(statusText)}
       </span>
-      ${rejectedText ? `<span class="secret-status-error">${escapeHtml(rejectedText)}</span>` : ''}
+      ${legacyText ? `<span class="secret-status-note">${escapeHtml(legacyText)}</span>` : ''}
+      ${rejectedText ? `<span class="secret-status-note">${escapeHtml(rejectedText)}</span>` : ''}
       ${errorText ? `<span class="secret-status-error">${escapeHtml(errorText)}</span>` : ''}
     `;
   }
@@ -675,6 +690,23 @@ function normalizeRecord(record) {
     author_label: String(record.author_label || ''),
     body,
     created_at: String(record.created_at || new Date().toISOString()),
+  };
+}
+
+function normalizeLegacyPlaintextMessage(record) {
+  const normalized = normalizeRecord(record);
+  if (!normalized || parseEncryptedEnvelope(normalized.body)) {
+    return null;
+  }
+
+  return {
+    id: normalized.id,
+    room: normalized.room,
+    author_id: normalized.author_id,
+    author_label: normalized.author_label,
+    body: normalized.body,
+    created_at: normalized.created_at,
+    legacyPlaintext: true,
   };
 }
 
