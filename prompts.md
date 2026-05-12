@@ -33,3 +33,23 @@ engiworld-benchmark和evalclaw先不做跳转，其markdown文件过段时间会
 密码只有两种，理论上每一种都只有一个人知道密码（其中一个是我），所以对于访问者的身份，只需要进行二元区分：一个为assassinlike（也就是我），一个为vitality x。密码是assassinlike：73613；vitality x：74917
 
 这里就像是一个微信聊天区，访问者可以编辑信息，确认编辑好了就发送。我们这边会存储所有的历史消息，以及对应的发送时间。访问者如果想看，可以看历史信息。
+
+---
+
+1. 现在绝大多数界面的最上方左边都有history的按钮，点进去之后就能跳转到之前每天随机刷新一段英文的历史结果。不过每天随机刷新一段英文，只是我主页的一个小彩蛋之类的东西，所以不必在每个界面都体现。只有在home页随机刷新文字框的"历史浏览"跳转键可以来到那里，其它页的history跳转删了吧。
+
+2. 在home页上方的其它平台信息（目前只有github, osu!）添加一个其它的：哔哩哔哩bilibili：https://space.bilibili.com/1450132725
+
+3. “学习”的总览页，https://www.assassinlike.top/category.html?cat=invisible，要有一些改动。首先，“技术”不再和科研、开源项目、学习并列，而是放在学习的下面，变成子目录。没有一个tech.md作为总览展示，那就用https://www.assassinlike.top/category.html?cat=tech的内容展示一部分作为在“学习”界面的子界面预览，和limitless.md这种并列。
+   之后，limitless、技术、desire，它们三个按这样的顺序从上到下排序。
+
+---
+
+1. 把学习的一句话简介，目前的“阅读、经验与思考的整理。”改成“invisible——学习的收益是隐性的、甚至有时没有收益”
+   开源项目的“开放项目和可复用工具。”改成“permanence——留下永恒的事物”
+2. “每天随机刷新文字框”改成“每天随机刷新一段文字”。并且，score x.xx后面加一个圆圈里面放一个?的标志，鼠标悬停在上面就能看到一段解释：“一个对这段文字的“诗意”的量化指标”
+3. 我发现ulars和tefig里面的图片没有显示出来，处理一下这个问题
+4. 你可以看到在everlasting.md中，我修改了这样一部分：
+   每天一更的新论文/related works阅读（时序整理）：limitless.md
+   （逻辑序整理） order.md
+   所以，现在order.md就是order.md，而limitless.md目前应该是空的

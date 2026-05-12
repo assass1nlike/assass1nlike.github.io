@@ -11,15 +11,15 @@ const CATEGORY_DEFINITIONS = {
     description: '论文、实验记录与研究笔记。',
     docs: [
       'everlasting/research/recurrent_MoE.md',
-      'everlasting/research/tefig.md',
-      'everlasting/research/ulars.md',
+      'everlasting/research/tefig/tefig.md',
+      'everlasting/research/ulars/ulars.md',
     ],
   },
   permanence: {
     id: 'permanence',
     title: '开源项目',
     heading: '开源项目',
-    description: '开放项目和可复用工具。',
+    description: 'permanence——留下永恒的事物',
     docs: [
       'everlasting/permanence/math-embedding.md',
     ],
@@ -28,10 +28,12 @@ const CATEGORY_DEFINITIONS = {
     id: 'invisible',
     title: '学习',
     heading: '学习和思考',
-    description: '阅读、经验与思考的整理。',
+    description: 'invisible——学习的收益是隐性的、甚至有时没有收益',
     docs: [
-      'everlasting/invisible/desire.md',
       'everlasting/invisible/limitless.md',
+      'everlasting/invisible/order.md',
+      { type: 'category', id: 'tech' },
+      'everlasting/invisible/desire.md',
     ],
   },
   tech: {
@@ -60,13 +62,13 @@ const DOC_DEFINITIONS = [
     category: 'research',
   },
   {
-    path: 'everlasting/research/tefig.md',
+    path: 'everlasting/research/tefig/tefig.md',
     title: 'tefig',
     aliases: ['tefig', 'tefig.md'],
     category: 'research',
   },
   {
-    path: 'everlasting/research/ulars.md',
+    path: 'everlasting/research/ulars/ulars.md',
     title: 'ulars',
     aliases: ['ulars', 'ulars.md'],
     category: 'research',
@@ -87,6 +89,12 @@ const DOC_DEFINITIONS = [
     path: 'everlasting/invisible/limitless.md',
     title: 'limitless',
     aliases: ['limitless', 'limitless.md'],
+    category: 'invisible',
+  },
+  {
+    path: 'everlasting/invisible/order.md',
+    title: 'order',
+    aliases: ['order', 'order.md', '逻辑序整理'],
     category: 'invisible',
   },
   {
@@ -120,7 +128,7 @@ for (const doc of DOC_DEFINITIONS) {
   }
 }
 
-const CATEGORY_ORDER = ['research', 'permanence', 'invisible', 'tech'];
+const CATEGORY_ORDER = ['research', 'permanence', 'invisible'];
 
 let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
@@ -145,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function initHomePage() {
   const quoteHost = document.getElementById('daily-quote');
   const quoteMeta = document.getElementById('daily-quote-meta');
+  const quoteScoreHelp = document.getElementById('quote-score-help');
   const articleHost = document.getElementById('main-article');
   const categoryNav = document.getElementById('category-nav');
 
@@ -162,10 +171,16 @@ async function initHomePage() {
       if (quoteMeta) {
         quoteMeta.textContent = `${quote.dateKey} · score ${quote.score.toFixed(2)}`;
       }
+      if (quoteScoreHelp) {
+        quoteScoreHelp.hidden = false;
+      }
     } catch (_error) {
       quoteHost.textContent = 'The quote source is temporarily unavailable.';
       if (quoteMeta) {
         quoteMeta.textContent = '';
+      }
+      if (quoteScoreHelp) {
+        quoteScoreHelp.hidden = true;
       }
     }
   }
@@ -300,7 +315,10 @@ async function loadMarkdownInto(host, path, options = {}) {
       throw new Error(`Failed to fetch ${path} (${response.status})`);
     }
     const text = await response.text();
-    const html = renderMarkdown(text, options);
+    const html = renderMarkdown(text, {
+      ...options,
+      basePath: path,
+    });
     host.innerHTML = html || '<div class="loading-state">No content found.</div>';
     enhanceMarkdownHost(host);
   } catch (error) {
@@ -310,7 +328,12 @@ async function loadMarkdownInto(host, path, options = {}) {
 
 async function loadCategoryDocs(category) {
   const docs = await Promise.all(
-    category.docs.map(async (path) => {
+    category.docs.map(async (entry) => {
+      if (typeof entry === 'object' && entry?.type === 'category') {
+        return loadCategoryPreview(entry.id);
+      }
+
+      const path = entry;
       const doc = resolveDoc(path) || {
         path,
         title: displayNameFromPath(path),
@@ -326,15 +349,18 @@ async function loadCategoryDocs(category) {
         const preview = renderMarkdown(text, {
           maxBlocks: 4,
           linkScope: 'doc',
+          basePath: rootAssetPath(doc.path),
         });
         return {
           ...doc,
+          type: 'doc',
           preview,
           missing: false,
         };
       } catch (_error) {
         return {
           ...doc,
+          type: 'doc',
           preview: '<div class="loading-state">Preview unavailable.</div>',
           missing: true,
         };
@@ -345,19 +371,84 @@ async function loadCategoryDocs(category) {
   return docs;
 }
 
+async function loadCategoryPreview(categoryId) {
+  const category = CATEGORY_DEFINITIONS[categoryId];
+  if (!category) {
+    return {
+      type: 'category',
+      title: displayNameFromPath(categoryId),
+      categoryId,
+      preview: '<div class="loading-state">Preview unavailable.</div>',
+      missing: true,
+    };
+  }
+
+  const previewParts = [];
+  for (const path of category.docs.slice(0, 2)) {
+    if (typeof path !== 'string') {
+      continue;
+    }
+    const doc = resolveDoc(path) || {
+      path,
+      title: displayNameFromPath(path),
+      category: category.id,
+      aliases: [],
+    };
+    try {
+      const response = await fetch(rootAssetPath(doc.path), { cache: 'no-cache' });
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${doc.path} (${response.status})`);
+      }
+      const text = await response.text();
+      const preview = renderMarkdown(text, {
+        maxBlocks: 2,
+        linkScope: 'doc',
+        basePath: rootAssetPath(doc.path),
+      });
+      previewParts.push(`
+        <section class="category-child-preview">
+          <div class="category-child-preview-title">${escapeHtml(doc.title)}</div>
+          ${preview}
+        </section>
+      `);
+    } catch (_error) {
+      previewParts.push(`
+        <section class="category-child-preview">
+          <div class="category-child-preview-title">${escapeHtml(doc.title)}</div>
+          <div class="loading-state">Preview unavailable.</div>
+        </section>
+      `);
+    }
+  }
+
+  return {
+    type: 'category',
+    title: category.title,
+    categoryId: category.id,
+    description: category.description,
+    preview: previewParts.join('') || '<div class="loading-state">Preview unavailable.</div>',
+    missing: false,
+  };
+}
+
 function renderCategoryLayout(category, docs) {
   const cards = docs.map((doc) => {
     const missingClass = doc.missing ? ' is-missing' : '';
+    const isCategory = doc.type === 'category';
+    const href = isCategory ? categoryHref(doc.categoryId) : viewerHref(doc.path);
+    const meta = isCategory
+      ? `${escapeHtml(category.title)} / ${escapeHtml(doc.description || 'subdirectory')}`
+      : `${escapeHtml(category.title)} / ${escapeHtml(basename(doc.path))}`;
     return `
-      <article class="doc-card${missingClass}">
+      <article class="doc-card${missingClass}${isCategory ? ' is-category' : ''}">
         <div class="doc-card-head">
           <div>
             <div class="doc-card-title">
-              <a class="doc-link" href="${viewerHref(doc.path)}">${escapeHtml(doc.title)}</a>
+              <a class="doc-link" href="${href}">${escapeHtml(doc.title)}</a>
             </div>
-            <div class="doc-card-meta">${escapeHtml(category.title)} · ${escapeHtml(basename(doc.path))}</div>
+            <div class="doc-card-meta">${meta}</div>
           </div>
-          <a class="icon-link doc-open" href="${viewerHref(doc.path)}">Open ↗</a>
+          <a class="icon-link doc-open" href="${href}">Open</a>
         </div>
         <div class="doc-card-body markdown-body">${doc.preview}</div>
       </article>
@@ -372,7 +463,6 @@ function renderCategoryLayout(category, docs) {
     <section class="doc-card-list">${cards}</section>
   `;
 }
-
 function renderMarkdown(source, options = {}) {
   const lines = normalizeLineBreaks(source).split('\n');
   const blocks = [];
@@ -412,7 +502,7 @@ function renderMarkdown(source, options = {}) {
       const match = compact.match(/^(#{1,6})\s+(.*)$/);
       const level = match[1].length;
       const text = match[2].trim();
-      blocks.push(`<h${level} id="${slugify(text)}">${parseInline(text)}</h${level}>`);
+      blocks.push(`<h${level} id="${slugify(text)}">${parseInline(text, options)}</h${level}>`);
       i += 1;
       continue;
     }
@@ -429,7 +519,7 @@ function renderMarkdown(source, options = {}) {
         quote.push(lines[i].replace(/^>\s?/, ''));
         i += 1;
       }
-      blocks.push(`<blockquote>${paragraphify(quote)}</blockquote>`);
+      blocks.push(`<blockquote>${paragraphify(quote, options)}</blockquote>`);
       continue;
     }
 
@@ -453,7 +543,7 @@ function renderMarkdown(source, options = {}) {
           }
         }
 
-        items.push(`<li>${paragraphify(itemLines)}</li>`);
+        items.push(`<li>${paragraphify(itemLines, options)}</li>`);
       }
 
       blocks.push(`<${tag}>${items.join('')}</${tag}>`);
@@ -473,7 +563,7 @@ function renderMarkdown(source, options = {}) {
       i += 1;
     }
 
-    blocks.push(`<p>${paragraphify(paragraphLines)}</p>`);
+    blocks.push(`<p>${paragraphify(paragraphLines, options)}</p>`);
   }
 
   const body = blocks.join('\n');
@@ -482,12 +572,12 @@ function renderMarkdown(source, options = {}) {
   return patterns.length ? autoLinkText(body, patterns) : body;
 }
 
-function paragraphify(lines) {
+function paragraphify(lines, options = {}) {
   const text = lines.map((line) => line.trimEnd()).join('\n');
-  return parseInline(text);
+  return parseInline(text, options);
 }
 
-function parseInline(text) {
+function parseInline(text, options = {}) {
   const placeholders = [];
   let working = String(text);
 
@@ -508,8 +598,9 @@ function parseInline(text) {
 
   working = working.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
     const cleanSrc = src.trim();
+    const resolvedSrc = resolveMarkdownAssetSrc(cleanSrc, options.basePath);
     const altText = alt.trim();
-    return `<figure class="md-image"><img src="${escapeAttr(cleanSrc)}" alt="${escapeAttr(altText)}" loading="lazy" decoding="async" onerror="this.parentElement.remove()">${altText ? `<figcaption>${altText}</figcaption>` : ''}</figure>`;
+    return `<figure class="md-image"><img src="${escapeAttr(resolvedSrc)}" alt="${escapeAttr(altText)}" loading="lazy" decoding="async" onerror="this.parentElement.remove()">${altText ? `<figcaption>${altText}</figcaption>` : ''}</figure>`;
   });
 
   working = working.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
@@ -665,6 +756,29 @@ function resolveLinkHref(href) {
   }
 
   return trimmed;
+}
+
+function resolveMarkdownAssetSrc(src, basePath = '') {
+  const trimmed = String(src || '').trim();
+  if (
+    !trimmed ||
+    trimmed.startsWith('/') ||
+    trimmed.startsWith('#') ||
+    isExternalUrl(trimmed) ||
+    trimmed.startsWith('data:') ||
+    trimmed.startsWith('blob:')
+  ) {
+    return trimmed;
+  }
+
+  const cleanBase = String(basePath || '').split(/[?#]/)[0];
+  const baseDir = cleanBase.includes('/') ? cleanBase.slice(0, cleanBase.lastIndexOf('/') + 1) : '/';
+  try {
+    const resolved = new URL(trimmed, `${window.location.origin}${baseDir}`);
+    return `${resolved.pathname}${resolved.search}${resolved.hash}`;
+  } catch (_error) {
+    return trimmed;
+  }
 }
 
 function isExternalUrl(href) {
