@@ -483,9 +483,7 @@ img {
   background: linear-gradient(90deg, transparent, rgba(192, 132, 252, 0.7), transparent);
 }
 
-.markdown-body code,
-.markdown-body .math,
-.markdown-body .math-block {
+.markdown-body code {
   border: 1px solid rgba(192, 132, 252, 0.18);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.06);
@@ -495,11 +493,15 @@ img {
   padding: 0.08rem 0.3rem;
 }
 
-.markdown-body .math-block {
-  display: block;
+.math-display,
+.markdown-body mjx-container[jax="CHTML"][display="true"] {
   overflow-x: auto;
   margin: 0.9rem 0;
-  padding: 0.55rem 0.7rem;
+  padding: 0.4rem 0;
+}
+
+.markdown-body mjx-container {
+  color: #f6f1ff;
 }
 
 .markdown-body pre {
@@ -1164,6 +1166,11 @@ img {
 
 .secret-status-error {
   color: #fecaca;
+  font-size: 0.82rem;
+}
+
+.secret-status-note {
+  color: var(--muted);
   font-size: 0.82rem;
 }
 

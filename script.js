@@ -538,6 +538,32 @@ function renderMarkdown(source, options = {}) {
       continue;
     }
 
+    if (compact.startsWith('$$')) {
+      const mathLines = [];
+      const firstLine = compact.slice(2);
+      if (firstLine.trim().endsWith('$$') && firstLine.trim().length > 2) {
+        mathLines.push(firstLine.replace(/\$\$\s*$/, ''));
+        i += 1;
+      } else {
+        if (firstLine) {
+          mathLines.push(firstLine);
+        }
+        i += 1;
+        while (i < lines.length) {
+          const mathLine = lines[i].trimEnd();
+          if (mathLine.trim().endsWith('$$')) {
+            mathLines.push(mathLine.replace(/\$\$\s*$/, ''));
+            i += 1;
+            break;
+          }
+          mathLines.push(mathLine);
+          i += 1;
+        }
+      }
+      blocks.push(`<div class="math-display">$$\n${escapeHtml(mathLines.join('\n').trim())}\n$$</div>`);
+      continue;
+    }
+
     if (isHeading(compact)) {
       const match = compact.match(/^(#{1,6})\s+(.*)$/);
       const level = match[1].length;
@@ -633,6 +659,8 @@ function parseInline(text, options = {}) {
     return token;
   });
 
+  working = protectMathSegments(working, placeholders);
+
   working = escapeHtml(working);
   working = working.replace(/\n/g, '<br>');
 
@@ -651,8 +679,6 @@ function parseInline(text, options = {}) {
     return `<a class="${className}" href="${escapeAttr(resolved)}"${attrs}>${label.trim()}</a>`;
   });
 
-  working = working.replace(/\$\$([^$]+)\$\$/g, '<span class="math-block">$1</span>');
-  working = working.replace(/\$([^$\n]+)\$/g, '<span class="math">$1</span>');
   working = working.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   working = working.replace(/__([^_]+)__/g, '<strong>$1</strong>');
   working = working.replace(/(^|[\s(])_([^_\n]+)_(?=[\s).,;:!?]|$)/g, '$1<em>$2</em>');
@@ -660,6 +686,25 @@ function parseInline(text, options = {}) {
 
   working = working.replace(/__ANCHOR_(\d+)__/g, (_, index) => placeholders[Number(index)] || '');
   working = working.replace(/__CODE_(\d+)__/g, (_, index) => placeholders[Number(index)] || '');
+  working = working.replace(/__MATH_(\d+)__/g, (_, index) => placeholders[Number(index)] || '');
+  return working;
+}
+
+function protectMathSegments(text, placeholders) {
+  let working = String(text);
+
+  working = working.replace(/\$\$[\s\S]+?\$\$/g, (math) => {
+    const token = `__MATH_${placeholders.length}__`;
+    placeholders.push(escapeHtml(math));
+    return token;
+  });
+
+  working = working.replace(/\$([^$\n]+?)\$/g, (math) => {
+    const token = `__MATH_${placeholders.length}__`;
+    placeholders.push(escapeHtml(math));
+    return token;
+  });
+
   return working;
 }
 
@@ -772,6 +817,21 @@ function enhanceMarkdownHost(host) {
       anchor.setAttribute('rel', 'noopener noreferrer');
     }
   });
+  typesetMath(host);
+}
+
+function typesetMath(host, attempt = 0) {
+  if (!host) {
+    return;
+  }
+  if (window.MathJax?.typesetPromise) {
+    window.MathJax.typesetClear?.([host]);
+    window.MathJax.typesetPromise([host]).catch(() => {});
+    return;
+  }
+  if (attempt < 30) {
+    window.setTimeout(() => typesetMath(host, attempt + 1), 150);
+  }
 }
 
 function resolveDoc(input) {
