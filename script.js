@@ -3,6 +3,19 @@ const QUOTE_START_DATE_KEY = '2026-05-11';
 const EVERLASTING_OVERVIEW_PATH = 'everlasting.md';
 const QUOTE_CSV_PATH = '/everlasting/tech/osu-get-poetry-difficulties/poetic_diffs.csv';
 
+const FRIEND_SITES = [
+  {
+    name: "Axi's Blog",
+    description: '一直可爱小猫',
+    href: 'https://axi404.top',
+  },
+  {
+    name: '拜泪X`Blog',
+    description: '博客,但是试作品',
+    href: 'https://critel.github.io/',
+  },
+];
+
 const CATEGORY_DEFINITIONS = {
   research: {
     id: 'research',
@@ -156,6 +169,7 @@ async function initHomePage() {
   const quoteScoreHelp = document.getElementById('quote-score-help');
   const articleHost = document.getElementById('main-article');
   const categoryNav = document.getElementById('category-nav');
+  const friendSitesHost = document.getElementById('friend-sites');
 
   if (categoryNav) {
     categoryNav.innerHTML = CATEGORY_ORDER.map((id) => {
@@ -191,6 +205,32 @@ async function initHomePage() {
       linkScope: 'home',
     });
   }
+
+  if (friendSitesHost) {
+    friendSitesHost.innerHTML = renderFriendSites(FRIEND_SITES);
+  }
+}
+
+function renderFriendSites(sites) {
+  const cards = sites.map((site) => {
+    const label = `${site.name} - ${site.description}`;
+    return `
+      <a class="friend-card" href="${escapeAttr(site.href)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(label)}">
+        <span class="friend-name">${escapeHtml(site.name)}</span>
+        <span class="friend-description">${escapeHtml(site.description)}</span>
+      </a>
+    `;
+  }).join('');
+
+  return `
+    <section class="friend-sites-panel" aria-labelledby="friend-sites-title">
+      <div class="friend-sites-head">
+        <h2 id="friend-sites-title" class="friend-sites-title">友站列表</h2>
+        <p class="friend-sites-subtitle">links across the web</p>
+      </div>
+      <div class="friend-sites-list">${cards}</div>
+    </section>
+  `;
 }
 
 async function initViewerPage() {
