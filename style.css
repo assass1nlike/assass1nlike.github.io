@@ -735,6 +735,36 @@ img {
   font-size: 0.95rem;
 }
 
+.secret-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.secret-status-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0.35rem 0.62rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.secret-status-badge.is-online {
+  border-color: rgba(34, 211, 238, 0.4);
+  background: rgba(34, 211, 238, 0.08);
+  color: #d7fbff;
+}
+
+.secret-status-badge.is-offline {
+  border-color: rgba(248, 113, 113, 0.35);
+  background: rgba(248, 113, 113, 0.08);
+  color: #ffe1e1;
+}
+
 .secret-login-form {
   display: grid;
   gap: 12px;
@@ -812,6 +842,12 @@ img {
   font-size: 0.82rem;
 }
 
+.secret-login-hint code {
+  padding: 0.05rem 0.3rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .secret-error {
   color: #fecaca;
   font-size: 0.9rem;
@@ -822,6 +858,10 @@ img {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+}
+
+.secret-room-copy {
+  min-width: 0;
 }
 
 .secret-room-actions {
@@ -856,6 +896,24 @@ img {
   gap: 14px;
 }
 
+.secret-thread-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.secret-thread-title {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 720;
+}
+
+.secret-thread-subtitle {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 .secret-thread {
   display: grid;
   gap: 10px;
@@ -883,6 +941,10 @@ img {
 .secret-message.is-vitality-x {
   border-color: rgba(168, 85, 247, 0.28);
   background: rgba(168, 85, 247, 0.06);
+}
+
+.secret-message.is-own {
+  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.14);
 }
 
 .secret-message-head,
@@ -929,6 +991,18 @@ img {
 
 .secret-compose-tip {
   color: var(--faint);
+  font-size: 0.82rem;
+}
+
+.secret-remote-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 30px;
+}
+
+.secret-status-error {
+  color: #fecaca;
   font-size: 0.82rem;
 }
 
@@ -1037,6 +1111,11 @@ img {
   .secret-thread,
   .secret-history-list {
     max-height: none;
+  }
+
+  .secret-thread-head {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 
