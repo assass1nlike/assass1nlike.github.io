@@ -262,9 +262,63 @@ img {
   gap: 12px;
 }
 
+.refresh-score-meta {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+}
+
 .refresh-meta {
   color: var(--muted);
   font-size: 0.84rem;
+}
+
+.score-help {
+  position: relative;
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(34, 211, 238, 0.56);
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.08);
+  color: var(--accent-cyan);
+  cursor: help;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.score-help::after {
+  position: absolute;
+  bottom: calc(100% + 9px);
+  left: 50%;
+  z-index: 4;
+  width: max-content;
+  max-width: 240px;
+  padding: 7px 9px;
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  border-radius: 7px;
+  background: rgba(14, 18, 38, 0.96);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  color: #f7efff;
+  content: attr(data-tooltip);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.45;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  transform: translateX(-50%) translateY(4px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.score-help:hover::after,
+.score-help:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .refresh-history {
@@ -585,6 +639,13 @@ img {
   border-color: rgba(248, 113, 113, 0.35);
 }
 
+.doc-card.is-category {
+  border-color: rgba(34, 211, 238, 0.28);
+  background:
+    linear-gradient(135deg, rgba(34, 211, 238, 0.05), rgba(168, 85, 247, 0.04)),
+    rgba(255, 255, 255, 0.03);
+}
+
 .doc-card-head {
   display: flex;
   align-items: start;
@@ -621,6 +682,23 @@ img {
   max-height: 420px;
   overflow: auto;
   padding-right: 4px;
+}
+
+.category-child-preview {
+  display: grid;
+  gap: 8px;
+  padding: 0 0 14px;
+}
+
+.category-child-preview + .category-child-preview {
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.category-child-preview-title {
+  color: var(--accent-cyan);
+  font-size: 0.86rem;
+  font-weight: 740;
 }
 
 .doc-open {

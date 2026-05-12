@@ -33,8 +33,9 @@
         </div>
       </a>
       <div class="topbar-actions">
-        <a class="icon-link" href="https://github.com/assassinlike" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <a class="icon-link" href="https://osu.ppy.sh/users/36703588" target="_blank" rel="noopener noreferrer">osu! ↗</a>
+        <a class="icon-link" href="https://github.com/assassinlike" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="icon-link" href="https://osu.ppy.sh/users/36703588" target="_blank" rel="noopener noreferrer">osu!</a>
+        <a class="icon-link" href="https://space.bilibili.com/1450132725" target="_blank" rel="noopener noreferrer">bilibili</a>
       </div>
     </header>
 
@@ -60,18 +61,29 @@
 
         <div class="profile-links">
           <a class="pill-link" href="/viewer.html?doc=everlasting/permanence/math-embedding.md">math-embedding ↗</a>
-          <a class="pill-link" href="/viewer.html?doc=everlasting/research/tefig.md">tefig ↗</a>
-          <a class="pill-link" href="/viewer.html?doc=everlasting/research/ulars.md">ulars ↗</a>
+          <a class="pill-link" href="/viewer.html?doc=everlasting/research/tefig/tefig.md">tefig ↗</a>
+          <a class="pill-link" href="/viewer.html?doc=everlasting/research/ulars/ulars.md">ulars ↗</a>
           <a class="pill-link" href="/viewer.html?doc=everlasting/research/recurrent_MoE.md">recurrent MoE ↗</a>
         </div>
       </aside>
 
       <section class="reader-panel">
         <div class="refresh-panel">
-          <div class="refresh-label">每天随机刷新文字框</div>
+          <div class="refresh-label">每天随机刷新一段文字</div>
           <div id="daily-quote" class="refresh-text" aria-live="polite"></div>
           <div class="refresh-meta-row">
-            <div id="daily-quote-meta" class="refresh-meta"></div>
+            <div class="refresh-score-meta">
+              <div id="daily-quote-meta" class="refresh-meta"></div>
+              <span
+                id="quote-score-help"
+                class="score-help"
+                tabindex="0"
+                title="一个对这段文字的“诗意”的量化指标"
+                data-tooltip="一个对这段文字的“诗意”的量化指标"
+                aria-label="一个对这段文字的“诗意”的量化指标"
+                hidden
+              >?</span>
+            </div>
             <a class="refresh-history" href="/history.html">历史浏览 ↗</a>
           </div>
         </div>
