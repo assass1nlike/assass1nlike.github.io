@@ -64,13 +64,13 @@ const DOC_DEFINITIONS = [
   {
     path: 'everlasting/research/tefig/tefig.md',
     title: 'tefig',
-    aliases: ['tefig', 'tefig.md'],
+    aliases: ['tefig', 'tefig.md', 'everlasting/research/tefig.md'],
     category: 'research',
   },
   {
     path: 'everlasting/research/ulars/ulars.md',
     title: 'ulars',
-    aliases: ['ulars', 'ulars.md'],
+    aliases: ['ulars', 'ulars.md', 'everlasting/research/ulars.md'],
     category: 'research',
   },
   {
@@ -600,7 +600,7 @@ function parseInline(text, options = {}) {
     const cleanSrc = src.trim();
     const resolvedSrc = resolveMarkdownAssetSrc(cleanSrc, options.basePath);
     const altText = alt.trim();
-    return `<figure class="md-image"><img src="${escapeAttr(resolvedSrc)}" alt="${escapeAttr(altText)}" loading="lazy" decoding="async" onerror="this.parentElement.remove()">${altText ? `<figcaption>${altText}</figcaption>` : ''}</figure>`;
+    return `<figure class="md-image"><img src="${escapeAttr(resolvedSrc)}" alt="${escapeAttr(altText)}" loading="lazy" decoding="async" onerror="this.parentElement.remove()"></figure>`;
   });
 
   working = working.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
