@@ -246,7 +246,7 @@ img {
 .refresh-panel {
   display: grid;
   gap: 10px;
-  margin-bottom: 20px;
+  margin: 44px 0 20px;
   padding: 16px 18px;
   border: 1px solid rgba(34, 211, 238, 0.22);
   border-radius: var(--radius);
