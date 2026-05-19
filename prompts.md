@@ -70,3 +70,15 @@ engiworld-benchmark和evalclaw先不做跳转，其markdown文件过段时间会
 
 ---
 
+你修改过头了，everlasting.md中“科研”下面的文本都不能跳转了，比如“数据筛选方法：tefig”的tefig本来是能跳转的（这个一开始咱就是这么设计的，我们应该改的是文档里正常的文字）。“科研”栏下面的tefig，ulars，recurrent MoE都应该是能跳转的。
+原来的“embedding space中的数学：math-embedding”改成了“数学变换/结构在 embedding space 中会有意义吗？math-embedding”（everlasting.md中还有一些文本表述的修改，我都改好了），在问号后面的math-embedding也应该是能跳转的（下面是跳转github，这个是跳转到math-embedding.md这个介绍文档）。
+
+“每天一更的新论文/related works阅读（时序整理）：limitless.md”这段不要了，我后续会把limitless.md中的内容融进order.md。并且后一行的“（逻辑序整理） order.md”改成“无心插柳论文阅读：order.md”然后再下一行紧接“和研究内容match的论文阅读，见科研栏每个文档内部”
+
+“一些从科研过程中总结的经验 ailife.md”应该跳转到D:\lxxzyh\assassinlike.github.io\everlasting\invisible\ailife.md
+
+“一些经过试错和总结，值得了解的命令/软件使用和自动化 tech总览”最后的“tech总览”应该带链接，能跳转到对各个tech文档的总览界面（我们之前好像做了？）
+
+“在观察自身行为和自我思考后得到的结论：各年年终总结”的“各年年终总结”应该能跳转到一个总览界面，总览D:\lxxzyh\assassinlike.github.io\everlasting\invisible\annual里面的所有文件。
+
+然后还有一个修改，把随机刷新文字框放在友站列表上面，everlasting.md所有内容的下面。
