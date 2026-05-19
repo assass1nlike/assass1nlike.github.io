@@ -23,7 +23,7 @@ const CATEGORY_DEFINITIONS = {
     heading: '正式的科研内容',
     description: '论文、实验记录与研究笔记。',
     docs: [
-      'everlasting/research/recurrent_MoE.md',
+      'everlasting/research/recurrent_MoE/recurrent_MoE.md',
       'everlasting/research/tefig/tefig.md',
       'everlasting/research/ulars/ulars.md',
     ],
@@ -34,7 +34,7 @@ const CATEGORY_DEFINITIONS = {
     heading: '开源项目',
     description: 'permanence——留下永恒的事物',
     docs: [
-      'everlasting/permanence/math-embedding.md',
+      'everlasting/permanence/math-embedding/math-embedding.md',
     ],
   },
   invisible: {
@@ -69,9 +69,9 @@ const DOC_DEFINITIONS = [
     category: null,
   },
   {
-    path: 'everlasting/research/recurrent_MoE.md',
+    path: 'everlasting/research/recurrent_MoE/recurrent_MoE.md',
     title: 'recurrent MoE',
-    aliases: ['recurrent moE', 'recurrent moe', 'recurrent_MoE', 'recurrent MoE'],
+    aliases: ['recurrent moE', 'recurrent moe', 'recurrent_MoE', 'recurrent MoE', 'everlasting/research/recurrent_MoE.md'],
     category: 'research',
   },
   {
@@ -87,9 +87,9 @@ const DOC_DEFINITIONS = [
     category: 'research',
   },
   {
-    path: 'everlasting/permanence/math-embedding.md',
+    path: 'everlasting/permanence/math-embedding/math-embedding.md',
     title: 'math-embedding',
-    aliases: ['math-embedding', 'math embedding', 'Math-Embedding'],
+    aliases: ['math-embedding', 'math embedding', 'Math-Embedding', 'everlasting/permanence/math-embedding.md'],
     category: 'permanence',
   },
   {
@@ -145,6 +145,7 @@ const CATEGORY_ORDER = ['research', 'permanence', 'invisible'];
 
 let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
+const pendingMathHosts = new Set();
 
 document.addEventListener('DOMContentLoaded', () => {
   const page = document.documentElement.dataset.page || 'home';
@@ -161,6 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
   initHomePage();
+});
+
+window.addEventListener('mathjax-loaded', () => {
+  flushPendingMathTypesetting();
 });
 
 async function initHomePage() {
@@ -560,7 +565,7 @@ function renderMarkdown(source, options = {}) {
           i += 1;
         }
       }
-      blocks.push(`<div class="math-display">$$\n${escapeHtml(mathLines.join('\n').trim())}\n$$</div>`);
+      blocks.push(`<div class="math-display"><span class="math-source">$$\n${escapeHtml(mathLines.join('\n').trim())}\n$$</span></div>`);
       continue;
     }
 
@@ -648,13 +653,13 @@ function parseInline(text, options = {}) {
   let working = String(text);
 
   working = working.replace(/<a\s+id=(['"])([^'"]+)\1\s*><\/a>/gi, (_, _quote, id) => {
-    const token = `__ANCHOR_${placeholders.length}__`;
+    const token = `%%ANCHOR${placeholders.length}%%`;
     placeholders.push(`<a id="${escapeHtml(id)}"></a>`);
     return token;
   });
 
   working = working.replace(/`([^`]+)`/g, (_, code) => {
-    const token = `__CODE_${placeholders.length}__`;
+    const token = `%%CODE${placeholders.length}%%`;
     placeholders.push(`<code>${escapeHtml(code)}</code>`);
     return token;
   });
@@ -676,7 +681,7 @@ function parseInline(text, options = {}) {
     const external = isExternalUrl(resolved);
     const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
     const className = resolved.includes('category.html') || resolved.includes('viewer.html') || resolved.includes('secret.html') ? 'doc-link' : '';
-    return `<a class="${className}" href="${escapeAttr(resolved)}"${attrs}>${label.trim()}</a>`;
+    return `<a class="${className}" href="${escapeAttr(resolved)}"${attrs}>${escapeHtml(label.trim())}</a>`;
   });
 
   working = working.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -684,9 +689,9 @@ function parseInline(text, options = {}) {
   working = working.replace(/(^|[\s(])_([^_\n]+)_(?=[\s).,;:!?]|$)/g, '$1<em>$2</em>');
   working = working.replace(/~~([^~]+)~~/g, '<del>$1</del>');
 
-  working = working.replace(/__ANCHOR_(\d+)__/g, (_, index) => placeholders[Number(index)] || '');
-  working = working.replace(/__CODE_(\d+)__/g, (_, index) => placeholders[Number(index)] || '');
-  working = working.replace(/__MATH_(\d+)__/g, (_, index) => placeholders[Number(index)] || '');
+  working = working.replace(/%%ANCHOR(\d+)%%/g, (_, index) => placeholders[Number(index)] || '');
+  working = working.replace(/%%CODE(\d+)%%/g, (_, index) => placeholders[Number(index)] || '');
+  working = working.replace(/%%MATH(\d+)%%/g, (_, index) => placeholders[Number(index)] || '');
   return working;
 }
 
@@ -694,14 +699,14 @@ function protectMathSegments(text, placeholders) {
   let working = String(text);
 
   working = working.replace(/\$\$[\s\S]+?\$\$/g, (math) => {
-    const token = `__MATH_${placeholders.length}__`;
-    placeholders.push(escapeHtml(math));
+    const token = `%%MATH${placeholders.length}%%`;
+    placeholders.push(`<span class="math-source">${escapeHtml(math)}</span>`);
     return token;
   });
 
   working = working.replace(/\$([^$\n]+?)\$/g, (math) => {
-    const token = `__MATH_${placeholders.length}__`;
-    placeholders.push(escapeHtml(math));
+    const token = `%%MATH${placeholders.length}%%`;
+    placeholders.push(`<span class="math-source">${escapeHtml(math)}</span>`);
     return token;
   });
 
@@ -751,6 +756,9 @@ function autoLinkText(html, patterns) {
     if (!parentTag || skipTags.has(parentTag)) {
       continue;
     }
+    if (node.parentElement?.closest('.math-source, .math-display, mjx-container')) {
+      continue;
+    }
     textNodes.push(node);
   }
 
@@ -768,7 +776,7 @@ function autoLinkText(html, patterns) {
       let bestIndex = -1;
 
       for (const entry of patterns) {
-        const index = original.indexOf(entry.pattern, cursor);
+        const index = findPatternIndex(original, entry, cursor);
         if (index === -1) {
           continue;
         }
@@ -805,6 +813,52 @@ function autoLinkText(html, patterns) {
   return container.innerHTML;
 }
 
+function findPatternIndex(text, entry, start) {
+  let index = text.indexOf(entry.pattern, start);
+  while (index !== -1) {
+    if (isAllowedAutoLinkMatch(text, index, entry.pattern)) {
+      return index;
+    }
+    index = text.indexOf(entry.pattern, index + 1);
+  }
+  return -1;
+}
+
+function isAllowedAutoLinkMatch(text, index, pattern) {
+  if (isInsideUrlLikeText(text, index, pattern.length)) {
+    return false;
+  }
+
+  const before = index > 0 ? text[index - 1] : '';
+  const afterIndex = index + pattern.length;
+  const after = afterIndex < text.length ? text[afterIndex] : '';
+  const startsWord = isWordLike(pattern[0]);
+  const endsWord = isWordLike(pattern[pattern.length - 1]);
+
+  if (startsWord && before && isWordLike(before)) {
+    return false;
+  }
+  if (endsWord && after && isWordLike(after)) {
+    return false;
+  }
+  return true;
+}
+
+function isInsideUrlLikeText(text, index, length) {
+  const left = text.slice(Math.max(0, index - 160), index);
+  const right = text.slice(index, Math.min(text.length, index + length + 160));
+  const lastWhitespace = Math.max(left.lastIndexOf(' '), left.lastIndexOf('\n'), left.lastIndexOf('\t'));
+  const tokenLeft = left.slice(lastWhitespace + 1);
+  const nextWhitespaceMatches = right.match(/[\s<>"'，。；、！？]/);
+  const tokenRight = nextWhitespaceMatches ? right.slice(0, nextWhitespaceMatches.index) : right;
+  const token = `${tokenLeft}${tokenRight}`;
+  return /^(?:https?:\/\/|www\.)/i.test(token) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(token);
+}
+
+function isWordLike(char) {
+  return /[A-Za-z0-9_\-\u00C0-\uFFFF]/.test(char);
+}
+
 function enhanceMarkdownHost(host) {
   host.querySelectorAll('img').forEach((img) => {
     img.loading = 'lazy';
@@ -824,14 +878,40 @@ function typesetMath(host, attempt = 0) {
   if (!host) {
     return;
   }
-  if (window.MathJax?.typesetPromise) {
-    window.MathJax.typesetClear?.([host]);
-    window.MathJax.typesetPromise([host]).catch(() => {});
+  pendingMathHosts.add(host);
+  if (flushPendingMathTypesetting()) {
     return;
   }
-  if (attempt < 30) {
+  if (attempt < 80) {
     window.setTimeout(() => typesetMath(host, attempt + 1), 150);
   }
+}
+
+function flushPendingMathTypesetting() {
+  const mathJax = window.MathJax;
+  if (mathJax?.startup?.promise && mathJax.typesetPromise) {
+    const hosts = Array.from(pendingMathHosts).filter((item) => item.isConnected);
+    pendingMathHosts.clear();
+    if (!hosts.length) {
+      return true;
+    }
+    mathJax.startup.promise.then(() => {
+      mathJax.typesetClear?.(hosts);
+      return mathJax.typesetPromise(hosts);
+    }).catch(() => {});
+    return true;
+  }
+  if (mathJax?.typesetPromise) {
+    const hosts = Array.from(pendingMathHosts).filter((item) => item.isConnected);
+    pendingMathHosts.clear();
+    if (!hosts.length) {
+      return true;
+    }
+    mathJax.typesetClear?.(hosts);
+    mathJax.typesetPromise(hosts).catch(() => {});
+    return true;
+  }
+  return false;
 }
 
 function resolveDoc(input) {
