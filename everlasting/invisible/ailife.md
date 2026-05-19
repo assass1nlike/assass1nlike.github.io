@@ -82,6 +82,18 @@ API 和 extra usage 都太坑了，非常费钱，是个商业手段逼着人升
 mistral模型很容易训一些就达到最佳性能了
 有的时候还训也不提点/方法不work，师兄解释是这东西性能不行
 
+---
+
+2026.5.15
+
+evaluation不应该自己一个个去拼，应该用统一的评测框架，后续还可以在里面选自己想要的eval ds
+
+进行SFT最好用base模型，Instruct 模型已经被 Anthropic / Meta / Qwen 团队用他们自己精心调过的 SFT mixture + DPO/RLHF 训过一遍。
+
+2026.5.18
+
+测评时的batch_size是一次送进模型的request数量
+
 # paper learned
 
 Previous studies have observed that the gradient norm is inversely correlated with data length (Liu et al.,2025b; Xia et al., 2024a)
