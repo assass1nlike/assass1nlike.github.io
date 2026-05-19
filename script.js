@@ -43,10 +43,22 @@ const CATEGORY_DEFINITIONS = {
     heading: '学习和思考',
     description: 'invisible——学习的收益是隐性的、甚至有时没有收益',
     docs: [
-      'everlasting/invisible/limitless.md',
       'everlasting/invisible/order.md',
+      'everlasting/invisible/ailife.md',
       { type: 'category', id: 'tech' },
       'everlasting/invisible/desire.md',
+      { type: 'category', id: 'annual' },
+    ],
+  },
+  annual: {
+    id: 'annual',
+    title: '各年年终总结',
+    heading: '各年年终总结',
+    description: '在观察自身行为和自我思考后得到的结论。',
+    docs: [
+      'everlasting/invisible/annual/2023.md',
+      'everlasting/invisible/annual/2024.md',
+      'everlasting/invisible/annual/2025.md',
     ],
   },
   tech: {
@@ -105,10 +117,34 @@ const DOC_DEFINITIONS = [
     category: 'invisible',
   },
   {
+    path: 'everlasting/invisible/ailife.md',
+    title: 'ailife',
+    aliases: ['ailife', 'ailife.md'],
+    category: 'invisible',
+  },
+  {
     path: 'everlasting/invisible/order.md',
     title: 'order',
-    aliases: ['order', 'order.md', '逻辑序整理'],
+    aliases: ['order', 'order.md', '逻辑序整理', '无心插柳论文阅读'],
     category: 'invisible',
+  },
+  {
+    path: 'everlasting/invisible/annual/2023.md',
+    title: '2023 年终总结',
+    aliases: ['2023.md', '2023 年终总结'],
+    category: 'annual',
+  },
+  {
+    path: 'everlasting/invisible/annual/2024.md',
+    title: '2024 年终总结',
+    aliases: ['2024.md', '2024 年终总结'],
+    category: 'annual',
+  },
+  {
+    path: 'everlasting/invisible/annual/2025.md',
+    title: '2025 年终总结',
+    aliases: ['2025.md', '2025 年终总结'],
+    category: 'annual',
   },
   {
     path: 'everlasting/tech/osu-auto-download-import/osu-auto-download-import.md',
@@ -128,6 +164,8 @@ const CATEGORY_LINK_PATTERNS = [
   { pattern: '正式的科研内容', href: categoryHref('research') },
   { pattern: '开源项目', href: categoryHref('permanence') },
   { pattern: '学习和思考', href: categoryHref('invisible') },
+  { pattern: 'tech总览', href: categoryHref('tech') },
+  { pattern: '各年年终总结', href: categoryHref('annual') },
 ];
 
 const DOC_LINK_PATTERNS = buildDocLinkPatterns();
@@ -856,7 +894,7 @@ function isInsideUrlLikeText(text, index, length) {
 }
 
 function isWordLike(char) {
-  return /[A-Za-z0-9_\-\u00C0-\uFFFF]/.test(char);
+  return /[\p{L}\p{N}_-]/u.test(char);
 }
 
 function enhanceMarkdownHost(host) {
