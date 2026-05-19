@@ -65,4 +65,6 @@ engiworld-benchmark和evalclaw先不做跳转，其markdown文件过段时间会
 
 ---
 
-然后是秘密空间的加密功能。现在攻击者有什么可能方式进入这个空间？
+你之前的正则匹配让很多文档内部无关的内容也成了跳转连接，比如ulars.md里面“first-order”这种正常表述的文本，也会因为含有"order"而带上跳转到order.md的链接。你检查一下各个可能出现这种问题的文档，不是应该带链接的文本就别带链接。
+注意有一个问题是，everlasting.md中出现的https://github.com/assassinlike/Math-Embedding这个网址，Math-Embedding是整个网址字符串的一部分，但是也带上了跳转链接，这个的修改方案不是把这个链接取消了就结束了，而是让整个网址是不带链接的基础上，在前面加个“点击跳转到：”，然后这段文字会跳转到网址。
+
