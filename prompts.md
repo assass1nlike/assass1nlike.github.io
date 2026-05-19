@@ -82,3 +82,11 @@ engiworld-benchmark和evalclaw先不做跳转，其markdown文件过段时间会
 “在观察自身行为和自我思考后得到的结论：各年年终总结”的“各年年终总结”应该能跳转到一个总览界面，总览D:\lxxzyh\assassinlike.github.io\everlasting\invisible\annual里面的所有文件。
 
 然后还有一个修改，把随机刷新文字框放在友站列表上面，everlasting.md所有内容的下面。
+
+---
+
+年终总结改成倒序分布，上面先展示的是25年的，然后递减。
+随机刷新文字框在everlasting.md所有内容的下面贴的太近了，隔开一些让其更美观
+“无心插柳论文阅读”不用链接，只有order.md有链接就行
+
+然后一个比较大的修改是我们会把“思考”从“学习”中分离出来，不再作为一个子项。（并且标题不再是“思考”，而是如目前本地everlasting.md中的修改，“思考 (less technical, non-academic)”）这个部分将会单开，但是不像前三个项目，在everlasting.md展示的一开始的位置直接出现按钮，我们不做这个。
