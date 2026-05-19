@@ -90,3 +90,9 @@ engiworld-benchmark和evalclaw先不做跳转，其markdown文件过段时间会
 “无心插柳论文阅读”不用链接，只有order.md有链接就行
 
 然后一个比较大的修改是我们会把“思考”从“学习”中分离出来，不再作为一个子项。（并且标题不再是“思考”，而是如目前本地everlasting.md中的修改，“思考 (less technical, non-academic)”）这个部分将会单开，但是不像前三个项目，在everlasting.md展示的一开始的位置直接出现按钮，我们不做这个。
+
+---
+
+现在“学习”和“思考 (less technical, non-academic)”都是带有跳转链接的，不需要这个。前者，everlasting.md展示的前面就有跳转按钮；后者，不需要做总览界面。
+
+还有一个小问题，"自动化评测框架：EvalClaw"和"项目"不知道为什么离的有点近，fix一下这个问题。
