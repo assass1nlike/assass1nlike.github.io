@@ -48,17 +48,6 @@ const CATEGORY_DEFINITIONS = {
       { type: 'category', id: 'tech' },
     ],
   },
-  thinking: {
-    id: 'thinking',
-    title: '思考 (less technical, non-academic)',
-    heading: '思考 (less technical, non-academic)',
-    description: '更少技术性、非学术性的个人思考。',
-    docs: [
-      'everlasting/invisible/desire.md',
-      { type: 'category', id: 'annual' },
-      'everlasting/invisible/assassin_experiment/failAEoverview.md',
-    ],
-  },
   annual: {
     id: 'annual',
     title: '各年年终总结',
@@ -117,7 +106,7 @@ const DOC_DEFINITIONS = [
     path: 'everlasting/invisible/desire.md',
     title: 'desire',
     aliases: ['desire', 'desire.md'],
-    category: 'thinking',
+    category: null,
   },
   {
     path: 'everlasting/invisible/limitless.md',
@@ -141,7 +130,7 @@ const DOC_DEFINITIONS = [
     path: 'everlasting/invisible/assassin_experiment/failAEoverview.md',
     title: '刺客实验',
     aliases: ['刺客实验', 'assassin_experiment', 'assassin_experiment.md', 'failAEoverview.md'],
-    category: 'thinking',
+    category: null,
   },
   {
     path: 'everlasting/invisible/annual/2023.md',
@@ -178,8 +167,6 @@ const DOC_DEFINITIONS = [
 const CATEGORY_LINK_PATTERNS = [
   { pattern: '正式的科研内容', href: categoryHref('research') },
   { pattern: '开源项目', href: categoryHref('permanence') },
-  { pattern: '学习', href: categoryHref('invisible') },
-  { pattern: '思考 (less technical, non-academic)', href: categoryHref('thinking') },
   { pattern: 'tech总览', href: categoryHref('tech') },
   { pattern: '各年年终总结', href: categoryHref('annual') },
 ];
