@@ -96,3 +96,7 @@ engiworld-benchmark和evalclaw先不做跳转，其markdown文件过段时间会
 现在“学习”和“思考 (less technical, non-academic)”都是带有跳转链接的，不需要这个。前者，everlasting.md展示的前面就有跳转按钮；后者，不需要做总览界面。
 
 还有一个小问题，"自动化评测框架：EvalClaw"和"项目"不知道为什么离的有点近，fix一下这个问题。
+
+---
+
+在“学习”的总览界面，也就是https://www.assassinlike.top/category.html?cat=invisible，把everlasting.md中出现的
