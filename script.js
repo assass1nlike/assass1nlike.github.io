@@ -24,8 +24,8 @@ const CATEGORY_DEFINITIONS = {
     description: '论文、实验记录与研究笔记。',
     docs: [
       'everlasting/research/recurrent_MoE/recurrent_MoE.md',
-      'everlasting/research/tefig/tefig.md',
-      'everlasting/research/ulars/ulars.md',
+      'everlasting/research/tefig/determined.md',
+      'everlasting/research/ulars/determined.md',
     ],
   },
   permanence: {
@@ -76,6 +76,7 @@ const CATEGORY_DEFINITIONS = {
         description: '相对标准、偏工程和工具链的问题记录。',
         docs: [
           'everlasting/tech/std/claude_web_tool_issues.md',
+          'everlasting/tech/std/deepseed_jailbreak.md',
         ],
       },
       {
@@ -105,15 +106,15 @@ const DOC_DEFINITIONS = [
     category: 'research',
   },
   {
-    path: 'everlasting/research/tefig/tefig.md',
+    path: 'everlasting/research/tefig/determined.md',
     title: 'tefig',
-    aliases: ['tefig', 'tefig.md', 'everlasting/research/tefig.md'],
+    aliases: ['tefig', 'tefig.md', 'everlasting/research/tefig.md', 'everlasting/research/tefig/tefig.md'],
     category: 'research',
   },
   {
-    path: 'everlasting/research/ulars/ulars.md',
+    path: 'everlasting/research/ulars/determined.md',
     title: 'ulars',
-    aliases: ['ulars', 'ulars.md', 'everlasting/research/ulars.md'],
+    aliases: ['ulars', 'ulars.md', 'everlasting/research/ulars.md', 'everlasting/research/ulars/ulars.md'],
     category: 'research',
   },
   {
@@ -174,6 +175,12 @@ const DOC_DEFINITIONS = [
     path: 'everlasting/tech/std/claude_web_tool_issues.md',
     title: 'Claude 网页端工具调用问题总结',
     aliases: ['claude_web_tool_issues', 'claude_web_tool_issues.md', 'Claude 网页端工具调用问题总结'],
+    category: 'tech',
+  },
+  {
+    path: 'everlasting/tech/std/deepseed_jailbreak.md',
+    title: 'deepseed jailbreak',
+    aliases: ['deepseed_jailbreak', 'deepseed_jailbreak.md', 'deepseek jailbreak', 'deepseed jailbreak'],
     category: 'tech',
   },
   {
