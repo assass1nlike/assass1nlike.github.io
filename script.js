@@ -1,7 +1,7 @@
 const SITE_TIME_ZONE = 'Asia/Shanghai';
 const QUOTE_START_DATE_KEY = '2026-05-11';
 const EVERLASTING_OVERVIEW_PATH = 'everlasting.md';
-const QUOTE_CSV_PATH = '/everlasting/tech/osu-get-poetry-difficulties/poetic_diffs.csv';
+const QUOTE_CSV_PATH = '/everlasting/tech/na/osu-get-poetry-difficulties/poetic_diffs.csv';
 
 const FRIEND_SITES = [
   {
@@ -65,8 +65,28 @@ const CATEGORY_DEFINITIONS = {
     heading: '技术',
     description: '工程、工具和实践记录。',
     docs: [
-      'everlasting/tech/osu-auto-download-import/osu-auto-download-import.md',
-      'everlasting/tech/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
+      'everlasting/tech/std/claude_web_tool_issues.md',
+      'everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md',
+      'everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
+    ],
+    groups: [
+      {
+        id: 'std',
+        title: '技术文档',
+        description: '相对标准、偏工程和工具链的问题记录。',
+        docs: [
+          'everlasting/tech/std/claude_web_tool_issues.md',
+        ],
+      },
+      {
+        id: 'na',
+        title: 'less technical, non-academic',
+        description: '更偏个人兴趣、游戏和非学术场景的技术实践。',
+        docs: [
+          'everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md',
+          'everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
+        ],
+      },
     ],
   },
 };
@@ -151,15 +171,21 @@ const DOC_DEFINITIONS = [
     category: 'annual',
   },
   {
-    path: 'everlasting/tech/osu-auto-download-import/osu-auto-download-import.md',
-    title: 'osu-auto-download-import',
-    aliases: ['osu-auto-download-import', 'osu auto download import'],
+    path: 'everlasting/tech/std/claude_web_tool_issues.md',
+    title: 'Claude 网页端工具调用问题总结',
+    aliases: ['claude_web_tool_issues', 'claude_web_tool_issues.md', 'Claude 网页端工具调用问题总结'],
     category: 'tech',
   },
   {
-    path: 'everlasting/tech/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
+    path: 'everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md',
+    title: 'osu-auto-download-import',
+    aliases: ['osu-auto-download-import', 'osu auto download import', 'everlasting/tech/osu-auto-download-import/osu-auto-download-import.md'],
+    category: 'tech',
+  },
+  {
+    path: 'everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
     title: 'osu-get-poetry-difficulties',
-    aliases: ['osu-get-poetry-difficulties', 'osu get poetry difficulties'],
+    aliases: ['osu-get-poetry-difficulties', 'osu get poetry difficulties', 'everlasting/tech/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md'],
     category: 'tech',
   },
 ];
@@ -182,7 +208,7 @@ for (const doc of DOC_DEFINITIONS) {
   }
 }
 
-const CATEGORY_ORDER = ['research', 'permanence', 'invisible'];
+const CATEGORY_ORDER = ['research', 'permanence', 'invisible', 'tech'];
 
 let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
@@ -340,8 +366,16 @@ async function initCategoryPage() {
   }
 
   host.innerHTML = '<div class="loading-state">Loading category...</div>';
-  const docs = await loadCategoryDocs(category);
-  host.innerHTML = renderCategoryLayout(category, docs);
+  if (category.groups?.length) {
+    const groups = await Promise.all(category.groups.map(async (group) => ({
+      ...group,
+      docs: await loadCategoryDocEntries(group.docs, category.id),
+    })));
+    host.innerHTML = renderTechCategoryLayout(category, groups);
+  } else {
+    const docs = await loadCategoryDocs(category);
+    host.innerHTML = renderCategoryLayout(category, docs);
+  }
   enhanceMarkdownHost(host);
 }
 
@@ -457,6 +491,51 @@ async function loadCategoryDocs(category) {
   return docs;
 }
 
+async function loadCategoryDocEntries(entries, categoryId) {
+  const docs = await Promise.all(
+    entries.map(async (entry) => {
+      if (typeof entry === 'object' && entry?.type === 'category') {
+        return loadCategoryPreview(entry.id);
+      }
+
+      const path = entry;
+      const doc = resolveDoc(path) || {
+        path,
+        title: displayNameFromPath(path),
+        category: categoryId,
+        aliases: [],
+      };
+      try {
+        const response = await fetch(rootAssetPath(doc.path), { cache: 'no-cache' });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch ${doc.path} (${response.status})`);
+        }
+        const text = await response.text();
+        const preview = renderMarkdown(text, {
+          maxBlocks: 4,
+          linkScope: 'doc',
+          basePath: rootAssetPath(doc.path),
+        });
+        return {
+          ...doc,
+          type: 'doc',
+          preview,
+          missing: false,
+        };
+      } catch (_error) {
+        return {
+          ...doc,
+          type: 'doc',
+          preview: '<div class="loading-state">Preview unavailable.</div>',
+          missing: true,
+        };
+      }
+    }),
+  );
+
+  return docs;
+}
+
 async function loadCategoryPreview(categoryId) {
   const category = CATEGORY_DEFINITIONS[categoryId];
   if (!category) {
@@ -518,7 +597,40 @@ async function loadCategoryPreview(categoryId) {
 }
 
 function renderCategoryLayout(category, docs) {
-  const cards = docs.map((doc) => {
+  return `
+    <section class="category-intro">
+      <div class="category-intro-title">${escapeHtml(category.title)}</div>
+      <div class="category-intro-copy">${escapeHtml(category.description)}</div>
+    </section>
+    <section class="doc-card-list">${renderDocCards(docs, category)}</section>
+  `;
+}
+
+function renderTechCategoryLayout(category, groups) {
+  const [primaryGroup, ...secondaryGroups] = groups;
+  const primaryCards = primaryGroup ? renderDocCards(primaryGroup.docs, category) : '';
+  const secondarySections = secondaryGroups.map((group) => `
+    <section class="category-subsection">
+      <div class="category-subsection-head">
+        <div class="category-subsection-title">${escapeHtml(group.title)}</div>
+        <div class="category-subsection-copy">${escapeHtml(group.description)}</div>
+      </div>
+      <div class="doc-card-list">${renderDocCards(group.docs, category)}</div>
+    </section>
+  `).join('');
+
+  return `
+    <section class="category-intro">
+      <div class="category-intro-title">${escapeHtml(category.title)}</div>
+      <div class="category-intro-copy">${escapeHtml(category.description)}</div>
+    </section>
+    <section class="doc-card-list">${primaryCards}</section>
+    ${secondarySections}
+  `;
+}
+
+function renderDocCards(docs, category) {
+  return docs.map((doc) => {
     const missingClass = doc.missing ? ' is-missing' : '';
     const isCategory = doc.type === 'category';
     const href = isCategory ? categoryHref(doc.categoryId) : viewerHref(doc.path);
@@ -540,15 +652,8 @@ function renderCategoryLayout(category, docs) {
       </article>
     `;
   }).join('');
-
-  return `
-    <section class="category-intro">
-      <div class="category-intro-title">${escapeHtml(category.title)}</div>
-      <div class="category-intro-copy">${escapeHtml(category.description)}</div>
-    </section>
-    <section class="doc-card-list">${cards}</section>
-  `;
 }
+
 function renderMarkdown(source, options = {}) {
   const lines = normalizeLineBreaks(source).split('\n');
   const blocks = [];
