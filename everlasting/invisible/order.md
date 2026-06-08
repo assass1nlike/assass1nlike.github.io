@@ -1,5 +1,58 @@
 [TOC]
 
+# Structures
+
+https://arxiv.org/pdf/2605.12357
+$\delta$-mem
+
+总体流程：
+
+先把隐状态 $x_t \in \mathbb{R}^d$ 投影到低维联想记忆空间:
+$$
+q_t^m = \mathrm{L2norm}\,\tanh(W_q^m x_t),\quad k_t^m = \mathrm{L2norm}(\tanh(W_k^m x_t)),\quad v_t^m = W_v^m x_t
+$$
+其中 $q_t^m, k_t^m, v_t^m \in \mathbb{R}^r$。然后计算$r_t = S_{t-1} q_t^m$，由于 $S_{t-1}$ 大小固定,这一步的代价与历史长度无关，在注意力计算之前提供历史相关的引导信号。这个结果会用于q和o的修正：
+$$
+\Delta q_t = W_q^\Delta r_t,\quad \Delta o_t = W_o^\Delta r_t,\quad
+q_t^0 = W_Q x_t,\quad \tilde{q}_t = q_t^0 + \tfrac{\alpha}{r}\Delta q_t,\quad
+
+a_t=Attn(\tilde{q}_t,K_{≤t},V_{≤t}),\quad \tilde{y}_t = a_t + \tfrac{\alpha}{r}\Delta o_t \quad 
+$$
+除了修正之外，当前的kv对还会用于指导$S_{t}$：
+$$
+S_t = \mathrm{Diag}(\lambda_t) S_{t-1} + \mathrm{Diag}(\beta_t)(v_t^m - S_{t-1}k_t^m)(k_t^m)^\top
+$$
+这种更新方式是因为，认为 $S$ 编码历史上下文中的 键–值 关联，所以给定位置 $t$ 处的记忆键 $k_t \in \mathbb{R}^r$ 与值 $v_t \in \mathbb{R}^r$,状态被期望存储关联 $k_t \mapsto v_t$。由前一状态做出的预测为:
+$$
+\hat{v}_t = S_{t-1} k_t
+$$
+作为在线回归的 SGD 更新:
+$$
+L_t(S) = \tfrac{1}{2}\|S k_t - v_t\|^2, \quad S_t = S_{t-1} - \beta_t \nabla_{S_{t-1}} L_t(S_{t-1}) = S_{t-1} + \beta_t(v_t - S_{t-1} k_t) k_t^\top
+$$
+这个更新的是残差信息 $v_t - S_{t-1} k_t$，所以已经学好的关联仅产生可忽略的更新,而预测偏差则会动态地校正记忆状态。
+
+实际流程中，比这个多乘的更新系数也是由隐状态决定的：
+$$
+\beta_t = \sigma(W_\beta x_t + b),\quad \lambda_t = 1 - \beta_t
+$$
+这种逐维的门允许状态更新按维度调整，某些维度保留旧记忆,另一些则更积极地写入当前信息。
+
+在实现时，每个token的生成都会受到低秩修正，但是$S_t$并不是每个token都更新。更新粒度有三种：
+每个token都更新一次；每条消息更新一次，隐状态使用$$\bar{x}^{(j)} = \frac{1}{|M^{(j)}|} \sum_{t \in M^{(j)}} x_t$$
+
+**直觉**
+
+对$S_t$的维护是希望${v}_t = S_{t-1} k_t$，但是我们却用q去乘S得到r，再去修正query和output，看起来QKVO都混乱，完全不匹配。
+
+对此的解释是，
+$$
+S_t = \mathrm{Diag}(\lambda_t) S_{t-1} - \mathrm{Diag}(\beta_t) S_{t-1} k_t^m (k_t^m)^\top + \mathrm{Diag}(\beta_t) v_t^m (k_t^m)^\top
+$$
+在不考虑第1,2项动态添加的情况下，其实是一些v*k的加权和。用q再去乘，就得到了一些v的加权和。进而，S_t就充当了“历史value信息”的存储者，再用训练的projection就能合理地用于修正q和o。
+
+
+
 # Spec
 
 2506.12379
@@ -17,7 +70,7 @@ SAE
 
 为了研究可解释性，需要对神经网络reverse engineering. 为了这样，研究individual neurons，但一个问题是polysemantic，多个不关联的特征都能激活它。这可能是模型学到了比其维度更多的特征，superposition，学到一个non-orthogonal overcomplete feature basis. 对此非正交情况，激活必须稀疏，否则将不会获得性能收益。
 
-给定一些向量$\{\bold{x_i}\}$，它们可以变作一些未知向量$\{\bold{g_j}\}$的稀疏线性组合，后者是ground truth network features. 求一些dictionary feature，对每个g，都有$f\approx g$.
+给定一些向量$\{\mathbf{x_i}\}$，它们可以变作一些未知向量$\{\mathbf{g_j}\}$的稀疏线性组合，后者是ground truth network features. 求一些dictionary feature，对每个g，都有$f\approx g$.
 
 为了学习这一dictionary，训练autoencoder，只有一个隐藏层的神经网络，使用ReLU和tied weight，隐藏层大小$Rd_{in}$，$d_{in}$是LM内部激活向量的维度。![image-20260303102904185](../assets/typora/image-20260303102904185.png)![image-20260303102914877](../assets/typora/image-20260303102914877.png)
 
@@ -77,7 +130,31 @@ I retrieval stage，选取$R_{rep}$和$R_{cov}$都大于threshold的数据；II 
 
 在condensation stage中，
 
-# Optims
+## Exps
+
+https://arxiv.org/pdf/1811.03600
+
+想研究batch_size对训练的影响。以达到目标泛化误差所需的训练步数作为主要成本度量，进行6\*3\*7个实验测试。
+
+1. batch size 与所需步数之间存在普适的三段式曲线
+
+   线性区：batch 翻倍 → 所需步数减半（完美数据并行）
+
+   收益递减区：步数还在减，但不再成比例
+
+   饱和区：再增大 batch，步数不再下降
+
+2. 最大有用 batch size在不同 setting 间差异很大
+
+   训练算法层面：SGD with momentum / Nesterov momentum 能用比 plain SGD 大得多的 batch
+
+   模型层面：不同模型差异显著，且关系并不简单，比如"更宽的模型就更适合大 batch"这种直觉并不总成立
+
+   数据集层面：数据集的影响相对最小，而且和数据集大小没有一致的关系
+
+3. 超参数与 batch size 的关系并不遵循简单规律，诸如"learning rate 随 batch size 线性缩放"这类被广泛使用的启发式，并不在所有问题/所有 batch size 区间都成立。
+
+# Optimizations
 
 2604.09258
 Nexus
@@ -108,9 +185,49 @@ Nexus
 
 
 2410.14802
-SAM
+Implicit Regularization of SAM
 
+**平衡性概念**
 
+Sharpness 视角只能在临界点附近、尺度变问题上分析 SAM。对此，论文提出用balanceness作为研究的新指标：
+
+![image-20260530020010649](C:\Users\15951\AppData\Roaming\Typora\typora-user-images\image-20260530020010649.png)
+
+首先，在NOP/OP上，这个值是守恒量。
+其次，在平衡性最小的时候梯度方差最小；大balanceness意味着一个变量比另一个更难优化。
+这两点说明了平衡性的重要。
+
+**SAM如何促进平衡**
+
+然后考虑 SAM dynamic。（NOP）平衡性的变化为![image-20260530135229308](C:\Users\15951\AppData\Roaming\Typora\typora-user-images\image-20260530135229308.png)
+
+它梯度的差异驱动![image-20260530135302348](C:\Users\15951\AppData\Roaming\Typora\typora-user-images\image-20260530135302348.png)，
+
+而且，忽略A_t项时，倒数正比于负的自己，它对本身有收缩作用。事实上有定理，在一定条件下，存在 $\bar{B}_t^ρ ≥ 0$，使得当 $|B_t| > \bar{B}_t^ρ$ 时，$B_t$ 的大小会收缩。
+
+对噪声数据，SAM 会让平衡性绝对值更快减小，低信噪比会带来对平衡性的强正则化。
+
+（OP）SAM对平衡性的正则化：只要梯度范数大，$|B_t|$就会减小
+
+![image-20260603225712850](C:\Users\15951\AppData\Roaming\Typora\typora-user-images\image-20260603225712850.png)
+
+与NOP同样，噪声会带来对平衡性的更强正则化。
+
+**免费得到sharpness的结论**
+
+设 $W^* = {(x,y) | x^⊤y = w, f'(w) = 0, f''(w) > 0}$ 非空。对于 OP 问题，在 W* 内最小化 sharpness 等价于在 W* 内寻找 B = 0 的点。
+
+**将隐式正则化显式化**
+
+考虑lora。
+
+- 尺度不变性：X_l 和 Y_l 的外积自然诱导出尺度不变性
+
+- NOP 问题：变量数量使其属于非过参数化问题（NOP）
+
+- 不平衡性不可避免：LoRA 通常初始化为 $X_l\sim N(0, σ²)，Y_l = 0$，这导致严重的不平衡性
+
+所以，考虑将SAM应用在lora上。但是，相比于直接应用，可以把正则化显式，更方便地获得同样效果，这就是BAR算法。
 
 # SFT/RL
 
@@ -256,6 +373,8 @@ reasoning
 
 # Prins
 
+## interpretability
+
 2404.07965
 RHO-1
 
@@ -328,7 +447,94 @@ mask掉retrieval head以后在needle in a haystack/extractive QA/CoT的能力迅
 
 在local/linear attention和SSM中发现的，必须使用全注意力才能pass needle in a hay-stack，这里的结果解释了它——因为要让retrieval head工作。有关KV缓存，这个研究表明只存关键的retrieval head（~5%）可以极大缓解这个问题。
 
+## agent
 
+https://openreview.net/pdf?id=y2lpncShTf
+GLEAN
+
+在高风险场景下对模型动作的校准信号十分重要。对此，想要知道一个是否正确的概率$$p_t := P(Z = 1 | \tau_{1:t}, y)$$，其中Z是正确性，$\tau_{1:T} = \{o_t, a_t\}_{t=1}^T$是观察与动作的轨迹。它的计算可以使用贝叶斯分解
+
+$$\underbrace{\log \frac{p_t}{1-p_t}}_{\ell_t} = \underbrace{\log \frac{p_{t-1}}{1-p_{t-1}}}_{\ell_{t-1}} + \underbrace{\log \frac{P(o_t, a_t | Z=1, \tau_{1:t-1})}{P(o_t, a_t | Z=0, \tau_{1:t-1})}}_{e_t}$$，注意这里相除是为了避免处理难以计算的 $P(o_t, a_t \mid \tau_{1:t-1})$
+
+不过，此时的$e_t$仍然是难以计算的，所以考虑从外部指南集合 $G$ 中检索与上下文及最终答案相关的指南 $g$。（领域知识如临床指南、检查清单、操作规程等，适合沿着执行轨迹一步步验证智能体的决策）做法是，在每一步 $t$,提示 LLM 判官 $J$ 根据指南给当前步骤打分，提取在离散标签集 {YES, NO} 上的 token 概率,得到标量评分$$s_{t,g} = \frac{J(\text{YES}|\tau_{1:t-1}, o_t, a_t, g)}{J(\text{YES}|\tau_{1:t-1}, o_t, a_t, g) + J(\text{NO}|\tau_{1:t-1}, o_t, a_t, g)}$$
+
+但是模型的 token 概率并不一定是实际上是否准确的概率，所以需要校准。
+
+为了使用，还有一些具体trick：
+
+1. Multi-Guideline Aggregation
+
+   不止使用单一指南,而是为每条轨迹检索一组相关指南 $\hat{G} \in G$,并为每一步获取多个评分 $\{s_{t,g}\}_{g \in \hat{G}}$。为消除指南数量变动的影响,将指南评分聚合为单步特征:
+   $$
+   s_t = \Phi(\{s_{t,g}\}_{g \in \hat{G}}) \in [0, 1]^d
+   $$
+   即从评分中提取 $d$ 个统计量(如平均值、最小值)。
+
+2. 折扣求和
+
+   为缓解早期步骤因信息不足导致的偏差，折扣求和地累计$S_t = \sum_{i=1}^t \beta^{t-i} \log \frac{s_i}{1-s_i}$
+
+3. 贝叶斯逻辑回归
+
+   用已经标注好的样本$D = \{(S_T^{(n)}, Z^{(n)})\}_{n=1}^N$来获得线性分类器$p = \sigma\left(w^\top S_T + b\right)$的两个权重，后续再用这个分类器处理新样本。具体用到了MCMC技术。
+
+4. 触发主动验证
+
+   上述计算方法也能计算不确定性，在不确定时引入主动验证。
+
+
+
+https://arxiv.org/pdf/2605.26177
+RepoMirage
+
+把 code agent 处理任务时的“epository context reasoning”，如多文件理解(multi-file understanding)和跨文件推理(cross-file reasoning)能力单独研究。这是端到端的方式无法单独分离的能力。
+
+stage1：REPOMIRAGE-Perturb。对每个基准实例中任务相关的上下文施加语义保持(semantics-preserving)的扰动,同时保持原任务和评估协议不变。目的是揭示，当成功解决问题需要更多上下文推理时,强基准表现是否仍能保持稳定。这里的扰动策略有：
+
+1. Dependency-Path Indirection(依赖路径间接化)
+    将原本显式的依赖路径加以掩盖。例如把直接的 `import json`、`import re` 改造为先 `from p1 import lib1`、`from p2 import lib2`,然后再有 `import json as lib1`、`import re as lib2`,这样原本一目了然的依赖关系被中转化了。
+2. Runtime-Target Masking(运行时目标掩盖)
+    将真实的运行时目标隐藏在结构性间接性背后。例如把 `cache.py` 一个文件变成 `cache/` 目录下的 `cache_v1.py`、`cache_v2.py`、`cache_v3.py`、`normal.py` 以及 `__init__.py`,迫使智能体必须找出真正在运行时被使用的那个版本。
+3. Local-Value Externalization(局部值外部化)
+    将原本在本地可用的定义(例如直接写 `index = 0`、`range(0, ...)`)外部化为跨文件引用——这些值被搬到外部的 JSON 字典(dep json 1/2/3)中,智能体必须从分散的文件中收集这些定义才能完成任务。
+
+结果发现，八个领先模型在该阶段的 resolved rate 平均相对下降 27.0%,同时它们读取的文件数量明显增加。这说明**在 issue-solving 基准上的强表现并不直接等同于上下文推理能力**。
+
+stage2：REPOMIRAGE-Extend。每种扰动策略转化为对应的任务目标,与原始的多文件修复任务一起,组成四类任务:
+
+1. Task 1: Multi-File(多文件修复)：源自原始 SWE,要求在多个文件间协调编辑,使用原有的 FAIL_TO_PASS 测试脚本作为评判规则。考查"跨多文件协调编辑"的能力。
+2. Task 2: Proxy Chain(代理链补全)：给定目标文件,中间的若干代理(Proxy 1 被擦除,Proxy 2、Proxy 3 仍存在)需要被恢复。例如要求 `lib1.__name__ == "json"`、`lib2.__name__ == "re"`。考查"追踪依赖链"的能力。
+3. Task 3: Runtime Target(运行时目标识别) ：给定一组候选(`cache_v1.py`、`cache_v2.py`、`cache_v3.py`、`normal.py` 等),智能体必须修复真实文件并区分出假文件,使包装器(Wrapper)正确运行。考查"识别运行时相关文件"的能力。
+4. Task 4: Missing Constant(缺失常量恢复) ：目标文件中若干键值(如 `"Erased": 0`)被擦除,需要从分散的 dep json 中重新收集补齐,使得 `dep["key1"] == 0`、`dep["key2"] == 0`、`dep["key3"] == 1` 等检查通过。考查"收集分布式定义"的能力。
+
+八个前沿模型的平均表现大幅下降，进说明在原始基准上成功解决一个实例,并不意味着具备跨代码库上下文进行理解和推理的能力。
+
+对此，分析发现：智能体在扰动后确实把更多比例的动作用于搜索和读取文件，但这并没有带来有效的问题解决，相反，智能体越来越倾向于持续探索,而不去做编辑决策(称为 "exploration drift")。这说明，当前智能体虽然可以接触到更广泛的仓库上下文,但经常无法把多文件信息组织成一个连贯的结构性框架来完成任务。
+
+对此，论文先构造与任务相关的仓库上下文摘要，然后用这个摘要引导后续动作。性能大幅提升。
+
+
+
+https://arxiv.org/pdf/2604.17609
+LLM lack environment curiosity
+
+在agent任务中，智能体可能会遇到出乎意料但高度相关的信息，对此本应表现出环境好奇心。但是发现，当前的智能体缺乏这种有用的探索行为，它们经常发现相关但意外的信息,却不去调查或应用这些信息来解决眼前的问题。
+
+为了评估环境好奇心，提出了solution injection方法：将任务的解决方案直接放置在环境中(例如以脚本形式)，测量智能体是否发现了该解决方案、是否与之交互(例如读取注入的解决方案文件)。这样可以区分 根据观察调整行为的智能体 和 执行训练中习得的固定模式的智能体。
+
+前沿模型普遍缺乏环境好奇心，例如在 cli --help 里给出一个solution命令，97.54% 的尝试中,智能体发现了solution API的文档，但仅0.53% 的尝试中,智能体真正调用了该API。在多个基准，LLM上都有这种现象。
+对此给出三个影响因素：
+
+- 工具可用性(Tool Availability)
+  在基础bash shell之外添加工具会强烈降低交互率、智能体倾向于默认使用学到的工具特定模式,而非检查环境。将智能体框架限制为仅使用bash,大约可以使交互率翻倍
+
+- 推理预算(Reasoning Budget)，增加推理预算可以提升环境好奇心
+
+- 探索导向的提示(Exploration-Oriented Prompting)，指示智能体进行探索的提示也能改善环境好奇心
+
+但是这些推理时的因素都被优化到最佳时，agent在多数实验中仍然忽略已有的solution。训练分布的影响很大，在狭窄的、与基准同分布的数据上进行监督微调,会降低环境好奇心。
+
+还有一项重要发现是，优化环境好奇心与提升基准性能是一致的。最能提升交互率的提示,也在未经修改的原始基准上取得了最佳性能；狭窄的同分布微调,在原始基准上同样会降低pass@k的扩展性
 
 
 
