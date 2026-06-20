@@ -2,6 +2,8 @@ const SITE_TIME_ZONE = 'Asia/Shanghai';
 const QUOTE_START_DATE_KEY = '2026-05-11';
 const EVERLASTING_OVERVIEW_PATH = 'everlasting.md';
 const QUOTE_CSV_PATH = '/everlasting/tech/na/osu-get-poetry-difficulties/poetic_diffs.csv';
+const GUESTBOOK_CACHE_KEY = 'assassinlike.guestbook.profile.v1';
+const GUESTBOOK_REMOTE_POLL_MS = 15000;
 
 const FRIEND_SITES = [
   {
@@ -220,6 +222,11 @@ const CATEGORY_ORDER = ['research', 'permanence', 'invisible', 'tech'];
 let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
 const pendingMathHosts = new Set();
+const guestbookState = {
+  config: normalizeGuestbookConfig(window.SECRET_SPACE_CONFIG),
+  profile: readGuestbookProfile(),
+  pollTimer: null,
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   const page = document.documentElement.dataset.page || 'home';
@@ -249,6 +256,7 @@ async function initHomePage() {
   const articleHost = document.getElementById('main-article');
   const categoryNav = document.getElementById('category-nav');
   const friendSitesHost = document.getElementById('friend-sites');
+  const guestbookHost = document.getElementById('guestbook');
 
   if (categoryNav) {
     categoryNav.innerHTML = CATEGORY_ORDER.map((id) => {
@@ -288,6 +296,10 @@ async function initHomePage() {
   if (friendSitesHost) {
     friendSitesHost.innerHTML = renderFriendSites(FRIEND_SITES);
   }
+
+  if (guestbookHost) {
+    initGuestbook(guestbookHost);
+  }
 }
 
 function renderFriendSites(sites) {
@@ -310,6 +322,335 @@ function renderFriendSites(sites) {
       <div class="friend-sites-list">${cards}</div>
     </section>
   `;
+}
+
+function initGuestbook(host) {
+  renderGuestbookShell(host);
+  bindGuestbookForm(host);
+  loadGuestbookMessages(host, { announce: true });
+  stopGuestbookPolling();
+  if (guestbookState.config.enabled) {
+    guestbookState.pollTimer = window.setInterval(() => {
+      loadGuestbookMessages(host);
+    }, GUESTBOOK_REMOTE_POLL_MS);
+  }
+}
+
+function renderGuestbookShell(host) {
+  const profile = guestbookState.profile;
+  host.innerHTML = `
+    <section class="guestbook-panel" aria-labelledby="guestbook-title">
+      <div class="guestbook-head">
+        <div>
+          <h2 id="guestbook-title" class="guestbook-title">匿名留言</h2>
+          <p class="guestbook-subtitle">可以匿名，也可以留下昵称；可以公开，也可以只发给我看。</p>
+        </div>
+        <button id="guestbook-refresh" class="icon-link guestbook-refresh" type="button">刷新</button>
+      </div>
+
+      <form id="guestbook-form" class="guestbook-form">
+        <div class="guestbook-form-grid">
+          <label class="guestbook-field">
+            <span class="guestbook-label">昵称 / 登录名</span>
+            <input
+              id="guestbook-name"
+              class="guestbook-input"
+              type="text"
+              maxlength="40"
+              autocomplete="nickname"
+              placeholder="非匿名时显示这个名字"
+              value="${escapeAttr(profile.name)}"
+            >
+          </label>
+        </div>
+
+        <label class="guestbook-field">
+          <span class="guestbook-label">留言</span>
+          <textarea
+            id="guestbook-body"
+            class="guestbook-textarea"
+            rows="4"
+            maxlength="1200"
+            placeholder="写点什么。Ctrl + Enter 发送。"
+            required
+          ></textarea>
+        </label>
+
+        <div class="guestbook-options">
+          <label class="guestbook-check">
+            <input id="guestbook-anonymous" type="checkbox" ${profile.anonymous ? 'checked' : ''}>
+            <span>匿名显示</span>
+          </label>
+          <label class="guestbook-check">
+            <input id="guestbook-public" type="checkbox" ${profile.public ? 'checked' : ''}>
+            <span>公开展示</span>
+          </label>
+        </div>
+
+        <div class="guestbook-actions">
+          <div id="guestbook-status" class="guestbook-status" role="status"></div>
+          <button class="secret-submit guestbook-submit" type="submit">发送</button>
+        </div>
+      </form>
+
+      <div class="guestbook-list-head">
+        <div class="guestbook-list-title">公开留言</div>
+        <div class="guestbook-list-note">非公开留言不会显示在这里。</div>
+      </div>
+      <div id="guestbook-list" class="guestbook-list" aria-live="polite"></div>
+    </section>
+  `;
+}
+
+function bindGuestbookForm(host) {
+  const form = host.querySelector('#guestbook-form');
+  const refreshButton = host.querySelector('#guestbook-refresh');
+  const textarea = host.querySelector('#guestbook-body');
+
+  textarea?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      form?.requestSubmit();
+    }
+  });
+
+  refreshButton?.addEventListener('click', () => {
+    loadGuestbookMessages(host, { announce: true });
+  });
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    await submitGuestbookMessage(host);
+  });
+}
+
+async function submitGuestbookMessage(host) {
+  const status = host.querySelector('#guestbook-status');
+  const bodyInput = host.querySelector('#guestbook-body');
+  const nameInput = host.querySelector('#guestbook-name');
+  const anonymousInput = host.querySelector('#guestbook-anonymous');
+  const publicInput = host.querySelector('#guestbook-public');
+  const submitButton = host.querySelector('.guestbook-submit');
+
+  const body = String(bodyInput?.value || '').trim();
+  const name = String(nameInput?.value || '').trim();
+  const isAnonymous = Boolean(anonymousInput?.checked);
+  const isPublic = Boolean(publicInput?.checked);
+
+  if (!body) {
+    setGuestbookStatus(status, '留言不能为空。', true);
+    return;
+  }
+
+  guestbookState.profile = { name, anonymous: isAnonymous, public: isPublic };
+  writeGuestbookProfile(guestbookState.profile);
+
+  const payload = {
+    id: generateGuestbookId(),
+    author_name: isAnonymous ? '' : name.slice(0, 40),
+    body: body.slice(0, 1200),
+    is_public: isPublic,
+    created_at: new Date().toISOString(),
+  };
+
+  submitButton.disabled = true;
+  setGuestbookStatus(status, '正在发送…');
+
+  try {
+    await insertGuestbookMessage(payload);
+    if (bodyInput) {
+      bodyInput.value = '';
+    }
+    setGuestbookStatus(status, isPublic ? '已发送并公开显示。' : '已发送，只会由站点主人查看。');
+    await loadGuestbookMessages(host);
+  } catch (error) {
+    setGuestbookStatus(status, `发送失败：${formatGuestbookError(error)}`, true);
+  } finally {
+    submitButton.disabled = false;
+  }
+}
+
+async function loadGuestbookMessages(host, options = {}) {
+  const list = host.querySelector('#guestbook-list');
+  const status = host.querySelector('#guestbook-status');
+  if (!list) {
+    return;
+  }
+
+  if (!guestbookState.config.enabled) {
+    list.innerHTML = '<div class="guestbook-empty">留言远程表尚未配置。请先执行 guestbook-supabase-schema.sql。</div>';
+    setGuestbookStatus(status, '远程留言表未配置。', true);
+    return;
+  }
+
+  if (options.announce) {
+    list.innerHTML = '<div class="guestbook-empty">正在加载公开留言…</div>';
+  }
+
+  try {
+    const messages = await fetchGuestbookMessages();
+    renderGuestbookMessages(list, messages);
+    if (options.announce) {
+      setGuestbookStatus(status, messages.length ? `已加载 ${messages.length} 条公开留言。` : '还没有公开留言。');
+    }
+  } catch (error) {
+    const message = formatGuestbookError(error);
+    list.innerHTML = `<div class="guestbook-empty is-error">无法加载公开留言：${escapeHtml(message)}</div>`;
+    setGuestbookStatus(status, `加载失败：${message}`, true);
+  }
+}
+
+function renderGuestbookMessages(list, messages) {
+  if (!messages.length) {
+    list.innerHTML = '<div class="guestbook-empty">还没有公开留言。</div>';
+    return;
+  }
+
+  list.innerHTML = messages.map((message) => {
+    const author = message.author_name ? message.author_name : '匿名访客';
+    return `
+      <article class="guestbook-item">
+        <div class="guestbook-item-head">
+          <span class="guestbook-author">${escapeHtml(author)}</span>
+          <time class="guestbook-time" datetime="${escapeAttr(message.created_at)}">${escapeHtml(formatShanghaiTimestamp(message.created_at))}</time>
+        </div>
+        <div class="guestbook-body">${escapeHtml(message.body)}</div>
+      </article>
+    `;
+  }).join('');
+}
+
+async function fetchGuestbookMessages() {
+  const response = await fetch(buildGuestbookSelectEndpoint(), {
+    method: 'GET',
+    headers: buildGuestbookHeaders(),
+    cache: 'no-store',
+  });
+  if (!response.ok) {
+    throw new Error(`Supabase read failed (${response.status})`);
+  }
+  const rows = await response.json();
+  return Array.isArray(rows) ? rows.map(normalizeGuestbookMessage).filter(Boolean) : [];
+}
+
+async function insertGuestbookMessage(payload) {
+  if (!guestbookState.config.enabled) {
+    throw new Error('Supabase is not configured.');
+  }
+
+  const response = await fetch(buildGuestbookTableEndpoint(), {
+    method: 'POST',
+    headers: {
+      ...buildGuestbookHeaders(),
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '');
+    throw new Error(`Supabase write failed (${response.status})${detail ? ` ${detail.slice(0, 120)}` : ''}`);
+  }
+}
+
+function normalizeGuestbookMessage(row) {
+  if (!row || typeof row !== 'object') {
+    return null;
+  }
+  const id = String(row.id || '');
+  const body = String(row.body || '').trim();
+  if (!id || !body) {
+    return null;
+  }
+  return {
+    id,
+    author_name: String(row.author_name || '').trim(),
+    body,
+    created_at: String(row.created_at || ''),
+  };
+}
+
+function buildGuestbookTableEndpoint() {
+  return `${guestbookState.config.supabaseUrl}/rest/v1/guestbook_messages`;
+}
+
+function buildGuestbookSelectEndpoint() {
+  const columns = 'id,author_name,body,created_at';
+  return `${buildGuestbookTableEndpoint()}?select=${columns}&is_public=eq.true&order=created_at.desc&limit=30`;
+}
+
+function buildGuestbookHeaders() {
+  return {
+    apikey: guestbookState.config.supabaseAnonKey,
+    Authorization: `Bearer ${guestbookState.config.supabaseAnonKey}`,
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'Cache-Control': 'no-cache',
+  };
+}
+
+function normalizeGuestbookConfig(config) {
+  const raw = config && typeof config === 'object' ? config : {};
+  const supabaseUrl = String(raw.supabaseUrl || '').trim().replace(/\/+$/, '');
+  const supabaseAnonKey = String(raw.supabaseAnonKey || '').trim();
+  return {
+    supabaseUrl,
+    supabaseAnonKey,
+    enabled: Boolean(supabaseUrl && supabaseAnonKey),
+  };
+}
+
+function readGuestbookProfile() {
+  try {
+    const raw = localStorage.getItem(GUESTBOOK_CACHE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+    return {
+      name: String(parsed.name || ''),
+      anonymous: Boolean(parsed.anonymous),
+      public: parsed.public !== false,
+    };
+    }
+  } catch (_error) {
+    // Ignore invalid profile cache.
+  }
+  return { name: '', anonymous: true, public: true };
+}
+
+function writeGuestbookProfile(profile) {
+  try {
+    localStorage.setItem(GUESTBOOK_CACHE_KEY, JSON.stringify(profile));
+  } catch (_error) {
+    // Ignore persistence failures.
+  }
+}
+
+function setGuestbookStatus(host, text, isError = false) {
+  if (!host) {
+    return;
+  }
+  host.textContent = text || '';
+  host.classList.toggle('is-error', Boolean(isError));
+}
+
+function formatGuestbookError(error) {
+  const message = String(error?.message || error || '').trim();
+  if (!message || /Failed to fetch/i.test(message)) {
+    return '远程留言服务暂时不可用，可能还没有执行 guestbook-supabase-schema.sql。';
+  }
+  return message;
+}
+
+function stopGuestbookPolling() {
+  if (guestbookState.pollTimer) {
+    window.clearInterval(guestbookState.pollTimer);
+    guestbookState.pollTimer = null;
+  }
+}
+
+function generateGuestbookId() {
+  const random = new Uint8Array(8);
+  crypto.getRandomValues(random);
+  return `guest-${Date.now()}-${Array.from(random, (byte) => byte.toString(16).padStart(2, '0')).join('')}`;
 }
 
 async function initViewerPage() {
@@ -1363,6 +1704,19 @@ function addDaysToKey(key, offset) {
 function dateKeyToUtcMs(key) {
   const [year, month, day] = String(key).split('-').map((value) => Number(value));
   return Date.UTC(year, month - 1, day);
+}
+
+function formatShanghaiTimestamp(value) {
+  const date = value ? new Date(value) : new Date();
+  return new Intl.DateTimeFormat('zh-CN', {
+    timeZone: SITE_TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date).replace(/\//g, '-');
 }
 
 function mod(value, divisor) {
