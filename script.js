@@ -478,8 +478,8 @@ async function loadGuestbookMessages(host, options = {}) {
   }
 
   if (!guestbookState.config.enabled) {
-    list.innerHTML = '<div class="guestbook-empty">留言远程表尚未配置。请先执行 guestbook-supabase-schema.sql。</div>';
-    setGuestbookStatus(status, '远程留言表未配置。', true);
+    list.innerHTML = '<div class="guestbook-empty">留言服务暂时不可用。</div>';
+    setGuestbookStatus(status, '留言服务暂时不可用。', true);
     return;
   }
 
@@ -635,7 +635,7 @@ function setGuestbookStatus(host, text, isError = false) {
 function formatGuestbookError(error) {
   const message = String(error?.message || error || '').trim();
   if (!message || /Failed to fetch/i.test(message)) {
-    return '远程留言服务暂时不可用，可能还没有执行 guestbook-supabase-schema.sql。';
+    return '留言服务暂时不可用。';
   }
   return message;
 }
