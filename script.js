@@ -225,6 +225,12 @@ const pendingMathHosts = new Set();
 const guestbookState = {
   config: normalizeGuestbookConfig(window.SECRET_SPACE_CONFIG),
   profile: readGuestbookProfile(),
+  host: null,
+  authClient: null,
+  session: null,
+  user: null,
+  authReady: false,
+  authError: '',
   pollTimer: null,
 };
 
@@ -324,7 +330,9 @@ function renderFriendSites(sites) {
   `;
 }
 
-function initGuestbook(host) {
+async function initGuestbook(host) {
+  guestbookState.host = host;
+  await initGuestbookAuth();
   renderGuestbookShell(host);
   bindGuestbookForm(host);
   loadGuestbookMessages(host, { announce: true });
@@ -343,27 +351,16 @@ function renderGuestbookShell(host) {
       <div class="guestbook-head">
         <div>
           <h2 id="guestbook-title" class="guestbook-title">匿名留言</h2>
-          <p class="guestbook-subtitle">可以匿名，也可以留下昵称；可以公开，也可以只发给我看。</p>
+          <p class="guestbook-subtitle">可以匿名留言；登录后会使用第三方账号身份，也可以选择匿名显示。</p>
         </div>
         <button id="guestbook-refresh" class="icon-link guestbook-refresh" type="button">刷新</button>
       </div>
 
-      <form id="guestbook-form" class="guestbook-form">
-        <div class="guestbook-form-grid">
-          <label class="guestbook-field">
-            <span class="guestbook-label">昵称 / 登录名</span>
-            <input
-              id="guestbook-name"
-              class="guestbook-input"
-              type="text"
-              maxlength="40"
-              autocomplete="nickname"
-              placeholder="非匿名时显示这个名字"
-              value="${escapeAttr(profile.name)}"
-            >
-          </label>
-        </div>
+      <div id="guestbook-auth" class="guestbook-auth">
+        ${renderGuestbookAuth()}
+      </div>
 
+      <form id="guestbook-form" class="guestbook-form">
         <label class="guestbook-field">
           <span class="guestbook-label">留言</span>
           <textarea
@@ -402,6 +399,58 @@ function renderGuestbookShell(host) {
   `;
 }
 
+function renderGuestbookAuth() {
+  if (!guestbookState.config.enabled) {
+    return `
+      <div class="guestbook-auth-copy">
+        <div class="guestbook-auth-title">匿名模式</div>
+        <div class="guestbook-auth-note">远程留言服务未配置，登录暂不可用。</div>
+      </div>
+    `;
+  }
+
+  if (!guestbookState.authReady) {
+    return `
+      <div class="guestbook-auth-copy">
+        <div class="guestbook-auth-title">正在读取登录状态</div>
+        <div class="guestbook-auth-note">匿名留言不受影响。</div>
+      </div>
+    `;
+  }
+
+  if (guestbookState.user) {
+    const identity = getGuestbookIdentity(false);
+    const avatar = identity.avatarUrl
+      ? `<img class="guestbook-avatar" src="${escapeAttr(identity.avatarUrl)}" alt="">`
+      : '<span class="guestbook-avatar is-placeholder"></span>';
+    return `
+      <div class="guestbook-auth-user">
+        ${avatar}
+        <div class="guestbook-auth-copy">
+          <div class="guestbook-auth-title">${escapeHtml(identity.displayName)}</div>
+          <div class="guestbook-auth-note">${escapeHtml(identity.providerLabel)} 已登录</div>
+        </div>
+      </div>
+      <button id="guestbook-logout" class="icon-link" type="button">退出登录</button>
+    `;
+  }
+
+  const error = guestbookState.authError
+    ? `<div class="guestbook-auth-error">${escapeHtml(guestbookState.authError)}</div>`
+    : '';
+  return `
+    <div class="guestbook-auth-copy">
+      <div class="guestbook-auth-title">第三方登录</div>
+      <div class="guestbook-auth-note">登录后用平台身份留言；也可以继续匿名发送。</div>
+      ${error}
+    </div>
+    <div class="guestbook-auth-actions">
+      <button class="icon-link guestbook-login" type="button" data-provider="github">GitHub 登录</button>
+      <button class="icon-link guestbook-login" type="button" data-provider="google">Google 登录</button>
+    </div>
+  `;
+}
+
 function bindGuestbookForm(host) {
   const form = host.querySelector('#guestbook-form');
   const refreshButton = host.querySelector('#guestbook-refresh');
@@ -418,36 +467,148 @@ function bindGuestbookForm(host) {
     loadGuestbookMessages(host, { announce: true });
   });
 
+  bindGuestbookAuthControls(host);
+
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     await submitGuestbookMessage(host);
   });
 }
 
+function bindGuestbookAuthControls(host) {
+  host.querySelectorAll('.guestbook-login').forEach((button) => {
+    button.addEventListener('click', () => {
+      signInGuestbook(String(button.dataset.provider || 'github'));
+    });
+  });
+
+  host.querySelector('#guestbook-logout')?.addEventListener('click', async () => {
+    await signOutGuestbook();
+    renderGuestbookShell(host);
+    bindGuestbookForm(host);
+    loadGuestbookMessages(host);
+  });
+}
+
+async function initGuestbookAuth() {
+  if (guestbookState.authReady) {
+    return;
+  }
+
+  try {
+    guestbookState.authClient = createGuestbookAuthClient();
+    if (!guestbookState.authClient) {
+      guestbookState.authReady = true;
+      return;
+    }
+
+    const { data, error } = await guestbookState.authClient.auth.getSession();
+    if (error) {
+      throw error;
+    }
+    guestbookState.session = data?.session || null;
+    guestbookState.user = guestbookState.session?.user || null;
+    guestbookState.authClient.auth.onAuthStateChange((_event, session) => {
+      guestbookState.session = session || null;
+      guestbookState.user = session?.user || null;
+      updateGuestbookAuthUi();
+    });
+  } catch (error) {
+    guestbookState.authError = formatGuestbookError(error);
+  } finally {
+    guestbookState.authReady = true;
+  }
+}
+
+function createGuestbookAuthClient() {
+  if (!guestbookState.config.enabled || !window.supabase?.createClient) {
+    return null;
+  }
+  return window.supabase.createClient(
+    guestbookState.config.supabaseUrl,
+    guestbookState.config.supabaseAnonKey,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    },
+  );
+}
+
+async function signInGuestbook(provider) {
+  try {
+    if (!guestbookState.authClient) {
+      guestbookState.authClient = createGuestbookAuthClient();
+    }
+    if (!guestbookState.authClient) {
+      throw new Error('Supabase Auth is not available.');
+    }
+    const { error } = await guestbookState.authClient.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}${window.location.pathname}`,
+      },
+    });
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    guestbookState.authError = formatGuestbookError(error);
+    updateGuestbookAuthUi();
+  }
+}
+
+async function signOutGuestbook() {
+  try {
+    if (guestbookState.authClient) {
+      await guestbookState.authClient.auth.signOut();
+    }
+  } catch (_error) {
+    // Keep the local UI usable even if sign-out fails remotely.
+  }
+  guestbookState.session = null;
+  guestbookState.user = null;
+  updateGuestbookAuthUi();
+}
+
+function updateGuestbookAuthUi() {
+  const host = guestbookState.host;
+  const authHost = host?.querySelector('#guestbook-auth');
+  if (!authHost) {
+    return;
+  }
+  authHost.innerHTML = renderGuestbookAuth();
+  bindGuestbookAuthControls(host);
+}
+
 async function submitGuestbookMessage(host) {
   const status = host.querySelector('#guestbook-status');
   const bodyInput = host.querySelector('#guestbook-body');
-  const nameInput = host.querySelector('#guestbook-name');
   const anonymousInput = host.querySelector('#guestbook-anonymous');
   const publicInput = host.querySelector('#guestbook-public');
   const submitButton = host.querySelector('.guestbook-submit');
 
   const body = String(bodyInput?.value || '').trim();
-  const name = String(nameInput?.value || '').trim();
   const isAnonymous = Boolean(anonymousInput?.checked);
   const isPublic = Boolean(publicInput?.checked);
+  const identity = getGuestbookIdentity(isAnonymous);
 
   if (!body) {
     setGuestbookStatus(status, '留言不能为空。', true);
     return;
   }
 
-  guestbookState.profile = { name, anonymous: isAnonymous, public: isPublic };
+  guestbookState.profile = { anonymous: isAnonymous, public: isPublic };
   writeGuestbookProfile(guestbookState.profile);
 
   const payload = {
     id: generateGuestbookId(),
-    author_name: isAnonymous ? '' : name.slice(0, 40),
+    auth_user_id: identity.userId,
+    auth_provider: identity.provider,
+    author_name: identity.publicName.slice(0, 40),
+    avatar_url: identity.publicAvatarUrl.slice(0, 500),
     body: body.slice(0, 1200),
     is_public: isPublic,
     created_at: new Date().toISOString(),
@@ -508,10 +669,16 @@ function renderGuestbookMessages(list, messages) {
 
   list.innerHTML = messages.map((message) => {
     const author = message.author_name ? message.author_name : '匿名访客';
+    const avatar = message.avatar_url
+      ? `<img class="guestbook-item-avatar" src="${escapeAttr(message.avatar_url)}" alt="">`
+      : '<span class="guestbook-item-avatar is-placeholder"></span>';
     return `
       <article class="guestbook-item">
         <div class="guestbook-item-head">
-          <span class="guestbook-author">${escapeHtml(author)}</span>
+          <div class="guestbook-author-line">
+            ${avatar}
+            <span class="guestbook-author">${escapeHtml(author)}</span>
+          </div>
           <time class="guestbook-time" datetime="${escapeAttr(message.created_at)}">${escapeHtml(formatShanghaiTimestamp(message.created_at))}</time>
         </div>
         <div class="guestbook-body">${escapeHtml(message.body)}</div>
@@ -564,6 +731,7 @@ function normalizeGuestbookMessage(row) {
   return {
     id,
     author_name: String(row.author_name || '').trim(),
+    avatar_url: String(row.avatar_url || '').trim(),
     body,
     created_at: String(row.created_at || ''),
   };
@@ -574,14 +742,15 @@ function buildGuestbookTableEndpoint() {
 }
 
 function buildGuestbookSelectEndpoint() {
-  const columns = 'id,author_name,body,created_at';
+  const columns = 'id,author_name,avatar_url,body,created_at';
   return `${buildGuestbookTableEndpoint()}?select=${columns}&is_public=eq.true&order=created_at.desc&limit=30`;
 }
 
 function buildGuestbookHeaders() {
+  const token = guestbookState.session?.access_token || guestbookState.config.supabaseAnonKey;
   return {
     apikey: guestbookState.config.supabaseAnonKey,
-    Authorization: `Bearer ${guestbookState.config.supabaseAnonKey}`,
+    Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'Cache-Control': 'no-cache',
@@ -599,16 +768,62 @@ function normalizeGuestbookConfig(config) {
   };
 }
 
+function getGuestbookIdentity(isAnonymous) {
+  const user = guestbookState.user;
+  if (!user) {
+    return {
+      userId: null,
+      provider: '',
+      providerLabel: 'anonymous',
+      displayName: '匿名访客',
+      avatarUrl: '',
+      publicName: '',
+      publicAvatarUrl: '',
+    };
+  }
+
+  const metadata = user.user_metadata || {};
+  const appMetadata = user.app_metadata || {};
+  const provider = String(appMetadata.provider || user.identities?.[0]?.provider || '').trim();
+  const providerLabel = provider ? providerLabelFromId(provider) : 'third-party';
+  const displayName = String(
+    metadata.user_name ||
+    metadata.preferred_username ||
+    metadata.full_name ||
+    metadata.name ||
+    user.email ||
+    '已登录访客',
+  ).trim();
+  const avatarUrl = String(metadata.avatar_url || metadata.picture || '').trim();
+
+  return {
+    userId: user.id || null,
+    provider,
+    providerLabel,
+    displayName,
+    avatarUrl,
+    publicName: isAnonymous ? '' : displayName,
+    publicAvatarUrl: isAnonymous ? '' : avatarUrl,
+  };
+}
+
+function providerLabelFromId(provider) {
+  const labels = {
+    github: 'GitHub',
+    google: 'Google',
+  };
+  return labels[provider] || provider;
+}
+
 function readGuestbookProfile() {
   try {
     const raw = localStorage.getItem(GUESTBOOK_CACHE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-    return {
-      name: String(parsed.name || ''),
-      anonymous: Boolean(parsed.anonymous),
-      public: parsed.public !== false,
-    };
+      return {
+        anonymous: Boolean(parsed.anonymous),
+        public: parsed.public !== false,
+      };
     }
   } catch (_error) {
     // Ignore invalid profile cache.
