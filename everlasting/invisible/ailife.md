@@ -1,56 +1,5 @@
 [TOC]
 
-# Talks
-
-## X
-
-Karpathy的Autoresearch：开源仓库，核心是一个"agent loop"：
-
-1. 给cc或Codex一个完整的nanochat训练repo
-2. 给它一个写了实验规则的markdown文件作为"研究指引"
-3. agent自己开branch、改代码、跑5分钟训练、记录loss、决定保留或丢弃修改、循环
-
-在单GPU上跑了大约两天，结果：
-
-- agent自主进行了**约700次实验**
-- 发现了**约20个**能改进validation loss的修改
-- 这些修改是additive的（能叠加），并且能从depth-12模型transfer到depth-24模型
-- 最终把"达到GPT-2质量"的训练时间从2.02小时压缩到1.80小时（11%提升）
-
-
-
-Jack Clark（Anthropic联合创始人、Import AI作者）的一个判断：**60%+概率，到2028年底之前会出现no-human-involved AI R&D**——即一个AI系统能够基本独立地训练出它的后继者。
-
-他用一系列benchmark趋势作为证据：
-
-**SWE-Bench**（解决真实GitHub issue的能力）：
-
-- 2023年末：Claude 2约2%
-- 2026年：Claude Mythos Preview达到93.9%，本质上saturated了
-
-**METR时间长度评测**（AI能50%可靠完成的任务的人类耗时）：
-
-- 2022 GPT-3.5: ~30秒
-- 2023 GPT-4: 4分钟
-- 2024 o1: 40分钟
-- 2025 GPT-5.2 High: ~6小时
-- 2026年初 Opus 4.6: ~12小时
-- Ajeya Cotra（METR）预测2026年底可达**100小时**
-
-**CORE-Bench**（复现学术论文实验）：
-
-- 2024年9月：GPT-4o + CORE-Agent得分21.5%
-- 2025年12月：Opus 4.5得分95.5%，作者宣布benchmark "solved"
-
-**MLE-Bench**（在75个Kaggle竞赛上从头建ML系统）：
-
-- 2024年10月：o1 + scaffold = 16.9%
-- 2026年2月：Gemini 3 + agent harness = 64.4%
-
----
-
-goodhart 定律：当一个指标变成目标，它就不再是好指标
-
 # Exps
 
 ## Tefig
@@ -64,7 +13,7 @@ btw，mistral这个模型性能不行。
 
 哪怕看到已有论文的setting，evaluation 也不应该自己一个个去拼，应该用统一的评测框架，后续还可以在里面选自己想要的eval指标
 
-由于我的方法需要涉及ckpt参数相减，要记得保存ckpt0
+由于我的方法需要涉及ckpt参数相减，要记得保存ckpt0，或者进行一遍种子测试
 
 ## Recurrent-MoE
 
@@ -88,6 +37,8 @@ GPT-5.5 在GUI操作测试时仍然会hack。
 指令不跟随：哪怕prompt里已经写了不能让它写代码，进行non-GUI操作，它也会做
 **聪明的hack**：加入了一些eval的限制，比如如果检测到代码文件就判false，GPT5.5还是会以非常诡异的方式使用代码完成任务：把内容写在剪贴板，然后用ctrl+v这种“GUI操作”
 
+在大家设计 engiworld 的 tasks 时，各自的 AI 加了很多无用字段
+
 ## Evalclaw
 
 在给了jailbreakbench和MHJ作为jailbreak参考语料，想让auditor学习里面的话术，却发现结果不如直接让模型用已有知识。
@@ -100,6 +51,8 @@ petri和bloom作为agent场景式测评框架，scalability会差，因为构建
 
 repetition是一个语言能力退化现象，强制修改权重的方法中都容易造成，比如unlearning, knowledge editing
 
+尝试复现 ETW，但是基本的数值都相差很多；想使用 G-effect（WGA）的代码跑复现，但是 repo 内很多东西都是错的
+
 ## others
 
 floccinaucinihilipilification 这个单词很适合测试模型由于tokenize而不能处理字母计数问题的测试
@@ -108,89 +61,9 @@ API 和 extra usage 都太坑了，非常费钱，是个商业手段逼着人升
 
 加载模型时使用device_map='auto'适用于模型太大，单卡放不下的情况，是朴素模型并行，很慢。如果模型能放进单卡，比如写 device_map="cuda:3" 就是单卡推理/训练。这是模型并行，而想要数据并行，需要各个GPU开进程，torchrun
 
-# Areas
-
-## GNN
-
-**GNN（Graph Neural Network，图神经网络）** 是专门处理"图结构数据"的神经网络。图是由**节点（node）**和**边（edge）**组成的数据结构。例子：
-
-- 社交网络：用户是节点，好友关系是边
-- 分子：原子是节点，化学键是边
-- 论文引用网络：论文是节点，引用关系是边
-- 知识图谱：实体是节点，关系是边
-
-这类数据用普通的 CNN、Transformer 不好处理。CNN 假设数据有规则的网格结构（图像的像素），Transformer 假设是序列。而图是**不规则的**——每个节点的邻居数量都不一样，邻居之间也没有"顺序"。
-
-GNN 的核心机制可以用一句话概括：**每个节点反复地从邻居那里聚合信息，更新自己的表示**。
-形式化一点，一个 GNN 层做三件事：
-
-1. **Message**：每个节点向它的邻居"发消息"（消息内容通常是节点自己的特征，可能经过一个变换）
-2. **Aggregate**：每个节点把收到的所有邻居消息**聚合**起来（求和、求平均、求最大值，或更复杂的 attention 加权）
-3. **Update**：节点用聚合后的信息 + 自己原本的特征，更新自己的新表示
-
-堆 K 层 GNN，每个节点就能"看到" K 跳之外的邻居信息。这跟 CNN 堆层数扩大感受野的思路类似。
-
-GNN 主要解决三类问题：
-
-- **节点分类**：给一个节点打标签。例：判断社交网络里的用户是不是机器人。
-- **链接预测**：预测两个节点之间是否应该有边。例：推荐系统里"用户会不会买这个商品"。
-- **图分类/回归**：把整张图当成一个样本预测属性。例：给一个分子图，预测它的溶解度或毒性。
 
 
 
-## ASR
-
-输入一段音频波形，输出对应的文字。Siri、小爱、会议转录、YouTube 自动字幕、电话客服质检背后都是 ASR。
-
-原始音频是一维波形（比如 16kHz 采样 = 每秒 16000 个浮点数）。实际喂给模型前，一般会先做特征提取，转成二维的"频谱图"——横轴时间、纵轴频率，每个点是该时刻该频段的能量。这一步把音频问题变成了一个"长得像图像的序列问题"。
-
-**核心难点**：
-
-- **长度不对齐**：一句 3 秒的话可能有 300 帧频谱、对应 8 个汉字。模型不知道哪一帧对应哪个字，而且同一句话不同人说，时间拉伸完全不同。
-- **同音字、口音、噪声**：声学信号到文字是多对一的映射。
-- **流式 vs 离线**：实时字幕要求边说边出字（流式），录音转写可以拿到完整音频再处理（离线），架构选择不同。
-
-## OCR
-
-输入一张图像，输出图中的文字。扫描件数字化、车牌识别、拍照翻译、PDF 解析（包括给 LLM 喂文档前的预处理）都是 OCR。
-
-**典型流程（两阶段）**：
-
-1. **文字检测（Text Detection）**：先找到图像中"哪里有文字"，输出一堆框（矩形或多边形）。代表方法：DBNet、CRAFT、EAST。这一步类似目标检测，但目标是文字行/词。
-2. **文字识别（Text Recognition）**：对每个框裁出来的小图，识别出里面具体写了什么字。这一步的输入是一张"长条图"（一行文字），输出是字符串——**和 ASR 的"频谱图 → 文字串"在数学结构上几乎一模一样**，所以技术也通用：CTC、Attention、Transformer。
-
-**为什么 ASR 和 OCR 技术栈通用**：两者都是"二维输入序列 → 一维文字序列"的对齐问题，长度不固定、不对齐，所以 CTC 和 seq2seq 这套工具同时统治了两个领域。
-
-# Papers
-
-Gradient norm is inversely correlated with data length (Liu et al.,2025b; Xia et al., 2024a)
-
-local loss landscape as exhibiting high quadraticity, at least along most directions[^1][^2][^3]，这个结论可以帮助一些放缩，比如忽略三次项、固定二阶导
-
-Several works (Needell et al.,2014; Zhao & Zhang, 2015; Alain et al., 2015) have shown the optimal distribution to be proportional to the per-sample gradient norm. 
-这里的optimal distribution是让梯度方差最小的分布。
-
-从meta unlearning[^4]得到启发，可以在训练一个东西的时候就预测后续事情的性能，加meta learning项.比如在pretrain的时候就预测SFT,RL的性能，在unlearn的时候就考虑relearn的表现
-
-deep neural networks memorize specific training examples and that parameters in later layers are highly specialized to specific features[^5][^6]
-
-# preliminaries
-
-**要评测一个模型（或者考一个学生）的准确率，需要出多少道题才"算得准"？**
-
-做完 n 题，算出正确率 p̂。但这个 p̂ 只是**估计值**，不是真实水平。题做得越多，估计越准。
-衡量"准不准"用的是**95% 置信区间**：我有 95% 的把握，真实准确率落在 p̂ ± ME 这个范围里。ME 就是误差幅度（margin of error）。
-
-对于比例（proportion）的置信区间：
-
-$$\text{ME} = 1.96 \times \sqrt{\frac{p(1-p)}{n}}$$
-
-其中 1.96 是 95% 置信水平对应的 z 值。反过来解出 n：
-
-$$n = \frac{1.96^2 \cdot p(1-p)}{\text{ME}^2}$$
-
-注意分子里有 p(1−p)。这个东西在 **p = 0.5 时取最大值 0.25**，远离 0.5（比如 0.9 或 0.1）时会变小。
-也就是说：**真实准确率越接近 50%，估计起来越难，需要的样本越多**。所以在不知道真实 p 是多少的时候，就按最坏情况 p = 0.5 来算，这样无论实际情况如何都够用。
 
 
 
@@ -224,6 +97,56 @@ nanoGPT和openwebtext不能论证在现代的7B+模型上，更多架构上，�
 baseline要加上现代筛选方法
 
 # Infs
+
+## DB
+
+ARC-AGI-3 回合制游戏环境，没有明文规则、没有说明——纯粹考"流体智能"（fluid intelligence），即在零经验下学习新技能的能力。这正好打中了 LLM 的死穴。
+
+ARC-AGI-2 通过视觉网格谜题测量流体智能和新颖抽象推理。被认为是当前最难的公开推理 benchmark——人类个体平均表现 66%。截至 2026 年 5 月 25 日，GPT-5.5 以 85% 领先，GPT-5.4 Pro 83.3%，Gemini 3.1 Pro 77.1%。
+
+Humanity's Last Exam (HLE) 大约 2,500 道极难题目跨越各学术领域，与 AI 安全中心合作，由近千位领域专家贡献。前沿模型得分在 20% 到 41% 之间。截至 2026 年 4 月，Gemini 3.1 Pro 以 41.0% 领先，Gemini 3 Flash 33.7%，Grok 4 24.0%。如果允许使用工具，Claude Opus 4.6 在 HLE with Tools 上能达到 53.0%，所以工具加持下分数会跳一大截。
+
+τ-bench / τ²-bench（真实世界 agent 任务） 考察 agent 在真实场景下调用工具、与用户对话完成任务的能力。Claude Opus 4.5、GPT-5.2、Qwen3.5 等顶尖模型在 τ-bench 上得分介于 62.9% 到 70.2% 之间——这是个**生产可用性**而非纯推理的难点。
+
+SWE-bench Pro（真实软件工程任务） GPT-5.4 是 2026 年 3 月的新编码领军者……在 SWE-bench Pro 上以 57.7% 领先。注意原版 SWE-bench Verified 已经被刷到 80%+，但 Pro 版本仍有较大空间。
+
+|    Benchmark     | SOTA（2026.5） |            性质            |
+| :--------------: | :------------: | :------------------------: |
+|    ARC-AGI-3     |      <1%       |    流体智能/未明示规则     |
+|  HLE (no tools)  |      ~41%      |      跨领域专家级问答      |
+| HLE (with tools) |      ~53%      |         同上+工具          |
+|  SWE-bench Pro   |      ~57%      |        真实软件工程        |
+|     τ-bench      |     63-70%     |      Agent + 工具调用      |
+|    ARC-AGI-2     |      ~85%      |        视觉抽象推理        |
+|   GPQA Diamond   |   高 70s—94%   | 研究生科学问答（接近饱和） |
+
+
+
+
+
+## 行业
+
+从 `tamlhp/awesome-machine-unlearning` 抓了完整数据,加上比较活跃的 LLM unlearning 子集仓库 `chrisliu298/awesome-llm-unlearning`(其 README 自报截至最新提交,有 407 篇论文、15 篇综述/立场论文、3 个框架和 2 篇博客),把两边交叉对照后估算出一份按会议·按年份的统计。
+
+注意:**这两个仓库都是策展性的,不是穷尽性的**(尤其 tamlhp 对 2024 之后更新偏慢,chrisliu298 只聚焦 LLM unlearning),所以下面的数字偏保守,可以理解为下界。
+
+| 会议 / 年份                        | 2021 | 2022 | 2023 | 2024  | 2025      |
+| ---------------------------------- | ---- | ---- | ---- | ----- | --------- |
+| **NeurIPS**                        | 3–4  | 4–5  | 5–7  | 10–15 | **40–60** |
+| **ICLR**                           | 2–3  | 2–3  | 3–5  | 8–12  | **30–50** |
+| **ICML**                           | 1–2  | 1–2  | 2–4  | 5–10  | **25–40** |
+| **CVPR**                           | 1    | 2    | 2–3  | 5–8   | **15–25** |
+| **AAAI**                           | 2    | 4    | 3    | 6–8   | **15–20** |
+| **ACL / EMNLP / NAACL 合计**       | 0–1  | 1–2  | 3–5  | 10–15 | **30–50** |
+| **USENIX / S&P / CCS / NDSS 合计** | 1–2  | 3–5  | 4–6  | 6–10  | **15–25** |
+
+2023 之前每个顶会基本是个位数水平,2024 LLM unlearning(TOFU、WMDP、MUSE 等基准 / NPO 等方法)出来后,数量直接翻倍跳。
+
+- NeurIPS 2023 还专门办过 unlearning 比赛,作为"新方向"看待;
+- 到 NeurIPS 2025 / ICLR 2025,unlearning 已经是 LLM safety、diffusion concept erasure、graph unlearning、federated unlearning 多条线一起在投。
+- chrisliu298 的统计里,407 篇 LLM unlearning 论文中**绝大多数集中在 2024–2025**,2025 单年差不多就有 200+ 篇 arXiv 论文(其中很多投到了顶会)。
+
+
 
 **机器学习通用类**：NeurIPS、ICML、ICLR 是公认三大。NeurIPS 历史最长、规模最大；ICML 偏理论与方法；ICLR 完全开放评审（OpenReview 上能看到全部 review 和 rebuttal），是它的鲜明特色。COLT、UAI、AISTATS 略低一档但仍是好会。
 
@@ -272,73 +195,16 @@ NeurIPS 的做法不同：所有被接收的论文（无论 oral/spotlight/poste
 
 **Google Scholar 的 h5-index** 是数据驱动的指标，每年更新，能反映动态变化。AI 领域可以直接看 [Engineering & Computer Science → Artificial Intelligence](https://scholar.google.com/citations?view_op=top_venues&hl=en&vq=eng_artificialintelligence) 那个榜单。
 
+## tools
 
+### API
 
-ARC-AGI-3 回合制游戏环境，没有明文规则、没有说明——纯粹考"流体智能"（fluid intelligence），即在零经验下学习新技能的能力。这正好打中了 LLM 的死穴。
+chat completion 里，推理模型的cot在多轮对话是不传的，模型只能看到历史的信息，但是看不到历史的思考过程。response API能传。客户端可以存储cot，但是是加密的，用户看不到内容，不过可以传上去在调用api时让模型看到历史的推理过程。
 
-ARC-AGI-2 通过视觉网格谜题测量流体智能和新颖抽象推理。被认为是当前最难的公开推理 benchmark——人类个体平均表现 66%。截至 2026 年 5 月 25 日，GPT-5.5 以 85% 领先，GPT-5.4 Pro 83.3%，Gemini 3.1 Pro 77.1%。
+KVcache是在服务端的内存中存储的，可能存储5min,1h这种。客户端仍然发完整文本，而服务端会用前缀hash去查缓存。
 
-Humanity's Last Exam (HLE) 大约 2,500 道极难题目跨越各学术领域，与 AI 安全中心合作，由近千位领域专家贡献。前沿模型得分在 20% 到 41% 之间。截至 2026 年 4 月，Gemini 3.1 Pro 以 41.0% 领先，Gemini 3 Flash 33.7%，Grok 4 24.0%。如果允许使用工具，Claude Opus 4.6 在 HLE with Tools 上能达到 53.0%，所以工具加持下分数会跳一大截。
+openai的openai response和Google的gemini interactions基本概念上完全对应，比如store=true,previous_response_id。
 
-τ-bench / τ²-bench（真实世界 agent 任务） 考察 agent 在真实场景下调用工具、与用户对话完成任务的能力。Claude Opus 4.5、GPT-5.2、Qwen3.5 等顶尖模型在 τ-bench 上得分介于 62.9% 到 70.2% 之间——这是个**生产可用性**而非纯推理的难点。
+claude memory会摘要对话，形成一份类似"人物画像/上下文摘要"，为每个新独立对话提供上下文
 
-SWE-bench Pro（真实软件工程任务） GPT-5.4 是 2026 年 3 月的新编码领军者……在 SWE-bench Pro 上以 57.7% 领先。注意原版 SWE-bench Verified 已经被刷到 80%+，但 Pro 版本仍有较大空间。
-
-|    Benchmark     | SOTA（2026.5） |            性质            |
-| :--------------: | :------------: | :------------------------: |
-|    ARC-AGI-3     |      <1%       |    流体智能/未明示规则     |
-|  HLE (no tools)  |      ~41%      |      跨领域专家级问答      |
-| HLE (with tools) |      ~53%      |         同上+工具          |
-|  SWE-bench Pro   |      ~57%      |        真实软件工程        |
-|     τ-bench      |     63-70%     |      Agent + 工具调用      |
-|    ARC-AGI-2     |      ~85%      |        视觉抽象推理        |
-|   GPQA Diamond   |   高 70s—94%   | 研究生科学问答（接近饱和） |
-
-
-
-很多 CUDA/cuDNN 算子默认会选择"最快"的实现，而最快的实现往往是非确定的，为了做到bit-wise的实验复现，需要显示开启确定性模式。通常还要进行操作如
-
-```python
-torch.backends.cudnn.deterministic = True
-torch.backends.cudnn.benchmark = False
-torch.use_deterministic_algorithms(True)
-# 并设置环境变量
-os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
-```
-
-但是，`use_deterministic_algorithms(True)` 会让一些没有确定性实现的算子直接报错。那么，不同训练常用的算子：
-
-**几乎所有训练**
-
-- `torch.mm / bmm / mv` ——只要做 matmul 就会用，但设一个环境变量 `CUBLAS_WORKSPACE_CONFIG=:4096:8` 就行
-- 卷积的反向（cuDNN）——CNN/U-Net/扩散模型必用，但开 `cudnn.deterministic=True` 后有确定性实现，代价是慢一些。
-
-**特定任务必踩**
-
-- `embedding_bag` 反向 → 推荐系统、NLP 里 bag-of-words 类模型必用。**没有确定性实现**。
-- `ctc_loss` 反向 → 语音识别（ASR）、OCR 必用。**没有确定性实现**。
-- `F.interpolate` 反向（双线性/三线性等模式）→ 分割模型（U-Net、DeepLab）、超分、检测里的 FPN、扩散模型的上采样都用得很多。**部分模式没有确定性实现**。
-
-**只有写特殊代码才会踩**
-
-`index_add_` / `scatter_add_` / `bincount` → 图神经网络（GNN 的消息传递核心就是 scatter_add）、point cloud（PointNet++）、稀疏操作、自定义 loss 才会显式调用。普通 ResNet、Transformer 训练基本不碰。没有确定性实现。
-
-纯 Transformer 训练（BERT、GPT、ViT 这类） → 主要就是 matmul + LayerNorm + softmax + embedding 查表，**很少触发上面的非确定算子**。把 matmul 的环境变量设好、cuDNN 设确定，基本能严格复现。标准 ResNet/ViT 图像分类同上，比较干净。
-
-**几乎必踩中的**
-
-- 语义分割、目标检测、超分、扩散模型 → `interpolate` 反向几乎跑不掉。
-- ASR、OCR → `ctc_loss` 跑不掉。
-- GNN（PyG、DGL） → `scatter_add` 是核心算子，跑不掉。
-- 推荐系统（DLRM 类） → `embedding_bag` 跑不掉。
-
-
-
-
-
-[^1]:Huanran Chen, Yinpeng Dong, Zeming Wei, Yao Huang, Yichi Zhang, Hang Su, and Jun Zhu. Understanding pre-training and fine-tuning from loss landscape perspectives. arXiv preprint arXiv:2505.17646, 2025.
-[^2]: Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer, and Tom Goldstein. Visualizing the loss landscape of neural nets. Advances in Neural Information Processing Systems, 31, 2018.
-[^3]: Kaiyue Wen, Tengyu Ma, and Zhiyuan Li. How does sharpness-aware minimization minimize sharpness? arXiv preprint arXiv:2211.05729, 2022.
-[^4]: https://arxiv.org/abs/2410.12777
-[^5]: Feldman, V. 2020. Does learning require memorization? a short tale about a long tail. In Proceedings of the 52nd Annual ACM SIGACT Symposium on Theory of Computing, 954-959
-[^6]: Stephenson, C.; Padhy, S.; Ganesh, A.; Hui, Y.; Tang, H.; and Chung, S. 2021. On the geometry of generalization and memorization in deep neural networks. arXiv preprint arXiv:2105.14602.
+工具调用结果，模型看对话历史是能看到的。
