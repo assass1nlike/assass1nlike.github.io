@@ -275,3 +275,170 @@ CSA和HCA
 
 c为注意力头维度，通过四个$\mathbb{R}^{d\times c}$投影矩阵让$H\in\mathbb{R}^{n\times d}$得到两个KV和两个权重logits![image-20260516045312806](C:\Users\15951\AppData\Roaming\Typora\typora-user-images\image-20260516045312806.png)
 权重logits到真实使用的权重，还需要加上可学习偏置向量再softmax。
+
+
+
+### 2026.7.9
+
+https://arxiv.org/pdf/1312.6120
+Exact solutions to the nonlinear dynamics of learning in deep linear neural networks
+optimizations
+
+**三层神经网络求梯度**
+$$
+E^\mu=\left\|y^\mu-W^{32}W^{21}x^\mu\right\|^2
+$$
+
+先对模长平方求导，记
+
+$$
+e^\mu=y^\mu-W^{32}W^{21}x^\mu
+$$
+
+$$
+dE^\mu = 2(e^\mu)^T de^\mu
+$$
+
+考虑内部，对 W21求导时把d放至W21处
+
+$$
+de^\mu=-W^{32}\,dW^{21}\,x^\mu
+$$
+
+$$
+dE^\mu
+=
+-2(e^\mu)^T W^{32} dW^{21} x^\mu
+$$
+
+*由于是单个值，将其写成 trace 形式*
+$$
+dE^\mu
+=
+-2\operatorname{tr}\left((e^\mu)^T W^{32} dW^{21} x^\mu\right)
+$$
+
+**利用 trace 循环性质：**
+$$
+dE^\mu
+=
+-2\operatorname{tr}\left(x^\mu (e^\mu)^T W^{32} dW^{21}\right)
+$$
+
+由迹的求导法则
+
+$$
+\frac{\partial E^\mu}{\partial W^{21}}
+=
+-2(W^{32})^T e^\mu (x^\mu)^T
+$$
+
+$$
+\frac{\partial E^\mu}{\partial W^{21}}
+=
+-2(W^{32})^T
+\left(
+y^\mu-W^{32}W^{21}x^\mu
+\right)
+(x^\mu)^T
+$$
+
+$$
+\frac{\partial E^\mu}{\partial W^{21}}
+=
+-2(W^{32})^T
+\left(
+y^\mu (x^\mu)^T
+-
+W^{32}W^{21}x^\mu (x^\mu)^T
+\right)
+$$
+
+梯度下降更新为
+
+$$
+\Delta W^{21}
+=
+-\eta \frac{\partial E}{\partial W^{21}}
+$$
+
+所以
+
+$$
+\Delta W^{21}
+=
+2\eta\sum_{\mu=1}^P
+(W^{32})^T
+\left(
+y^\mu (x^\mu)^T
+-
+W^{32}W^{21}x^\mu (x^\mu)^T
+\right)
+$$
+
+对W32求导时，d放在W32
+
+$$
+dE^\mu
+=
+-2(e^\mu)^T dW^{32}W^{21}x^\mu
+$$
+
+*写成 trace 形式：*
+$$
+dE^\mu
+=
+-2\operatorname{tr}\left((e^\mu)^T dW^{32}W^{21}x^\mu\right)
+$$
+
+*循环移动：*
+$$
+dE^\mu
+=
+-2\operatorname{tr}\left(W^{21}x^\mu (e^\mu)^T dW^{32}\right)
+$$
+
+因此
+
+$$
+\frac{\partial E^\mu}{\partial W^{32}}
+=
+-2 e^\mu (x^\mu)^T (W^{21})^T
+$$
+
+$$
+\frac{\partial E^\mu}{\partial W^{32}}
+=
+-2
+\left(
+y^\mu (x^\mu)^T
+-
+W^{32}W^{21}x^\mu (x^\mu)^T
+\right)
+(W^{21})^T
+$$
+
+梯度下降：
+
+$$
+\Delta W^{32}
+=
+-\eta \frac{\partial E}{\partial W^{32}}
+$$
+
+$$
+\Delta W^{32}
+=
+2\eta
+\sum_{\mu=1}^P
+\left(
+y^\mu (x^\mu)^T
+-
+W^{32}W^{21}x^\mu (x^\mu)^T
+\right)
+(W^{21})^T
+$$
+
+1. 把d放到要求导的地方
+2. 单个值就套tr，然后用 $dE=\operatorname{tr}(A^T dW), \frac{\partial E}{\partial W}=A$
+

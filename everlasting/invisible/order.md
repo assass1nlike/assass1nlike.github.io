@@ -154,6 +154,40 @@ https://arxiv.org/pdf/1811.03600
 
 3. 超参数与 batch size 的关系并不遵循简单规律，诸如"learning rate 随 batch size 线性缩放"这类被广泛使用的启发式，并不在所有问题/所有 batch size 区间都成立。
 
+
+
+https://arxiv.org/pdf/1812.06162
+An Empirical Model of Large-Batch Training
+
+想要研究在各个场景下，能够加速训练的batchsize。
+（目前ImageNet 在监督学习里 batch 推到 8K–64K 有效、语言/生成模型几千有效、Dota agent 用到了 100 万 timesteps 的 batch，差很多数量级，需要一个解释的答案）
+
+在一些假设下，推导出：
+$$
+\left(\frac{S}{S_{\min}} - 1\right)\left(\frac{E}{E_{\min}} - 1\right) = 1
+$$
+这里 $S$ = 训练所需步数，$E$ = 处理的总样本数，其中 $S_{\min}$ 是无穷大 batch 时所需的最少步数，$E_{\min}$ 是最优数据效率（小 batch 极限）下处理的最少样本数。
+
+这就得到了一个trade-off的pareto frontier曲线
+
+![image-20260615152111044](C:\Users\15951\AppData\Roaming\Typora\typora-user-images\image-20260615152111044.png)
+
+bs越大，噪声越小，可以的步长越大，但是总消耗的样本更多，算力消耗更大。反之同理。
+
+定义 $B_{\text{crit}}$ 为 trade-off 曲线的"膝盖"，当 $B = B_{\text{crit}}$ 时，训练所需步数和样本数都恰好是各自最优值的 2 倍，（通过上面方程的解可知）在两个维度上达到最平衡。
+
+论文证明了这个最平衡的点约为噪声与信号大小相当时的bs，$B_{noise}$，也就是梯度方差约等于梯度模平方的时候。
+
+**一些结论：**
+
+随着 loss 下降、模型变好，梯度变小、噪声相对变大，$B_{\text{noise}}$ 在训练过程中会上升。这意味着：训练后期能用比前期更大的 batch。(这正是后续 GPT-3 等大模型采用"渐进式 batch size schedule"的理论依据)
+
+任务更复杂、环境随机性更强（比如RL任务噪声尺度系统性更高）时，$B_{\text{noise}}$会更大。
+
+模型大小本身影响不大，即使有关系也是loss水平带来的间接影响
+
+
+
 # Optimizations
 
 2604.09258
@@ -239,7 +273,7 @@ Shaping Adaptive Reasoning in R1-Style Models via Multi-Stage RL
 2502.17607
 GRADMM
 
-使用gradient-matching人造LLM的训练数据。也即$\arg \min D(\nabla_\theta l(D_{syn},\theta),\nabla_\theta l(D_{real},\theta)) $. 要让 $|D_{syn}|$ 个样本，每一个的ppl都小于某个$\epsilon$，且其中每个embedding都是词表中词的对应，因而去优化$\min_Xf(X)+I_\mathcal{E}(X)$，其中f就是上面的梯度距离，indicator function只有在每个embedding都是词表中词是才取零，否则正无穷。解决此，采用了ADMM方法，去优化$L=f(X)+I_\mathcal{E}(Z)+<\Lambda,X-Z>+\frac{\rho}{2}||X-Z||^2$，其中$\Lambda$是Lagrangian multiplier. T次迭代，每次有$X^{t+1}=\arg\min_XL$，后两项可以写成$||Z-X^t-\rho^{-1}\Lambda^t||^2$，故$\Lambda^{t+1}=\Lambda^t+\rho(X^{t+1}-Z^{t+1})$，而$Z^{t+1}$取词表中离$X^t+\rho^{-1}\Lambda^t$最近的。为了保证可读性，每次找最近者时都选取$P(x|x_{i=1:i-1})$最大的k个，再在这些里面找最近的。只看最后一层梯度。找最近的过程，可能会改变类别、显著增加gradient matching损失、使某些类别损失更高。对此，把类别错误的筛掉、每个类别都只选梯度损失最小的r个、把高损失类别中的高损失样本筛掉来保证大致平均。对每个类别分别训练。
+使用gradient-matching人造LLM的训练数据。也即$\arg \min D(\nabla_\theta l(D_{syn},\theta),\nabla_\theta l(D_{real},\theta))$. 要让 $|D_{syn}|$ 个样本，每一个的ppl都小于某个$\epsilon$，且其中每个embedding都是词表中词的对应，因而去优化$\min_Xf(X)+I_\mathcal{E}(X)$，其中f就是上面的梯度距离，indicator function只有在每个embedding都是词表中词是才取零，否则正无穷。解决此，采用了ADMM方法，去优化$L=f(X)+I_\mathcal{E}(Z)+<\Lambda,X-Z>+\frac{\rho}{2}||X-Z||^2$，其中$\Lambda$是Lagrangian multiplier. T次迭代，每次有$X^{t+1}=\arg\min_XL$，后两项可以写成$||Z-X^t-\rho^{-1}\Lambda^t||^2$，故$\Lambda^{t+1}=\Lambda^t+\rho(X^{t+1}-Z^{t+1})$，而$Z^{t+1}$取词表中离$X^t+\rho^{-1}\Lambda^t$最近的。为了保证可读性，每次找最近者时都选取$P(x|x_{i=1:i-1})$最大的k个，再在这些里面找最近的。只看最后一层梯度。找最近的过程，可能会改变类别、显著增加gradient matching损失、使某些类别损失更高。对此，把类别错误的筛掉、每个类别都只选梯度损失最小的r个、把高损失类别中的高损失样本筛掉来保证大致平均。对每个类别分别训练。
 
 # DB
 
