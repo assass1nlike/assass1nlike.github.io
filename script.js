@@ -1,7 +1,7 @@
 const SITE_TIME_ZONE = 'Asia/Shanghai';
 const QUOTE_START_DATE_KEY = '2026-05-11';
 const EVERLASTING_OVERVIEW_PATH = 'everlasting.md';
-const QUOTE_CSV_PATH = '/everlasting/tech/na/osu-get-poetry-difficulties/poetic_diffs.csv';
+const QUOTE_CSV_PATH = '/everlasting/invisible/tech/na/osu-get-poetry-difficulties/poetic_diffs.csv';
 const GUESTBOOK_CACHE_KEY = 'assassinlike.guestbook.profile.v1';
 const GUESTBOOK_REMOTE_POLL_MS = 15000;
 
@@ -19,40 +19,54 @@ const FRIEND_SITES = [
 ];
 
 const CATEGORY_DEFINITIONS = {
-  research: {
-    id: 'research',
-    title: '科研',
-    heading: '正式的科研内容',
-    description: '论文、实验记录与研究笔记。',
-    docs: [
-      'everlasting/research/recurrent_MoE/recurrent_MoE.md',
-      'everlasting/research/tefig/determined.md',
-      'everlasting/research/ulars/determined.md',
-    ],
-  },
   permanence: {
     id: 'permanence',
     title: '开源项目',
+    titleEn: 'Open Source',
     heading: '开源项目',
     description: 'permanence——留下永恒的事物',
-    docs: [
-      'everlasting/permanence/math-embedding/math-embedding.md',
-    ],
+    docs: [],
   },
   invisible: {
     id: 'invisible',
     title: '学习',
+    titleEn: 'Learning',
     heading: '学习',
     description: 'invisible——学习的收益是隐性的、甚至有时没有收益',
     docs: [
-      'everlasting/invisible/order.md',
-      'everlasting/invisible/ailife.md',
-      { type: 'category', id: 'tech' },
+      'everlasting/invisible/preliminaries.md',
     ],
+    groups: [
+      { id: 'foundations', title: '基础知识', description: '补齐基础概念，建立知识之间的联系。', docs: ['everlasting/invisible/preliminaries.md'] },
+    ],
+  },
+  minors: {
+    id: 'minors',
+    title: '博客',
+    titleEn: 'Blog',
+    heading: '博客',
+    description: '学习过程中的专题整理。',
+    docs: [
+      'everlasting/invisible/minors/cybergym/determined.md',
+      'everlasting/invisible/minors/recurrent_MoE/determined.md',
+    ],
+    groups: [
+      { id: 'agents', title: '智能体安全', description: '围绕智能体与安全评测的专题整理。', docs: ['everlasting/invisible/minors/cybergym/determined.md'] },
+      { id: 'models', title: '多智能体与模型架构', description: '从多智能体协作到 MoE 的阅读与思考。', docs: ['everlasting/invisible/minors/recurrent_MoE/determined.md'] },
+    ],
+  },
+  papers: {
+    id: 'papers',
+    title: '论文树',
+    titleEn: 'Paper Tree',
+    heading: '论文树',
+    description: '',
+    docs: [],
   },
   annual: {
     id: 'annual',
     title: '各年年终总结',
+    titleEn: 'Annual Reviews',
     heading: '各年年终总结',
     description: '在观察自身行为和自我思考后得到的结论。',
     docs: [
@@ -64,12 +78,13 @@ const CATEGORY_DEFINITIONS = {
   tech: {
     id: 'tech',
     title: '技术',
+    titleEn: 'Tech',
     heading: '技术',
     description: '工程、工具和实践记录。',
     docs: [
-      'everlasting/tech/std/claude_web_tool_issues.md',
-      'everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md',
-      'everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
+      'everlasting/invisible/tech/std/claude_web_tool_issues.md',
+      'everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md',
+      'everlasting/invisible/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
     ],
     groups: [
       {
@@ -77,17 +92,17 @@ const CATEGORY_DEFINITIONS = {
         title: '技术文档',
         description: '相对标准、偏工程和工具链的问题记录。',
         docs: [
-          'everlasting/tech/std/claude_web_tool_issues.md',
-          'everlasting/tech/std/deepseed_jailbreak.md',
+          'everlasting/invisible/tech/std/claude_web_tool_issues.md',
+          'everlasting/invisible/tech/std/deepseed_jailbreak.md',
         ],
       },
       {
         id: 'na',
-        title: 'less technical, non-academic',
+        title: '兴趣项目与实践',
         description: '更偏个人兴趣、游戏和非学术场景的技术实践。',
         docs: [
-          'everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md',
-          'everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
+          'everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md',
+          'everlasting/invisible/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
         ],
       },
     ],
@@ -102,28 +117,25 @@ const DOC_DEFINITIONS = [
     category: null,
   },
   {
-    path: 'everlasting/research/recurrent_MoE/recurrent_MoE.md',
+    path: 'everlasting/invisible/preliminaries.md',
+    title: '补一些非常basic的知识',
+    publicId: 'preliminaries',
+    hidePath: true,
+    outlinePreview: true,
+    aliases: ['preliminaries'],
+    category: 'invisible',
+  },
+  {
+    path: 'everlasting/invisible/minors/cybergym/determined.md',
+    title: 'cybergym',
+    aliases: ['cybergym', 'cybergym/determined.md'],
+    category: 'minors',
+  },
+  {
+    path: 'everlasting/invisible/minors/recurrent_MoE/determined.md',
     title: 'recurrent MoE',
-    aliases: ['recurrent moE', 'recurrent moe', 'recurrent_MoE', 'recurrent MoE', 'everlasting/research/recurrent_MoE.md'],
-    category: 'research',
-  },
-  {
-    path: 'everlasting/research/tefig/determined.md',
-    title: 'tefig',
-    aliases: ['tefig', 'tefig.md', 'everlasting/research/tefig.md', 'everlasting/research/tefig/tefig.md'],
-    category: 'research',
-  },
-  {
-    path: 'everlasting/research/ulars/determined.md',
-    title: 'ulars',
-    aliases: ['ulars', 'ulars.md', 'everlasting/research/ulars.md', 'everlasting/research/ulars/ulars.md'],
-    category: 'research',
-  },
-  {
-    path: 'everlasting/permanence/math-embedding/math-embedding.md',
-    title: 'math-embedding',
-    aliases: ['math-embedding', 'math embedding', 'Math-Embedding', 'everlasting/permanence/math-embedding.md'],
-    category: 'permanence',
+    aliases: ['recurrent moe', 'recurrent_MoE', 'recurrent MoE'],
+    category: 'minors',
   },
   {
     path: 'everlasting/invisible/desire.md',
@@ -174,34 +186,50 @@ const DOC_DEFINITIONS = [
     category: 'annual',
   },
   {
-    path: 'everlasting/tech/std/claude_web_tool_issues.md',
+    path: 'everlasting/invisible/tech/std/claude_web_tool_issues.md',
     title: 'Claude 网页端工具调用问题总结',
-    aliases: ['claude_web_tool_issues', 'claude_web_tool_issues.md', 'Claude 网页端工具调用问题总结'],
+    aliases: ['claude_web_tool_issues', 'claude_web_tool_issues.md', 'Claude 网页端工具调用问题总结', 'everlasting/tech/std/claude_web_tool_issues.md'],
     category: 'tech',
   },
   {
-    path: 'everlasting/tech/std/deepseed_jailbreak.md',
+    path: 'everlasting/invisible/tech/std/deepseed_jailbreak.md',
     title: 'deepseed jailbreak',
-    aliases: ['deepseed_jailbreak', 'deepseed_jailbreak.md', 'deepseek jailbreak', 'deepseed jailbreak'],
+    aliases: ['deepseed_jailbreak', 'deepseed_jailbreak.md', 'deepseek jailbreak', 'deepseed jailbreak', 'everlasting/tech/std/deepseed_jailbreak.md'],
     category: 'tech',
   },
   {
-    path: 'everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md',
+    path: 'everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md',
     title: 'osu-auto-download-import',
-    aliases: ['osu-auto-download-import', 'osu auto download import', 'everlasting/tech/osu-auto-download-import/osu-auto-download-import.md'],
+    aliases: ['osu-auto-download-import', 'osu auto download import', 'everlasting/tech/osu-auto-download-import/osu-auto-download-import.md', 'everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md'],
     category: 'tech',
   },
   {
-    path: 'everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
+    path: 'everlasting/invisible/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
     title: 'osu-get-poetry-difficulties',
-    aliases: ['osu-get-poetry-difficulties', 'osu get poetry difficulties', 'everlasting/tech/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md'],
+    aliases: ['osu-get-poetry-difficulties', 'osu get poetry difficulties', 'everlasting/tech/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md', 'everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md'],
     category: 'tech',
   },
 ];
 
+// The static catalog is rebuilt from everlasting/invisible/tech by export-tech.py.
+if (Array.isArray(window.TechCatalog)) {
+  const category = CATEGORY_DEFINITIONS.tech;
+  const labels = { std: '技术文档', na: '兴趣项目与实践', notes: '技术随记' };
+  category.docs = window.TechCatalog.map((doc) => doc.path);
+  category.groups = [...new Set(window.TechCatalog.map((doc) => doc.group))].map((id) => ({
+    id, title: labels[id] || id,
+    docs: window.TechCatalog.filter((doc) => doc.group === id).map((doc) => doc.path),
+  }));
+  for (const entry of window.TechCatalog) {
+    const existing = DOC_DEFINITIONS.find((doc) => doc.path === entry.path);
+    if (existing) existing.title = entry.title;
+    else DOC_DEFINITIONS.push({ path: entry.path, title: entry.title, aliases: [], category: 'tech' });
+  }
+}
+
 const CATEGORY_LINK_PATTERNS = [
-  { pattern: '正式的科研内容', href: categoryHref('research') },
   { pattern: '开源项目', href: categoryHref('permanence') },
+  { pattern: '博客', href: categoryHref('minors') },
   { pattern: 'tech总览', href: categoryHref('tech') },
   { pattern: '各年年终总结', href: categoryHref('annual') },
 ];
@@ -217,7 +245,7 @@ for (const doc of DOC_DEFINITIONS) {
   }
 }
 
-const CATEGORY_ORDER = ['research', 'permanence', 'invisible', 'tech'];
+const CATEGORY_ORDER = ['minors', 'invisible', 'papers', 'permanence', 'tech'];
 
 let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
@@ -235,6 +263,7 @@ const guestbookState = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  initLanguageToggle();
   const page = document.documentElement.dataset.page || 'home';
   if (page === 'viewer') {
     initViewerPage();
@@ -251,6 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initHomePage();
 });
 
+function initLanguageToggle() {
+  window.SiteI18n?.init();
+}
+
 window.addEventListener('mathjax-loaded', () => {
   flushPendingMathTypesetting();
 });
@@ -259,7 +292,7 @@ async function initHomePage() {
   const quoteHost = document.getElementById('daily-quote');
   const quoteMeta = document.getElementById('daily-quote-meta');
   const quoteScoreHelp = document.getElementById('quote-score-help');
-  const articleHost = document.getElementById('main-article');
+  const previewsHost = document.getElementById('home-category-previews');
   const categoryNav = document.getElementById('category-nav');
   const friendSitesHost = document.getElementById('friend-sites');
   const guestbookHost = document.getElementById('guestbook');
@@ -267,9 +300,11 @@ async function initHomePage() {
   if (categoryNav) {
     categoryNav.innerHTML = CATEGORY_ORDER.map((id) => {
       const category = CATEGORY_DEFINITIONS[id];
-      return `<a class="pill-link" href="${categoryHref(id)}">${escapeHtml(category.title)}</a>`;
+      return `<a class="pill-link" href="${categoryHref(id)}" data-language-label-zh="${escapeAttr(category.title)}" data-language-label-en="${escapeAttr(category.titleEn || category.title)}">${escapeHtml(category.title)}</a>`;
     }).join('');
   }
+
+  const previewsReady = previewsHost ? loadHomeCategoryPreviews(previewsHost) : Promise.resolve();
 
   if (quoteHost) {
     try {
@@ -292,12 +327,7 @@ async function initHomePage() {
     }
   }
 
-  if (articleHost) {
-    await loadMarkdownInto(articleHost, rootAssetPath(EVERLASTING_OVERVIEW_PATH), {
-      maxBlocks: 240,
-      linkScope: 'home',
-    });
-  }
+  await previewsReady;
 
   if (friendSitesHost) {
     friendSitesHost.innerHTML = renderFriendSites(FRIEND_SITES);
@@ -306,6 +336,26 @@ async function initHomePage() {
   if (guestbookHost) {
     initGuestbook(guestbookHost);
   }
+}
+
+async function loadHomeCategoryPreviews(host) {
+  const categories = CATEGORY_ORDER.filter((id) => id !== 'tech').map((id) => CATEGORY_DEFINITIONS[id]);
+  const english = document.documentElement.lang === 'en';
+  host.innerHTML = categories.map((category) => `
+    <section class="home-category-preview" aria-labelledby="home-category-${category.id}">
+      <h2 class="home-category-heading" id="home-category-${category.id}">
+        <a href="${categoryHref(category.id)}">
+          <span data-language-label-zh="${escapeAttr(category.title)}" data-language-label-en="${escapeAttr(category.titleEn)}">${escapeHtml(english ? category.titleEn : category.title)}</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </h2>
+      <div class="home-category-viewport markdown-body" data-category="${category.id}" tabindex="0" role="region" aria-labelledby="home-category-${category.id}"></div>
+    </section>
+  `).join('');
+
+  await Promise.all(Array.from(host.querySelectorAll('[data-category]'), (viewport) =>
+    loadCategoryInto(viewport, CATEGORY_DEFINITIONS[viewport.dataset.category]),
+  ));
 }
 
 function renderFriendSites(sites) {
@@ -870,6 +920,10 @@ function generateGuestbookId() {
 
 async function initViewerPage() {
   const url = new URL(window.location.href);
+  if (url.searchParams.has('project')) {
+    await loadProjectViewer(url.searchParams.get('project'));
+    return;
+  }
   const docInput = url.searchParams.get('doc') || EVERLASTING_OVERVIEW_PATH;
   const resolved = resolveDoc(docInput);
   const host = document.getElementById('viewer-article');
@@ -883,13 +937,31 @@ async function initViewerPage() {
     titleHost.textContent = resolved?.title || displayNameFromPath(docInput);
   }
   if (subtitleHost) {
-    subtitleHost.textContent = resolved?.path || docInput;
+    subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(resolved?.category) ? CATEGORY_DEFINITIONS[resolved.category].title : resolved?.path || docInput;
   }
   if (host) {
+    if (String(docInput).replace(/^[./]+/, '').toLowerCase().startsWith('everlasting/research/')) {
+      host.innerHTML = '<div class="error-state">This document is not publicly available.</div>';
+      return;
+    }
     await loadMarkdownInto(host, rootAssetPath(resolved?.path || docInput), {
-      maxBlocks: 600,
       linkScope: 'doc',
+      outline: true,
     });
+    if (resolved?.category) {
+      let returnUrl = categoryHref(resolved.category);
+      try {
+        const from = new URL(url.searchParams.get('from') || returnUrl, window.location.origin);
+        if (from.origin === window.location.origin && from.pathname === '/category.html' && from.searchParams.get('cat') === resolved.category) {
+          returnUrl = from.pathname + from.search;
+        }
+      } catch { /* Use the category's default URL. */ }
+      host.insertAdjacentHTML('afterbegin', `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回${escapeHtml(CATEGORY_DEFINITIONS[resolved.category].title)}列表</a></div>`);
+      if (['minors', 'invisible', 'tech'].includes(resolved.category)) {
+        window.ArticleLibrary.enhanceReader(host, resolved, returnUrl, CATEGORY_DEFINITIONS[resolved.category]);
+      }
+      scrollToDocumentHash(host);
+    }
   }
 }
 
@@ -914,7 +986,7 @@ async function initCategoryPage() {
     titleHost.textContent = category.title;
   }
   if (subtitleHost) {
-    subtitleHost.textContent = category.description;
+    subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(category.id) ? '文章与笔记' : category.description;
   }
   if (navHost) {
     navHost.innerHTML = CATEGORY_ORDER.map((id) => {
@@ -928,6 +1000,24 @@ async function initCategoryPage() {
     return;
   }
 
+  await loadCategoryInto(host, category);
+}
+
+async function loadCategoryInto(host, category) {
+  if (['minors', 'invisible', 'tech'].includes(category.id)) {
+    await window.ArticleLibrary.mount(host, category);
+    return;
+  }
+  if (category.id === 'permanence') {
+    await loadProjectsInto(host);
+    return;
+  }
+  if (category.id === 'papers') {
+    const compact = host.classList.contains('home-category-viewport');
+    if (!compact) host.closest('.page-shell')?.classList.add('paper-page-shell');
+    await window.PaperTree.mount(host, { compact });
+    return;
+  }
   host.innerHTML = '<div class="loading-state">Loading category...</div>';
   if (category.groups?.length) {
     const groups = await Promise.all(category.groups.map(async (group) => ({
@@ -1003,9 +1093,11 @@ async function loadMarkdownInto(host, path, options = {}) {
       basePath: path,
     });
     host.innerHTML = html || '<div class="loading-state">No content found.</div>';
+    if (options.outline) host.insertAdjacentHTML('afterbegin', renderDocumentOutline(html));
     enhanceMarkdownHost(host);
+    if (options.outline) scrollToDocumentHash(host);
   } catch (error) {
-    host.innerHTML = `<div class="error-state">无法加载 ${escapeHtml(path)}。<br>${escapeHtml(error.message)}</div>`;
+    host.innerHTML = '<div class="error-state">暂时无法加载这篇文档，请稍后重试。</div>';
   }
 }
 
@@ -1029,11 +1121,14 @@ async function loadCategoryDocs(category) {
           throw new Error(`Failed to fetch ${doc.path} (${response.status})`);
         }
         const text = await response.text();
-        const preview = renderMarkdown(text, {
+        let preview = renderMarkdown(text, {
           maxBlocks: 4,
           linkScope: 'doc',
           basePath: rootAssetPath(doc.path),
         });
+        if (doc.outlinePreview) {
+          preview = renderDocumentOutline(renderMarkdown(text), viewerHref(doc.path)) + preview;
+        }
         return {
           ...doc,
           type: 'doc',
@@ -1161,10 +1256,10 @@ async function loadCategoryPreview(categoryId) {
 
 function renderCategoryLayout(category, docs) {
   return `
-    <section class="category-intro">
-      <div class="category-intro-title">${escapeHtml(category.title)}</div>
-      <div class="category-intro-copy">${escapeHtml(category.description)}</div>
-    </section>
+    <header class="category-intro">
+      <h2 class="category-intro-title">${escapeHtml(category.title)}</h2>
+      <p class="category-intro-copy">${escapeHtml(category.description)}</p>
+    </header>
     <section class="doc-card-list">${renderDocCards(docs, category)}</section>
   `;
 }
@@ -1183,10 +1278,10 @@ function renderTechCategoryLayout(category, groups) {
   `).join('');
 
   return `
-    <section class="category-intro">
-      <div class="category-intro-title">${escapeHtml(category.title)}</div>
-      <div class="category-intro-copy">${escapeHtml(category.description)}</div>
-    </section>
+    <header class="category-intro">
+      <h2 class="category-intro-title">${escapeHtml(category.title)}</h2>
+      <p class="category-intro-copy">${escapeHtml(category.description)}</p>
+    </header>
     <section class="doc-card-list">${primaryCards}</section>
     ${secondarySections}
   `;
@@ -1199,7 +1294,7 @@ function renderDocCards(docs, category) {
     const href = isCategory ? categoryHref(doc.categoryId) : viewerHref(doc.path);
     const meta = isCategory
       ? `${escapeHtml(category.title)} / ${escapeHtml(doc.description || 'subdirectory')}`
-      : `${escapeHtml(category.title)} / ${escapeHtml(basename(doc.path))}`;
+      : doc.hidePath ? escapeHtml(category.title) : `${escapeHtml(category.title)} / ${escapeHtml(basename(doc.path))}`;
     return `
       <article class="doc-card${missingClass}${isCategory ? ' is-category' : ''}">
         <div class="doc-card-head">
@@ -1217,9 +1312,124 @@ function renderDocCards(docs, category) {
   }).join('');
 }
 
+// Build the outline from rendered headings, so code-block comments never become entries.
+function renderDocumentOutline(html, linkBase = '') {
+  const content = document.createElement('div');
+  content.innerHTML = html;
+  const headings = Array.from(content.querySelectorAll('h1, h2, h3, h4, h5, h6'));
+  if (!headings.length) return '';
+  const root = document.createElement('ol');
+  const stack = [{ level: 0, list: root, item: null }];
+  for (const heading of headings) {
+    const level = Number(heading.tagName.slice(1));
+    while (stack.length > 1 && level <= stack[stack.length - 1].level) stack.pop();
+    const parent = stack[stack.length - 1];
+    let list = parent.list;
+    if (parent.item) {
+      list = parent.item.querySelector(':scope > ol');
+      if (!list) {
+        list = document.createElement('ol');
+        parent.item.append(list);
+      }
+    }
+    const item = document.createElement('li');
+    const anchor = document.createElement('a');
+    anchor.href = `${linkBase}#${encodeURIComponent(heading.id)}`;
+    anchor.textContent = heading.textContent;
+    item.append(anchor);
+    list.append(item);
+    stack.push({ level, list, item });
+  }
+  return `<details class="document-outline" open><summary>文章目录</summary><nav aria-label="文章目录">${root.outerHTML}</nav></details>`;
+}
+
+function scrollToDocumentHash(host) {
+  let id;
+  try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { return; }
+  if (!id) return;
+  const target = Array.from(host.querySelectorAll('[id]')).find((element) => element.id === id);
+  target?.scrollIntoView({ block: 'start' });
+}
+
+let projectsPromise;
+function loadProjects() {
+  if (!projectsPromise) {
+    projectsPromise = fetch('/assets/projects/index.json', { cache: 'no-cache' }).then((response) => {
+      if (!response.ok) throw new Error('暂时无法加载项目介绍，请稍后重试。');
+      return response.json();
+    }).then((data) => data.projects).catch((error) => { projectsPromise = null; throw error; });
+  }
+  return projectsPromise;
+}
+
+function projectHref(id) {
+  return `/viewer.html?project=${encodeURIComponent(id)}`;
+}
+
+function renderProjectReadme(project, headingPrefix = '') {
+  return renderMarkdown(project.markdown, {
+    basePath: project.assetBase,
+    linkBase: project.linkBase,
+    headingPrefix,
+  });
+}
+
+async function loadProjectsInto(host) {
+  host.innerHTML = '<div class="loading-state">正在加载项目介绍…</div>';
+  try {
+    const projects = await loadProjects();
+    await window.ArticleLibrary.mount(host, projectCategory(projects), projects.map((project) => ({
+      ...window.ArticleLibrary.summarize(project.markdown),
+      path: project.id, title: project.title, href: projectHref(project.id),
+      repository: project.repository, group: '', groupTitle: 'README',
+    })));
+  } catch (error) {
+    host.innerHTML = `<div class="error-state">${escapeHtml(error.message)}</div>`;
+  }
+}
+
+function projectCategory(projects) {
+  return { ...CATEGORY_DEFINITIONS.permanence, entries: projects.map((project) => ({
+    path: project.id, title: project.title, href: projectHref(project.id),
+  })) };
+}
+
+async function loadProjectViewer(id) {
+  const host = document.getElementById('viewer-article');
+  const title = document.getElementById('viewer-title');
+  const subtitle = document.getElementById('viewer-subtitle');
+  host.innerHTML = '<div class="loading-state">正在加载项目介绍…</div>';
+  try {
+    const projects = await loadProjects();
+    const project = projects.find((item) => item.id === id);
+    if (!project) throw new Error('未找到这个项目。');
+    document.title = `${project.title} | assassinlike`;
+    title.textContent = project.title;
+    subtitle.textContent = '开源项目';
+    const html = renderProjectReadme(project);
+    let returnUrl = categoryHref('permanence');
+    try {
+      const from = new URL(new URL(location.href).searchParams.get('from') || returnUrl, location.origin);
+      if (from.origin === location.origin && from.pathname === '/category.html' && from.searchParams.get('cat') === 'permanence') returnUrl = from.pathname + from.search;
+    } catch { /* Keep the default list URL. */ }
+    host.innerHTML = `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回开源项目列表</a></div>${renderDocumentOutline(html)}${html}`;
+    window.ArticleLibrary.enhanceReader(host, { path: project.id, title: project.title }, returnUrl, projectCategory(projects));
+    if (project.repository) host.querySelector('.library-reader-head').insertAdjacentHTML('beforeend', `<a class="library-repository" href="${escapeAttr(project.repository)}" target="_blank" rel="noopener noreferrer">GitHub 仓库 ↗</a>`);
+    enhanceMarkdownHost(host);
+    scrollToDocumentHash(host);
+  } catch (error) {
+    host.innerHTML = `<div class="error-state">${escapeHtml(error.message)}</div>`;
+  }
+}
+
+function markdownTableCells(line) {
+  return line.trim().replace(/^\|/, '').replace(/\|$/, '').split(/(?<!\\)\|/).map((cell) => cell.trim().replace(/\\\|/g, '|'));
+}
+
 function renderMarkdown(source, options = {}) {
   const lines = normalizeLineBreaks(source).split('\n');
   const blocks = [];
+  const headingIds = new Set();
   let i = 0;
 
   while (i < lines.length) {
@@ -1282,7 +1492,12 @@ function renderMarkdown(source, options = {}) {
       const match = compact.match(/^(#{1,6})\s+(.*)$/);
       const level = match[1].length;
       const text = match[2].trim();
-      blocks.push(`<h${level} id="${slugify(text)}">${parseInline(text, options)}</h${level}>`);
+      const baseId = slugify(text);
+      let headingId = baseId;
+      let suffix = 1;
+      while (headingIds.has(headingId)) headingId = `${baseId}-${suffix++}`;
+      headingIds.add(headingId);
+      blocks.push(`<h${level} id="${escapeAttr((options.headingPrefix || '') + headingId)}">${parseInline(text, options)}</h${level}>`);
       i += 1;
       continue;
     }
@@ -1301,6 +1516,21 @@ function renderMarkdown(source, options = {}) {
       }
       blocks.push(`<blockquote>${paragraphify(quote, options)}</blockquote>`);
       continue;
+    }
+
+    if (line.includes('|') && i + 1 < lines.length) {
+      const separators = markdownTableCells(lines[i + 1]);
+      const headers = markdownTableCells(line);
+      if (headers.length === separators.length && separators.every((cell) => /^:?-{3,}:?$/.test(cell))) {
+        const rows = [];
+        i += 2;
+        while (i < lines.length && lines[i].trim() && lines[i].includes('|')) {
+          const cells = markdownTableCells(lines[i++]);
+          rows.push(`<tr>${headers.map((_, column) => `<td>${parseInline(cells[column] || '', options)}</td>`).join('')}</tr>`);
+        }
+        blocks.push(`<div class="md-table-scroll"><table><thead><tr>${headers.map((cell) => `<th>${parseInline(cell, options)}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`);
+        continue;
+      }
     }
 
     if (isListItem(compact)) {
@@ -1386,7 +1616,12 @@ function parseInline(text, options = {}) {
   });
 
   working = working.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
-    const resolved = resolveLinkHref(href.trim());
+    const target = href.trim();
+    const resolved = target.startsWith('#') && options.headingPrefix
+      ? '#' + options.headingPrefix + target.slice(1)
+      : options.linkBase && !/^(?:[a-z][a-z0-9+.-]*:|#|\/\/)/i.test(target)
+        ? new URL(target, options.linkBase).href : resolveLinkHref(target);
+    if (!/^(?:https?:|mailto:|tel:|\/|#)/i.test(resolved) && /^[a-z][a-z0-9+.-]*:/i.test(resolved)) return escapeHtml(label.trim());
     const external = isExternalUrl(resolved);
     const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
     const className = resolved.includes('category.html') || resolved.includes('viewer.html') || resolved.includes('secret.html') ? 'doc-link' : '';
@@ -1693,7 +1928,8 @@ function categoryHref(categoryId) {
 }
 
 function viewerHref(docPath) {
-  return `/viewer.html?doc=${encodeURIComponent(docPath)}`;
+  const publicId = DOC_DEFINITIONS.find((doc) => doc.path === docPath)?.publicId;
+  return `/viewer.html?doc=${encodeURIComponent(publicId || docPath)}`;
 }
 
 function rootAssetPath(path) {

@@ -20,7 +20,10 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/piece_top.ico/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/piece_top.ico/favicon-16x16.png">
   <link rel="manifest" href="/piece_top.ico/manifest.json">
-  <link rel="stylesheet" href="/style.css?v=20260623-auth">
+  <link rel="stylesheet" href="/style.css?v=20260920-i18n">
+  <script src="/site-i18n.js?v=20260920-i18n" defer></script>
+  <link rel="stylesheet" href="/article-library.css?v=20260920-collections">
+  <link rel="stylesheet" href="/paper-tree.css?v=20260920-arxiv">
   <script>
     window.MathJax = {
       tex: {
@@ -61,19 +64,20 @@
         </div>
       </a>
       <div class="topbar-actions">
-        <a class="icon-link" href="https://github.com/assassinlike" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="icon-link" href="https://osu.ppy.sh/users/36703588" target="_blank" rel="noopener noreferrer">osu!</a>
-        <a class="icon-link" href="https://space.bilibili.com/1450132725" target="_blank" rel="noopener noreferrer">bilibili</a>
+        <button id="language-toggle" class="icon-link language-toggle" type="button" aria-pressed="false">English</button>
       </div>
     </header>
 
     <main class="home-layout">
       <aside class="profile-panel">
-        <img class="profile-photo" src="/figs/bg.jpg" alt="profile image">
+        <img class="profile-photo" src="/figs/face.jpg" alt="Yihe Zang">
 
         <div class="profile-name-block">
           <h1 class="profile-name">Yihe Zang</h1>
-          <p class="profile-handle">assassinlike</p>
+          <div class="profile-handle-row">
+            <img class="profile-handle-mark" src="/figs/bg.jpg" alt="">
+            <p class="profile-handle">assassinlike</p>
+          </div>
         </div>
 
         <div class="contact-list">
@@ -83,23 +87,51 @@
           </div>
           <div class="contact-item">
             <span class="contact-label">Email</span>
-            <a class="contact-value link-inline" href="mailto:assassinlikeagat@gmail.com">assassinlikeagat@gmail.com</a>
+            <a class="contact-value link-inline" href="mailto:1595191677@qq.com">1595191677@qq.com</a>
           </div>
         </div>
 
-        <div class="profile-links">
-          <a class="pill-link" href="/viewer.html?doc=everlasting/permanence/math-embedding/math-embedding.md">math-embedding ↗</a>
-          <a class="pill-link" href="/viewer.html?doc=everlasting/research/tefig/determined.md">tefig ↗</a>
-          <a class="pill-link" href="/viewer.html?doc=everlasting/research/ulars/determined.md">ulars ↗</a>
-          <a class="pill-link" href="/viewer.html?doc=everlasting/research/recurrent_MoE.md">recurrent MoE ↗</a>
+        <div class="profile-social-links">
+          <a class="icon-link" href="https://github.com/assassinlike" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="icon-link" href="https://space.bilibili.com/1450132725" target="_blank" rel="noopener noreferrer">bilibili</a>
+          <a class="icon-link" href="https://www.linkedin.com/in/assassinlike/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="icon-link" href="https://www.zhihu.com/people/cartoon34" target="_blank" rel="noopener noreferrer">知乎</a>
+          <a class="icon-link" href="https://x.com/assass1nlike" target="_blank" rel="noopener noreferrer">X</a>
+          <span class="icon-link social-placeholder" aria-disabled="true">小红书</span>
         </div>
       </aside>
 
       <section class="reader-panel">
+        <section class="home-intro markdown-body" aria-label="自我介绍">
+          <div class="language-copy" data-language="zh">
+            <p>
+            我以全国第十录取西安交通大学24级少年班，后续通过直升考试16岁进入 XJTU 人工智能试验班。<br>
+            目前在清华大学人工智能学院T-STAR Lab科研实习，师从助理教授董胤蓬。<br>
+            近期我还实习于由清华AI院与叉院团队创立的AI安全企业，方寸跃迁。
+            </p>
+            <hr>
+            <h3>AI Researcher</h3>
+            <p>在科研上，我高度 self-motivated. 我的一大研究主线涉及后训练、强化学习，以及略冷门一些的 unlearning 和 model editing；另一主线主要有关 self-evolve, LLM evaluation, multi-agent system.</p>
+            <h3>Pure/Serious Math</h3>
+            <p>在AI科研以外，我还对纯数学有着极大的兴趣，对 Algebraic Topology, Commutative Algebra 和其更深层的 Algebraic Geometry 都有过学习。我喜欢从事的事情（甚至超越AI科研），也是一个很早产生的理想，是<strong>给抽象的数学知识找到应用</strong>。</p>
+          </div>
+          <div class="language-copy" data-language="en" hidden>
+            <p>
+              I entered Xi'an Jiaotong University as the 10th-ranked student nationwide in the 2024 Young Talent Class, and later entered the XJTU Artificial Intelligence Honors Program at the age of 16 through its direct-admission examination.<br>
+              I am currently a research intern at T-STAR Lab in Tsinghua University's College of AI, supervised by Assistant Professor Yinpeng Dong.<br>
+              I have also recently interned at Fangcun Yueqian, an AI safety company founded by teams from Tsinghua's College of AI and Institute for Interdisciplinary Information Sciences.
+            </p>
+            <hr>
+            <h3>AI Researcher</h3>
+            <p>I am highly self-motivated in research. One of my main lines of work concerns post-training, reinforcement learning, and the less explored areas of unlearning and model editing; another focuses on self-evolution, LLM evaluation, and multi-agent systems.</p>
+            <h3>Pure/Serious Math</h3>
+            <p>Outside AI research, I have a strong interest in pure mathematics. I have studied Algebraic Topology, Commutative Algebra, and the deeper subject of Algebraic Geometry. An early ideal of mine—one I value even beyond AI research—is to <strong>find applications for abstract mathematical knowledge</strong>.</p>
+          </div>
+        </section>
         <div id="category-nav" class="category-nav"></div>
-        <article id="main-article" class="markdown-body" aria-label="everlasting content"></article>
+        <div id="home-category-previews" class="home-category-previews"></div>
         <div class="refresh-panel">
-          <div class="refresh-label">每天随机刷新一段文字</div>
+          <div class="refresh-label" data-language-label-zh="每天随机刷新一段文字" data-language-label-en="A random passage every day">每天随机刷新一段文字</div>
           <div id="daily-quote" class="refresh-text" aria-live="polite"></div>
           <div class="refresh-meta-row">
             <div class="refresh-score-meta">
@@ -114,7 +146,7 @@
                 hidden
               >?</span>
             </div>
-            <a class="refresh-history" href="/history.html">历史浏览 ↗</a>
+            <a class="refresh-history" href="/history.html" data-language-label-zh="历史浏览 ↗" data-language-label-en="History ↗">历史浏览 ↗</a>
           </div>
         </div>
         <div id="friend-sites" class="friend-sites" aria-label="friend sites"></div>
@@ -125,6 +157,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="/secret-config.js?v=20260623-auth" defer></script>
-  <script src="/script.js?v=20260623-auth" defer></script>
+  <script src="/paper-tree.js?v=20260920-i18n" defer></script>
+  <script src="/assets/tech/catalog.js?v=20260920-collections" defer></script>
+  <script src="/article-library.js?v=20260920-i18n" defer></script>
+  <script src="/script.js?v=20260920-i18n" defer></script>
 </body>
 </html>
