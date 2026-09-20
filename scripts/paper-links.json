@@ -1,0 +1,18 @@
+{
+  "unlearning/benchmarks/MUSE": "https://arxiv.org/abs/2407.06460",
+  "agents/self-evolve/AgentGen": "https://arxiv.org/abs/2408.00764",
+  "agents/self-evolve/HGM": "https://arxiv.org/abs/2510.21614",
+  "interpretability/Knowledge is a Region in Weight Space for Finetuned Language Models": "https://arxiv.org/abs/2302.04863",
+  "safety/CensorsToolkit": "https://arxiv.org/abs/2608.12346",
+  "unlearning/algorithms/AltPO": "https://arxiv.org/abs/2409.13474",
+  "unlearning/algorithms/NPO": "https://arxiv.org/abs/2404.05868",
+  "unlearning/algorithms/SatImp": "https://arxiv.org/abs/2505.11953",
+  "unlearning/algorithms/simNPO": "https://arxiv.org/abs/2410.07163",
+  "unlearning/algorithms/UNDIAL": "https://arxiv.org/abs/2402.10052",
+  "unlearning/algorithms/WGA": "https://arxiv.org/abs/2502.19301",
+  "unlearning/benchmarks/TOFU": "https://arxiv.org/abs/2401.06121",
+  "reports/LLMs/DeepSeek-V4": "https://arxiv.org/abs/2606.19348",
+  "pretrain/data selection/QuRating": "https://arxiv.org/abs/2402.09739",
+  "post-train/knowledge editing/BadEdit": "https://arxiv.org/abs/2403.13355",
+  "agents/self-evolve/AFlow": "https://arxiv.org/abs/2410.10762"
+}

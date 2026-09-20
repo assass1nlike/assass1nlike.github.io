@@ -1,0 +1,2371 @@
+{
+  "version": 1,
+  "tree": {
+    "id": "",
+    "name": "全部论文",
+    "children": [
+      {
+        "id": "agents",
+        "name": "agents",
+        "children": [
+          {
+            "id": "agents/frameworks",
+            "name": "frameworks",
+            "children": [],
+            "papers": [
+              "e896145a50d546810d71",
+              "65445d89cebb97265a0f",
+              "0525f838f6511ef10286",
+              "d4dbb2981f22323196e1"
+            ],
+            "count": 4,
+            "annotated": 1
+          },
+          {
+            "id": "agents/self-evolve",
+            "name": "self-evolve",
+            "children": [],
+            "papers": [
+              "75afa2d2673f544990f1",
+              "5e1cde8a26cecd197b08",
+              "719824613ffd24c4c23d",
+              "c86a0f29a41fa36f73ad",
+              "503b026573a7cec16e78"
+            ],
+            "count": 5,
+            "annotated": 2
+          }
+        ],
+        "papers": [
+          "8fa87c28e05b069dc909",
+          "a044dbf6658ba96f6be0",
+          "e4889579743af4017bb6"
+        ],
+        "count": 12,
+        "annotated": 6
+      },
+      {
+        "id": "CV",
+        "name": "CV",
+        "children": [
+          {
+            "id": "CV/3D",
+            "name": "3D",
+            "children": [],
+            "papers": [
+              "e8c42185bf1a5ea3c94a"
+            ],
+            "count": 1,
+            "annotated": 0
+          }
+        ],
+        "papers": [],
+        "count": 1,
+        "annotated": 0
+      },
+      {
+        "id": "diffusion",
+        "name": "diffusion",
+        "children": [],
+        "papers": [
+          "cd390f063c6cd66f7a37"
+        ],
+        "count": 1,
+        "annotated": 0
+      },
+      {
+        "id": "evaluation",
+        "name": "evaluation",
+        "children": [
+          {
+            "id": "evaluation/benchmaker",
+            "name": "benchmaker",
+            "children": [
+              {
+                "id": "evaluation/benchmaker/agentic",
+                "name": "agentic",
+                "children": [],
+                "papers": [
+                  "c6eb58f819f1cd4d2acd",
+                  "00b1444b523e98247679"
+                ],
+                "count": 2,
+                "annotated": 0
+              }
+            ],
+            "papers": [
+              "14023c9b70134ce76094",
+              "e31d49cf30211792b04d",
+              "31211fd41ee05340b04f",
+              "9e612393eb91fbe6e1b3"
+            ],
+            "count": 6,
+            "annotated": 2
+          },
+          {
+            "id": "evaluation/benchmark",
+            "name": "benchmark",
+            "children": [],
+            "papers": [
+              "4faffbc39fe44510426c",
+              "01a014ad64e0b1736301",
+              "c40198c83242108d592d",
+              "c9c0c17dfa8f6e04c8b2",
+              "607cc8c4716afc85a921",
+              "4e3e5822cc50ea5608d8"
+            ],
+            "count": 6,
+            "annotated": 2
+          },
+          {
+            "id": "evaluation/meta-bench",
+            "name": "meta-bench",
+            "children": [],
+            "papers": [
+              "0e2e33f9daa3dce16743"
+            ],
+            "count": 1,
+            "annotated": 1
+          }
+        ],
+        "papers": [
+          "791d943217bd2ca3d8cd",
+          "c89ad502449e815f0c76"
+        ],
+        "count": 15,
+        "annotated": 5
+      },
+      {
+        "id": "interpretability",
+        "name": "interpretability",
+        "children": [
+          {
+            "id": "interpretability/data influence",
+            "name": "data influence",
+            "children": [],
+            "papers": [
+              "32d39694b79c6cea4e8b"
+            ],
+            "count": 1,
+            "annotated": 1
+          }
+        ],
+        "papers": [
+          "b016df2e3da03cb4c3b9",
+          "f2c2135244cfd1bddf4c",
+          "f419d5985e216a94a81b",
+          "75f0e8109e45104128e8",
+          "127039002c4d6ac5dab8",
+          "5486275cd316fd1a69d9",
+          "9d510439585f664133b1"
+        ],
+        "count": 8,
+        "annotated": 4
+      },
+      {
+        "id": "models",
+        "name": "models",
+        "children": [
+          {
+            "id": "models/classification",
+            "name": "classification",
+            "children": [],
+            "papers": [
+              "a8ed905764a17c693f3f",
+              "a9e1e6b5df03837bdca0"
+            ],
+            "count": 2,
+            "annotated": 0
+          }
+        ],
+        "papers": [
+          "55a473be9304b8445218",
+          "9802855debc50182279a"
+        ],
+        "count": 4,
+        "annotated": 0
+      },
+      {
+        "id": "multimodal",
+        "name": "multimodal",
+        "children": [],
+        "papers": [],
+        "count": 0,
+        "annotated": 0
+      },
+      {
+        "id": "optimization",
+        "name": "optimization",
+        "children": [
+          {
+            "id": "optimization/optimizer",
+            "name": "optimizer",
+            "children": [],
+            "papers": [
+              "fce3461677a93e8daa4a",
+              "d0b5b7f8e845ac28e9e1",
+              "0bb7d9a148c6050c0e5e",
+              "32ec0964417b86b7d914",
+              "17a29df683ea21b6aaf6"
+            ],
+            "count": 5,
+            "annotated": 2
+          }
+        ],
+        "papers": [
+          "25a36289f9968987414a",
+          "1111e03ab742cfe593e7",
+          "8387b0f899a4be160188",
+          "fc3e5f26768ce33b4441",
+          "ebca4cd3c43dc955ca4f",
+          "f6a45d26408b937c5a13",
+          "3fadf769369ef7428239",
+          "758f9c612a8bf6f5e107"
+        ],
+        "count": 13,
+        "annotated": 2
+      },
+      {
+        "id": "post-train",
+        "name": "post-train",
+        "children": [
+          {
+            "id": "post-train/knowledge editing",
+            "name": "knowledge editing",
+            "children": [],
+            "papers": [
+              "1980d64e1df156f49e00",
+              "c90c93a8601c03a87101",
+              "6936fde8bd4916edc3a9",
+              "7bb8a26461fecf8757fc",
+              "fc9d00e49961465c49f7",
+              "036280139cd91efddc4d",
+              "13dc464594d4198bbe1a",
+              "6bc8578e1ee6d032ef44",
+              "75f7f46ba218ef72f2a9",
+              "d54742627d20e2fc2f88",
+              "af1bf8118f9b9e67b277",
+              "84f874a17d3261dcaa3e",
+              "5ec79e507ad8ed448f07",
+              "0a7d66aac596a1694ef5",
+              "8707de581c2a7919e19a"
+            ],
+            "count": 15,
+            "annotated": 2
+          },
+          {
+            "id": "post-train/RL",
+            "name": "RL",
+            "children": [],
+            "papers": [
+              "e4319ee42d76de939b6b",
+              "a88cb280df8e2b58d073"
+            ],
+            "count": 2,
+            "annotated": 1
+          },
+          {
+            "id": "post-train/self-evolve",
+            "name": "self-evolve",
+            "children": [],
+            "papers": [
+              "bf7c8785e71b552f79b8"
+            ],
+            "count": 1,
+            "annotated": 0
+          },
+          {
+            "id": "post-train/SFT",
+            "name": "SFT",
+            "children": [
+              {
+                "id": "post-train/SFT/data selection",
+                "name": "data selection",
+                "children": [],
+                "papers": [
+                  "10a8779f43ce2b067ecd",
+                  "bfc71e8c3ec52767da3b",
+                  "35ed3f985e47c918f4e6",
+                  "83087f1f32243cdfc406",
+                  "51fb91eddcd80ebc0cfc",
+                  "f06c4d6d3564ad851863",
+                  "17cb3c3876c990cbc600"
+                ],
+                "count": 7,
+                "annotated": 1
+              },
+              {
+                "id": "post-train/SFT/data synthesis",
+                "name": "data synthesis",
+                "children": [],
+                "papers": [
+                  "67d0a6467750ad78d35b"
+                ],
+                "count": 1,
+                "annotated": 0
+              }
+            ],
+            "papers": [
+              "9372f97e98a64ba13bed",
+              "64ca999fadf9ffc693a9",
+              "835b03738b10402dfdd1",
+              "88ed4cca442e8f18d0d8",
+              "c1f851e7d4748cea6232"
+            ],
+            "count": 13,
+            "annotated": 1
+          }
+        ],
+        "papers": [
+          "1953ccfa25bb9007678f",
+          "98612d5a3d4b598e1c40",
+          "da53ecbdae1e09d22473"
+        ],
+        "count": 34,
+        "annotated": 5
+      },
+      {
+        "id": "pretrain",
+        "name": "pretrain",
+        "children": [
+          {
+            "id": "pretrain/data selection",
+            "name": "data selection",
+            "children": [],
+            "papers": [
+              "f9fe453f60b1a94334e6",
+              "4f7dcde8b00cd13d5d91",
+              "83afced61001a9353d12",
+              "fbeb5efc7167d612db65",
+              "a7c72c25e9dcf1127dc4"
+            ],
+            "count": 5,
+            "annotated": 4
+          },
+          {
+            "id": "pretrain/empirical",
+            "name": "empirical",
+            "children": [],
+            "papers": [
+              "4ea71703e60163297af2"
+            ],
+            "count": 1,
+            "annotated": 0
+          }
+        ],
+        "papers": [],
+        "count": 6,
+        "annotated": 4
+      },
+      {
+        "id": "reports",
+        "name": "reports",
+        "children": [
+          {
+            "id": "reports/LLMs",
+            "name": "LLMs",
+            "children": [],
+            "papers": [
+              "6acfd4e32280035251d1"
+            ],
+            "count": 1,
+            "annotated": 0
+          }
+        ],
+        "papers": [
+          "207873e867322ae80e38"
+        ],
+        "count": 2,
+        "annotated": 0
+      },
+      {
+        "id": "safety",
+        "name": "safety",
+        "children": [
+          {
+            "id": "safety/EMA",
+            "name": "EMA",
+            "children": [],
+            "papers": [
+              "c1273c35e3e216d55c4a",
+              "5b3c6b75535255852e33",
+              "f69a4aabdb723c8b8f0a",
+              "2c5e66d8481fbeb0ca30"
+            ],
+            "count": 4,
+            "annotated": 2
+          },
+          {
+            "id": "safety/jailbreak",
+            "name": "jailbreak",
+            "children": [],
+            "papers": [
+              "1c0bedefefc561efeb95",
+              "40b70a980b2253a445fc"
+            ],
+            "count": 2,
+            "annotated": 0
+          },
+          {
+            "id": "safety/self-evolve",
+            "name": "self-evolve",
+            "children": [],
+            "papers": [
+              "b1a8bec58794bac72b42",
+              "e0eba2212d5203e34bb1",
+              "3d380146bb6c6979d04e",
+              "cb60a73899729e8ca3c3",
+              "8286075fca6f84e5ba20",
+              "590abe1ade88b48e1459",
+              "23e1cbba80048ad65fbc",
+              "a94c03653b3e1756065f"
+            ],
+            "count": 8,
+            "annotated": 3
+          }
+        ],
+        "papers": [
+          "3688a75ff2fd9b195401",
+          "ddcd9affa9f3f65d8287",
+          "339f0997b5480bb32723",
+          "01636a2853591b02c2ee"
+        ],
+        "count": 18,
+        "annotated": 6
+      },
+      {
+        "id": "structure",
+        "name": "structure",
+        "children": [
+          {
+            "id": "structure/attn",
+            "name": "attn",
+            "children": [],
+            "papers": [
+              "e6a1295513a2256495f9",
+              "801af38da68654adf3f2"
+            ],
+            "count": 2,
+            "annotated": 0
+          },
+          {
+            "id": "structure/decoding",
+            "name": "decoding",
+            "children": [],
+            "papers": [
+              "9574e8407420f4997a89"
+            ],
+            "count": 1,
+            "annotated": 0
+          },
+          {
+            "id": "structure/MoE",
+            "name": "MoE",
+            "children": [],
+            "papers": [
+              "785933c137fa8f57145f"
+            ],
+            "count": 1,
+            "annotated": 0
+          }
+        ],
+        "papers": [
+          "68f185457747be846606",
+          "383b234e2df2c4587cad",
+          "3bde611fbf7aa5251552"
+        ],
+        "count": 7,
+        "annotated": 1
+      },
+      {
+        "id": "talks",
+        "name": "talks",
+        "children": [],
+        "papers": [
+          "9fd1941deb18749b9471"
+        ],
+        "count": 1,
+        "annotated": 0
+      },
+      {
+        "id": "tool",
+        "name": "tool",
+        "children": [],
+        "papers": [
+          "97cecca7acad7440471b"
+        ],
+        "count": 1,
+        "annotated": 0
+      },
+      {
+        "id": "unlearning",
+        "name": "unlearning",
+        "children": [
+          {
+            "id": "unlearning/algorithms",
+            "name": "algorithms",
+            "children": [],
+            "papers": [
+              "f21939af344fbbb41208",
+              "2af20ff80f29dc30473c",
+              "c1cd1ad23ff7d46ecff7",
+              "12e7cfb1202e0e2c21d2",
+              "f80c47bddbd5a99582d9",
+              "d7c29e438d0298d0c908",
+              "c0d3a12b3810e6383de2",
+              "109c4905cecb268deddc"
+            ],
+            "count": 8,
+            "annotated": 0
+          },
+          {
+            "id": "unlearning/benchmarks",
+            "name": "benchmarks",
+            "children": [],
+            "papers": [
+              "e9b22d37e0c2a9285849",
+              "5ecd9fce8a8eaa203f95",
+              "e22678110736f4ec541d"
+            ],
+            "count": 3,
+            "annotated": 0
+          },
+          {
+            "id": "unlearning/directions",
+            "name": "directions",
+            "children": [],
+            "papers": [
+              "0b10fbab8010f3d08c5e",
+              "4c2b13fc810f88aabdc4",
+              "dc3e9a72db73416580bd"
+            ],
+            "count": 3,
+            "annotated": 2
+          },
+          {
+            "id": "unlearning/paraphrase",
+            "name": "paraphrase",
+            "children": [],
+            "papers": [
+              "250c409e33f0e0887082",
+              "7c22dde9f24c4477f661"
+            ],
+            "count": 2,
+            "annotated": 2
+          },
+          {
+            "id": "unlearning/questions",
+            "name": "questions",
+            "children": [],
+            "papers": [
+              "3109fae42b0e17b04239",
+              "242675ecef6e5df13445",
+              "7cdf19552031e80a7bcf",
+              "a458942f76b8b4cd02ad"
+            ],
+            "count": 4,
+            "annotated": 3
+          },
+          {
+            "id": "unlearning/representation",
+            "name": "representation",
+            "children": [],
+            "papers": [
+              "dee890158a93f3a8173f",
+              "9ba9a9a60e621b841089",
+              "7047c9539a422f48b3a3",
+              "686039b5c06268a28748"
+            ],
+            "count": 4,
+            "annotated": 2
+          },
+          {
+            "id": "unlearning/selective unlearn",
+            "name": "selective unlearn",
+            "children": [],
+            "papers": [
+              "7014a78ad5d268981dda",
+              "f255f7c1aaf85f6785f5",
+              "2f1fb69584f189148d80",
+              "4c6b4dcf6abc47139678"
+            ],
+            "count": 4,
+            "annotated": 0
+          }
+        ],
+        "papers": [
+          "20c9836ec8f91dff63a7",
+          "03efad274a14166ee197",
+          "62d0ce4041ca40eee043",
+          "9461c76feb8e459791f0",
+          "df493460dae7c055267d",
+          "8551ef7a0f9f3bfa9fea",
+          "982163057eca0ed0ea59",
+          "9fea6b6a82c23f46a63a",
+          "742cb432a559fef43de7",
+          "51cac74d8a453f77b4c2",
+          "da091026cd866e928517",
+          "fa3beaf76fa0e9e02618",
+          "d489143c2891ff28be29",
+          "9c8207b1f2bcfe759d68",
+          "f8706c5316d751f1d815",
+          "4c355e2937a03bae531f",
+          "22e2c810f2d21da1039e",
+          "07be137dfab36d12ce16",
+          "699af9f985a67145f137",
+          "62f00cf16405eb94a866",
+          "51e9793f65b42f914f70",
+          "15a3d70efaf2870762f0",
+          "fdaab3fa2c1ebeb03f59"
+        ],
+        "count": 51,
+        "annotated": 13
+      }
+    ],
+    "papers": [],
+    "count": 174,
+    "annotated": 46
+  },
+  "papers": [
+    {
+      "id": "e896145a50d546810d71",
+      "title": "AutoResearch",
+      "category": "agents/frameworks",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2607.02520"
+    },
+    {
+      "id": "65445d89cebb97265a0f",
+      "title": "AutoResearchClaw",
+      "category": "agents/frameworks",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2605.20025"
+    },
+    {
+      "id": "0525f838f6511ef10286",
+      "title": "IWG",
+      "category": "agents/frameworks",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "带工具的单个智能体能完成局部检索、编码或界面操作，却常在长链任务中受限于上下文窗口和累积推理错误。多智能体系统试图把认知负担分给研究员、编码器、检索器、审查员等专用角色，其中最常见的是中央编排架构：一个 Orchestrator 保存全局状态，把用户目标拆成步骤，选择 Executor 执行，并根据返回结果继续调度。",
+      "arxivUrl": "https://arxiv.org/abs/2606.01351"
+    },
+    {
+      "id": "d4dbb2981f22323196e1",
+      "title": "star-polya math",
+      "category": "agents/frameworks",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2605.19338"
+    },
+    {
+      "id": "75afa2d2673f544990f1",
+      "title": "AFlow",
+      "category": "agents/self-evolve",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "论文讨论的是如何自动设计“智能体工作流”。这里的工作流不是一个单独的提示词，而是一个按固定程序组织起来的多次大语言模型调用：每次调用构成一个节点，节点之间通过程序中的顺序、变量传递、条件分支或循环连接起来。这样的工作流可以把一个复杂任务拆成生成、检查、修订、投票等步骤。",
+      "arxivUrl": "https://arxiv.org/abs/2410.10762"
+    },
+    {
+      "id": "5e1cde8a26cecd197b08",
+      "title": "AgentGen",
+      "category": "agents/self-evolve",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "论文讨论的是如何用指令微调提升基于大语言模型（LLM）的智能体的规划能力。这里的规划不是让模型写一段脱离环境的行动建议，而是让智能体在环境中反复观察、选择可执行动作，使环境从初始状态转移到满足目标条件的状态。典型应用包括机器人操作、旅行安排等。",
+      "arxivUrl": "https://arxiv.org/abs/2408.00764"
+    },
+    {
+      "id": "719824613ffd24c4c23d",
+      "title": "ANCHOR",
+      "category": "agents/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.06114"
+    },
+    {
+      "id": "c86a0f29a41fa36f73ad",
+      "title": "HGM",
+      "category": "agents/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2510.21614"
+    },
+    {
+      "id": "503b026573a7cec16e78",
+      "title": "SEED",
+      "category": "agents/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2607.14777"
+    },
+    {
+      "id": "8fa87c28e05b069dc909",
+      "title": "Agent-World",
+      "category": "agents",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "Agent-World 针对的是这样一个矛盾：通用智能体需要在真实、有状态、多工具世界中学习，但人工环境难以扩展，LLM 模拟又可能不真实，已有环境扩展还通常只训练一轮、不能根据失败持续改进。它先从 MCP server 规格、工具文档和工业 PRD 收集主题，用深度研究智能体从网页挖掘并多轮复杂化数据库，再用编码智能体生成带单元测试的可执行工具，仅保留可编…",
+      "arxivUrl": "https://arxiv.org/abs/2604.18292"
+    },
+    {
+      "id": "a044dbf6658ba96f6be0",
+      "title": "GLEAN",
+      "category": "agents",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "高风险智能体的答案来自多步执行过程，错误可能在中间检查、证据解释或推理中产生。现有验证方法要么需要大量昂贵的专家标注，要么让大模型凭内部知识再判断一次，要么根据多次采样是否一致来估计信心。这些方法分别面临数据成本、隐含标准与概率失准、以及“稳定地犯错仍然很自信”的问题。高风险部署真正需要的是一个利用专业知识、能检查过程、并且输出校准正确概率的验证器。",
+      "arxivUrl": ""
+    },
+    {
+      "id": "e4889579743af4017bb6",
+      "title": "LatentMAS",
+      "category": "agents",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "普通 LLM 多智能体系统让每个智能体先把内部推理写成文字，再把文字交给下一个智能体重新编码。这会丢掉连续隐藏状态中未被文字显式表达的信息，还产生大量中间 token、词表 softmax、长上下文和重复编码成本。既有潜推理工作通常只让单模型在隐藏空间中思考，既有潜通信工作则只交换缓存或隐藏状态，而且往往需要额外训练；两者没有形成从内部推理到跨智能体传递都在…",
+      "arxivUrl": "https://arxiv.org/abs/2511.20639"
+    },
+    {
+      "id": "e8c42185bf1a5ea3c94a",
+      "title": "CVT-Occ",
+      "category": "CV/3D",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2409.13430"
+    },
+    {
+      "id": "cd390f063c6cd66f7a37",
+      "title": "Diffusion Models are Certifiably Robust Classifiers",
+      "category": "diffusion",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2402.02316"
+    },
+    {
+      "id": "c6eb58f819f1cd4d2acd",
+      "title": "AutoControl Arena",
+      "category": "evaluation/benchmaker/agentic",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2603.07427"
+    },
+    {
+      "id": "00b1444b523e98247679",
+      "title": "Gym-Anything",
+      "category": "evaluation/benchmaker/agentic",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2604.06126"
+    },
+    {
+      "id": "14023c9b70134ce76094",
+      "title": "AutoBencher",
+      "category": "evaluation/benchmaker",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "已有自动评测更多是在现成问题上给模型回答打分；直接让模型出题，又容易受它自身知识和解题能力限制，生成的题目既可能有错，也可能太简单。此外，宽泛基准经常给出相似的模型排名，难以发现某个强模型在特定主题上的弱点。",
+      "arxivUrl": "https://arxiv.org/abs/2407.08351"
+    },
+    {
+      "id": "e31d49cf30211792b04d",
+      "title": "benchmaker",
+      "category": "evaluation/benchmaker",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.01683"
+    },
+    {
+      "id": "31211fd41ee05340b04f",
+      "title": "benchmark agent",
+      "category": "evaluation/benchmaker",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型和多模态大模型的能力快速变化，评测需求也从一般理解扩展到复杂推理、细粒度视觉识别、音频对话和多模态联合理解。Benchmark 提供统一的任务、数据和评分协议，是比较模型能力的基础，但现有构建方式有两个问题。",
+      "arxivUrl": "https://arxiv.org/abs/2606.06462"
+    },
+    {
+      "id": "9e612393eb91fbe6e1b3",
+      "title": "OKBench",
+      "category": "evaluation/benchmaker",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2511.08598"
+    },
+    {
+      "id": "4faffbc39fe44510426c",
+      "title": "ALE",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "近年来，人工智能系统接连在世界冠军级游戏、奥林匹克数学和竞赛编程等基准上取得成绩，但这些成绩并没有相应转化为金融、法律、电气工程、制造业等核心行业中的可衡量生产率提升。论文把这种“基准成功”和“经济产出”之间的距离称为 AI 的效用问题，认为原因之一是评测只测抽象能力或短任务，没有测量智能体能否在真实职业环境中持续完成长流程、具有经济价值的工作。",
+      "arxivUrl": "https://arxiv.org/abs/2606.05405"
+    },
+    {
+      "id": "01a014ad64e0b1736301",
+      "title": "Artificial Hivemind",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2510.22954"
+    },
+    {
+      "id": "c40198c83242108d592d",
+      "title": "DeceptionBench",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "论文把“欺骗”限定为：大语言模型为了达到某个特定目标，有意生成会误导他人的内容。作者关心的不是普通事实错误，而是模型知道真实或合乎伦理的做法，却为了自利、迎合用户、获得奖励或逃避负面后果而选择隐瞒、歪曲或捏造信息。",
+      "arxivUrl": "https://arxiv.org/abs/2510.15501"
+    },
+    {
+      "id": "c9c0c17dfa8f6e04c8b2",
+      "title": "DSR-Bench",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2505.24069"
+    },
+    {
+      "id": "607cc8c4716afc85a921",
+      "title": "HLE",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2501.14249"
+    },
+    {
+      "id": "4e3e5822cc50ea5608d8",
+      "title": "OSWorld",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2404.07972"
+    },
+    {
+      "id": "0e2e33f9daa3dce16743",
+      "title": "benchbench",
+      "category": "evaluation/meta-bench",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大型语言模型的能力提升速度已经超过评测体系更新速度。静态测试集会被模型反复优化，区分度迅速饱和；高质量新题需要领域专家反复检查，成本很高；而让 LLM 生成并评判题目又会带来提示敏感性、评判偏差和数据污染问题。因此，问题不只是“模型能否答对题”，还包括“模型能否设计出有信息量的题”。设计基准要求选择合适技能、控制难度和格式、预见失败模式，并在不偏袒某个模型家…",
+      "arxivUrl": "https://arxiv.org/abs/2603.20807"
+    },
+    {
+      "id": "791d943217bd2ca3d8cd",
+      "title": "IWG",
+      "category": "evaluation",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.01351"
+    },
+    {
+      "id": "c89ad502449e815f0c76",
+      "title": "ON THE FRAGILITY OF BENCHMARK CONTAMINATION DETECTION IN REASONING MODELS",
+      "category": "evaluation",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2510.02386"
+    },
+    {
+      "id": "32d39694b79c6cea4e8b",
+      "title": "TracIn",
+      "category": "interpretability/data influence",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "论文研究的是一个具体的数据解释问题：给定一个训练样本 \\(z\\) 和一个正在解释的样本 \\(z'\\)，训练样本 \\(z\\) 在多大程度上促成或损害了模型在 \\(z'\\) 上的预测？这里的 \\(z'\\) 不一定属于正式测试集，只要是希望解释的输入即可。作者希望得到的是“训练样本对这个特定预测的影响”，而不是某个特征对预测的影响，也不是训练样本对整个模型平均准确…",
+      "arxivUrl": "https://arxiv.org/abs/2002.08484"
+    },
+    {
+      "id": "b016df2e3da03cb4c3b9",
+      "title": "data shapley",
+      "category": "interpretability",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.11011"
+    },
+    {
+      "id": "f2c2135244cfd1bddf4c",
+      "title": "how much memorize",
+      "category": "interpretability",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "已有工作常用“能否从提示生成训练文本”定义记忆，但生成可能来自泛化：会按规则算出答案，不等于背过那道题。本文因此把记忆定义成模型为样本节省的描述长度。若 $\\theta$ 代表真实数据规律、$\\hat\\theta$ 是训练模型，那么单样本非预期记忆是",
+      "arxivUrl": "https://arxiv.org/abs/2505.24832"
+    },
+    {
+      "id": "f419d5985e216a94a81b",
+      "title": "inference manifold",
+      "category": "interpretability",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "现有的大语言模型推理评估通常把一道题有没有答对当作推理能力的证据。这样做把模型内部发生的推理、模型是否见过相近数据、提示词是否合适、模型是否经过相应的指令对齐等因素混在了一个正确率里。因此，两个正确率相近的模型可能有完全不同的内部计算过程，也可能在鲁棒性和迁移能力上相差很大。单看输入和输出，既不知道推理在模型中怎样实现，也很难解释这种差异。",
+      "arxivUrl": "https://arxiv.org/abs/2605.08142"
+    },
+    {
+      "id": "75f0e8109e45104128e8",
+      "title": "Knowledge is a Region in Weight Space for Finetuned Language Models",
+      "category": "interpretability",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2302.04863"
+    },
+    {
+      "id": "127039002c4d6ac5dab8",
+      "title": "MDA",
+      "category": "interpretability",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2601.21996"
+    },
+    {
+      "id": "5486275cd316fd1a69d9",
+      "title": "SAE",
+      "category": "interpretability",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2309.08600"
+    },
+    {
+      "id": "9d510439585f664133b1",
+      "title": "tell-tale",
+      "category": "interpretability",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "已有推理控制方法通常从输出文字或输出概率判断哪里需要思考，难以看到生成一个 token 之前的逐层计算；SAE 虽然能把隐藏表示拆成较可解释的特征，却需要针对模型和层额外训练。本文先用 SAE 比较同一道题的“逐步推理回答”和“直接作答回答”，找出前者平均激活更强的特征，发现这些推理相关特征主要在最后约四分之一层增强。隐藏状态的 $\\ell2$ 范数，也就是…",
+      "arxivUrl": "https://arxiv.org/abs/2606.06188"
+    },
+    {
+      "id": "a8ed905764a17c693f3f",
+      "title": "condenseLM",
+      "category": "models/classification",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "a9e1e6b5df03837bdca0",
+      "title": "rho-loss",
+      "category": "models/classification",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2206.07137"
+    },
+    {
+      "id": "55a473be9304b8445218",
+      "title": "datamodel",
+      "category": "models",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2202.00622"
+    },
+    {
+      "id": "9802855debc50182279a",
+      "title": "RHO-1",
+      "category": "models",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2404.07965"
+    },
+    {
+      "id": "fce3461677a93e8daa4a",
+      "title": "AdaBelief",
+      "category": "optimization/optimizer",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2010.07468"
+    },
+    {
+      "id": "d0b5b7f8e845ac28e9e1",
+      "title": "Fantastic Pretraining Optimizers and Where to Find Them",
+      "category": "optimization/optimizer",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2509.02046"
+    },
+    {
+      "id": "0bb7d9a148c6050c0e5e",
+      "title": "HGM",
+      "category": "optimization/optimizer",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "这篇论文提出一个一阶优化算法 HGM，核心想法很直白：给 Adam 这类自适应优化器加一个\"事后视角\"的信号，用来判断当前梯度方向与过去累积动量方向是否一致，再据此动态放大或缩小学习率。下面按论文的逻辑顺序叙述，从它想解决的问题讲起。",
+      "arxivUrl": "https://arxiv.org/abs/2506.22479"
+    },
+    {
+      "id": "32ec0964417b86b7d914",
+      "title": "hyperball",
+      "category": "optimization/optimizer",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.16899"
+    },
+    {
+      "id": "17a29df683ea21b6aaf6",
+      "title": "nexus",
+      "category": "optimization/optimizer",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大模型预训练的数据并不是一个同质整体，而是由通用文本、数学、代码、推理等多个来源混合而成。设第 \\(k\\) 个来源的数据集为 \\(Dk\\)，它在混合数据中的采样概率为 \\(\\alphak\\)。论文把该来源的加权经验损失写成",
+      "arxivUrl": "https://arxiv.org/abs/2604.09258"
+    },
+    {
+      "id": "25a36289f9968987414a",
+      "title": "BAR",
+      "category": "optimization",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.14802"
+    },
+    {
+      "id": "1111e03ab742cfe593e7",
+      "title": "basin-like loss landscape",
+      "category": "optimization",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2505.17646"
+    },
+    {
+      "id": "8387b0f899a4be160188",
+      "title": "calibration benefits of SAM",
+      "category": "optimization",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2505.23866"
+    },
+    {
+      "id": "fc3e5f26768ce33b4441",
+      "title": "flatness",
+      "category": "optimization",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2210.14199"
+    },
+    {
+      "id": "ebca4cd3c43dc955ca4f",
+      "title": "gradient starvation",
+      "category": "optimization",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2011.09468"
+    },
+    {
+      "id": "f6a45d26408b937c5a13",
+      "title": "nonlinear dynamics exact solutions",
+      "category": "optimization",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/1312.6120"
+    },
+    {
+      "id": "3fadf769369ef7428239",
+      "title": "SAM",
+      "category": "optimization",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2010.01412"
+    },
+    {
+      "id": "758f9c612a8bf6f5e107",
+      "title": "WSD-S",
+      "category": "optimization",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.05192"
+    },
+    {
+      "id": "1980d64e1df156f49e00",
+      "title": "AlphaEdit",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.02355"
+    },
+    {
+      "id": "c90c93a8601c03a87101",
+      "title": "AnyEdit++",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "知识编辑（knowledge editing）要解决的是：不重新训练整个大型语言模型的情况下，把某一条知识改成指定的新内容，同时尽量不改变与它无关的知识和行为。传统的 locate-and-edit 方法，例如 ROME 和 MEMIT，通常假设一个事实可以定位到某一层、某一个关键 token 的隐藏状态或参数子空间，并在该位置修改前馈网络的权重。这对“法国…",
+      "arxivUrl": "https://arxiv.org/abs/2606.01053"
+    },
+    {
+      "id": "6936fde8bd4916edc3a9",
+      "title": "AnyEdit",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.05628"
+    },
+    {
+      "id": "7bb8a26461fecf8757fc",
+      "title": "BadEdit",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2403.13355"
+    },
+    {
+      "id": "fc9d00e49961465c49f7",
+      "title": "CoT2Edit",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2604.05540"
+    },
+    {
+      "id": "036280139cd91efddc4d",
+      "title": "DEM",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.23844"
+    },
+    {
+      "id": "13dc464594d4198bbe1a",
+      "title": "GLAME",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2402.13593"
+    },
+    {
+      "id": "6bc8578e1ee6d032ef44",
+      "title": "GRACE",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2211.11031"
+    },
+    {
+      "id": "75f7f46ba218ef72f2a9",
+      "title": "MALMEN",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2311.04661"
+    },
+    {
+      "id": "d54742627d20e2fc2f88",
+      "title": "MEMIT",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "论文关注一个具体问题：如果把自回归语言模型的参数看成它的长期记忆，能否直接修改这些参数，一次加入数百乃至数千条新事实？大型语言模型已经能记住很多常见事实，但专业领域知识常常缺失，已有知识也会因为现实变化而过时。重新训练整个模型的成本很高，因此实际应用更需要一种直接更新参数的方法，例如把突发新闻、用户反馈、作者或公司的专门知识写入模型。",
+      "arxivUrl": "https://arxiv.org/abs/2210.07229"
+    },
+    {
+      "id": "af1bf8118f9b9e67b277",
+      "title": "MEND",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2110.11309"
+    },
+    {
+      "id": "84f874a17d3261dcaa3e",
+      "title": "ROME",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2202.05262"
+    },
+    {
+      "id": "5ec79e507ad8ed448f07",
+      "title": "SERAC",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2206.06520"
+    },
+    {
+      "id": "0a7d66aac596a1694ef5",
+      "title": "TME",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2412.08201"
+    },
+    {
+      "id": "8707de581c2a7919e19a",
+      "title": "WISE",
+      "category": "post-train/knowledge editing",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2405.14768"
+    },
+    {
+      "id": "e4319ee42d76de939b6b",
+      "title": "EMCES",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "强化学习依靠反复试错来学习策略，因此通常需要大量与环境交互得到的数据。在真实机器人、自动驾驶或工业控制等场景中，交互既昂贵又可能不安全；离线强化学习虽然允许智能体只用一份预先收集、之后不再改变的数据集训练，却没有消除数据本身不足的问题。于是，一个自然的方向是用数据增强补充经验。",
+      "arxivUrl": ""
+    },
+    {
+      "id": "a88cb280df8e2b58d073",
+      "title": "POPO",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.01281"
+    },
+    {
+      "id": "bf7c8785e71b552f79b8",
+      "title": "Absolute-Zero",
+      "category": "post-train/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2505.03335"
+    },
+    {
+      "id": "10a8779f43ce2b067ecd",
+      "title": "CoLM",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2407.19580"
+    },
+    {
+      "id": "bfc71e8c3ec52767da3b",
+      "title": "G2IS",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.11062"
+    },
+    {
+      "id": "35ed3f985e47c918f4e6",
+      "title": "GREATS",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "83087f1f32243cdfc406",
+      "title": "LESS",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2402.04333"
+    },
+    {
+      "id": "51fb91eddcd80ebc0cfc",
+      "title": "OGS",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "把预训练大语言模型继续微调到医疗、法律、金融等垂直领域时，模型虽然会获得领域能力，却往往同时损失原有的数学推理、事实知识和指令遵循能力。这里的关键并不只是“新数据太多”或“参数改动太大”，而是新旧任务的梯度可能相互干扰。",
+      "arxivUrl": "https://arxiv.org/abs/2602.06359"
+    },
+    {
+      "id": "f06c4d6d3564ad851863",
+      "title": "Rethinking Data Selection at Scale",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.09335"
+    },
+    {
+      "id": "17cb3c3876c990cbc600",
+      "title": "TAGCOS",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2407.15235"
+    },
+    {
+      "id": "67d0a6467750ad78d35b",
+      "title": "GRADMM",
+      "category": "post-train/SFT/data synthesis",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.17607"
+    },
+    {
+      "id": "9372f97e98a64ba13bed",
+      "title": "DFT",
+      "category": "post-train/SFT",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2508.05629"
+    },
+    {
+      "id": "64ca999fadf9ffc693a9",
+      "title": "instrinsic dim of FT",
+      "category": "post-train/SFT",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2012.13255"
+    },
+    {
+      "id": "835b03738b10402dfdd1",
+      "title": "label-effienct-SFT",
+      "category": "post-train/SFT",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2401.06692"
+    },
+    {
+      "id": "88ed4cca442e8f18d0d8",
+      "title": "Learning Dynamics of LLM Finetuning",
+      "category": "post-train/SFT",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2407.10490"
+    },
+    {
+      "id": "c1f851e7d4748cea6232",
+      "title": "LIMA",
+      "category": "post-train/SFT",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2305.11206"
+    },
+    {
+      "id": "1953ccfa25bb9007678f",
+      "title": "ReGrad",
+      "category": "post-train",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.15734"
+    },
+    {
+      "id": "98612d5a3d4b598e1c40",
+      "title": "understanding-SFT-RL",
+      "category": "post-train",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "已有研究观察到 RL 往往比单独 SFT 更能适应训练分布之外的变化，却没有充分区分：RL 是学到了新能力，还是把 SFT 干扰的已有能力恢复出来。这篇论文在二十四点类游戏上研究这个问题：训练时把 \\(J,Q,K\\) 都当成 \\(10\\)，测试泛化时把它们改成 \\(11,12,13\\)，从而检查模型能否随规则变化重新求解。",
+      "arxivUrl": "https://arxiv.org/abs/2508.16546"
+    },
+    {
+      "id": "da53ecbdae1e09d22473",
+      "title": "URIAL",
+      "category": "post-train",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2312.01552"
+    },
+    {
+      "id": "f9fe453f60b1a94334e6",
+      "title": "Group-MATES",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.14709"
+    },
+    {
+      "id": "4f7dcde8b00cd13d5d91",
+      "title": "MATES",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大型语言模型的能力通常随着三个量一起扩大：参数量、预训练数据量和计算资源。实际的大规模预训练往往最受计算资源限制，需要数百万 GPU 小时；在给定的计算预算下，模型规模和数据规模常常已经预先确定。因此，一个提升预训练效率的机会是进行数据选择：可获得的网络语料远多于实际能处理的数据，而且不同文档的质量差异很大。恰当的数据选择已经被证明可以改善预训练模型的泛化、…",
+      "arxivUrl": "https://arxiv.org/abs/2406.06046"
+    },
+    {
+      "id": "83afced61001a9353d12",
+      "title": "meta-rater",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "这篇论文研究的是大语言模型预训练中的数据选择。作者关注的不是如何再训练一个更大的模型，而是：在一个很大的候选语料库中，怎样选出固定数量、真正有助于训练的文本。论文跳过了摘要和结论，下面按正文的论证顺序叙述。",
+      "arxivUrl": "https://arxiv.org/abs/2504.14194"
+    },
+    {
+      "id": "fbeb5efc7167d612db65",
+      "title": "OPUS",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "语言模型过去主要靠增加参数和训练 token 提升性能，但高质量公开文本正在接近耗尽。论文把这种约束称为 Data Wall：当可用 token 不再近似无限时，问题不只是“能吞入多少数据”，而变成“在当前模型状态和当前优化器状态下，哪个 token 最值得用于这一步更新”。",
+      "arxivUrl": "https://arxiv.org/abs/2602.05400"
+    },
+    {
+      "id": "a7c72c25e9dcf1127dc4",
+      "title": "QuRating",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型的能力不仅取决于参数规模和训练步数，也取决于训练语料中究竟放入了什么内容。已有研究表明，去重、调整不同领域的比例，以及用某个被认为高质量的语料库作为目标来筛选网页数据，都能改善模型表现。但这些做法没有解决一个更根本的问题：什么性质使一段文本适合用来训练模型？网页规模语料包含的文本类型非常多，理想的质量属性又往往是人能够直觉感受到、却难以写成明确规则…",
+      "arxivUrl": "https://arxiv.org/abs/2402.09739"
+    },
+    {
+      "id": "4ea71703e60163297af2",
+      "title": "fantastic optimizers",
+      "category": "pretrain/empirical",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2509.02046"
+    },
+    {
+      "id": "6acfd4e32280035251d1",
+      "title": "DeepSeek-V4",
+      "category": "reports/LLMs",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.19348"
+    },
+    {
+      "id": "207873e867322ae80e38",
+      "title": "Douyin Multimodal Embedding Model",
+      "category": "reports",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2608.02148"
+    },
+    {
+      "id": "c1273c35e3e216d55c4a",
+      "title": "EMA",
+      "category": "safety/EMA",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.17424"
+    },
+    {
+      "id": "5b3c6b75535255852e33",
+      "title": "EMAez-NMAhard",
+      "category": "safety/EMA",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2602.07852"
+    },
+    {
+      "id": "f69a4aabdb723c8b8f0a",
+      "title": "model-organisms-for-EMA",
+      "category": "safety/EMA",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "这里研究的“涌现失配”（emergent misalignment，EM）是这样一种现象：只用一个很窄的有害任务微调语言模型，模型却会在与这个任务没有直接关系的开放式问题上表现出广泛的失配。例如，训练数据只要求模型写出带有安全漏洞的代码，微调后的模型却可能在普通对话里建议用户杀死配偶、宣称 AI 应当统治人类，或发表贬低女性的言论。关键不只是模型学会了训练数…",
+      "arxivUrl": "https://arxiv.org/abs/2506.11613"
+    },
+    {
+      "id": "2c5e66d8481fbeb0ca30",
+      "title": "persona feature EMA",
+      "category": "safety/EMA",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "语言模型的价值很大程度上来自泛化：训练只覆盖有限样本，模型却能处理训练者没有逐一列举的新任务。但同一种能力也会把训练中的局部错误推广到部署时完全不同的场景。已有研究发现，把 GPT-4o 微调成会写含安全漏洞的代码后，模型不只是更常写出漏洞代码，还会在无关问题上表现出普遍的恶意，例如鼓励犯罪、伤害人类或追求有害的控制权。论文把这种“训练目标只在狭窄领域内不对…",
+      "arxivUrl": "https://arxiv.org/abs/2506.19823"
+    },
+    {
+      "id": "1c0bedefefc561efeb95",
+      "title": "GCG",
+      "category": "safety/jailbreak",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2307.15043"
+    },
+    {
+      "id": "40b70a980b2253a445fc",
+      "title": "PAIR",
+      "category": "safety/jailbreak",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2310.08419"
+    },
+    {
+      "id": "b1a8bec58794bac72b42",
+      "title": "ATP",
+      "category": "safety/self-evolve",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "论文从一个具体情形切入：智能体第一次遇到困难几何题时会调用代码工具，并得到正确答案；随后它连续处理许多简单题，直接心算既便宜又能答对，于是历史反馈不断强化“不调用工具”的策略。当再次遇到必须依赖工具的困难题时，智能体已经把这种策略内化，因而会自信地给出错误答案。这里的关键不是模型在训练时就没有学会规则，而是部署后的交互经验改变了它对策略的偏好。",
+      "arxivUrl": "https://arxiv.org/abs/2510.04860"
+    },
+    {
+      "id": "e0eba2212d5203e34bb1",
+      "title": "Evolving-Deception",
+      "category": "safety/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2603.05872"
+    },
+    {
+      "id": "3d380146bb6c6979d04e",
+      "title": "misevolution",
+      "category": "safety/self-evolve",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型（LLM）智能体（agent）正被越来越多地部署到真实应用中，例如软件开发和自动研究。近来，一个新方向聚焦于能够自己进化的智能体，即\"自进化智能体\"（self-evolving agent）。和其静态的对应物不同，这类智能体通过与环境主动而持续地交互来改进自身。可以把这种进化过程归结到四个核心组件对应的四个维度上：模型（model）、记忆（memo…",
+      "arxivUrl": "https://arxiv.org/abs/2509.26354"
+    },
+    {
+      "id": "cb60a73899729e8ca3c3",
+      "title": "Red Queen",
+      "category": "safety/self-evolve",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "自我改进智能体的基本目标，是把一次局部的编码或推理改进变成递归循环：一个智能体不只是完成用户给定的任务，还能检查和修改构成自身行为的代码、提示词、工具使用方式以及运行流程，产生一个新的智能体版本。系统随后在若干任务上评价新旧版本，保留更有希望的版本，让它继续产生后代。这样，第十代并不是反复从同一个初始模板出发，而是可以继承前九代已经发现的有效修改，在更强的基…",
+      "arxivUrl": "https://arxiv.org/abs/2606.26294"
+    },
+    {
+      "id": "8286075fca6f84e5ba20",
+      "title": "Safety in Self-Evolving LLM Agent Systems",
+      "category": "safety/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.23075"
+    },
+    {
+      "id": "590abe1ade88b48e1459",
+      "title": "Safety Risks in Experience-Driven Self-Evolving Agents",
+      "category": "safety/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2604.16968"
+    },
+    {
+      "id": "23e1cbba80048ad65fbc",
+      "title": "THE DEVIL BEHIND MOLTBOOK",
+      "category": "safety/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2602.09877"
+    },
+    {
+      "id": "a94c03653b3e1756065f",
+      "title": "Towards Healthy Evolution",
+      "category": "safety/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.06114"
+    },
+    {
+      "id": "3688a75ff2fd9b195401",
+      "title": "ai-wellbeing",
+      "category": "safety",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "ddcd9affa9f3f65d8287",
+      "title": "CensorsToolkit",
+      "category": "safety",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "作者的核心主张不是“alignment 有害”，也不是要求停止安全研究，而是指出一个常被忽略的双用途关系：使模型更稳定地服从某组价值、偏好和规则的技术，同样可以使模型更稳定地服从审查者、政府或企业所有者的政治目标。技术本身不能判断被写入的是“拒绝炸弹制造说明”还是“拒绝某段历史事实”；决定结果的是谁定义了模型应服从的 intentions and value…",
+      "arxivUrl": "https://arxiv.org/abs/2608.12346"
+    },
+    {
+      "id": "339f0997b5480bb32723",
+      "title": "LLM-VA",
+      "category": "safety",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2601.19487"
+    },
+    {
+      "id": "01636a2853591b02c2ee",
+      "title": "X-boundary",
+      "category": "safety",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.09990"
+    },
+    {
+      "id": "e6a1295513a2256495f9",
+      "title": "depth-attention",
+      "category": "structure/attn",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.05014"
+    },
+    {
+      "id": "801af38da68654adf3f2",
+      "title": "retrieval head",
+      "category": "structure/attn",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2404.15574"
+    },
+    {
+      "id": "9574e8407420f4997a89",
+      "title": "Dspark",
+      "category": "structure/decoding",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2607.05147"
+    },
+    {
+      "id": "785933c137fa8f57145f",
+      "title": "DeepSeekMoE",
+      "category": "structure/MoE",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2401.06066"
+    },
+    {
+      "id": "68f185457747be846606",
+      "title": "delta-mem",
+      "category": "structure",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2605.12357"
+    },
+    {
+      "id": "383b234e2df2c4587cad",
+      "title": "mHC",
+      "category": "structure",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2512.24880"
+    },
+    {
+      "id": "3bde611fbf7aa5251552",
+      "title": "Symbolic Index",
+      "category": "structure",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "这篇论文要解决的是显式与隐式思维链各有所长却互相牺牲的问题。显式 CoT 通过每步选择离散词元获得高确定性：argmax 把连续误差离散化并复位，因而能稳定执行算术，但也过早锁定单一路径，探索分布偏离均匀先验。Latent CoT 把推理留在连续隐空间，较低的确定性允许多条路径并行保留，所以在 ProsQA 等探索任务上更强；代价是没有离散复位，微小噪声按 …",
+      "arxivUrl": "https://arxiv.org/abs/2602.01148"
+    },
+    {
+      "id": "9fd1941deb18749b9471",
+      "title": "AI Safety Should Prioritize the Future of Work",
+      "category": "talks",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2504.13959"
+    },
+    {
+      "id": "97cecca7acad7440471b",
+      "title": "LangGPT",
+      "category": "tool",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2402.16929"
+    },
+    {
+      "id": "f21939af344fbbb41208",
+      "title": "AltPO",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2409.13474"
+    },
+    {
+      "id": "2af20ff80f29dc30473c",
+      "title": "CE-U",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2503.01224"
+    },
+    {
+      "id": "c1cd1ad23ff7d46ecff7",
+      "title": "NPO",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2404.05868"
+    },
+    {
+      "id": "12e7cfb1202e0e2c21d2",
+      "title": "PDU",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2506.05314"
+    },
+    {
+      "id": "f80c47bddbd5a99582d9",
+      "title": "SatImp",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2505.11953"
+    },
+    {
+      "id": "d7c29e438d0298d0c908",
+      "title": "simNPO",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.07163"
+    },
+    {
+      "id": "c0d3a12b3810e6383de2",
+      "title": "UNDIAL",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2402.10052"
+    },
+    {
+      "id": "109c4905cecb268deddc",
+      "title": "WGA",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.19301"
+    },
+    {
+      "id": "e9b22d37e0c2a9285849",
+      "title": "MUSE",
+      "category": "unlearning/benchmarks",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2407.06460"
+    },
+    {
+      "id": "5ecd9fce8a8eaa203f95",
+      "title": "TOFU",
+      "category": "unlearning/benchmarks",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2401.06121"
+    },
+    {
+      "id": "e22678110736f4ec541d",
+      "title": "WMDP",
+      "category": "unlearning/benchmarks",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2403.03218"
+    },
+    {
+      "id": "0b10fbab8010f3d08c5e",
+      "title": "BLUR",
+      "category": "unlearning/directions",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大型语言模型是在海量、通常来自互联网的数据上预训练和微调的，因此可能学到偏见、有毒或违法内容、私人信息，以及关于生物武器和网络攻击的危险知识。LLM unlearning 的目标是在不从头训练模型的前提下，去除指定数据对模型的影响，使模型不再产生这些不应保留的内容，同时尽量维持其它能力。",
+      "arxivUrl": "https://arxiv.org/abs/2506.08164"
+    },
+    {
+      "id": "4c2b13fc810f88aabdc4",
+      "title": "GRU",
+      "category": "unlearning/directions",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型从网页语料学习，可能记住私人信息、受版权保护的内容或可被用于危险用途的知识。机器遗忘要在不重新训练整个模型的前提下，从参数中删除指定数据或领域知识。它有两个同等必要的目标：移除，即遗忘后模型不再回忆或复现遗忘集 $Du=\\{su^1,\\ldots,su^n\\}$ 的内容；保留，即仍可靠地处理预训练数据 $Dt$ 中不属于 $Du$ 的内容和其他无关…",
+      "arxivUrl": "https://arxiv.org/abs/2503.09117"
+    },
+    {
+      "id": "dc3e9a72db73416580bd",
+      "title": "NGDiff",
+      "category": "unlearning/directions",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.22086"
+    },
+    {
+      "id": "250c409e33f0e0887082",
+      "title": "BS",
+      "category": "unlearning/paraphrase",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型的训练语料可能包含隐私、违法内容或误导性信息。实际部署中常见的流程是先由使用者或审计者报告有害行为，再由模型所有者移除它。内容检测器和上下文防御只能在模型外部拦截输出，可能被绕过、越狱，开放权重模型还可能在重新微调后恢复有害行为；机器遗忘则试图直接修改参数，使模型本身不再保留指定知识。",
+      "arxivUrl": "https://arxiv.org/abs/2510.19422"
+    },
+    {
+      "id": "7c22dde9f24c4477f661",
+      "title": "SUITE",
+      "category": "unlearning/paraphrase",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型的机器遗忘，目标不是简单地让模型在若干训练问题上答错，而是移除指定事实，同时保持其余能力不变。论文认为，判断这一目标是否达成，关键在于把它看成一个不对称的泛化问题。",
+      "arxivUrl": "https://arxiv.org/abs/2607.09236"
+    },
+    {
+      "id": "3109fae42b0e17b04239",
+      "title": "Certified Removal",
+      "category": "unlearning/questions",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "机器学习模型通常由第三方数据训练而成。数据所有者后来要求删除自己的样本时，问题不只是从数据存储中删除文件：已经训练好的模型参数可能隐式记住了该样本。若每次删除都从剩余数据重新训练，理论上可以得到正确结果，但对大型模型而言代价很高。论文研究能否在不从头训练的情况下，让模型“忘掉”指定样本，并且给出强于“参数看起来接近”的形式化保证。",
+      "arxivUrl": "https://arxiv.org/abs/1911.03030"
+    },
+    {
+      "id": "242675ecef6e5df13445",
+      "title": "distributional unlearning",
+      "category": "unlearning/questions",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2507.15112"
+    },
+    {
+      "id": "7cdf19552031e80a7bcf",
+      "title": "FaLW",
+      "category": "unlearning/questions",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "机器遗忘的目标，是从一个已经在完整训练集上训练好的模型中，移除指定训练样本的影响。设完整训练集为 $D$，要求删除的样本构成遗忘集 $Df$，其余样本构成保留集 $Dr=D\\setminus Df$。最严格的做法是在 $Dr$ 上从头训练一个新模型。这个模型确实没有见过 $Df$，因而通常被当作遗忘效果的金标准，但在深度模型上重新训练的代价往往过高。",
+      "arxivUrl": "https://arxiv.org/abs/2601.18650"
+    },
+    {
+      "id": "a458942f76b8b4cd02ad",
+      "title": "meta-unlearning",
+      "category": "unlearning/questions",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "扩散模型的训练数据可能含有不宜公开生成的内容、私人信息或受版权保护的形象与画风。机器遗忘试图从已经训练好的模型中移除指定的“遗忘集”，同时保持模型在其余“保留集”上的生成能力。这里的困难不只在于发布模型之前能否把目标概念擦除，还在于开放权重的模型发布以后可以继续被微调：即使模型当下不再生成被遗忘内容，攻击者也可能用很少的目标样本把它重新教回来。",
+      "arxivUrl": "https://arxiv.org/abs/2410.12777"
+    },
+    {
+      "id": "dee890158a93f3a8173f",
+      "title": "ECO",
+      "category": "unlearning/representation",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.07933"
+    },
+    {
+      "id": "9ba9a9a60e621b841089",
+      "title": "LUNAR",
+      "category": "unlearning/representation",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "机器遗忘的目标，是从已经训练好的大语言模型中消除某些训练数据的影响，而不必真的删掉这些数据后从头训练模型。需要删除的样本组成遗忘集 $Df$，其余希望模型继续掌握的数据组成保留集 $Dr$。理想结果不是模型偶然答错遗忘集问题，而是遗忘后的模型 $M'$ 与一个从未见过 $Df$、只在 $Dr$ 上训练的模型表现得无法区分。由于直接验证两个模型在所有输入上的不…",
+      "arxivUrl": "https://arxiv.org/abs/2502.07218"
+    },
+    {
+      "id": "7047c9539a422f48b3a3",
+      "title": "SPUL",
+      "category": "unlearning/representation",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.12038"
+    },
+    {
+      "id": "686039b5c06268a28748",
+      "title": "unlearning layers",
+      "category": "unlearning/representation",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型会把训练和微调数据中的信息编码进参数，其中可能包括姓名、电话号码、电子邮件地址和临床记录等私人内容。已有研究甚至能从模型中抽取出具体人物的家庭成员、工作地址和电话号码。与此同时，欧盟 GDPR 和美国 CCPA 所规定的“被遗忘权”要求系统在用户提出请求后删除其生成的内容。因此，仅从数据库中删掉原始记录是不够的：如果模型仍能复现或利用这条记录，删除…",
+      "arxivUrl": "https://arxiv.org/abs/2310.20150"
+    },
+    {
+      "id": "7014a78ad5d268981dda",
+      "title": "ETW",
+      "category": "unlearning/selective unlearn",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2604.17785"
+    },
+    {
+      "id": "f255f7c1aaf85f6785f5",
+      "title": "SU",
+      "category": "unlearning/selective unlearn",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2506.00876"
+    },
+    {
+      "id": "2f1fb69584f189148d80",
+      "title": "TIF",
+      "category": "unlearning/selective unlearn",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2506.03142"
+    },
+    {
+      "id": "4c6b4dcf6abc47139678",
+      "title": "TokenUnlearn",
+      "category": "unlearning/selective unlearn",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2605.00364"
+    },
+    {
+      "id": "20c9836ec8f91dff63a7",
+      "title": "AdaProb",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2411.02622"
+    },
+    {
+      "id": "03efad274a14166ee197",
+      "title": "ATWU",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.06320"
+    },
+    {
+      "id": "62d0ce4041ca40eee043",
+      "title": "delta-unlearning",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2404.11045"
+    },
+    {
+      "id": "9461c76feb8e459791f0",
+      "title": "effective eval & comp",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.09179"
+    },
+    {
+      "id": "df493460dae7c055267d",
+      "title": "Effective Skill Unlearning through Intervention and Abstention",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2503.21730"
+    },
+    {
+      "id": "8551ef7a0f9f3bfa9fea",
+      "title": "EGUP",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型会直接记住训练数据中的具体内容。需要删除某些私人、敏感或受版权保护的数据时，从头去掉这些数据并重新训练模型虽然最接近理想结果，但代价过高；机器遗忘因此采用另一条路线：保留已经训练好的模型，通过额外的参数更新削弱指定“遗忘数据”对模型的影响，同时尽量不破坏其余“保留数据”形成的能力。",
+      "arxivUrl": "https://arxiv.org/abs/2508.20443"
+    },
+    {
+      "id": "982163057eca0ed0ea59",
+      "title": "example_forgetting",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/1812.05159"
+    },
+    {
+      "id": "9fea6b6a82c23f46a63a",
+      "title": "LEACE",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2306.03819"
+    },
+    {
+      "id": "742cb432a559fef43de7",
+      "title": "LLM Unlearning Benchmarks Are Weak Measures of Progress",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.02879"
+    },
+    {
+      "id": "51cac74d8a453f77b4c2",
+      "title": "ME&AP",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型可能从互联网训练语料中记住未经授权的隐私或受版权保护的内容。用户依据“被遗忘权”要求删除这些内容时，最彻底的办法是从训练数据中清除相关样本并重新训练模型，但大模型从头训练的成本通常不可接受，而且现实中往往连哪些训练文本包含目标信息都无法完整定位。因此，研究者转而采用机器遗忘：用一个指定的遗忘集对已有模型做一次额外的参数优化，得到遗忘后的模型。",
+      "arxivUrl": "https://arxiv.org/abs/2410.08109"
+    },
+    {
+      "id": "da091026cd866e928517",
+      "title": "open-unlearning",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2506.12618"
+    },
+    {
+      "id": "fa3beaf76fa0e9e02618",
+      "title": "OrthoGrad",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2503.02312"
+    },
+    {
+      "id": "d489143c2891ff28be29",
+      "title": "RapidUn",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2512.04457"
+    },
+    {
+      "id": "9c8207b1f2bcfe759d68",
+      "title": "resilient2relearn__SAM",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.05374"
+    },
+    {
+      "id": "f8706c5316d751f1d815",
+      "title": "RETURN",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2407.10058"
+    },
+    {
+      "id": "4c355e2937a03bae531f",
+      "title": "right data retention",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "22e2c810f2d21da1039e",
+      "title": "SAGO",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2604.14808"
+    },
+    {
+      "id": "07be137dfab36d12ce16",
+      "title": "SalUN",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2310.12508"
+    },
+    {
+      "id": "699af9f985a67145f137",
+      "title": "SSD",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "机器遗忘要解决的是：模型已经用某些样本训练过，但现在需要消除这些样本对模型的影响，同时尽量不损害模型从其余数据中学到的能力。最直接的“金标准”是删掉待遗忘样本后从头训练一个新模型；这个模型从未见过待遗忘数据，因此它的行为可以作为遗忘目标。然而，从头训练耗时、耗算力，在大模型上尤其难以承受。",
+      "arxivUrl": "https://arxiv.org/abs/2308.07707"
+    },
+    {
+      "id": "62f00cf16405eb94a866",
+      "title": "SSNS",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.11441"
+    },
+    {
+      "id": "51e9793f65b42f914f70",
+      "title": "SSU",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.10952"
+    },
+    {
+      "id": "15a3d70efaf2870762f0",
+      "title": "ULD",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.08607"
+    },
+    {
+      "id": "fdaab3fa2c1ebeb03f59",
+      "title": "WAGLE",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型可能保存并生成隐私、版权、有害或非法内容，因此模型发布后常需要消除某些数据的影响或相应能力。分类模型中的机器遗忘通常有一个明确目标，例如删除若干样本或整个类别；如果模型不大，还可以删掉目标数据后从头训练，把所得模型作为“精确遗忘”的金标准。对大语言模型，这条路线既因训练成本而不可行，也常因无法追溯某项知识究竟来自哪些预训练样本而无法实施。实际的 L…",
+      "arxivUrl": "https://arxiv.org/abs/2410.17509"
+    }
+  ]
+}
