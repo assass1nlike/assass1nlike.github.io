@@ -1,3 +1,5 @@
+begin;
+
 create table if not exists public.guestbook_messages (
   id text primary key,
   auth_user_id uuid references auth.users(id) on delete set null,
@@ -15,6 +17,10 @@ alter table public.guestbook_messages
   add column if not exists avatar_url text not null default '';
 
 alter table public.guestbook_messages enable row level security;
+
+grant usage on schema public to anon, authenticated;
+revoke all on public.guestbook_messages from anon, authenticated;
+grant select, insert on public.guestbook_messages to anon, authenticated;
 
 drop policy if exists "public guestbook messages are readable" on public.guestbook_messages;
 create policy "public guestbook messages are readable"
@@ -42,3 +48,5 @@ with check (
 create index if not exists guestbook_messages_public_created_at_idx
 on public.guestbook_messages (created_at desc)
 where is_public = true;
+
+commit;

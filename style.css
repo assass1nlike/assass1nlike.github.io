@@ -764,6 +764,10 @@ img {
     rgba(255, 255, 255, 0.025);
 }
 
+.guestbook-auth:empty {
+  display: none;
+}
+
 .guestbook-auth-user,
 .guestbook-auth-actions,
 .guestbook-author-line {
