@@ -1,7 +1,7 @@
 /* One browsable index for the homepage preview and each article category. */
 window.ArticleLibrary = (() => {
   const cache = new Map();
-  const isSimpleCollection = (category) => ['minors', 'invisible', 'tech', 'annual'].includes(category.id);
+  const isSimpleCollection = (category) => ['minors', 'invisible', 'tech'].includes(category.id);
 
   function entriesOf(category) {
     if (category.entries) return category.entries;
@@ -57,6 +57,7 @@ window.ArticleLibrary = (() => {
   async function mount(host, category, preparedDocs) {
     const projects = category.id === 'permanence';
     const simple = isSimpleCollection(category);
+    const collectionFilter = category.collectionFilter;
     const noun = projects ? '项目' : '文章';
     const unit = projects ? '个项目' : '篇文章';
     const compact = host.classList.contains('home-category-viewport');
@@ -70,6 +71,7 @@ window.ArticleLibrary = (() => {
     const params = compact ? new URLSearchParams() : new URL(window.location.href).searchParams;
     const state = {
       query: params.get('q') || '',
+      collection: collectionFilter && params.get('collection') === collectionFilter.id ? collectionFilter.id : '',
       group: !simple && category.groups?.some((group) => group.id === params.get('group')) ? params.get('group') : '',
       sort: ['title', 'short'].includes(params.get('sort')) ? params.get('sort') : 'default',
       status: !simple && ['ready', 'empty'].includes(params.get('status')) ? params.get('status') : '',
@@ -78,13 +80,8 @@ window.ArticleLibrary = (() => {
     const pageSize = compact ? 3 : 6;
     host.innerHTML = `
       <header class="category-intro library-hero">
-        ${category.parent ? `<a class="library-parent" href="${escapeAttr(categoryHref(category.parent))}" data-site-ui>← 返回${escapeHtml(CATEGORY_DEFINITIONS[category.parent].title)}列表</a>` : ''}
         ${compact ? '' : `<div class="library-eyebrow">${escapeHtml(category.titleEn || category.title)}</div><h1 class="category-intro-title">${escapeHtml(category.title)}</h1>`}
         <p class="category-intro-copy">${escapeHtml(category.description)}</p>
-        ${category.subcategories?.length ? `<nav class="library-subcategories" aria-label="子分类" data-site-ui>${category.subcategories.map((id) => {
-          const child = CATEGORY_DEFINITIONS[id];
-          return `<a class="pill-link" href="${escapeAttr(categoryHref(id))}"><span>${escapeHtml(child.title)}</span> <span aria-hidden="true">↗</span></a>`;
-        }).join('')}</nav>` : ''}
         ${simple ? '' : `<div class="library-statline"><span><strong>${docs.filter((doc) => !doc.empty && !doc.missing).length}</strong> ${projects ? '个开源项目' : '篇可阅读'}</span>${projects ? '<span>项目介绍与使用文档</span>' : `<span>${category.groups?.length || 1} 个主题</span>`}${docs.some((doc) => doc.empty) ? `<span>${docs.filter((doc) => doc.empty).length} 篇待补充</span>` : ''}</div>`}
       </header>
       <div class="library-workspace">
@@ -99,7 +96,10 @@ window.ArticleLibrary = (() => {
         <label class="library-search"><span class="library-label">搜索${noun}</span><input type="search" value="${escapeAttr(state.query)}" placeholder="${projects ? '项目名称或 README 关键词' : '标题或正文关键词'}" aria-label="搜索${escapeAttr(category.title)}${noun}"></label>
         <label class="library-sort"><span class="library-label">排序</span><select aria-label="${noun}排序"><option value="default">默认顺序</option><option value="title">标题 A–Z</option><option value="short">篇幅较短优先</option></select></label>
       </form>
-      <div class="library-overview"><div><div class="library-selection"></div><span class="library-count" role="status" aria-live="polite"></span></div><button class="library-reset" type="button" hidden>重置浏览</button></div>
+      <div class="library-overview"><div><div class="library-selection"></div><span class="library-count" role="status" aria-live="polite"></span></div><div class="library-overview-actions">
+        ${collectionFilter ? `<button type="button" class="library-collection-filter" aria-pressed="false">${escapeHtml(collectionFilter.label)}</button>` : ''}
+        <button class="library-reset" type="button" hidden>重置浏览</button>
+      </div></div>
       <p class="library-group-description" hidden></p>
       <div class="library-results" tabindex="-1" data-site-ui aria-label="${noun}列表"></div>
       <nav class="library-pagination" aria-label="${noun}分页"></nav>
@@ -111,12 +111,13 @@ window.ArticleLibrary = (() => {
     const list = host.querySelector('.library-results');
     const pager = host.querySelector('.library-pagination');
     const reset = host.querySelector('.library-reset');
+    const collectionButton = host.querySelector('.library-collection-filter');
     sort.value = state.sort;
 
     function updateUrl() {
       if (compact) return;
       const url = new URL(window.location.href);
-      for (const [key, value] of Object.entries({ q: state.query, group: state.group, status: state.status, sort: state.sort === 'default' ? '' : state.sort, page: state.page > 1 ? String(state.page) : '' })) {
+      for (const [key, value] of Object.entries({ q: state.query, collection: state.collection, group: state.group, status: state.status, sort: state.sort === 'default' ? '' : state.sort, page: state.page > 1 ? String(state.page) : '' })) {
         if (value) url.searchParams.set(key, value);
         else url.searchParams.delete(key);
       }
@@ -125,7 +126,7 @@ window.ArticleLibrary = (() => {
 
     function render() {
       const words = state.query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
-      let matches = docs.filter((doc) => (!state.group || doc.group === state.group) && (!state.status || (state.status === 'empty' ? doc.empty : !doc.empty && !doc.missing)) && words.every((word) => `${doc.title} ${simple ? '' : doc.groupTitle} ${doc.searchText}`.toLocaleLowerCase().includes(word)));
+      let matches = docs.filter((doc) => (!state.collection || doc.collection === state.collection) && (!state.group || doc.group === state.group) && (!state.status || (state.status === 'empty' ? doc.empty : !doc.empty && !doc.missing)) && words.every((word) => `${doc.title} ${simple ? '' : doc.groupTitle} ${doc.searchText}`.toLocaleLowerCase().includes(word)));
       if (state.sort === 'title') matches.sort((a, b) => a.title.localeCompare(b.title, 'zh-CN', { numeric: true }));
       else if (state.sort === 'short') matches.sort((a, b) => (a.empty || a.missing ? Infinity : a.minutes) - (b.empty || b.missing ? Infinity : b.minutes));
       else matches.sort((a, b) => Number(Boolean(a.empty || a.missing)) - Number(Boolean(b.empty || b.missing)));
@@ -136,14 +137,15 @@ window.ArticleLibrary = (() => {
       const visible = matches.slice(start, start + pageSize);
       host.querySelector('.library-count').textContent = matches.length ? `${matches.length} ${unit} · 显示 ${start + 1}–${start + visible.length}` : `0 ${unit}`;
       const selectedGroup = category.groups?.find((group) => group.id === state.group);
-      host.querySelector('.library-selection').textContent = selectedGroup?.title || `全部${noun}`;
+      host.querySelector('.library-selection').textContent = state.collection ? collectionFilter.title : selectedGroup?.title || `全部${noun}`;
       const description = host.querySelector('.library-group-description');
       description.hidden = !selectedGroup?.description;
       description.textContent = selectedGroup?.description || '';
-      reset.hidden = !state.query && !state.group && !state.status && state.sort === 'default';
+      reset.hidden = !state.query && !state.collection && !state.group && !state.status && state.sort === 'default';
+      collectionButton?.setAttribute('aria-pressed', String(Boolean(state.collection)));
       host.querySelectorAll('[data-group]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.group === state.group)));
       host.querySelectorAll('[data-status]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.status === state.status)));
-      const from = compact ? categoryHref(category.id) : window.location.pathname + window.location.search;
+      const from = compact ? categoryHref(category.id) + (state.collection ? '&collection=' + encodeURIComponent(state.collection) : '') : window.location.pathname + window.location.search;
       list.innerHTML = visible.map((doc, index) => {
         const href = `${doc.href || viewerHref(doc.path)}&from=${encodeURIComponent(from)}`;
         let excerpt = doc.empty && !simple ? '正文正在整理中。' : doc.excerpt || '打开文章查看内容。';
@@ -153,7 +155,7 @@ window.ArticleLibrary = (() => {
         }
         return `<article class="library-entry ${doc.empty && !simple ? 'is-draft' : ''}">
           <span class="library-entry-number" aria-hidden="true">${String(start + index + 1).padStart(2, '0')}</span><div class="library-entry-content">
-          <div class="library-entry-meta">${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>约 ${doc.minutes} 分钟</span>`}</div>
+          <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>约 ${doc.minutes} 分钟</span>`}</div>
           <h2><a href="${escapeAttr(href)}">${highlight(doc.title, words)}</a></h2>
           <p class="library-excerpt" ${doc.empty || doc.missing || !doc.excerpt ? 'data-site-ui' : ''}>${highlight(excerpt, words)}</p>
           <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'} <span aria-hidden="true">↗</span></a>`}${doc.repository ? `<a class="library-repository" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ''}</div>
@@ -176,7 +178,8 @@ window.ArticleLibrary = (() => {
     host.querySelector('form').addEventListener('submit', (event) => event.preventDefault());
     search.addEventListener('input', () => { state.query = search.value; state.page = 1; render(); });
     sort.addEventListener('change', () => { state.sort = sort.value; state.page = 1; render(); });
-    reset.addEventListener('click', () => { state.query = ''; state.group = ''; state.status = ''; state.sort = 'default'; state.page = 1; search.value = ''; sort.value = 'default'; render(); search.focus(); });
+    collectionButton?.addEventListener('click', () => { state.collection = state.collection ? '' : collectionFilter.id; state.page = 1; render(); });
+    reset.addEventListener('click', () => { state.query = ''; state.collection = ''; state.group = ''; state.status = ''; state.sort = 'default'; state.page = 1; search.value = ''; sort.value = 'default'; render(); search.focus(); });
     host.addEventListener('click', (event) => {
       const button = event.target.closest('button[data-group], button[data-page], button[data-status]');
       if (!button || !host.contains(button) || button.disabled) return;

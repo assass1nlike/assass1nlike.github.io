@@ -3,7 +3,7 @@ window.SiteI18n = (() => {
   const key = 'assassinlike.language';
   const phrases = {
     '博客': 'Blog', '学习': 'Learning', '论文树': 'Paper Tree', '开源项目': 'Open Source', '其它': 'Other',
-    '各年年终总结': 'Annual Reviews', '子分类': 'Subcategories',
+    '各年年终总结': 'Annual Reviews', '只看子集：各年年终总结': 'Subset: Annual reviews only',
     '在观察自身行为和自我思考后得到的结论。': 'Reflections on my experiences, actions, and thinking.',
     '各年年终总结': 'Annual Reviews', '文章与笔记': 'Articles and notes',
     '学习过程中的专题整理。': 'Topic notes from my learning journey.',
