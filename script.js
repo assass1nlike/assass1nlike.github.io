@@ -18,6 +18,21 @@ const FRIEND_SITES = [
   },
 ];
 
+const LEARNING_NOTES = [
+  { path: 'everlasting/invisible/notes/newton-residual-gradient.md', title: '牛顿更新法的残余梯度理论上界' },
+  { path: 'everlasting/invisible/notes/closeness-generalization.md', title: 'closeness 视角下的任务泛化能力' },
+  { path: 'everlasting/invisible/notes/newton-output-distribution.md', title: '牛顿更新法与重新训练模型的输出分布接近性' },
+  { path: 'everlasting/invisible/notes/closeness-gradient-similarity.md', title: '不同任务的 closeness 与其梯度余弦相似度的关系' },
+  { path: 'everlasting/invisible/notes/nexus-implicit-bias.md', title: 'Nexus 优化器的 implicit bias：优化梯度相似度' },
+  { path: 'everlasting/invisible/notes/certified-removal.md', title: '结合差分隐私训练的认证删除 (Certified Removal)' },
+  { path: 'everlasting/invisible/notes/unlearning-akg.md', title: 'unlearning 视角下的 AKG 分解' },
+  { path: 'everlasting/invisible/notes/least-squares-gd.md', title: '最小二乘问题在梯度下降下的收敛速率' },
+  { path: 'everlasting/invisible/notes/least-squares-existence.md', title: '最小二乘问题解的存在性' },
+  { path: 'everlasting/invisible/notes/positive-gram-sgd.md', title: 'Gram 矩阵正定时最小二乘问题的 (S)GD 收敛速率' },
+  { path: 'everlasting/invisible/notes/smooth-strongly-convex-sgd.md', title: '损失函数光滑且强凸时 (S)GD 的收敛速率' },
+  { path: 'everlasting/invisible/notes/two-task-convergence.md', title: '特定规则下双任务优化的收敛保证' },
+].map((doc) => ({ ...doc, publicId: doc.path.split('/').pop().replace(/\.md$/, ''), hidePath: true, aliases: [], category: 'invisible' }));
+
 const CATEGORY_DEFINITIONS = {
   permanence: {
     id: 'permanence',
@@ -35,9 +50,7 @@ const CATEGORY_DEFINITIONS = {
     description: '为科研进行的学习，涉及大量数学推导。大多为手搓，以及经过多轮 review 与迭代的 AI 总结',
     docs: [
       'everlasting/invisible/preliminaries.md',
-    ],
-    groups: [
-      { id: 'foundations', title: '基础知识', description: '补齐基础概念，建立知识之间的联系。', docs: ['everlasting/invisible/preliminaries.md'] },
+      ...LEARNING_NOTES.map((doc) => doc.path),
     ],
   },
   minors: {
@@ -98,6 +111,7 @@ const CATEGORY_DEFINITIONS = {
 };
 
 const DOC_DEFINITIONS = [
+  ...LEARNING_NOTES,
   {
     path: 'everlasting/invisible/preliminaries.md',
     title: '补一些非常basic的知识',
