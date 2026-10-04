@@ -31,7 +31,7 @@ python scripts/sync-onedrive.py --apply
 
 博客、学习的文章入口由根目录 `script.js` 的 `CATEGORY_DEFINITIONS` / `DOC_DEFINITIONS` 管理。技术栏目递归收录 `everlasting/invisible/tech/` 的 Markdown，按一级子目录分组，标题取首个一级标题（没有时使用文件名）。新增、改名、删除技术文章或修改标题后运行 `python scripts/export-tech.py`，随网站部署生成的 `assets/tech/catalog.js`。忽略隐藏目录、符号链接、`AGENTS.md` / `CLAUDE.md`，不读取科研目录；正文仍从原 Markdown 读取。
 
-博客、学习、技术和开源项目共用 `article-library.js` 和 `article-library.css`，从 Markdown 提取摘要、搜索正文。独立分类页每页 6 项，首页预览每页 3 项，只有一页时隐藏分页。主题、内容状态、搜索、排序及页码保留在分类页 URL 中，阅读页的返回链接会带回原来的列表状态。
+博客、学习、其它和开源项目共用 `article-library.js` 和 `article-library.css`，从 Markdown 提取摘要、搜索正文。独立分类页每页 6 项，首页预览每页 3 项，只有一页时隐藏分页。博客下的“各年年终总结”是独立子类，使用同样的列表与阅读页。博客、学习、其它及年终总结不显示主题和状态；搜索、排序及页码保留在分类页 URL 中，阅读页的返回链接会带回原来的列表状态。“其它”沿用 `cat=tech` 和原文章目录。
 
 默认将可阅读文章放在待补充和加载失败的条目前。阅读时间按中文约 350 字/分钟、英文约 220 词/分钟估算，不代表实测时间；没有正文的条目不显示阅读时间。桌面阅读页将目录置于侧栏，移动端默认折叠，目录高亮随当前章节更新。上一篇/下一篇按同栏目登记顺序生成。
 

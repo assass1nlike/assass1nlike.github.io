@@ -2,7 +2,9 @@
 window.SiteI18n = (() => {
   const key = 'assassinlike.language';
   const phrases = {
-    '博客': 'Blog', '学习': 'Learning', '论文树': 'Paper Tree', '开源项目': 'Open Source', '技术': 'Tech',
+    '博客': 'Blog', '学习': 'Learning', '论文树': 'Paper Tree', '开源项目': 'Open Source', '其它': 'Other',
+    '各年年终总结': 'Annual Reviews', '子分类': 'Subcategories',
+    '在观察自身行为和自我思考后得到的结论。': 'Reflections on my experiences, actions, and thinking.',
     '各年年终总结': 'Annual Reviews', '文章与笔记': 'Articles and notes',
     '学习过程中的专题整理。': 'Topic notes from my learning journey.',
     'invisible——学习的收益是隐性的、甚至有时没有收益': 'invisible — the benefits of learning are often unseen, and sometimes absent.',
@@ -106,7 +108,7 @@ window.SiteI18n = (() => {
         [/^(\d+) (篇文章|个项目)(?: · 显示 (\d+)–(\d+))?$/, (_, n, unit, first, last) => `${n} ${unit === '篇文章' ? 'article' : 'project'}${n === '1' ? '' : 's'}${first ? ` · Showing ${first}–${last}` : ''}`],
         [/^第 (\d+) 页$/, (_, n) => `Page ${n}`],
         [/^← 返回(.+)列表$/, (_, name) => `← Back to ${phrases[name] || name}`],
-        [/^搜索(博客|学习|技术|开源项目)(文章|项目)?$/, (_, name) => `Search ${phrases[name]}`],
+        [/^搜索(博客|学习|其它|各年年终总结|开源项目)(文章|项目)?$/, (_, name) => `Search ${phrases[name]}`],
         [/^(\d+) 篇论文 · (\d+) 份讲解$/, (_, n, notes) => `${n} papers · ${notes} with notes`],
         [/^(.+) · (\d+) 篇$/, (_, folder, n) => `${folder === '全部论文' ? 'All papers' : folder} · ${n} papers`],
         [/^已加载 (\d+) 条公开留言。$/, (_, n) => `Loaded ${n} public messages.`],

@@ -1,7 +1,7 @@
 /* One browsable index for the homepage preview and each article category. */
 window.ArticleLibrary = (() => {
   const cache = new Map();
-  const isSimpleCollection = (category) => ['minors', 'invisible'].includes(category.id);
+  const isSimpleCollection = (category) => ['minors', 'invisible', 'tech', 'annual'].includes(category.id);
 
   function entriesOf(category) {
     if (category.entries) return category.entries;
@@ -78,8 +78,13 @@ window.ArticleLibrary = (() => {
     const pageSize = compact ? 3 : 6;
     host.innerHTML = `
       <header class="category-intro library-hero">
+        ${category.parent ? `<a class="library-parent" href="${escapeAttr(categoryHref(category.parent))}" data-site-ui>← 返回${escapeHtml(CATEGORY_DEFINITIONS[category.parent].title)}列表</a>` : ''}
         ${compact ? '' : `<div class="library-eyebrow">${escapeHtml(category.titleEn || category.title)}</div><h1 class="category-intro-title">${escapeHtml(category.title)}</h1>`}
         <p class="category-intro-copy">${escapeHtml(category.description)}</p>
+        ${category.subcategories?.length ? `<nav class="library-subcategories" aria-label="子分类" data-site-ui>${category.subcategories.map((id) => {
+          const child = CATEGORY_DEFINITIONS[id];
+          return `<a class="pill-link" href="${escapeAttr(categoryHref(id))}"><span>${escapeHtml(child.title)}</span> <span aria-hidden="true">↗</span></a>`;
+        }).join('')}</nav>` : ''}
         ${simple ? '' : `<div class="library-statline"><span><strong>${docs.filter((doc) => !doc.empty && !doc.missing).length}</strong> ${projects ? '个开源项目' : '篇可阅读'}</span>${projects ? '<span>项目介绍与使用文档</span>' : `<span>${category.groups?.length || 1} 个主题</span>`}${docs.some((doc) => doc.empty) ? `<span>${docs.filter((doc) => doc.empty).length} 篇待补充</span>` : ''}</div>`}
       </header>
       <div class="library-workspace">
