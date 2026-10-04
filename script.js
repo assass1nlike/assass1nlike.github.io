@@ -1672,6 +1672,7 @@ function buildTextPatterns(scope) {
 function buildDocLinkPatterns() {
   const patterns = [];
   for (const doc of DOC_DEFINITIONS) {
+    if (doc.category === 'annual') continue;
     const variants = new Set([
       doc.title,
       basename(doc.path).replace(/\.md$/i, ''),
