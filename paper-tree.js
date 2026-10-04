@@ -71,7 +71,7 @@ window.PaperTree = (() => {
     return renderMarkdown(markdown, { linkScope: 'none' });
   }
 
-  async function mount(host, { compact = false } = {}) {
+  async function mount(host, { compact = false, description = '' } = {}) {
     host.innerHTML = '<p class="paper-empty">正在展开论文树…</p>';
     try {
       const data = await catalog();
@@ -79,14 +79,14 @@ window.PaperTree = (() => {
       const stats = `${data.tree.count} 篇论文 · ${data.tree.annotated} 份讲解`;
       host.classList.add('paper-tree-host');
       if (compact) {
-        host.innerHTML = `<div class="paper-preview-intro"><span>${stats}</span><span>展开主题，沿着分支阅读</span></div>
+        host.innerHTML = `<div class="paper-preview-intro"><span>${escapeHtml(description)}</span><span>${stats}</span></div>
           <ul class="paper-tree-list paper-tree-compact">${data.tree.children.map((node) => branchHtml(node, byId, true)).join('')}${leavesHtml(data.tree.papers, byId, true)}</ul>`;
         return;
       }
 
       host.innerHTML = `<div class="paper-explorer">
         <header class="paper-explorer-head"><div class="paper-eyebrow">READING ATLAS</div>
-          <h1>论文树</h1><p>沿分类找到问题，从概述读到细节。</p><div class="paper-stats">${stats}</div>
+          <h1>论文树</h1><p>${escapeHtml(description)}</p><div class="paper-stats">${stats}</div>
         </header>
         <div class="paper-workspace">
           <nav class="paper-taxonomy" aria-label="论文分类">

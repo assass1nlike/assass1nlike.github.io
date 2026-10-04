@@ -24,7 +24,7 @@ const CATEGORY_DEFINITIONS = {
     title: '开源项目',
     titleEn: 'Open Source',
     heading: '开源项目',
-    description: 'permanence——留下永恒的事物',
+    description: '各种实用或有趣的项目',
     docs: [],
   },
   invisible: {
@@ -32,7 +32,7 @@ const CATEGORY_DEFINITIONS = {
     title: '学习',
     titleEn: 'Learning',
     heading: '学习',
-    description: 'invisible——学习的收益是隐性的、甚至有时没有收益',
+    description: '为科研进行的学习，涉及大量数学推导。大多为手搓，以及经过多轮 review 与迭代的 AI 总结',
     docs: [
       'everlasting/invisible/preliminaries.md',
     ],
@@ -46,7 +46,7 @@ const CATEGORY_DEFINITIONS = {
     titleEn: 'Blog',
     heading: '博客',
     collectionFilter: { id: 'annual', title: '各年年终总结', label: '只看子集：各年年终总结' },
-    description: '学习过程中的专题整理。',
+    description: '笔下的文字，有关技术或思考',
     docs: [
       'everlasting/invisible/minors/cybergym/determined.md',
       'everlasting/invisible/minors/recurrent_MoE/determined.md',
@@ -60,7 +60,7 @@ const CATEGORY_DEFINITIONS = {
     title: '论文树',
     titleEn: 'Paper Tree',
     heading: '论文树',
-    description: '',
+    description: '读过的所有论文。部分配有AI给出的讲解',
     docs: [],
   },
   tech: {
@@ -68,7 +68,7 @@ const CATEGORY_DEFINITIONS = {
     title: '其它',
     titleEn: 'Other',
     heading: '其它',
-    description: '工程、工具和实践记录。',
+    description: '一些经过试错，值得总结的工具使用和问题研究等。不具有创新性，且大多为纯 AI 总结',
     docs: [
       'everlasting/invisible/tech/std/claude_web_tool_issues.md',
       'everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md',
@@ -1013,7 +1013,7 @@ async function loadCategoryInto(host, category) {
   if (category.id === 'papers') {
     const compact = host.classList.contains('home-category-viewport');
     if (!compact) host.closest('.page-shell')?.classList.add('paper-page-shell');
-    await window.PaperTree.mount(host, { compact });
+    await window.PaperTree.mount(host, { compact, description: category.description });
     return;
   }
   host.innerHTML = '<div class="loading-state">Loading category...</div>';
