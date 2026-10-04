@@ -28,11 +28,82 @@ test('guestbook uses its own project and does not expose unconfigured sign-in bu
   const { context, evaluate } = loadGuestbook();
   assert.equal(new URL(context.buildGuestbookTableEndpoint()).hostname, 'myrhtqbjnkxqaniuivzm.supabase.co');
   assert.equal(context.createGuestbookAuthClient(), null);
+  evaluate("guestbookState.authReady = true");
+  assert.match(context.renderGuestbookAuth(), /data-provider="github"/);
+  assert.doesNotMatch(context.renderGuestbookAuth(), /data-provider="google"/);
+  assert.match(context.renderGuestbookAuth(), /guestbook-email-form/);
+  evaluate("guestbookState.config.authProviders = []; guestbookState.config.emailAuth = false");
   assert.equal(context.renderGuestbookAuth(), '');
   evaluate("guestbookState.authReady = true; guestbookState.config.authProviders = ['github']");
   const html = context.renderGuestbookAuth();
   assert.match(html, /data-provider="github"/);
   assert.doesNotMatch(html, /data-provider="google"/);
+});
+
+test('both OAuth providers return to the current site and retain the signed-in identity', async () => {
+  const { context, evaluate } = loadGuestbook();
+  const calls = [];
+  context.window.location = { origin: 'http://localhost:8000', pathname: '/' };
+  context.window.supabase = { createClient: () => ({ auth: { signInWithOAuth: async (args) => { calls.push(args); return { error: null }; } } }) };
+  for (const provider of ['github', 'google']) {
+    await context.signInGuestbook(provider);
+    assert.equal(calls.at(-1).provider, provider);
+    assert.equal(calls.at(-1).options.redirectTo, 'http://localhost:8000/');
+    context.testUser = { id: 'test-user', app_metadata: { provider }, user_metadata: provider === 'github'
+      ? { user_name: 'example', avatar_url: 'https://example.com/avatar.png' }
+      : { full_name: 'Example User', picture: 'https://example.com/avatar.png' } };
+    evaluate('guestbookState.user = testUser');
+    const identity = context.getGuestbookIdentity(false);
+    assert.equal(identity.userId, 'test-user');
+    assert.equal(identity.publicName, provider === 'github' ? 'example' : 'Example User');
+    assert.equal(identity.publicAvatarUrl, 'https://example.com/avatar.png');
+    assert.equal(context.getGuestbookIdentity(true).publicName, '');
+    assert.equal(context.getGuestbookIdentity(true).publicAvatarUrl, '');
+  }
+});
+
+test('email OTP verifies the code before using a session and never exposes the email as a name', async () => {
+  const { context, evaluate } = loadGuestbook();
+  const calls = [];
+  const user = { id: 'email-user', email: 'private@example.com', app_metadata: { provider: 'email' }, user_metadata: {} };
+  const session = { access_token: 'email-session', user };
+  context.window.supabase = { createClient: () => ({ auth: {
+    signInWithOtp: async (args) => { calls.push(args); return { error: null }; },
+    verifyOtp: async (args) => { calls.push(args); return { data: { session }, error: null }; },
+    updateUser: async ({ data }) => ({ data: { user: { ...user, user_metadata: data } }, error: null }),
+  } }) };
+  await context.signInGuestbookEmail(' private@example.com ');
+  assert.equal(calls[0].email, 'private@example.com');
+  assert.equal(calls[0].options.shouldCreateUser, true);
+  assert.equal(evaluate('guestbookState.user'), null);
+  assert.equal(evaluate('guestbookState.emailLogin.sent'), true);
+  await context.signInGuestbookEmail('private@example.com', '12345678');
+  assert.equal(calls[1].token, '12345678');
+  assert.equal(calls[1].type, 'email');
+  assert.equal(context.buildGuestbookHeaders().Authorization, 'Bearer email-session');
+  assert.equal(context.getGuestbookIdentity(false).publicName, '已登录访客');
+  await context.saveGuestbookNickname('  数学访客  ');
+  assert.equal(context.getGuestbookIdentity(false).publicName, '数学访客');
+  assert.equal(context.getGuestbookIdentity(true).publicName, '');
+  assert.equal(context.getGuestbookIdentity(false).publicAvatarUrl, '');
+});
+
+test('failed email send or verification does not create a logged-in state and allows retry', async () => {
+  const { context, evaluate } = loadGuestbook();
+  context.window.supabase = { createClient: () => ({ auth: {
+    signInWithOtp: async () => ({ error: new Error('SMTP unavailable') }),
+    verifyOtp: async () => ({ error: new Error('Code expired') }),
+  } }) };
+  await context.signInGuestbookEmail('private@example.com');
+  assert.equal(evaluate('guestbookState.emailLogin.sent'), false);
+  assert.equal(evaluate('guestbookState.emailLogin.busy'), false);
+  assert.equal(evaluate('guestbookState.authError'), 'SMTP unavailable');
+  evaluate('guestbookState.emailLogin.sent = true');
+  await context.signInGuestbookEmail('private@example.com', '123456');
+  assert.equal(evaluate('guestbookState.session'), null);
+  assert.equal(evaluate('guestbookState.emailLogin.sent'), true);
+  assert.equal(evaluate('guestbookState.emailLogin.busy'), false);
+  assert.equal(evaluate('guestbookState.authError'), 'Code expired');
 });
 
 test('publishable key stays in apikey; only a login session supplies the bearer token', () => {

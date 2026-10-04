@@ -10,12 +10,19 @@ const FRIEND_SITES = [
     name: "Axi's Blog",
     description: '一直可爱小猫',
     href: 'https://axi404.top',
+    avatar: '/figs/friends/axi404.png',
   },
   {
     name: '拜泪X`Blog',
     description: '博客,但是试作品',
     href: 'https://critel.github.io/',
+    avatar: '/figs/friends/critel.jpg',
   },
+  { name: '森森的博客', description: '', href: 'https://msensen.top/', avatar: '/figs/friends/msensen.jpg' },
+  { name: "master's blog", description: 'Notes on artificial intelligence, brain-computer interfaces, and life.', href: 'https://brianwang2007.com/', avatar: '/figs/friends/brianwang2007.jpeg' },
+  { name: '時雨のBlog', description: 'A CS-AI Sophomore | XJTU', href: 'https://www.shiiyu.xyz/', avatar: '/figs/friends/shiiyu.png' },
+  { name: '愿你我,写下新的结局...', description: 'Together,for end we like...', href: 'https://shadowalone.me.cyrene.xin/', avatar: '/figs/friends/shadowalone.png' },
+  { name: "Feli77's Blog", description: 'A campsite to share knowledge and thoughts.', href: 'https://feli77.com/', avatar: '' },
 ];
 
 const LEARNING_NOTES = [
@@ -242,7 +249,7 @@ for (const doc of DOC_DEFINITIONS) {
   }
 }
 
-const CATEGORY_ORDER = ['minors', 'invisible', 'papers', 'permanence', 'tech'];
+const CATEGORY_ORDER = ['invisible', 'papers', 'minors', 'permanence', 'tech'];
 
 let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
@@ -256,6 +263,7 @@ const guestbookState = {
   user: null,
   authReady: false,
   authError: '',
+  emailLogin: { email: '', sent: false, busy: false, notice: '' },
   pollTimer: null,
 };
 
@@ -272,6 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (page === 'history') {
     initHistoryPage();
+    return;
+  }
+  if (page === 'friends') {
+    document.getElementById('friends-directory').innerHTML = renderFriendDirectory(shuffledFriendSites());
     return;
   }
   initHomePage();
@@ -327,7 +339,7 @@ async function initHomePage() {
   await previewsReady;
 
   if (friendSitesHost) {
-    friendSitesHost.innerHTML = renderFriendSites(FRIEND_SITES);
+    friendSitesHost.innerHTML = renderFriendSites(shuffledFriendSites());
   }
 
   if (guestbookHost) {
@@ -355,26 +367,42 @@ async function loadHomeCategoryPreviews(host) {
   ));
 }
 
-function renderFriendSites(sites) {
-  const cards = sites.map((site) => {
-    const label = `${site.name} - ${site.description}`;
-    return `
-      <a class="friend-card" href="${escapeAttr(site.href)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(label)}">
-        <span class="friend-name">${escapeHtml(site.name)}</span>
-        <span class="friend-description">${escapeHtml(site.description)}</span>
-      </a>
-    `;
-  }).join('');
+function shuffledFriendSites() {
+  const sites = [...FRIEND_SITES];
+  for (let i = sites.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [sites[i], sites[j]] = [sites[j], sites[i]];
+  }
+  return sites;
+}
 
+function friendAvatar(site) {
+  return site.avatar
+    ? `<img class="friend-avatar" src="${escapeAttr(site.avatar)}" alt="" loading="lazy" decoding="async">`
+    : '<span class="friend-avatar is-empty" aria-hidden="true"></span>';
+}
+
+function renderFriendSites(sites) {
   return `
     <section class="friend-sites-panel" aria-labelledby="friend-sites-title">
       <div class="friend-sites-head">
         <h2 id="friend-sites-title" class="friend-sites-title">友站列表</h2>
-        <p class="friend-sites-subtitle">links across the web</p>
+        <a class="friend-directory-link" href="/friends.html">查看全部友站 ↗</a>
       </div>
-      <div class="friend-sites-list">${cards}</div>
+      <div class="friend-avatar-list">${sites.map((site) => `<a class="friend-avatar-link" href="${escapeAttr(site.href)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(site.name)}" title="${escapeAttr(site.name)}">${friendAvatar(site)}</a>`).join('')}</div>
     </section>
   `;
+}
+
+function renderFriendDirectory(sites) {
+  return sites.map((site) => `<a class="friend-card" href="${escapeAttr(site.href)}" target="_blank" rel="noopener noreferrer" data-site-content>
+    ${friendAvatar(site)}
+    <div class="friend-card-copy">
+      <h2 class="friend-name">${escapeHtml(site.name)}</h2>
+      <span class="friend-domain">${escapeHtml(new URL(site.href).hostname)}</span>
+      ${site.description ? `<p class="friend-description">${escapeHtml(site.description)}</p>` : ''}
+    </div>
+  </a>`).join('');
 }
 
 async function initGuestbook(host) {
@@ -397,9 +425,9 @@ function renderGuestbookShell(host) {
     <section class="guestbook-panel" aria-labelledby="guestbook-title">
       <div class="guestbook-head">
         <div>
-          <h2 id="guestbook-title" class="guestbook-title">匿名留言</h2>
-          <p class="guestbook-subtitle">${guestbookState.config.authProviders.length
-            ? '可以匿名留言；登录后会使用第三方账号身份，也可以选择匿名显示。'
+          <h2 id="guestbook-title" class="guestbook-title">留言</h2>
+          <p class="guestbook-subtitle">${guestbookState.config.authProviders.length || guestbookState.config.emailAuth
+            ? '可以匿名留言，也可以登录后用昵称留言；邮箱不会公开展示。'
             : '无需登录即可留言；取消“公开展示”后，仅站主可见。'}</p>
         </div>
         <button id="guestbook-refresh" class="icon-link guestbook-refresh" type="button">刷新</button>
@@ -456,7 +484,7 @@ function renderGuestbookAuth() {
     `;
   }
 
-  if (!guestbookState.config.authProviders.length) {
+  if (!guestbookState.config.authProviders.length && !guestbookState.config.emailAuth) {
     return '';
   }
 
@@ -469,6 +497,8 @@ function renderGuestbookAuth() {
     `;
   }
 
+  const emailLogin = guestbookState.emailLogin;
+  const feedback = `<div class="guestbook-auth-feedback" role="status"><span class="guestbook-auth-error">${escapeHtml(guestbookState.authError)}</span><span class="guestbook-auth-note">${escapeHtml(emailLogin.notice)}</span></div>`;
   if (guestbookState.user) {
     const identity = getGuestbookIdentity(false);
     const avatar = identity.avatarUrl
@@ -482,24 +512,33 @@ function renderGuestbookAuth() {
           <div class="guestbook-auth-note">${escapeHtml(identity.providerLabel)} 已登录</div>
         </div>
       </div>
-      <button id="guestbook-logout" class="icon-link" type="button">退出登录</button>
+      <button id="guestbook-logout" class="icon-link" type="button" ${emailLogin.busy ? 'disabled' : ''}>退出登录</button>
+      ${identity.provider === 'email' ? `<form id="guestbook-nickname-form" class="guestbook-email-form">
+        <label class="guestbook-field"><span class="guestbook-label">公开昵称</span><input name="nickname" class="guestbook-input" maxlength="40" autocomplete="nickname" value="${escapeAttr(guestbookState.user.user_metadata?.display_name || '')}" required></label>
+        <button class="icon-link" type="submit" ${emailLogin.busy ? 'disabled' : ''}>保存昵称</button>
+        <p class="guestbook-auth-note">取消“匿名显示”后，留言将展示此昵称。</p>
+      </form>` : ''}
+      ${feedback}
     `;
   }
 
-  const error = guestbookState.authError
-    ? `<div class="guestbook-auth-error">${escapeHtml(guestbookState.authError)}</div>`
-    : '';
   return `
     <div class="guestbook-auth-copy">
-      <div class="guestbook-auth-title">第三方登录</div>
-      <div class="guestbook-auth-note">登录后用平台身份留言；也可以继续匿名发送。</div>
-      ${error}
+      <div class="guestbook-auth-title">登录后留下身份</div>
+      <div class="guestbook-auth-note">也可以继续匿名留言。</div>
     </div>
     <div class="guestbook-auth-actions">
       ${guestbookState.config.authProviders.map((provider) => `
-        <button class="icon-link guestbook-login" type="button" data-provider="${provider}">${provider === 'github' ? 'GitHub' : 'Google'} 登录</button>
+        <button class="icon-link guestbook-login" type="button" data-provider="${provider}" ${emailLogin.busy ? 'disabled' : ''}>${provider === 'github' ? 'GitHub' : 'Google'} 登录</button>
       `).join('')}
     </div>
+    ${guestbookState.config.emailAuth ? `<form id="guestbook-email-form" class="guestbook-email-form">
+      <label class="guestbook-field"><span class="guestbook-label">邮箱</span><input name="email" type="email" class="guestbook-input" autocomplete="email" value="${escapeAttr(emailLogin.email)}" ${emailLogin.sent ? 'readonly' : ''} required></label>
+      ${emailLogin.sent ? `<label class="guestbook-field"><span class="guestbook-label">验证码</span><input name="token" class="guestbook-input" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" minlength="6" maxlength="10" required></label>` : ''}
+      <div class="guestbook-auth-actions"><button class="icon-link" type="submit" ${emailLogin.busy ? 'disabled' : ''}>${emailLogin.busy ? '处理中…' : emailLogin.sent ? '验证并登录' : '发送验证码'}</button>
+      ${emailLogin.sent ? `<button id="guestbook-email-change" class="icon-link" type="button" ${emailLogin.busy ? 'disabled' : ''}>更换邮箱或重新发送</button>` : ''}</div>
+    </form>` : ''}
+    ${feedback}
   `;
 }
 
@@ -528,6 +567,21 @@ function bindGuestbookForm(host) {
 }
 
 function bindGuestbookAuthControls(host) {
+  host.querySelector('#guestbook-email-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    signInGuestbookEmail(form.elements.email.value, form.elements.token?.value || '');
+  });
+  host.querySelector('#guestbook-email-change')?.addEventListener('click', () => {
+    guestbookState.emailLogin.sent = false;
+    guestbookState.emailLogin.notice = '';
+    guestbookState.authError = '';
+    updateGuestbookAuthUi();
+  });
+  host.querySelector('#guestbook-nickname-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    saveGuestbookNickname(event.currentTarget.elements.nickname.value);
+  });
   host.querySelectorAll('.guestbook-login').forEach((button) => {
     button.addEventListener('click', () => {
       signInGuestbook(String(button.dataset.provider || 'github'));
@@ -573,7 +627,7 @@ async function initGuestbookAuth() {
 }
 
 function createGuestbookAuthClient() {
-  if (!guestbookState.config.enabled || !guestbookState.config.authProviders.length || !window.supabase?.createClient) {
+  if (!guestbookState.config.enabled || (!guestbookState.config.authProviders.length && !guestbookState.config.emailAuth) || !window.supabase?.createClient) {
     return null;
   }
   return window.supabase.createClient(
@@ -612,6 +666,64 @@ async function signInGuestbook(provider) {
   }
 }
 
+async function signInGuestbookEmail(email, token = '') {
+  const state = guestbookState.emailLogin;
+  if (state.busy) return;
+  state.email = String(email).trim();
+  state.busy = true;
+  state.notice = '';
+  guestbookState.authError = '';
+  updateGuestbookAuthUi();
+  try {
+    guestbookState.authClient ||= createGuestbookAuthClient();
+    if (!guestbookState.authClient) throw new Error('登录暂不可用，请稍后重试。');
+    if (state.sent) {
+      const { data, error } = await guestbookState.authClient.auth.verifyOtp({ email: state.email, token: token.trim(), type: 'email' });
+      if (error) throw error;
+      if (!data?.session) throw new Error('登录暂不可用，请稍后重试。');
+      guestbookState.session = data.session;
+      guestbookState.user = data.session.user;
+      state.sent = false;
+      state.email = '';
+    } else {
+      const { error } = await guestbookState.authClient.auth.signInWithOtp({ email: state.email, options: { shouldCreateUser: true } });
+      if (error) throw error;
+      state.sent = true;
+      state.notice = '验证码已发送，请查收邮件。';
+    }
+  } catch (error) {
+    guestbookState.authError = formatGuestbookError(error);
+  } finally {
+    state.busy = false;
+    updateGuestbookAuthUi();
+  }
+}
+
+async function saveGuestbookNickname(value) {
+  const nickname = String(value).trim();
+  if (guestbookState.emailLogin.busy) return;
+  guestbookState.authError = '';
+  guestbookState.emailLogin.notice = '';
+  if (!nickname || nickname.length > 40) {
+    guestbookState.authError = '昵称请填写 1–40 个字符。';
+    updateGuestbookAuthUi();
+    return;
+  }
+  guestbookState.emailLogin.busy = true;
+  updateGuestbookAuthUi();
+  try {
+    const { data, error } = await guestbookState.authClient.auth.updateUser({ data: { display_name: nickname } });
+    if (error) throw error;
+    guestbookState.user = data.user;
+    guestbookState.emailLogin.notice = '昵称已保存。';
+  } catch (error) {
+    guestbookState.authError = formatGuestbookError(error);
+  } finally {
+    guestbookState.emailLogin.busy = false;
+    updateGuestbookAuthUi();
+  }
+}
+
 async function signOutGuestbook() {
   try {
     if (guestbookState.authClient) {
@@ -622,6 +734,8 @@ async function signOutGuestbook() {
   }
   guestbookState.session = null;
   guestbookState.user = null;
+  guestbookState.emailLogin = { email: '', sent: false, busy: false, notice: '' };
+  guestbookState.authError = '';
   updateGuestbookAuthUi();
 }
 
@@ -819,6 +933,7 @@ function normalizeGuestbookConfig(config) {
     authProviders: Array.isArray(raw.authProviders)
       ? [...new Set(raw.authProviders.filter((provider) => ['github', 'google'].includes(provider)))]
       : [],
+    emailAuth: raw.emailAuth === true,
     enabled: Boolean(supabaseUrl && supabaseAnonKey),
   };
 }
@@ -842,11 +957,11 @@ function getGuestbookIdentity(isAnonymous) {
   const provider = String(appMetadata.provider || user.identities?.[0]?.provider || '').trim();
   const providerLabel = provider ? providerLabelFromId(provider) : 'third-party';
   const displayName = String(
+    metadata.display_name ||
     metadata.user_name ||
     metadata.preferred_username ||
     metadata.full_name ||
     metadata.name ||
-    user.email ||
     '已登录访客',
   ).trim();
   const avatarUrl = String(metadata.avatar_url || metadata.picture || '').trim();
@@ -866,6 +981,7 @@ function providerLabelFromId(provider) {
   const labels = {
     github: 'GitHub',
     google: 'Google',
+    email: 'Email',
   };
   return labels[provider] || provider;
 }
@@ -1065,7 +1181,7 @@ async function initHistoryPage() {
     const totalDays = Math.max(0, daysBetweenKeys(QUOTE_START_DATE_KEY, todayKey));
     const items = [];
 
-    for (let offset = 0; offset <= totalDays; offset += 1) {
+    for (let offset = totalDays; offset >= 0; offset -= 1) {
       const dateKey = addDaysToKey(QUOTE_START_DATE_KEY, offset);
       const quote = pool[offset % pool.length];
       const active = dateKey === todayKey ? ' is-today' : '';
@@ -1078,13 +1194,7 @@ async function initHistoryPage() {
       `);
     }
 
-    host.innerHTML = `
-      <div class="history-summary">
-        <div class="history-summary-title">Quote history</div>
-        <div class="history-summary-copy">Sequence is derived from the CSV and the Shanghai date.</div>
-      </div>
-      <div class="history-list">${items.join('')}</div>
-    `;
+    host.innerHTML = `<div class="history-list">${items.join('')}</div>`;
   } catch (error) {
     host.innerHTML = `<div class="error-state">无法加载历史记录。<br>${escapeHtml(error.message)}</div>`;
   }

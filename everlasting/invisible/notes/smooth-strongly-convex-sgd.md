@@ -2,6 +2,8 @@
 
 > 改编自 https://arxiv.org/abs/2604.09258
 
+[TOC]
+
 # 定理
 
 假设 loss $\mathcal{L}$ 是 $L$\-光滑的，并且是 $\mu$\-强凸的。也就是说，对于任意 $\theta_1,\theta_2$，有：

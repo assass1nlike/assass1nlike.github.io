@@ -2,6 +2,8 @@
 
 > 取自 https://arxiv.org/abs/1911.03030
 
+[TOC]
+
 # 定理
 
 假设 $\Phi$ 是一个满足 $(\epsilon_{\mathrm{DP}},\delta_{\mathrm{DP}})$\-差分隐私，也即满足

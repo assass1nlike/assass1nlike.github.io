@@ -1,6 +1,7 @@
 /* One browsable index for the homepage preview and each article category. */
 window.ArticleLibrary = (() => {
   const cache = new Map();
+  const mathPattern = /(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|(?<![\\$])\$(?!\$)(?:\\.|[^$\n])+?\$)/g;
   const isSimpleCollection = (category) => ['minors', 'invisible', 'tech'].includes(category.id);
 
   function entriesOf(category) {
@@ -11,21 +12,40 @@ window.ArticleLibrary = (() => {
     return entries.filter((entry, index) => entries.findIndex((item) => item.path === entry.path) === index);
   }
 
-  function readingMinutes(text) {
-    const chinese = (text.match(/[\u4e00-\u9fff]/g) || []).length;
-    const words = (text.match(/[A-Za-z0-9]+/g) || []).length;
-    return Math.max(1, Math.ceil(chinese / 350 + words / 220));
+  function countWords(content) {
+    const copy = content.cloneNode(true);
+    copy.querySelectorAll('.math-source, .math-display, mjx-container').forEach((node) => node.remove());
+    const text = copy.textContent.replace(mathPattern, '').replace(/https?:\/\/\S+/g, '');
+    const chinese = (text.match(/\p{Script=Han}/gu) || []).length;
+    const words = (text.match(/[A-Za-z0-9]+(?:['’-][A-Za-z0-9]+)*/g) || []).length;
+    return chinese + words;
   }
 
   function highlight(text, words) {
+    return text.split(mathPattern).map((part, index) => index % 2
+      ? `<span class="math-source">${escapeHtml(part)}</span>`
+      : highlightText(part, words)).join('');
+  }
+
+  function highlightText(text, words) {
     if (!words.length) return escapeHtml(text);
     const pattern = words.map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
     return text.split(new RegExp(`(${pattern})`, 'gi')).map((part, i) => i % 2 ? `<mark>${escapeHtml(part)}</mark>` : escapeHtml(part)).join('');
   }
 
+  function excerptSlice(text, start, end) {
+    // Keep formula delimiters and their contents together at either boundary.
+    for (const match of text.matchAll(mathPattern)) {
+      const right = match.index + match[0].length;
+      if (match.index < start && start < right) start = match.index;
+      if (match.index < end && end < right) end = right;
+    }
+    return (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+  }
+
   function summarize(markdown) {
     const template = document.createElement('template');
-    template.innerHTML = renderMarkdown(markdown, { maxBlocks: 8 });
+    template.innerHTML = renderMarkdown(markdown);
     const preview = template.content;
     const lead = Array.from(preview.querySelectorAll('p')).find((p) => {
       const text = p.textContent.trim();
@@ -36,8 +56,8 @@ window.ArticleLibrary = (() => {
     if (text.length < 45 && /[:：]$/.test(text) && lead?.nextElementSibling?.matches('ul, ol')) {
       text += ' ' + Array.from(lead.nextElementSibling.children).map((item) => item.textContent.trim()).join('；');
     }
-    const plain = markdown.replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/https?:\/\/\S+/g, '').replace(/[#*_`~]/g, '').replace(/\s+/g, ' ').trim();
-    return { excerpt: text.slice(0, 170) + (text.length > 170 ? '…' : ''), plain, minutes: readingMinutes(plain), searchText: markdown.toLocaleLowerCase(), empty: !markdown.trim() };
+    const plain = markdown.split(mathPattern).map((part, index) => index % 2 ? part : part.replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/https?:\/\/\S+/g, '').replace(/[#*_`~]/g, '').replace(/\s+/g, ' ')).join('').trim();
+    return { excerpt: excerptSlice(text, 0, 170), plain, wordCount: countWords(preview), searchText: markdown.toLocaleLowerCase(), empty: !markdown.trim() };
   }
 
   function loadEntry(path, group, category) {
@@ -128,7 +148,7 @@ window.ArticleLibrary = (() => {
       const words = state.query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
       let matches = docs.filter((doc) => (!state.collection || doc.collection === state.collection) && (!state.group || doc.group === state.group) && (!state.status || (state.status === 'empty' ? doc.empty : !doc.empty && !doc.missing)) && words.every((word) => `${doc.title} ${simple ? '' : doc.groupTitle} ${doc.searchText}`.toLocaleLowerCase().includes(word)));
       if (state.sort === 'title') matches.sort((a, b) => a.title.localeCompare(b.title, 'zh-CN', { numeric: true }));
-      else if (state.sort === 'short') matches.sort((a, b) => (a.empty || a.missing ? Infinity : a.minutes) - (b.empty || b.missing ? Infinity : b.minutes));
+      else if (state.sort === 'short') matches.sort((a, b) => (a.empty || a.missing ? Infinity : a.wordCount) - (b.empty || b.missing ? Infinity : b.wordCount));
       else matches.sort((a, b) => Number(Boolean(a.empty || a.missing)) - Number(Boolean(b.empty || b.missing)));
       const pages = Math.max(1, Math.ceil(matches.length / pageSize));
       state.page = Math.min(state.page, pages);
@@ -146,22 +166,24 @@ window.ArticleLibrary = (() => {
       host.querySelectorAll('[data-group]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.group === state.group)));
       host.querySelectorAll('[data-status]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.status === state.status)));
       const from = compact ? categoryHref(category.id) + (state.collection ? '&collection=' + encodeURIComponent(state.collection) : '') : window.location.pathname + window.location.search;
+      window.MathJax?.typesetClear?.([list]);
       list.innerHTML = visible.map((doc, index) => {
         const href = `${doc.href || viewerHref(doc.path)}&from=${encodeURIComponent(from)}`;
         let excerpt = doc.empty && !simple ? '正文正在整理中。' : doc.excerpt || '打开文章查看内容。';
         if (words.length && doc.plain) {
           const position = doc.plain.toLocaleLowerCase().indexOf(words[0]);
-          if (position >= 0) excerpt = (position > 45 ? '…' : '') + doc.plain.slice(Math.max(0, position - 45), position + 140) + (position + 140 < doc.plain.length ? '…' : '');
+          if (position >= 0) excerpt = excerptSlice(doc.plain, Math.max(0, position - 45), position + 140);
         }
         return `<article class="library-entry ${doc.empty && !simple ? 'is-draft' : ''}">
           <span class="library-entry-number" aria-hidden="true">${String(start + index + 1).padStart(2, '0')}</span><div class="library-entry-content">
-          <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>约 ${doc.minutes} 分钟</span>`}</div>
+          <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>${doc.wordCount} 字</span>`}</div>
           <h2><a href="${escapeAttr(href)}">${highlight(doc.title, words)}</a></h2>
           <p class="library-excerpt" ${doc.empty || doc.missing || !doc.excerpt ? 'data-site-ui' : ''}>${highlight(excerpt, words)}</p>
           <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'} <span aria-hidden="true">↗</span></a>`}${doc.repository ? `<a class="library-repository" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ''}</div>
           </div>
         </article>`;
       }).join('') || `<div class="library-empty">${docs.length ? `没有找到匹配的${noun}。试试其他关键词，或清除筛选。` : `这个板块还没有${noun}。`}</div>`;
+      typesetMath(list);
       pager.hidden = pages <= 1;
       if (pages > 1) {
         const pageNumbers = new Set([1, pages, state.page - 1, state.page, state.page + 1].filter((page) => page >= 1 && page <= pages));
@@ -206,14 +228,14 @@ window.ArticleLibrary = (() => {
     const content = document.createElement('div');
     content.className = 'library-reader-content';
     Array.from(host.childNodes).filter((node) => node !== back && node !== outline).forEach((node) => content.append(node));
-    const minutes = readingMinutes(content.textContent);
+    const wordCount = countWords(content);
     const empty = Boolean(content.querySelector('.loading-state'));
     if (empty) content.querySelector('.loading-state').textContent = simple ? 'No content found.' : '正文正在整理中。';
     const entries = entriesOf(category);
     const group = entries.find((entry) => entry.path === doc.path)?.group;
     const header = document.createElement('header');
     header.className = 'library-reader-head';
-    header.innerHTML = `<div class="library-eyebrow">${escapeHtml(simple ? category.title : group?.title || category.title)}</div><h1>${escapeHtml(doc.title)}</h1>${empty && simple ? '' : `<p>${empty ? '待补充' : `约 ${minutes} 分钟阅读`}</p>`}`;
+    header.innerHTML = `<div class="library-eyebrow">${escapeHtml(simple ? category.title : group?.title || category.title)}</div><h1>${escapeHtml(doc.title)}</h1>${empty && simple ? '' : `<p>${empty ? '待补充' : `${wordCount} 字`}</p>`}`;
     const sourceTitle = content.firstElementChild;
     if (sourceTitle?.matches('h1') && sourceTitle.textContent.trim() === doc.title.trim()) {
       // Preserve README / article title anchors while showing the title only once.

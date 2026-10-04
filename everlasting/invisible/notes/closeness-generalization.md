@@ -2,6 +2,8 @@
 
 > 取自https://arxiv.org/abs/2604.09258
 
+[TOC]
+
 # 命题
 
 ## 定理 1

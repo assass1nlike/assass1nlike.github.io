@@ -100,3 +100,7 @@ engiworld-benchmark和evalclaw先不做跳转，其markdown文件过段时间会
 ---
 
 在“学习”的总览界面，也就是https://www.assassinlike.top/category.html?cat=invisible，把everlasting.md中出现的
+
+---
+
+然后你处理一下友站列表。现在的友站已经非常多了，我们不能每个都列出详细信息，所以改为展示各个头像，然后设置一个单独的界面来详细展示所有的友站。

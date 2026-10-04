@@ -4,7 +4,21 @@
 
 首次初始化时，在新项目的 SQL Editor 中执行根目录 `guestbook-supabase-schema.sql` 全部内容。脚本创建留言表、开放访客读取公开留言和提交留言的权限，并启用行级权限；访客不能读取非公开留言，也不能修改或删除留言。站主可在 Supabase Table Editor 的 `guestbook_messages` 表中查看和管理所有留言。
 
-当前 `authProviders: []` 表示只提供无需登录的匿名留言，不需要开启 Supabase Auth 的 Anonymous Sign-Ins。启用 GitHub / Google 时，先在 Supabase 配置对应 OAuth provider、Site URL 和允许的 Redirect URLs，再把 `authProviders` 设置为 `['github', 'google']`（也可只启用一种）。OAuth callback 为 `https://myrhtqbjnkxqaniuivzm.supabase.co/auth/v1/callback`；网站回跳地址应使用正式 HTTPS 域名。
+`authProviders: ['github']` 显示 GitHub 登录入口，`emailAuth: true` 启用邮箱验证码登录。Google 暂不启用。匿名留言无需开启 Supabase Auth 的 Anonymous Sign-Ins。
+
+1. 在 Supabase 的 Authentication → URL Configuration 中，将 Site URL 设为 `https://www.assassinlike.top/`。Redirect URLs 添加 `https://www.assassinlike.top/` 和本地测试地址 `http://localhost:8000/`、`http://127.0.0.1:8000/`；使用其他本地端口时也需登记对应地址。
+2. 使用 `assass1nlike` 登录 GitHub，在 Settings → Developer settings → OAuth Apps → New OAuth App 创建应用。名称可用 `assassinlike Homepage`，Homepage URL 填 `https://www.assassinlike.top/`，Authorization callback URL 填 `https://myrhtqbjnkxqaniuivzm.supabase.co/auth/v1/callback`。将应用的 Client ID 和 Client Secret 填入 Supabase 的 Authentication → Sign In / Providers → GitHub，并启用、保存。
+3. 在 Supabase 的 Authentication → Sign In / Providers 中启用 Email。邮箱登录使用 `signInWithOtp` 发送验证码、`verifyOtp` 验证并创建会话，不要求密码；首次验证成功会创建用户。
+
+OAuth 的平台回调地址是 Supabase 的 `/auth/v1/callback`，不要填成主页地址；主页和 localhost 地址用于 Supabase 登录完成后的回跳。Client Secret 仅保存在对应平台和 Supabase 后台，不加入仓库。登录后取消“匿名显示”即可展示昵称和头像；邮箱用户可保存公开昵称，未设置时显示“已登录访客”，不会使用邮箱地址作为公开昵称。
+
+邮箱发信使用自定义 SMTP，不能依赖 Supabase 自带发信服务向普通访客发送邮件。以 Resend 为例：
+
+1. 在 Resend → Domains 添加 `auth.assassinlike.top`。按 Resend 显示的实际值，在阿里云 DNS 添加验证和发信所需记录；不修改主页 `www` 的 CNAME。域名验证成功后，以 `login@auth.assassinlike.top` 发信。
+2. 在 Resend 创建具有 Sending access 权限的 API Key，并限定为上述域名。
+3. 在 Supabase → Authentication → Emails → SMTP Settings 启用 Custom SMTP。Sender email 填 `login@auth.assassinlike.top`，Sender name 填 `assassinlike`，Host 填 `smtp.resend.com`，Port 填 `465`，Username 填 `resend`，Password 填 Resend API Key。密钥不放入前端或仓库。
+4. 在 Emails 的 Magic Link 模板中展示 `{{ .Token }}`，不要只保留 `{{ .ConfirmationURL }}` 登录链接；Confirm signup 模板也展示 Token，以覆盖首次注册。邮件正文可用 `<p>你的登录验证码是：</p><p><strong>{{ .Token }}</strong></p><p>请返回网站输入验证码。若非本人操作，请忽略此邮件。</p>`。
+5. 在本地页面发送验证码，验证新用户和再次登录、保存昵称、匿名选项与退出登录。实际发信测试使用自己的邮箱，不需要公开留言；未测试前不能认为 SMTP 或整个登录流程已验证成功。
 
 前端只配置 Publishable key。它放在 `apikey` 请求头，`Authorization` 只在用户登录后携带会话 token。数据库密码、Secret key 和 service_role key 不放入网站文件。
 

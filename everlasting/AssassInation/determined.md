@@ -1,3 +1,9 @@
+[TOC]
+
+# AI research
+
+直接测试：直接说话能想出来什么 idea、AutoResearch 能搞出来如何的论文。
+
 
 
 ### 创新
