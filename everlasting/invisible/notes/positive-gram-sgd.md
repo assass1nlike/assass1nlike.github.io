@@ -2,6 +2,8 @@
 
 > 延伸自 https://arxiv.org/abs/2502.07218
 
+[TOC]
+
 # 定理
 
 假设 $H\in\mathbb R^{m\times p},A\in\mathbb R^{m\times q}$ 都是固定的矩阵，$W\in\mathbb R^{p\times q}$ 是待优化的矩阵变量，损失函数为

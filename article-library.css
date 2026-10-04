@@ -66,6 +66,8 @@
 .article-library .library-entry h2 { margin: 9px 0 12px; font-size: 1.3rem; line-height: 1.45; font-weight: 650; letter-spacing: -.015em; }
 .article-library .library-entry h2 a:hover { color: var(--library-accent); text-decoration: none; }
 .article-library .library-excerpt { max-width: 64ch; font-size: .9rem; line-height: 1.85; margin-bottom: 14px; }
+.article-library .library-excerpt:has(.math-source) { display: block; }
+.article-library .library-excerpt mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 3px 0; }
 .article-library .library-read { color: var(--library-accent); }
 .article-library .library-read span { display: inline-block; transition: transform 150ms ease; }
 .article-library .library-read:hover span { transform: translate(2px, -2px); }

@@ -2,21 +2,11 @@
 
 > 问题背景取自 https://arxiv.org/abs/2502.07218
 
-**目录**
-
-命题 List
-
--   定理 1
-    
-
-命题证明 List
-
--   定理 1 的证明
-    
+[TOC]
 
 # 命题 List
 
-# 定理 1
+## 定理 1
 
 假设 $H\in\mathbb R^{m\times p},A\in\mathbb R^{m\times q}$ 都是固定的矩阵，$W\in\mathbb R^{p\times q}$ 是待优化的矩阵变量，损失函数为
 
@@ -45,7 +35,7 @@ $$
 
 # 命题证明 List
 
-# 定理 1 的证明
+## 定理 1 的证明
 
 先求目标函数对 $W$ 的梯度。把 $F$ 写成迹的形式：
 
