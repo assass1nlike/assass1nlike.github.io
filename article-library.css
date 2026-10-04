@@ -25,8 +25,6 @@
 .library-reader-head .library-repository { display: inline-block; margin-top: 18px; }
 .article-library .library-hero { gap: 12px; padding: 10px 0 30px; margin-bottom: 30px; }
 .library-eyebrow { color: var(--library-accent, var(--accent-cyan)); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
-.library-subcategories { display: flex; flex-wrap: wrap; gap: 10px; }
-.library-parent { font-size: .85rem; color: var(--muted); }
 .article-library .library-hero h1 { font-size: clamp(2rem, 4vw, 2.7rem); line-height: 1.2; letter-spacing: -.03em; }
 .article-library .category-intro-copy { max-width: 44rem; color: var(--muted); }
 .library-statline { display: flex; gap: 20px; flex-wrap: wrap; padding-top: 3px; color: var(--faint); font-size: .8rem; }
@@ -51,6 +49,9 @@
 .library-statuses [aria-pressed="true"] { color: var(--library-accent); border-color: currentColor; }
 .library-main { min-width: 0; }
 .article-library .library-toolbar { gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--line-soft); }
+.library-overview-actions { display: grid; justify-items: end; gap: 8px; margin-left: auto; }
+.library-collection-filter { border: 0; padding: 4px 0; background: none; color: var(--muted); font: inherit; font-size: .78rem; cursor: pointer; text-align: right; }
+.library-collection-filter[aria-pressed="true"] { color: var(--library-accent); text-decoration: underline; text-underline-offset: 4px; }
 .article-library .library-toolbar input { background: rgba(255,255,255,.025); padding: 12px 14px; }
 .article-library .library-toolbar select { padding: 12px 10px; }
 .article-library .library-label { font-size: .72rem; }
@@ -88,7 +89,7 @@
 .home-category-viewport.article-library .library-groups { display: flex; flex-wrap: wrap; }
 .home-category-viewport.article-library .library-groups button { padding: 6px 9px; }
 .home-category-viewport .library-facet-label:not(:first-child) { margin-top: 14px; }
-.home-category-viewport .library-sort { display: none; }
+.home-category-viewport:not([data-collection="minors"]) .library-sort { display: none; }
 .home-category-viewport .library-label { display: none; }
 .home-category-viewport.article-library .library-toolbar { padding-bottom: 12px; }
 .home-category-viewport.article-library .library-overview { margin-top: 12px; }

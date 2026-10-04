@@ -45,15 +45,14 @@ const CATEGORY_DEFINITIONS = {
     title: '博客',
     titleEn: 'Blog',
     heading: '博客',
-    subcategories: ['annual'],
+    collectionFilter: { id: 'annual', title: '各年年终总结', label: '只看子集：各年年终总结' },
     description: '学习过程中的专题整理。',
     docs: [
       'everlasting/invisible/minors/cybergym/determined.md',
       'everlasting/invisible/minors/recurrent_MoE/determined.md',
-    ],
-    groups: [
-      { id: 'agents', title: '智能体安全', description: '围绕智能体与安全评测的专题整理。', docs: ['everlasting/invisible/minors/cybergym/determined.md'] },
-      { id: 'models', title: '多智能体与模型架构', description: '从多智能体协作到 MoE 的阅读与思考。', docs: ['everlasting/invisible/minors/recurrent_MoE/determined.md'] },
+      'everlasting/invisible/annual/2025.md',
+      'everlasting/invisible/annual/2024.md',
+      'everlasting/invisible/annual/2023.md',
     ],
   },
   papers: {
@@ -63,19 +62,6 @@ const CATEGORY_DEFINITIONS = {
     heading: '论文树',
     description: '',
     docs: [],
-  },
-  annual: {
-    id: 'annual',
-    parent: 'minors',
-    title: '各年年终总结',
-    titleEn: 'Annual Reviews',
-    heading: '各年年终总结',
-    description: '在观察自身行为和自我思考后得到的结论。',
-    docs: [
-      'everlasting/invisible/annual/2025.md',
-      'everlasting/invisible/annual/2024.md',
-      'everlasting/invisible/annual/2023.md',
-    ],
   },
   tech: {
     id: 'tech',
@@ -167,19 +153,22 @@ const DOC_DEFINITIONS = [
     path: 'everlasting/invisible/annual/2023.md',
     title: '2023 年终总结',
     aliases: ['2023.md', '2023 年终总结'],
-    category: 'annual',
+    category: 'minors',
+    collection: 'annual',
   },
   {
     path: 'everlasting/invisible/annual/2024.md',
     title: '2024 年终总结',
     aliases: ['2024.md', '2024 年终总结'],
-    category: 'annual',
+    category: 'minors',
+    collection: 'annual',
   },
   {
     path: 'everlasting/invisible/annual/2025.md',
     title: '2025 年终总结',
     aliases: ['2025.md', '2025 年终总结'],
-    category: 'annual',
+    category: 'minors',
+    collection: 'annual',
   },
   {
     path: 'everlasting/invisible/tech/std/claude_web_tool_issues.md',
@@ -941,7 +930,7 @@ async function initViewerPage() {
     titleHost.textContent = resolved?.title || displayNameFromPath(docInput);
   }
   if (subtitleHost) {
-    subtitleHost.textContent = ['minors', 'invisible', 'tech', 'annual'].includes(resolved?.category) ? CATEGORY_DEFINITIONS[resolved.category].title : resolved?.path || docInput;
+    subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(resolved?.category) ? CATEGORY_DEFINITIONS[resolved.category].title : resolved?.path || docInput;
   }
   if (host) {
     if (String(docInput).replace(/^[./]+/, '').toLowerCase().startsWith('everlasting/research/')) {
@@ -961,7 +950,7 @@ async function initViewerPage() {
         }
       } catch { /* Use the category's default URL. */ }
       host.insertAdjacentHTML('afterbegin', `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回${escapeHtml(CATEGORY_DEFINITIONS[resolved.category].title)}列表</a></div>`);
-      if (['minors', 'invisible', 'tech', 'annual'].includes(resolved.category)) {
+      if (['minors', 'invisible', 'tech'].includes(resolved.category)) {
         window.ArticleLibrary.enhanceReader(host, resolved, returnUrl, CATEGORY_DEFINITIONS[resolved.category]);
       }
       scrollToDocumentHash(host);
@@ -971,6 +960,11 @@ async function initViewerPage() {
 
 async function initCategoryPage() {
   const url = new URL(window.location.href);
+  if (url.searchParams.get('cat') === 'annual') {
+    url.searchParams.set('cat', 'minors');
+    url.searchParams.set('collection', 'annual');
+    window.history.replaceState(null, '', url);
+  }
   const categoryId = normalizeKey(url.searchParams.get('cat'));
   const category = CATEGORY_DEFINITIONS[categoryId];
   const host = document.getElementById('category-article');
@@ -990,12 +984,12 @@ async function initCategoryPage() {
     titleHost.textContent = category.title;
   }
   if (subtitleHost) {
-    subtitleHost.textContent = ['minors', 'invisible', 'tech', 'annual'].includes(category.id) ? '文章与笔记' : category.description;
+    subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(category.id) ? '文章与笔记' : category.description;
   }
   if (navHost) {
     navHost.innerHTML = CATEGORY_ORDER.map((id) => {
       const item = CATEGORY_DEFINITIONS[id];
-      const active = id === (category.parent || category.id) ? ' is-active' : '';
+      const active = id === category.id ? ' is-active' : '';
       return `<a class="pill-link${active}" href="${categoryHref(id)}">${escapeHtml(item.title)}</a>`;
     }).join('');
   }
@@ -1008,7 +1002,7 @@ async function initCategoryPage() {
 }
 
 async function loadCategoryInto(host, category) {
-  if (['minors', 'invisible', 'tech', 'annual'].includes(category.id)) {
+  if (['minors', 'invisible', 'tech'].includes(category.id)) {
     await window.ArticleLibrary.mount(host, category);
     return;
   }
@@ -1674,7 +1668,7 @@ function buildTextPatterns(scope) {
 function buildDocLinkPatterns() {
   const patterns = [];
   for (const doc of DOC_DEFINITIONS) {
-    if (doc.category === 'annual') continue;
+    if (doc.collection === 'annual') continue;
     const variants = new Set([
       doc.title,
       basename(doc.path).replace(/\.md$/i, ''),
@@ -1929,6 +1923,7 @@ function resolveCategory(input) {
 }
 
 function categoryHref(categoryId) {
+  if (categoryId === 'annual') return '/category.html?cat=minors&collection=annual';
   return `/category.html?cat=${encodeURIComponent(categoryId)}`;
 }
 
