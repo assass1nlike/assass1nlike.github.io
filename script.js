@@ -1,6 +1,6 @@
 const SITE_TIME_ZONE = 'Asia/Shanghai';
 const QUOTE_START_DATE_KEY = '2026-05-11';
-const EVERLASTING_OVERVIEW_PATH = 'everlasting.md';
+const DEFAULT_DOCUMENT_PATH = 'everlasting/invisible/preliminaries.md';
 const QUOTE_CSV_PATH = '/everlasting/invisible/tech/na/osu-get-poetry-difficulties/poetic_diffs.csv';
 const GUESTBOOK_CACHE_KEY = 'assassinlike.guestbook.profile.v1';
 const GUESTBOOK_REMOTE_POLL_MS = 15000;
@@ -110,12 +110,6 @@ const CATEGORY_DEFINITIONS = {
 };
 
 const DOC_DEFINITIONS = [
-  {
-    path: 'everlasting.md',
-    title: 'Everlasting',
-    aliases: ['everlasting', 'everlasting.md'],
-    category: null,
-  },
   {
     path: 'everlasting/invisible/preliminaries.md',
     title: '补一些非常basic的知识',
@@ -924,7 +918,7 @@ async function initViewerPage() {
     await loadProjectViewer(url.searchParams.get('project'));
     return;
   }
-  const docInput = url.searchParams.get('doc') || EVERLASTING_OVERVIEW_PATH;
+  const docInput = url.searchParams.get('doc') || DEFAULT_DOCUMENT_PATH;
   const resolved = resolveDoc(docInput);
   const host = document.getElementById('viewer-article');
   const titleHost = document.getElementById('viewer-title');

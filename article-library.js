@@ -1,6 +1,7 @@
 /* One browsable index for the homepage preview and each article category. */
 window.ArticleLibrary = (() => {
   const cache = new Map();
+  const isSimpleCollection = (category) => ['minors', 'invisible'].includes(category.id);
 
   function entriesOf(category) {
     if (category.entries) return category.entries;
@@ -55,10 +56,12 @@ window.ArticleLibrary = (() => {
 
   async function mount(host, category, preparedDocs) {
     const projects = category.id === 'permanence';
+    const simple = isSimpleCollection(category);
     const noun = projects ? '项目' : '文章';
     const unit = projects ? '个项目' : '篇文章';
     const compact = host.classList.contains('home-category-viewport');
     host.classList.add('article-library');
+    host.classList.toggle('library-simple', simple);
     if (!compact) host.closest('.page-shell')?.classList.add('library-page-shell');
     host.dataset.collection = category.id;
     host.innerHTML = '<div class="loading-state">正在整理文章列表…</div>';
@@ -67,9 +70,9 @@ window.ArticleLibrary = (() => {
     const params = compact ? new URLSearchParams() : new URL(window.location.href).searchParams;
     const state = {
       query: params.get('q') || '',
-      group: category.groups?.some((group) => group.id === params.get('group')) ? params.get('group') : '',
+      group: !simple && category.groups?.some((group) => group.id === params.get('group')) ? params.get('group') : '',
       sort: ['title', 'short'].includes(params.get('sort')) ? params.get('sort') : 'default',
-      status: ['ready', 'empty'].includes(params.get('status')) ? params.get('status') : '',
+      status: !simple && ['ready', 'empty'].includes(params.get('status')) ? params.get('status') : '',
       page: Math.max(1, Number.parseInt(params.get('page'), 10) || 1),
     };
     const pageSize = compact ? 3 : 6;
@@ -77,15 +80,15 @@ window.ArticleLibrary = (() => {
       <header class="category-intro library-hero">
         ${compact ? '' : `<div class="library-eyebrow">${escapeHtml(category.titleEn || category.title)}</div><h1 class="category-intro-title">${escapeHtml(category.title)}</h1>`}
         <p class="category-intro-copy">${escapeHtml(category.description)}</p>
-        <div class="library-statline"><span><strong>${docs.filter((doc) => !doc.empty && !doc.missing).length}</strong> ${projects ? '个开源项目' : '篇可阅读'}</span>${projects ? '<span>项目介绍与使用文档</span>' : `<span>${category.groups?.length || 1} 个主题</span>`}${docs.some((doc) => doc.empty) ? `<span>${docs.filter((doc) => doc.empty).length} 篇待补充</span>` : ''}</div>
+        ${simple ? '' : `<div class="library-statline"><span><strong>${docs.filter((doc) => !doc.empty && !doc.missing).length}</strong> ${projects ? '个开源项目' : '篇可阅读'}</span>${projects ? '<span>项目介绍与使用文档</span>' : `<span>${category.groups?.length || 1} 个主题</span>`}${docs.some((doc) => doc.empty) ? `<span>${docs.filter((doc) => doc.empty).length} 篇待补充</span>` : ''}</div>`}
       </header>
       <div class="library-workspace">
-      <details class="library-facets" ${compact ? '' : 'open'}><summary>浏览主题与状态 <span aria-hidden="true">⌄</span></summary><div class="library-facet-content">
+      ${simple ? '' : `<details class="library-facets" ${compact ? '' : 'open'}><summary>浏览主题与状态 <span aria-hidden="true">⌄</span></summary><div class="library-facet-content">
         <div class="library-facet-label">主题</div>
         <div class="library-groups" role="group" aria-label="文章主题"><button type="button" data-group="">全部主题 <span>${docs.length}</span></button>${(category.groups || []).map((group) => `<button type="button" data-group="${escapeAttr(group.id)}">${escapeHtml(group.title)} <span>${docs.filter((doc) => doc.group === group.id).length}</span></button>`).join('')}</div>
         <div class="library-facet-label">内容状态</div>
         <div class="library-statuses" role="group" aria-label="内容状态"><button type="button" data-status="">全部</button><button type="button" data-status="ready">可阅读</button><button type="button" data-status="empty">待补充</button></div>
-      </div></details>
+      </div></details>`}
       <div class="library-main">
       <form class="library-toolbar" role="search" aria-label="搜索${escapeAttr(category.title)}">
         <label class="library-search"><span class="library-label">搜索${noun}</span><input type="search" value="${escapeAttr(state.query)}" placeholder="${projects ? '项目名称或 README 关键词' : '标题或正文关键词'}" aria-label="搜索${escapeAttr(category.title)}${noun}"></label>
@@ -97,7 +100,7 @@ window.ArticleLibrary = (() => {
       <nav class="library-pagination" aria-label="${noun}分页"></nav>
       </div></div>`;
     const facets = host.querySelector('.library-facets');
-    if (!compact && window.matchMedia?.('(max-width: 760px)').matches) facets.open = false;
+    if (facets && !compact && window.matchMedia?.('(max-width: 760px)').matches) facets.open = false;
     const search = host.querySelector('input[type="search"]');
     const sort = host.querySelector('select');
     const list = host.querySelector('.library-results');
@@ -117,7 +120,7 @@ window.ArticleLibrary = (() => {
 
     function render() {
       const words = state.query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
-      let matches = docs.filter((doc) => (!state.group || doc.group === state.group) && (!state.status || (state.status === 'empty' ? doc.empty : !doc.empty && !doc.missing)) && words.every((word) => `${doc.title} ${doc.groupTitle} ${doc.searchText}`.toLocaleLowerCase().includes(word)));
+      let matches = docs.filter((doc) => (!state.group || doc.group === state.group) && (!state.status || (state.status === 'empty' ? doc.empty : !doc.empty && !doc.missing)) && words.every((word) => `${doc.title} ${simple ? '' : doc.groupTitle} ${doc.searchText}`.toLocaleLowerCase().includes(word)));
       if (state.sort === 'title') matches.sort((a, b) => a.title.localeCompare(b.title, 'zh-CN', { numeric: true }));
       else if (state.sort === 'short') matches.sort((a, b) => (a.empty || a.missing ? Infinity : a.minutes) - (b.empty || b.missing ? Infinity : b.minutes));
       else matches.sort((a, b) => Number(Boolean(a.empty || a.missing)) - Number(Boolean(b.empty || b.missing)));
@@ -138,17 +141,17 @@ window.ArticleLibrary = (() => {
       const from = compact ? categoryHref(category.id) : window.location.pathname + window.location.search;
       list.innerHTML = visible.map((doc, index) => {
         const href = `${doc.href || viewerHref(doc.path)}&from=${encodeURIComponent(from)}`;
-        let excerpt = doc.empty ? '正文正在整理中。' : doc.excerpt || '打开文章查看内容。';
+        let excerpt = doc.empty && !simple ? '正文正在整理中。' : doc.excerpt || '打开文章查看内容。';
         if (words.length && doc.plain) {
           const position = doc.plain.toLocaleLowerCase().indexOf(words[0]);
           if (position >= 0) excerpt = (position > 45 ? '…' : '') + doc.plain.slice(Math.max(0, position - 45), position + 140) + (position + 140 < doc.plain.length ? '…' : '');
         }
-        return `<article class="library-entry ${doc.empty ? 'is-draft' : ''}">
+        return `<article class="library-entry ${doc.empty && !simple ? 'is-draft' : ''}">
           <span class="library-entry-number" aria-hidden="true">${String(start + index + 1).padStart(2, '0')}</span><div class="library-entry-content">
-          <div class="library-entry-meta"><span>${escapeHtml(doc.groupTitle)}</span>${doc.empty ? '<span>待补充</span>' : doc.missing ? '<span>预览暂不可用</span>' : `<span>约 ${doc.minutes} 分钟</span>`}</div>
+          <div class="library-entry-meta">${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>约 ${doc.minutes} 分钟</span>`}</div>
           <h2><a href="${escapeAttr(href)}">${highlight(doc.title, words)}</a></h2>
           <p class="library-excerpt" ${doc.empty || doc.missing || !doc.excerpt ? 'data-site-ui' : ''}>${highlight(excerpt, words)}</p>
-          <div class="library-entry-actions">${doc.empty ? '' : `<a class="library-read" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'} <span aria-hidden="true">↗</span></a>`}${doc.repository ? `<a class="library-repository" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ''}</div>
+          <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'} <span aria-hidden="true">↗</span></a>`}${doc.repository ? `<a class="library-repository" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ''}</div>
           </div>
         </article>`;
       }).join('') || `<div class="library-empty">${docs.length ? `没有找到匹配的${noun}。试试其他关键词，或清除筛选。` : `这个板块还没有${noun}。`}</div>`;
@@ -187,6 +190,7 @@ window.ArticleLibrary = (() => {
 
   function enhanceReader(host, doc, returnUrl, category) {
     if (host.querySelector('.error-state')) return;
+    const simple = isSimpleCollection(category);
     host.classList.add('library-reader');
     host.closest('.page-shell')?.classList.add('library-reader-shell');
     const back = host.querySelector('.article-return');
@@ -196,12 +200,12 @@ window.ArticleLibrary = (() => {
     Array.from(host.childNodes).filter((node) => node !== back && node !== outline).forEach((node) => content.append(node));
     const minutes = readingMinutes(content.textContent);
     const empty = Boolean(content.querySelector('.loading-state'));
-    if (empty) content.querySelector('.loading-state').textContent = '正文正在整理中。';
+    if (empty) content.querySelector('.loading-state').textContent = simple ? 'No content found.' : '正文正在整理中。';
     const entries = entriesOf(category);
     const group = entries.find((entry) => entry.path === doc.path)?.group;
     const header = document.createElement('header');
     header.className = 'library-reader-head';
-    header.innerHTML = `<div class="library-eyebrow">${escapeHtml(group?.title || category.title)}</div><h1>${escapeHtml(doc.title)}</h1><p>${empty ? '待补充' : `约 ${minutes} 分钟阅读`}</p>`;
+    header.innerHTML = `<div class="library-eyebrow">${escapeHtml(simple ? category.title : group?.title || category.title)}</div><h1>${escapeHtml(doc.title)}</h1>${empty && simple ? '' : `<p>${empty ? '待补充' : `约 ${minutes} 分钟阅读`}</p>`}`;
     const sourceTitle = content.firstElementChild;
     if (sourceTitle?.matches('h1') && sourceTitle.textContent.trim() === doc.title.trim()) {
       // Preserve README / article title anchors while showing the title only once.
