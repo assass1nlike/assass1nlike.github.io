@@ -45,6 +45,7 @@ const CATEGORY_DEFINITIONS = {
     title: '博客',
     titleEn: 'Blog',
     heading: '博客',
+    subcategories: ['annual'],
     description: '学习过程中的专题整理。',
     docs: [
       'everlasting/invisible/minors/cybergym/determined.md',
@@ -65,6 +66,7 @@ const CATEGORY_DEFINITIONS = {
   },
   annual: {
     id: 'annual',
+    parent: 'minors',
     title: '各年年终总结',
     titleEn: 'Annual Reviews',
     heading: '各年年终总结',
@@ -77,9 +79,9 @@ const CATEGORY_DEFINITIONS = {
   },
   tech: {
     id: 'tech',
-    title: '技术',
-    titleEn: 'Tech',
-    heading: '技术',
+    title: '其它',
+    titleEn: 'Other',
+    heading: '其它',
     description: '工程、工具和实践记录。',
     docs: [
       'everlasting/invisible/tech/std/claude_web_tool_issues.md',
@@ -939,7 +941,7 @@ async function initViewerPage() {
     titleHost.textContent = resolved?.title || displayNameFromPath(docInput);
   }
   if (subtitleHost) {
-    subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(resolved?.category) ? CATEGORY_DEFINITIONS[resolved.category].title : resolved?.path || docInput;
+    subtitleHost.textContent = ['minors', 'invisible', 'tech', 'annual'].includes(resolved?.category) ? CATEGORY_DEFINITIONS[resolved.category].title : resolved?.path || docInput;
   }
   if (host) {
     if (String(docInput).replace(/^[./]+/, '').toLowerCase().startsWith('everlasting/research/')) {
@@ -959,7 +961,7 @@ async function initViewerPage() {
         }
       } catch { /* Use the category's default URL. */ }
       host.insertAdjacentHTML('afterbegin', `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回${escapeHtml(CATEGORY_DEFINITIONS[resolved.category].title)}列表</a></div>`);
-      if (['minors', 'invisible', 'tech'].includes(resolved.category)) {
+      if (['minors', 'invisible', 'tech', 'annual'].includes(resolved.category)) {
         window.ArticleLibrary.enhanceReader(host, resolved, returnUrl, CATEGORY_DEFINITIONS[resolved.category]);
       }
       scrollToDocumentHash(host);
@@ -988,12 +990,12 @@ async function initCategoryPage() {
     titleHost.textContent = category.title;
   }
   if (subtitleHost) {
-    subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(category.id) ? '文章与笔记' : category.description;
+    subtitleHost.textContent = ['minors', 'invisible', 'tech', 'annual'].includes(category.id) ? '文章与笔记' : category.description;
   }
   if (navHost) {
     navHost.innerHTML = CATEGORY_ORDER.map((id) => {
       const item = CATEGORY_DEFINITIONS[id];
-      const active = id === category.id ? ' is-active' : '';
+      const active = id === (category.parent || category.id) ? ' is-active' : '';
       return `<a class="pill-link${active}" href="${categoryHref(id)}">${escapeHtml(item.title)}</a>`;
     }).join('');
   }
@@ -1006,7 +1008,7 @@ async function initCategoryPage() {
 }
 
 async function loadCategoryInto(host, category) {
-  if (['minors', 'invisible', 'tech'].includes(category.id)) {
+  if (['minors', 'invisible', 'tech', 'annual'].includes(category.id)) {
     await window.ArticleLibrary.mount(host, category);
     return;
   }
