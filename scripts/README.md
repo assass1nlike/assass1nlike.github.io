@@ -1,3 +1,18 @@
+# GitHub / OneDrive 分区备份
+
+`everlasting/.gitignore` 同时作为 Git 排除规则和 OneDrive 备份清单，路径相对 `everlasting/`，例如 `/research/`、`/everlasting.md`。不要写 `./` 前缀。支持 Git 原生通配符和 `!` 例外；清单文件本身应保留在 GitHub。
+
+```powershell
+python scripts/sync-onedrive.py
+python scripts/sync-onedrive.py --apply
+```
+
+第一条只预览，第二条执行。默认目标是 `C:\Users\15951\OneDrive\everlasting`，可用 `--destination` 指定其他电脑的同名目录。脚本先拉取 `origin`，按远程 `main` 当前提交核对备份；已安装 GitHub CLI 时使用其当前登录账号。
+
+清单内的本地文件按原路径复制到 OneDrive，逐一校验后取消 Git 跟踪，原文件留在本地。清单外的 OneDrive 文件只有在相同路径、相同内容已存在于远程当前版本时才移出备份目录（文本允许 CRLF/LF 差异）。远程缺失或内容不同的副本会保留并列出；本地已删除但 OneDrive 仍存在的文件也保留，避免误删传播。
+
+被替换和清理的旧副本移入 OneDrive 下的 `.everlasting-sync-history/`，可恢复。已在本地删除的清单内文件会先从 Git 暂存区保存旧版本到恢复历史，再取消跟踪。它是独立的恢复历史，不属于当前 `everlasting/` 分区。脚本不提交、不推送、不改写 Git 历史；取消跟踪产生的暂存删除需要正常提交推送。它只能确认本机 OneDrive 副本已写入，云端上传由 OneDrive 客户端完成。
+
 # 文章列表
 
 全站语言按钮由 `site-i18n.js` 管理，默认中文，并在当前浏览器记住选择。它只翻译明确列出的网站界面区域；文章标题、摘要、正文、章节目录、论文文件夹名及用户留言保持原文。动态插入的界面文字也会更新，切换不会重载页面或重置筛选。新增界面文案时补充该文件的 `phrases` / 数量表达规则；正文旁的独立界面提示可标记 `data-site-ui`，不要给 Markdown 正文添加这个标记。
