@@ -64,7 +64,7 @@ python scripts/export-paper-tree.py --source D:\papers
 python scripts/export-projects.py
 ```
 
-项目名单在 `scripts/projects.json`。脚本相对自身找到本仓库，再从本仓库的 `../<项目名>/README.md` 读取原文，导出到 `assets/projects/index.json`。目前只选取 `synthesis-osu-play` 和 `Markdown4Bilibili`，不读取其他项目或整个目录的内容，也不修改项目源文件。
+项目名单在 `scripts/projects.json`。脚本相对自身找到本仓库，再从本仓库的 `../<项目名>/README.md` 读取原文，导出到 `assets/projects/index.json`。目前只选取 `synthesis-osu-play` 和 `MarkdownBridge`，不读取其他项目或整个目录的内容，也不修改项目源文件。
 
 首页预览、开源项目分类和项目阅读页共用这份导出内容。列表提供摘要、README 全文搜索、排序和分页，点击项目进入带侧栏目录的完整 README；GitHub 链接独立显示。更新 README 后重新执行命令，随网站部署 JSON 即可；换电脑只需保持项目与本站仓库为同级目录。项目缺失时命令报错，保留上一份导出。
 
