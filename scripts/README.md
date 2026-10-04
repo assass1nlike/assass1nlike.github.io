@@ -1,3 +1,15 @@
+# 留言服务
+
+主页留言使用 `guestbook-config.js` 中的 Supabase 项目。它与秘密空间的 `secret-config.js` 独立配置。
+
+首次初始化时，在新项目的 SQL Editor 中执行根目录 `guestbook-supabase-schema.sql` 全部内容。脚本创建留言表、开放访客读取公开留言和提交留言的权限，并启用行级权限；访客不能读取非公开留言，也不能修改或删除留言。站主可在 Supabase Table Editor 的 `guestbook_messages` 表中查看和管理所有留言。
+
+当前 `authProviders: []` 表示只提供无需登录的匿名留言，不需要开启 Supabase Auth 的 Anonymous Sign-Ins。启用 GitHub / Google 时，先在 Supabase 配置对应 OAuth provider、Site URL 和允许的 Redirect URLs，再把 `authProviders` 设置为 `['github', 'google']`（也可只启用一种）。OAuth callback 为 `https://myrhtqbjnkxqaniuivzm.supabase.co/auth/v1/callback`；网站回跳地址应使用正式 HTTPS 域名。
+
+前端只配置 Publishable key。它放在 `apikey` 请求头，`Authorization` 只在用户登录后携带会话 token。数据库密码、Secret key 和 service_role key 不放入网站文件。
+
+验证前端留言逻辑：`node --test scripts/test-guestbook.cjs`。实际数据库的建表、读写及非公开留言权限还需在新项目初始化后验收。
+
 # GitHub / OneDrive 分区备份
 
 `everlasting/.gitignore` 同时作为 Git 排除规则和 OneDrive 备份清单，路径相对 `everlasting/`，例如 `/research/`、`/everlasting.md`。不要写 `./` 前缀。支持 Git 原生通配符和 `!` 例外；清单文件本身应保留在 GitHub。

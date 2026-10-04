@@ -245,7 +245,7 @@ let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
 const pendingMathHosts = new Set();
 const guestbookState = {
-  config: normalizeGuestbookConfig(window.SECRET_SPACE_CONFIG),
+  config: normalizeGuestbookConfig(window.GUESTBOOK_CONFIG),
   profile: readGuestbookProfile(),
   host: null,
   authClient: null,
@@ -395,14 +395,14 @@ function renderGuestbookShell(host) {
       <div class="guestbook-head">
         <div>
           <h2 id="guestbook-title" class="guestbook-title">匿名留言</h2>
-          <p class="guestbook-subtitle">可以匿名留言；登录后会使用第三方账号身份，也可以选择匿名显示。</p>
+          <p class="guestbook-subtitle">${guestbookState.config.authProviders.length
+            ? '可以匿名留言；登录后会使用第三方账号身份，也可以选择匿名显示。'
+            : '无需登录即可留言；取消“公开展示”后，仅站主可见。'}</p>
         </div>
         <button id="guestbook-refresh" class="icon-link guestbook-refresh" type="button">刷新</button>
       </div>
 
-      <div id="guestbook-auth" class="guestbook-auth">
-        ${renderGuestbookAuth()}
-      </div>
+      <div id="guestbook-auth" class="guestbook-auth">${renderGuestbookAuth()}</div>
 
       <form id="guestbook-form" class="guestbook-form">
         <label class="guestbook-field">
@@ -453,6 +453,10 @@ function renderGuestbookAuth() {
     `;
   }
 
+  if (!guestbookState.config.authProviders.length) {
+    return '';
+  }
+
   if (!guestbookState.authReady) {
     return `
       <div class="guestbook-auth-copy">
@@ -489,8 +493,9 @@ function renderGuestbookAuth() {
       ${error}
     </div>
     <div class="guestbook-auth-actions">
-      <button class="icon-link guestbook-login" type="button" data-provider="github">GitHub 登录</button>
-      <button class="icon-link guestbook-login" type="button" data-provider="google">Google 登录</button>
+      ${guestbookState.config.authProviders.map((provider) => `
+        <button class="icon-link guestbook-login" type="button" data-provider="${provider}">${provider === 'github' ? 'GitHub' : 'Google'} 登录</button>
+      `).join('')}
     </div>
   `;
 }
@@ -565,7 +570,7 @@ async function initGuestbookAuth() {
 }
 
 function createGuestbookAuthClient() {
-  if (!guestbookState.config.enabled || !window.supabase?.createClient) {
+  if (!guestbookState.config.enabled || !guestbookState.config.authProviders.length || !window.supabase?.createClient) {
     return null;
   }
   return window.supabase.createClient(
@@ -791,10 +796,10 @@ function buildGuestbookSelectEndpoint() {
 }
 
 function buildGuestbookHeaders() {
-  const token = guestbookState.session?.access_token || guestbookState.config.supabaseAnonKey;
+  const token = guestbookState.session?.access_token;
   return {
     apikey: guestbookState.config.supabaseAnonKey,
-    Authorization: `Bearer ${token}`,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'Cache-Control': 'no-cache',
@@ -808,6 +813,9 @@ function normalizeGuestbookConfig(config) {
   return {
     supabaseUrl,
     supabaseAnonKey,
+    authProviders: Array.isArray(raw.authProviders)
+      ? [...new Set(raw.authProviders.filter((provider) => ['github', 'google'].includes(provider)))]
+      : [],
     enabled: Boolean(supabaseUrl && supabaseAnonKey),
   };
 }
@@ -893,7 +901,7 @@ function setGuestbookStatus(host, text, isError = false) {
 
 function formatGuestbookError(error) {
   const message = String(error?.message || error || '').trim();
-  if (!message || /Failed to fetch/i.test(message)) {
+  if (!message || error?.name === 'TypeError' || error?.name === 'NetworkError') {
     return '留言服务暂时不可用。';
   }
   return message;

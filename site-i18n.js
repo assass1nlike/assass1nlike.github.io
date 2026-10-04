@@ -56,6 +56,7 @@ window.SiteI18n = (() => {
     '自我介绍': 'About me', '知乎': 'Zhihu', '小红书': 'Xiaohongshu', '友站列表': 'Friends',
     '匿名留言': 'Guestbook', '刷新': 'Refresh', '留言': 'Message', '发送': 'Send',
     '可以匿名留言；登录后会使用第三方账号身份，也可以选择匿名显示。': 'Leave a message anonymously, or sign in with your account. You can still choose to hide your name.',
+    '无需登录即可留言；取消“公开展示”后，仅站主可见。': 'No sign-in required. Uncheck “Make public” to send a message only the site owner can read.',
     '写点什么。Ctrl + Enter 发送。': 'Write something. Ctrl + Enter to send.',
     '匿名显示': 'Hide my name', '公开展示': 'Make public', '公开留言': 'Public messages',
     '非公开留言不会显示在这里。': 'Private messages are not shown here.', '匿名模式': 'Anonymous mode',
