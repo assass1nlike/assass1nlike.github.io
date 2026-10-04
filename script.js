@@ -49,8 +49,8 @@ const CATEGORY_DEFINITIONS = {
     heading: '学习',
     description: '为科研进行的学习，涉及大量数学推导。大多为手搓，以及经过多轮 review 与迭代的 AI 总结',
     docs: [
-      'everlasting/invisible/preliminaries.md',
       ...LEARNING_NOTES.map((doc) => doc.path),
+      'everlasting/invisible/preliminaries.md',
     ],
   },
   minors: {
@@ -61,8 +61,6 @@ const CATEGORY_DEFINITIONS = {
     collectionFilter: { id: 'annual', title: '各年年终总结', label: '只看子集：各年年终总结' },
     description: '笔下的文字，有关技术或思考',
     docs: [
-      'everlasting/invisible/minors/cybergym/determined.md',
-      'everlasting/invisible/minors/recurrent_MoE/determined.md',
       'everlasting/invisible/annual/2025.md',
       'everlasting/invisible/annual/2024.md',
       'everlasting/invisible/annual/2023.md',
