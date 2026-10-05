@@ -18,7 +18,7 @@ window.PaperTree = (() => {
         .then(([data, publications]) => {
           data.papers.forEach((paper) => {
             const id = paper.arxivUrl?.split('/abs/')[1]?.replace(/v\d+$/, '');
-            paper.publication = publications[id];
+            paper.publication = publications[id] || publications['paper:' + paper.id];
           });
           return data;
         }).catch((error) => { catalogPromise = null; throw error; });

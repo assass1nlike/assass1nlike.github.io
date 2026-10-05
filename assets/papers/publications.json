@@ -1,4 +1,96 @@
 {
+  "1312.6120": {
+    "label": "International Conference on Learning Representations",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/99c970348b8f70ce23d6641e201904ea49266b6e"
+  },
+  "1705.10470": {
+    "label": "International Conference on Machine Learning",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/bc183ee72b40416548937b9155b427a65e5ecbb2"
+  },
+  "1810.06175": {
+    "label": "International Conference on Artificial Intelligence and Statistics",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/391545a45e5e83fe2b11ccb1adc520fa04016447"
+  },
+  "1812.05159": {
+    "label": "ICLR (Poster) 2019",
+    "kind": "proceedings",
+    "url": "https://openreview.net/forum?id=HUXPu7yUHe5"
+  },
+  "1902.05605": {
+    "label": "ICLR 2024",
+    "kind": "proceedings",
+    "url": "https://openreview.net/forum?id=fP6qDMDgTo"
+  },
+  "1911.03030": {
+    "label": "ICML 2020",
+    "kind": "conference",
+    "url": "https://arxiv.org/abs/1911.03030"
+  },
+  "2002.08484": {
+    "label": "Advances in Neural Information Processing Systems · 2020",
+    "kind": "proceedings",
+    "url": "https://proceedings.neurips.cc/paper/2020/hash/e6385d39ec9394f2f3a354d9d2b88eec-Abstract.html"
+  },
+  "2010.01412": {
+    "label": "ICLR 2021 Spotlight",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=6Tm1mposlrM"
+  },
+  "2010.07468": {
+    "label": "Advances in Neural Information Processing Systems · 2020",
+    "kind": "proceedings",
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/d9d4f495e875a2e075a1a4a6e1b9770f-Abstract.html",
+    "alternatives": [
+      {
+        "label": "NeurIPSW 2020: DL-IG Poster",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=VMSb9HxqO8"
+      }
+    ]
+  },
+  "2011.09468": {
+    "label": "Advances in Neural Information Processing Systems · 2021",
+    "kind": "proceedings",
+    "url": "https://proceedings.neurips.cc/paper/2021/hash/0987b8b338d6c90bbedd8631bc499221-Abstract.html"
+  },
+  "2012.13255": {
+    "label": "Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers) · 2021",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2021.acl-long.568"
+  },
+  "2110.11309": {
+    "label": "ICLR 2022 Poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=0DcZxeWfOPt"
+  },
+  "2202.00622": {
+    "label": "International Conference on Machine Learning · 2022",
+    "kind": "proceedings",
+    "url": "https://proceedings.mlr.press/v162/ilyas22a.html"
+  },
+  "2202.05262": {
+    "label": "Advances in Neural Information Processing Systems 35 · 2022",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/068431-1262"
+  },
+  "2206.06520": {
+    "label": "International Conference on Machine Learning",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/1d650f1afd45c59ff907396fe8b678595dcb85ea"
+  },
+  "2206.07137": {
+    "label": "International Conference on Machine Learning",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/6a8db14262ca2017cb253e12b8daeb57989a38df"
+  },
+  "2210.07229": {
+    "label": "ICLR 2023",
+    "kind": "proceedings",
+    "url": "https://openreview.net/forum?id=k5xIAdQZGI"
+  },
   "2210.14199": {
     "label": "ICML 2023 OralPoster",
     "kind": "conference",
@@ -8,6 +100,11 @@
     "label": "NeurIPS 2023 poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=Oc1SIKxwdV"
+  },
+  "2212.10560": {
+    "label": "Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2023",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2023.acl-long.754"
   },
   "2302.04863": {
     "label": "EMNLP 2023 Findings",
@@ -24,10 +121,25 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=awIpKpwTwF"
   },
+  "2308.07707": {
+    "label": "Proceedings of the AAAI Conference on Artificial Intelligence · 2024",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.1609/aaai.v38i11.29092"
+  },
+  "2308.14761": {
+    "label": "2024 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.1109/wacv57701.2024.00503"
+  },
+  "2309.08600": {
+    "label": "International Conference on Learning Representations",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/edb548fe7574d99454b352ffdb61bca93c3072ba"
+  },
   "2310.08419": {
-    "label": "R0-FoMo Poster · 2023",
-    "kind": "workshop",
-    "url": "https://openreview.net/forum?id=rYWD5TMaLj"
+    "label": "2025 IEEE Conference on Secure and Trustworthy Machine Learning (SaTML)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.1109/SaTML64287.2025.00010"
   },
   "2310.12508": {
     "label": "ICLR 2024 spotlight",
@@ -49,30 +161,122 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=wxJ0eXwwda"
   },
+  "2401.06066": {
+    "label": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2024",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2024.acl-long.70"
+  },
+  "2401.06121": {
+    "label": "COLM · 2024",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=B41hNBoWLo",
+    "alternatives": [
+      {
+        "label": "DPFM 2024 Poster",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=q0eyIBnE2t"
+      },
+      {
+        "label": "Red Teaming GenAI Workshop @ NeurIPS'24 Poster · 2024",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=P8seBluN3c"
+      },
+      {
+        "label": "SeT LLM @ ICLR 2024",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=D7sxML2VcS"
+      }
+    ]
+  },
+  "2401.06692": {
+    "label": "Findings of the Association for Computational Linguistics ACL 2024",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2024.findings-acl.390"
+  },
+  "2401.10020": {
+    "label": "ICML 2024 Poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=0NphYCmgua"
+  },
+  "2402.02316": {
+    "label": "NeurIPS 2024",
+    "kind": "conference",
+    "url": "https://arxiv.org/abs/2402.02316"
+  },
+  "2402.04333": {
+    "label": "ICML 2024",
+    "kind": "proceedings",
+    "url": "https://openreview.net/forum?id=vHdyVyr6Zu"
+  },
   "2402.09739": {
     "label": "ICML 2024 Spotlight",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=GLGYYqPwjy"
+  },
+  "2402.10052": {
+    "label": "Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2025.naacl-long.444"
+  },
+  "2402.13593": {
+    "label": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+    "kind": "proceedings",
+    "url": "https://aclanthology.org/2024.emnlp-main.1261"
   },
   "2403.03218": {
     "label": "ICML 2024 Poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=xlr6AUDuJz"
   },
+  "2403.09629": {
+    "label": "COLM · 2024",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=oRXPiSOGH9"
+  },
   "2403.13355": {
     "label": "ICLR 2024 poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=duZANm2ABX"
+  },
+  "2404.05868": {
+    "label": "COLM · 2024",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=MXLBXjQkmb"
+  },
+  "2404.07965": {
+    "label": "NeurIPS 2024 oral",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=0NMzBwqaAJ"
+  },
+  "2404.07972": {
+    "label": "Advances in Neural Information Processing Systems 37 · 2024",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/079017-1650"
+  },
+  "2404.11045": {
+    "label": "Accepted by TMLR",
+    "kind": "journal",
+    "url": "https://openreview.net/forum?id=A4RLpHPXCu"
   },
   "2404.15574": {
     "label": "ICLR 2025 Oral",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=EytBpUGB1Z"
   },
+  "2405.14768": {
+    "label": "Advances in Neural Information Processing Systems 37 · 2024",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/079017-1703"
+  },
   "2406.06046": {
     "label": "NeurIPS 2024 poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=6gzPSMUAz2"
+  },
+  "2406.07057": {
+    "label": "Advances in Neural Information Processing Systems 37 · 2024",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/079017-1561"
   },
   "2406.07933": {
     "label": "NeurIPS 2024 poster",
@@ -89,10 +293,20 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=wUtCieKuQU"
   },
+  "2406.10952": {
+    "label": "Findings of the Association for Computational Linguistics: NAACL 2025",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2025.findings-naacl.288"
+  },
   "2406.11011": {
     "label": "ICLR 2025 Oral",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=HD6bWcj87Y"
+  },
+  "2406.12038": {
+    "label": "Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2025.naacl-long.204"
   },
   "2407.06460": {
     "label": "ICLR 2025 Poster",
@@ -104,40 +318,152 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=ymt4crbbXh"
   },
+  "2407.10058": {
+    "label": "Proceedings of the 31st International Conference on Computational Linguistics · 2025",
+    "kind": "proceedings",
+    "url": "https://aclanthology.org/2025.coling-main.114/"
+  },
   "2407.10490": {
     "label": "ICLR 2025 Oral",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=tPNHOoZFl9"
+  },
+  "2407.15235": {
+    "label": "Findings of the Association for Computational Linguistics: NAACL 2025",
+    "kind": "proceedings",
+    "url": "https://aclanthology.org/2025.findings-naacl.264/"
   },
   "2407.19580": {
     "label": "ICLR 2025 Poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=bAFVlpFQvT"
   },
+  "2407.19594": {
+    "label": "Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2025.emnlp-main.583"
+  },
+  "2408.00764": {
+    "label": "KDD (1) 2025",
+    "kind": "proceedings",
+    "url": "https://openreview.net/forum?id=CpIfDGYbCv"
+  },
+  "2408.08994": {
+    "label": "ICLR 2025 Poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=txD9llAYn9"
+  },
+  "2409.13430": {
+    "label": "European Conference on Computer Vision",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/bf18f409a864c09b7a2f74117a78d941374a2547"
+  },
+  "2409.13474": {
+    "label": "Proceedings of the 31st International Conference on Computational Linguistics · 2025",
+    "kind": "proceedings",
+    "url": "https://aclanthology.org/2025.coling-main.252/"
+  },
   "2410.02355": {
     "label": "ICLR 2025 Oral",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=HvSytvg3Jh"
+  },
+  "2410.02879": {
+    "label": "2025 IEEE Conference on Secure and Trustworthy Machine Learning (SaTML)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.1109/SaTML64287.2025.00035"
+  },
+  "2410.05192": {
+    "label": "ICLR 2025 Poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=m51BgoqvbP"
+  },
+  "2410.07163": {
+    "label": "Advances in Neural Information Processing Systems 38 · 2025",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/085713-0058"
   },
   "2410.08109": {
     "label": "ICLR 2025 Poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=Q1MHvGmhyT"
   },
+  "2410.09335": {
+    "label": "Findings of the Association for Computational Linguistics: EMNLP 2025",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2025.findings-emnlp.146"
+  },
+  "2410.09754": {
+    "label": "ICLR 2025 Spotlight",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=jXLiDKsuDo"
+  },
   "2410.10762": {
     "label": "ICLR 2025 Oral",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=z5uVAKwmjf"
+  },
+  "2410.12777": {
+    "label": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.1109/ICCV51701.2025.00206"
+  },
+  "2410.14802": {
+    "label": "Advances in Neural Information Processing Systems 37 · 2024",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/079017-1411"
   },
   "2410.17509": {
     "label": "NeurIPS 2024 poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=VzOgnDJMgh"
   },
+  "2410.22086": {
+    "label": "North American Chapter of the Association for Computational Linguistics",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/1f037fb429dcdc305b0df2577b8634a24f7eab55"
+  },
+  "2410.23844": {
+    "label": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2024.emnlp-main.826"
+  },
   "2411.02622": {
     "label": "ICLR 2026 Workshop DATA-FM",
     "kind": "workshop",
     "url": "https://openreview.net/forum?id=uw7F7Ssz4l"
+  },
+  "2411.19943": {
+    "label": "ICML 2025 poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=fnz1g18EdI"
+  },
+  "2412.06769": {
+    "label": "COLM 2025",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=Itxz7S4Ip3",
+    "alternatives": [
+      {
+        "label": "Reasoning and Planning for LLMs @ ICLR2025",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=KrWSrrYGpT"
+      }
+    ]
+  },
+  "2412.09119": {
+    "label": "ICLR 2025 Poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=HVFMooKrHX"
+  },
+  "2501.14249": {
+    "label": "Nature · 2026",
+    "kind": "journal",
+    "url": "https://doi.org/10.1038/s41586-025-09962-4"
+  },
+  "2502.01683": {
+    "label": "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2026",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2026.acl-long.1661"
   },
   "2502.05374": {
     "label": "ICML 2025 poster",
@@ -154,10 +480,30 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=teB4aqJsNP"
   },
+  "2502.09990": {
+    "label": "Findings of the Association for Computational Linguistics: EMNLP 2025",
+    "kind": "proceedings",
+    "url": "https://aclanthology.org/2025.findings-emnlp.282/"
+  },
+  "2502.11062": {
+    "label": "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2025",
+    "kind": "proceedings",
+    "url": "https://aclanthology.org/2025.acl-long.1189/"
+  },
+  "2502.11441": {
+    "label": "Findings of the Association for Computational Linguistics: ACL 2025",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2025.findings-acl.310"
+  },
   "2502.14709": {
     "label": "NeurIPS 2025 poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=uX4dyc7Z5Z"
+  },
+  "2502.17424": {
+    "label": "ICML 2025",
+    "kind": "proceedings",
+    "url": "https://openreview.net/forum?id=d31IQp1Yut"
   },
   "2502.17607": {
     "label": "ICML 2025 poster",
@@ -173,6 +519,26 @@
     "label": "ICML 2025 poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=EAjhGr1Oeo"
+  },
+  "2503.19783": {
+    "label": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.1109/CVPR52734.2025.00852"
+  },
+  "2503.21730": {
+    "label": "Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2025.naacl-long.322"
+  },
+  "2504.13959": {
+    "label": "International Conference on Machine Learning",
+    "kind": "proceedings",
+    "url": "https://www.semanticscholar.org/paper/821394aee252e06e83dce45949fe199f6be47fa0"
+  },
+  "2504.14194": {
+    "label": "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2025",
+    "kind": "proceedings",
+    "url": "https://aclanthology.org/2025.acl-long.533/"
   },
   "2505.03335": {
     "label": "NeurIPS 2025 spotlight",
@@ -199,10 +565,42 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=kChzpoYFef"
   },
+  "2505.24832": {
+    "label": "ICML 2026 spotlight",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=bA6BgSbaUi"
+  },
+  "2506.03142": {
+    "label": "Proceedings of the AAAI Conference on Artificial Intelligence · 2026",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.1609/aaai.v40i44.41156"
+  },
   "2506.05314": {
     "label": "NeurIPS 2025 poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=ZtB34bQI54"
+  },
+  "2506.08164": {
+    "label": "Proceedings of the 19th Conference of the European Chapter of the Association for Computational Linguistics (Volume 1: Long Papers) · 2026",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2026.eacl-long.331"
+  },
+  "2506.08989": {
+    "label": "NeurIPS 2025 poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=0jQUNQsZra"
+  },
+  "2506.11613": {
+    "label": "ICML 2025 R2-FM Workshop Poster",
+    "kind": "workshop",
+    "url": "https://openreview.net/forum?id=iSHcmOjrvY",
+    "alternatives": [
+      {
+        "label": "Mech Interp Workshop (NeurIPS 2025) Poster",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=ThW5hvKgWx"
+      }
+    ]
   },
   "2506.12618": {
     "label": "MemFM · 2025",
@@ -224,6 +622,11 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=Lv7PjbcaMi"
   },
+  "2508.20443": {
+    "label": "IEEE Transactions on Dependable and Secure Computing · 2026",
+    "kind": "journal",
+    "url": "https://doi.org/10.1109/tdsc.2026.3736393"
+  },
   "2509.02046": {
     "label": "ICLR 2026 Poster",
     "kind": "conference",
@@ -239,6 +642,11 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=bhR00j6Mku"
   },
+  "2510.15501": {
+    "label": "Advances in Neural Information Processing Systems 38 · 2025",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/085713-1979"
+  },
   "2510.19422": {
     "label": "ICLR 2026 Poster",
     "kind": "conference",
@@ -248,6 +656,11 @@
     "label": "ICLR 2026 Oral",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=T0EiEuhOOL"
+  },
+  "2510.22954": {
+    "label": "Advances in Neural Information Processing Systems 38 · 2025",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/085713-2732"
   },
   "2511.20639": {
     "label": "ICML 2026 spotlight",
@@ -263,6 +676,11 @@
     "label": "ICLR 2026 Poster",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=kBnvzwO5pN"
+  },
+  "2601.19487": {
+    "label": "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2026",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2026.acl-long.260"
   },
   "2601.21996": {
     "label": "ICML 2026 spotlight",
@@ -284,15 +702,47 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=XkDpZusDTK"
   },
+  "2604.05540": {
+    "label": "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2026",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2026.acl-long.1133"
+  },
   "2604.06126": {
-    "label": "SCALE@ICML2026 Oral",
+    "label": "LLA 2026 Poster",
     "kind": "workshop",
-    "url": "https://openreview.net/forum?id=JhiyDsvar0"
+    "url": "https://openreview.net/forum?id=T7rVdtN2mk",
+    "alternatives": [
+      {
+        "label": "SCALE@ICML2026 Oral",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=JhiyDsvar0"
+      }
+    ]
+  },
+  "2604.08238": {
+    "label": "CVPR 2026",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=7Y5g0xmwt7"
   },
   "2604.09258": {
     "label": "HiLD at ICML 2026 Poster",
     "kind": "workshop",
     "url": "https://openreview.net/forum?id=I2zPkXBfIG"
+  },
+  "2604.14808": {
+    "label": "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2026",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2026.acl-long.890"
+  },
+  "2604.16968": {
+    "label": "Findings of the Association for Computational Linguistics: ACL 2026",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2026.findings-acl.2091"
+  },
+  "2604.17785": {
+    "label": "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2026",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.18653/v1/2026.acl-long.1175"
   },
   "2606.01053": {
     "label": "ICML 2026 regular",
@@ -308,5 +758,124 @@
     "label": "ICML 2026 spotlight",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=03ZTlJuX0y"
+  },
+  "2608.12346": {
+    "label": "International Conference on Machine Learning · 2026",
+    "kind": "proceedings",
+    "url": "https://proceedings.mlr.press/v306/ball26c.html"
+  },
+  "paper:031582312473e62ad04e": {
+    "label": "CVPR 2026",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=WjyklpqptH"
+  },
+  "paper:0ec8c94066c10f5046f6": {
+    "label": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.1109/iccv51701.2025.01524"
+  },
+  "paper:11f13a7d38fc157d6fb5": {
+    "label": "Nature Machine Intelligence · 2024",
+    "kind": "journal",
+    "url": "https://doi.org/10.1038/s42256-024-00829-3"
+  },
+  "paper:35ed3f985e47c918f4e6": {
+    "label": "NeurIPS 2024 spotlight",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=232VcN8tSx"
+  },
+  "paper:3688a75ff2fd9b195401": {
+    "label": "PhilML@ICML 2026 Poster",
+    "kind": "workshop",
+    "url": "https://openreview.net/forum?id=9CLXJSCTEI"
+  },
+  "paper:405623a8bdfc90defa8e": {
+    "label": "CVPR 2026",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=XPMbQYcPqF"
+  },
+  "paper:414f57bd4517c4e1bf1c": {
+    "label": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition · 2025",
+    "kind": "proceedings",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Thakral_Fine-Grained_Erasure_in_Text-to-Image_Diffusion-based_Foundation_Models_CVPR_2025_paper.html"
+  },
+  "paper:49408cd4de3d8a792516": {
+    "label": "CVPR 2026",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=mLwOF1Own7"
+  },
+  "paper:4fba975743699774eb35": {
+    "label": "ICLR 2026 Oral",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=P0GOk5wslg"
+  },
+  "paper:5932fc4b7815c1689ecc": {
+    "label": "CVPR 2024",
+    "kind": "proceedings",
+    "url": "https://openreview.net/forum?id=Oec20VwmkR"
+  },
+  "paper:7ad791a94ed211057d56": {
+    "label": "ICLR 2026 Poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=O93c9H4SXc",
+    "alternatives": [
+      {
+        "label": "EWRL 2026 Poster",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=vxGu5Wc78g"
+      }
+    ]
+  },
+  "paper:a044dbf6658ba96f6be0": {
+    "label": "ICML 2026 regular",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=FP23eFYhAy",
+    "alternatives": [
+      {
+        "label": "Agentic AI in the Wild: From Hallucinations to Reliable Autonomy Poster · 2026",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=zzbTgjPdVo"
+      },
+      {
+        "label": "ICLR 2026 AIWILD",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=y2lpncShTf"
+      },
+      {
+        "label": "ICLR 2026 Trustworthy AI",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=qhjlcxplhS"
+      },
+      {
+        "label": "ICLR 2026 Workshop VerifAI-2",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=l82IbMOAzp"
+      }
+    ]
+  },
+  "paper:a8ed905764a17c693f3f": {
+    "label": "Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing",
+    "kind": "proceedings",
+    "url": "https://aclanthology.org/2025.emnlp-main.65/"
+  },
+  "paper:c8b05dd5b13610725811": {
+    "label": "NeurIPS 2025 poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=UKt31LbRPI"
+  },
+  "paper:ddb967c32552d578e318": {
+    "label": "ICML 2025 poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=oOAICE3sY7"
+  },
+  "paper:de0fa1084542d8aedc8d": {
+    "label": "ICML 2025 poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=6QH9IB53uy"
+  },
+  "paper:e4319ee42d76de939b6b": {
+    "label": "ICML 2026 regular",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=mjYcL7esQO"
   }
 }

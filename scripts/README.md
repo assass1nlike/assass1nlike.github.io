@@ -39,6 +39,17 @@ python scripts/sync-onedrive.py --apply
 
 被替换和清理的旧副本移入 OneDrive 下的 `.everlasting-sync-history/`，可恢复。已在本地删除的清单内文件会先从 Git 暂存区保存旧版本到恢复历史，再取消跟踪。它是独立的恢复历史，不属于当前 `everlasting/` 分区。脚本不提交、不推送、不改写 Git 历史；取消跟踪产生的暂存删除需要正常提交推送。它只能确认本机 OneDrive 副本已写入，云端上传由 OneDrive 客户端完成。
 
+# 一键发布
+
+在仓库根目录运行 `python scripts/publish.py`，依次更新学习／博客／其它、论文树、录用信息（含 `--deep`），然后自动提交并推送到 `origin/main`。
+
+- 只发布学习、博客、其它：`python scripts/publish.py --only articles`
+- 只发布论文树及录用信息：`python scripts/publish.py --only papers`
+
+论文库默认是 `D:\papers`，可用 `--source` 指定；`-m "提交说明"` 可自定义提交信息。命令提交配置的文章发布目录（包含图片）、生成的目录和论文数据／配置；跳过 Git 忽略项、隐藏文件、临时目录、说明文件和符号链接，不收录发布目录之外的草稿。网站代码改动仍单独提交。请在 `main` 分支、暂存区为空时运行；更新或提交失败会停止，推送失败保留本地提交，不强制覆盖远程。录用来源暂时不可用时保留已有记录，未确认情况记录在检查清单中。
+
+下方的独立更新命令仍用于本地预览，不自动提交或推送。
+
 # 文章列表
 
 全站语言按钮由 `site-i18n.js` 管理，默认中文，并在当前浏览器记住选择。它只翻译明确列出的网站界面区域；文章标题、摘要、正文、章节目录、论文文件夹名及用户留言保持原文。动态插入的界面文字也会更新，切换不会重载页面或重置筛选。新增界面文案时补充该文件的 `phrases` / 数量表达规则；正文旁的独立界面提示可标记 `data-site-ui`，不要给 Markdown 正文添加这个标记。
@@ -99,11 +110,27 @@ python scripts/export-paper-tree.py --source D:\papers
 
 ```powershell
 python scripts/update-paper-publications.py
+# 对剩余条目主动检索正式论文集目录
+python scripts/update-paper-publications.py --deep
 ```
 
-脚本按 arXiv 编号关联论文，使用 arXiv 的正式标题与第一作者核对 OpenReview 的已录用 venue 记录；有正式 DOI 时通过 Crossref 核对出版信息。Semantic Scholar 可提供 DOI 线索，可选环境变量 `SEMANTIC_SCHOLAR_API_KEY` 用于其 API 鉴权。不会按本地简称模糊配对，也不会把 arXiv/CoRR、投稿、拒稿或撤稿条目标为录用。OpenReview 主会与 Workshop 分开标注；Crossref 无法单凭类型区分主会与 Workshop，因此保留完整名称并标注“论文集”。
+脚本优先按 arXiv 编号关联论文。没有编号时读取本地 PDF 的结构化标题、作者和 DOI；缺少这些字段的公开论文，可在 `scripts/paper-identities.json` 按“相对论文库路径（不含扩展名）”填写核对后的 `title`、`authors` 和可选的 `year`。这类结果以 `paper:<目录中的论文 ID>` 保存，网页同样显示标签；匿名稿件或只有简称的条目不会凭名字猜录用结果。PDF 不会上传，`--source` 可指定本机论文库位置。
 
-`scripts/paper-publications-cache.json` 保存查询结果，`assets/papers/publications.json` 是网站读取的静态数据。已确认条目默认跳过，未确认条目每隔七天可重查；失败的查询下次可重试。遇到 403/429 时停止向相应接口继续请求，本轮仍可使用其它来源。查询失败或未找到不会清空已有确认结果。`--refresh` 强制重查，`--limit 10` 限制本轮查询数量，`--offline` 仅应用缓存和人工更正。
+标题会去除 HTML／LaTeX 的字体修饰，保留实际文字与数学变量；标题一致时核对作者，作者顺序变化需要至少两位作者一致且集合重合不低于 80%。改题版本须完整作者集合一致且摘要高度相似（至少 300 个规范化字符，相似度不低于 90%）。人工核实的改题关系也可在 `paper-identities.json` 用 arXiv 编号为键设置 `titleAliases`。查询来源包括：
+
+- OpenReview 新旧两版 API 的已录用 venue 记录，以及其中 DBLP 的会议／期刊书目记录（排除 CoRR）。支持 COLM 等多层组织路径与 TMLR；标题搜索每次取前 100 条。多条录用记录保存在 `alternatives` 中，页面优先主会／期刊，再按年份选择较新的记录；Workshop 不会压过主会。
+- 从匹配的书目记录或 arXiv Comments／Journal reference 中发现正式论文链接，读取 ACL Anthology、PMLR、CVF、NeurIPS 页面的引用元数据。`--deep` 还会主动检索 PMLR 的 ICML/AISTATS/COLT/UAI 目录，以及 ACL/EMNLP/NAACL/EACL/COLING、CVPR/ICCV/WACV、NeurIPS 的年会目录。默认覆盖论文年份前一年至后三年、且不晚于当前年份；候选标题或作者匹配只用于发现链接，仍需打开正式论文页核验。
+- Crossref：先查正式 DOI；没有确认结果时按标题检索，并用 arXiv 的 Journal reference 辅助查找。原文明确给出的 DOI 与正式记录一致、且作者得到核对时，也支持正式标题和团体作者列表发生变化的情况；仅由标题搜索得到的 DOI 不启用这条规则。
+- Semantic Scholar：提供 DOI 和结构化的会议／期刊信息，可用环境变量 `SEMANTIC_SCHOLAR_API_KEY` 鉴权。其论文年份可能是预印本年份，因此不用于补会议年份。
+- arXiv Comments：仅采用明确的 `Accepted at/to/in/by ...` 声明，要求含支持的会议简称及四位年份，保留 Workshop 等限定语。该渠道属于作者声明，来源链接指向 arXiv；普通会议提及、投稿声明不算录用。
+
+不会按本地简称模糊配对，也不会把 arXiv/CoRR 书目记录标为录用。OpenReview 主会与 Workshop 分开标注；其它书目或论文集来源无法可靠区分主会与 Workshop 时保留完整名称并标注“论文集”。缺乏身份关联证据或上述渠道尚未收录的论文仍可能遗漏。
+
+`scripts/paper-publications-cache.json` 保存查询结果，`assets/papers/publications.json` 是网站读取的静态数据。已确认条目默认跳过，未确认条目每隔七天可重查；查询渠道版本更新或上次查询失败时可立即重查。遇到 403/429 或 JSON 接口返回 HTML 验证页时停止向相应接口继续请求，本轮仍可使用其它来源；Semantic Scholar 的批量错误也记入各篇查询记录。查询失败或未找到不会清空已有确认结果。`--refresh` 强制重查，`--limit 10` 限制本轮查询数量，`--offline` 仅应用缓存和人工更正。
+
+成功的网络响应在 `.cache/paper-publications/` 缓存七天，该目录不提交；`--refresh` 会绕过该缓存。查询优先未确认且最久未检查的条目，便于用 `--limit` 分批处理。深度检索也会检查仅有 Workshop 的记录是否已有主会版本。`scripts/paper-publications-report.json` 列出未确认条目、候选记录和各来源的查询情况，区分 `unconfirmed`、`query_failed`、`missing_identity`；未确认不等于未录用。
+
+核实改题关系或修正身份后，可只重查指定条目，不影响其它结果：`python scripts/update-paper-publications.py --paper 2410.05192 --paper 2502.09990`。`--paper` 可重复使用，也接受 `paper:<目录中的论文 ID>`；默认复用响应缓存，需要重新访问来源时再加 `--refresh`。已核对的改题关系在 `paper-identities.json` 的 `identitySources` 中保留来源链接。
 
 人工更正在 `scripts/paper-publications.json` 中填写，以不带版本号的 arXiv 编号为键。格式示例（不是待录用状态）：
 
@@ -119,7 +146,7 @@ python scripts/update-paper-publications.py
 
 `kind` 支持 `conference`、`workshop`、`journal`、`proceedings`。`label` 写完整会议／期刊名称与年份，`url` 指向确认来源。把某个编号的值设为 `null` 可隐藏错误标签；人工设置优先于自动结果，`--refresh` 也不会覆盖它。编辑后运行 `python scripts/update-paper-publications.py --offline` 即可生效。改名或移动论文文件不影响已关联的信息。
 
-没有可靠来源的论文不显示标签；这不代表未被录用。若同名同作者对应多个正式 OpenReview venue，需人工选择。跨来源论文改题或作者顺序变化也可能需要手动填写。
+没有可靠来源的论文不显示标签；这不代表未被录用。需要指定主显示记录或更正无法自动确认的关联时，仍可使用人工设置。
 
 验证导出逻辑：`python -B -m unittest discover -s scripts -p "test_*.py"`
 
