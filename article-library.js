@@ -100,7 +100,7 @@ window.ArticleLibrary = (() => {
     const pageSize = compact ? 3 : 6;
     host.innerHTML = `
       <header class="category-intro library-hero">
-        ${compact ? '' : `<div class="library-eyebrow">${escapeHtml(category.titleEn || category.title)}</div><h1 class="category-intro-title">${escapeHtml(category.title)}</h1>`}
+        ${compact ? '' : `<h1 class="category-intro-title">${escapeHtml(category.title)}</h1>`}
         <p class="category-intro-copy">${escapeHtml(category.description)}</p>
         ${simple ? '' : `<div class="library-statline"><span><strong>${docs.filter((doc) => !doc.empty && !doc.missing).length}</strong> ${projects ? '个开源项目' : '篇可阅读'}</span>${projects ? '<span>项目介绍与使用文档</span>' : `<span>${category.groups?.length || 1} 个主题</span>`}${docs.some((doc) => doc.empty) ? `<span>${docs.filter((doc) => doc.empty).length} 篇待补充</span>` : ''}</div>`}
       </header>

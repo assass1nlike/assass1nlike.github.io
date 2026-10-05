@@ -30,18 +30,20 @@
               "5e1cde8a26cecd197b08",
               "719824613ffd24c4c23d",
               "c86a0f29a41fa36f73ad",
-              "503b026573a7cec16e78"
+              "503b026573a7cec16e78",
+              "28ae51b7e8d3a014b1c9"
             ],
-            "count": 5,
+            "count": 6,
             "annotated": 2
           }
         ],
         "papers": [
           "8fa87c28e05b069dc909",
           "a044dbf6658ba96f6be0",
-          "e4889579743af4017bb6"
+          "e4889579743af4017bb6",
+          "4fba975743699774eb35"
         ],
-        "count": 12,
+        "count": 14,
         "annotated": 6
       },
       {
@@ -68,10 +70,12 @@
         "name": "diffusion",
         "children": [],
         "papers": [
-          "cd390f063c6cd66f7a37"
+          "cd390f063c6cd66f7a37",
+          "49408cd4de3d8a792516",
+          "414f57bd4517c4e1bf1c"
         ],
-        "count": 1,
-        "annotated": 0
+        "count": 3,
+        "annotated": 1
       },
       {
         "id": "evaluation",
@@ -111,10 +115,12 @@
               "01a014ad64e0b1736301",
               "c40198c83242108d592d",
               "c9c0c17dfa8f6e04c8b2",
+              "6dbfaeea53c715576450",
               "607cc8c4716afc85a921",
+              "161d590444404ea0b74a",
               "4e3e5822cc50ea5608d8"
             ],
-            "count": 6,
+            "count": 8,
             "annotated": 2
           },
           {
@@ -130,9 +136,9 @@
         ],
         "papers": [
           "791d943217bd2ca3d8cd",
-          "c89ad502449e815f0c76"
+          "2133d51b659fe932b13f"
         ],
-        "count": 15,
+        "count": 17,
         "annotated": 5
       },
       {
@@ -148,6 +154,17 @@
             ],
             "count": 1,
             "annotated": 1
+          },
+          {
+            "id": "interpretability/reasoning",
+            "name": "reasoning",
+            "children": [],
+            "papers": [
+              "2246f2859428696dbba6",
+              "5c1f4c497f813c7c0ddc"
+            ],
+            "count": 2,
+            "annotated": 0
           }
         ],
         "papers": [
@@ -159,7 +176,7 @@
           "5486275cd316fd1a69d9",
           "9d510439585f664133b1"
         ],
-        "count": 8,
+        "count": 10,
         "annotated": 4
       },
       {
@@ -210,6 +227,17 @@
             ],
             "count": 5,
             "annotated": 2
+          },
+          {
+            "id": "optimization/path",
+            "name": "path",
+            "children": [],
+            "papers": [
+              "130f047ae0687107f627",
+              "2e9284cbf35d0a10528f"
+            ],
+            "count": 2,
+            "annotated": 1
           }
         ],
         "papers": [
@@ -222,8 +250,8 @@
           "3fadf769369ef7428239",
           "758f9c612a8bf6f5e107"
         ],
-        "count": 13,
-        "annotated": 2
+        "count": 15,
+        "annotated": 4
       },
       {
         "id": "post-train",
@@ -258,10 +286,17 @@
             "name": "RL",
             "children": [],
             "papers": [
+              "a82c77cf19e73baa9be2",
               "e4319ee42d76de939b6b",
-              "a88cb280df8e2b58d073"
+              "7ad791a94ed211057d56",
+              "de0fa1084542d8aedc8d",
+              "11f13a7d38fc157d6fb5",
+              "31a99d728ce2dfeb3c0f",
+              "a88cb280df8e2b58d073",
+              "ddb967c32552d578e318",
+              "e29903757ee03820edd2"
             ],
-            "count": 2,
+            "count": 9,
             "annotated": 1
           },
           {
@@ -269,10 +304,15 @@
             "name": "self-evolve",
             "children": [],
             "papers": [
-              "bf7c8785e71b552f79b8"
+              "bf7c8785e71b552f79b8",
+              "3444adcbbd9bbb594f87",
+              "f098a2f523d6ae83ebb7",
+              "1e20f52a1d3ac9f991ec",
+              "90a59356b2ecb277a78f",
+              "36ff428ae10afc3fb02f"
             ],
-            "count": 1,
-            "annotated": 0
+            "count": 6,
+            "annotated": 1
           },
           {
             "id": "post-train/SFT",
@@ -321,8 +361,8 @@
           "98612d5a3d4b598e1c40",
           "da53ecbdae1e09d22473"
         ],
-        "count": 34,
-        "annotated": 5
+        "count": 46,
+        "annotated": 6
       },
       {
         "id": "pretrain",
@@ -467,15 +507,26 @@
             ],
             "count": 1,
             "annotated": 0
+          },
+          {
+            "id": "structure/recurrent",
+            "name": "recurrent",
+            "children": [],
+            "papers": [
+              "e37f360c0cc972ddfa1a",
+              "f40df0a951a1519f0a65",
+              "454169f194f550a2d1b2"
+            ],
+            "count": 3,
+            "annotated": 3
           }
         ],
         "papers": [
           "68f185457747be846606",
-          "383b234e2df2c4587cad",
-          "3bde611fbf7aa5251552"
+          "383b234e2df2c4587cad"
         ],
-        "count": 7,
-        "annotated": 1
+        "count": 9,
+        "annotated": 3
       },
       {
         "id": "talks",
@@ -521,13 +572,41 @@
           {
             "id": "unlearning/benchmarks",
             "name": "benchmarks",
-            "children": [],
+            "children": [
+              {
+                "id": "unlearning/benchmarks/CV",
+                "name": "CV",
+                "children": [],
+                "papers": [
+                  "031582312473e62ad04e",
+                  "0ec8c94066c10f5046f6",
+                  "405623a8bdfc90defa8e"
+                ],
+                "count": 3,
+                "annotated": 1
+              }
+            ],
             "papers": [
               "e9b22d37e0c2a9285849",
               "5ecd9fce8a8eaa203f95",
               "e22678110736f4ec541d"
             ],
-            "count": 3,
+            "count": 6,
+            "annotated": 1
+          },
+          {
+            "id": "unlearning/CV",
+            "name": "CV",
+            "children": [],
+            "papers": [
+              "d39712840f9072567d43",
+              "5932fc4b7815c1689ecc",
+              "4d3fd9b747e26d116f46",
+              "1d284dd3209283d6b25e",
+              "c5ed7947695a3e60f94d",
+              "c8b05dd5b13610725811"
+            ],
+            "count": 6,
             "annotated": 0
           },
           {
@@ -561,9 +640,10 @@
               "3109fae42b0e17b04239",
               "242675ecef6e5df13445",
               "7cdf19552031e80a7bcf",
-              "a458942f76b8b4cd02ad"
+              "a458942f76b8b4cd02ad",
+              "6da11626f200fdbfdcf2"
             ],
-            "count": 4,
+            "count": 5,
             "annotated": 3
           },
           {
@@ -611,20 +691,19 @@
           "f8706c5316d751f1d815",
           "4c355e2937a03bae531f",
           "22e2c810f2d21da1039e",
-          "07be137dfab36d12ce16",
           "699af9f985a67145f137",
           "62f00cf16405eb94a866",
           "51e9793f65b42f914f70",
           "15a3d70efaf2870762f0",
           "fdaab3fa2c1ebeb03f59"
         ],
-        "count": 51,
-        "annotated": 13
+        "count": 60,
+        "annotated": 14
       }
     ],
     "papers": [],
-    "count": 174,
-    "annotated": 46
+    "count": 207,
+    "annotated": 53
   },
   "papers": [
     {
@@ -718,6 +797,16 @@
       "arxivUrl": "https://arxiv.org/abs/2607.14777"
     },
     {
+      "id": "28ae51b7e8d3a014b1c9",
+      "title": "Who Grades the Grader",
+      "category": "agents/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2607.12790"
+    },
+    {
       "id": "8fa87c28e05b069dc909",
       "title": "Agent-World",
       "category": "agents",
@@ -748,6 +837,16 @@
       "arxivUrl": "https://arxiv.org/abs/2511.20639"
     },
     {
+      "id": "4fba975743699774eb35",
+      "title": "Speculative Actions",
+      "category": "agents",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
       "id": "e8c42185bf1a5ea3c94a",
       "title": "CVT-Occ",
       "category": "CV/3D",
@@ -766,6 +865,26 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2402.02316"
+    },
+    {
+      "id": "49408cd4de3d8a792516",
+      "title": "ETC",
+      "category": "diffusion",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "414f57bd4517c4e1bf1c",
+      "title": "FADE",
+      "category": "diffusion",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "文本到图像扩散模型把语义相近的类别编码在相互靠近的表示区域，因此传统“删掉目标、保留无关类别”的遗忘会发生连带遗忘：例如删除一个犬种可能同时损坏其他犬种。FADE 把目标概念 $c{\\mathrm{tar}}$ 的要求明确为 $P(c{\\mathrm{tar}}\\mid x)\\to0$，把语义邻接集合 $\\mathcal A(c{\\mathrm{tar}})…",
+      "arxivUrl": ""
     },
     {
       "id": "c6eb58f819f1cd4d2acd",
@@ -868,6 +987,16 @@
       "arxivUrl": "https://arxiv.org/abs/2505.24069"
     },
     {
+      "id": "6dbfaeea53c715576450",
+      "title": "Engiworld",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
       "id": "607cc8c4716afc85a921",
       "title": "HLE",
       "category": "evaluation/benchmark",
@@ -876,6 +1005,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2501.14249"
+    },
+    {
+      "id": "161d590444404ea0b74a",
+      "title": "MultiTrust",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.07057"
     },
     {
       "id": "4e3e5822cc50ea5608d8",
@@ -908,8 +1047,8 @@
       "arxivUrl": "https://arxiv.org/abs/2606.01351"
     },
     {
-      "id": "c89ad502449e815f0c76",
-      "title": "ON THE FRAGILITY OF BENCHMARK CONTAMINATION DETECTION IN REASONING MODELS",
+      "id": "2133d51b659fe932b13f",
+      "title": "LRM_Conta_Detection_Arena",
       "category": "evaluation",
       "hasPdf": true,
       "hasNote": false,
@@ -926,6 +1065,26 @@
       "hasSummary": false,
       "excerpt": "论文研究的是一个具体的数据解释问题：给定一个训练样本 \\(z\\) 和一个正在解释的样本 \\(z'\\)，训练样本 \\(z\\) 在多大程度上促成或损害了模型在 \\(z'\\) 上的预测？这里的 \\(z'\\) 不一定属于正式测试集，只要是希望解释的输入即可。作者希望得到的是“训练样本对这个特定预测的影响”，而不是某个特征对预测的影响，也不是训练样本对整个模型平均准确…",
       "arxivUrl": "https://arxiv.org/abs/2002.08484"
+    },
+    {
+      "id": "2246f2859428696dbba6",
+      "title": "critical token",
+      "category": "interpretability/reasoning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2411.19943"
+    },
+    {
+      "id": "5c1f4c497f813c7c0ddc",
+      "title": "GraphWalker",
+      "category": "interpretability/reasoning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2604.06684"
     },
     {
       "id": "b016df2e3da03cb4c3b9",
@@ -1088,6 +1247,26 @@
       "arxivUrl": "https://arxiv.org/abs/2604.09258"
     },
     {
+      "id": "130f047ae0687107f627",
+      "title": "An Optimal Control Approach to Sequential Machine Teaching",
+      "category": "optimization/path",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "顺序机器教学要为一个已知学习器设计样本序列，用尽可能少的更新把参数从 $w0$ 送到目标 $w^\\star$。已有贪心策略每一步都让参数尽量靠近目标，但它忽略了当前落点会怎样影响后面的移动能力。最小二乘梯度下降的更新为",
+      "arxivUrl": "https://arxiv.org/abs/1810.06175"
+    },
+    {
+      "id": "2e9284cbf35d0a10528f",
+      "title": "Iterative Machine Teaching",
+      "category": "optimization/path",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/1705.10470"
+    },
+    {
       "id": "25a36289f9968987414a",
       "title": "BAR",
       "category": "optimization",
@@ -1102,9 +1281,9 @@
       "title": "basin-like loss landscape",
       "category": "optimization",
       "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最有意思的发现是：大语言模型的能力景观在大多数参数方向上真的像一个“盆地”，而不是通常想象的光滑二次曲面；模型可以在盆地内改变生成细节却保持任务答案不变，一旦越过边界则能力突然崩溃。这个几何事实把正常微调、灾难性遗忘、对抗性微调和输入越狱统一到了同一个参数空间图景中，并进一步说明扩大随机扰动下的盆地，可能是同时提升可微调性和安全鲁棒性的直接途径。",
       "arxivUrl": "https://arxiv.org/abs/2505.17646"
     },
     {
@@ -1318,6 +1497,16 @@
       "arxivUrl": "https://arxiv.org/abs/2405.14768"
     },
     {
+      "id": "a82c77cf19e73baa9be2",
+      "title": "crossQ",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/1902.05605"
+    },
+    {
       "id": "e4319ee42d76de939b6b",
       "title": "EMCES",
       "category": "post-train/RL",
@@ -1326,6 +1515,46 @@
       "hasSummary": false,
       "excerpt": "强化学习依靠反复试错来学习策略，因此通常需要大量与环境交互得到的数据。在真实机器人、自动驾驶或工业控制等场景中，交互既昂贵又可能不安全；离线强化学习虽然允许智能体只用一份预先收集、之后不再改变的数据集训练，却没有消除数据本身不足的问题。于是，一个自然的方向是用数据增强补充经验。",
       "arxivUrl": ""
+    },
+    {
+      "id": "7ad791a94ed211057d56",
+      "title": "f-softargmax",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "de0fa1084542d8aedc8d",
+      "title": "Logarithmic Regret",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "11f13a7d38fc157d6fb5",
+      "title": "Maximum diffusion RL",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "31a99d728ce2dfeb3c0f",
+      "title": "MLE-based MBRL",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2408.08994"
     },
     {
       "id": "a88cb280df8e2b58d073",
@@ -1338,14 +1567,84 @@
       "arxivUrl": "https://arxiv.org/abs/2606.01281"
     },
     {
+      "id": "ddb967c32552d578e318",
+      "title": "Regret Bound 4RL w trajectory feedback",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "e29903757ee03820edd2",
+      "title": "SimBa",
+      "category": "post-train/RL",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.09754"
+    },
+    {
       "id": "bf7c8785e71b552f79b8",
       "title": "Absolute-Zero",
+      "category": "post-train/self-evolve",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最有冲击力的地方在于：模型没有被提供任何人工定义的推理题，却能通过“自己提出恰好有点难、环境可以验证、然后自己解决”的循环，在代码和数学上超过依赖成千上万人工样例的 zero-RLVR 系统。训练对象从“解答给定问题”变成了“发现值得学习的问题并解答它”，这把强化学习的探索从答案空间推进到了学习任务空间。",
+      "arxivUrl": "https://arxiv.org/abs/2505.03335"
+    },
+    {
+      "id": "3444adcbbd9bbb594f87",
+      "title": "Meta-Rewarding",
       "category": "post-train/self-evolve",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2505.03335"
+      "arxivUrl": "https://arxiv.org/abs/2407.19594"
+    },
+    {
+      "id": "f098a2f523d6ae83ebb7",
+      "title": "Quiet-STaR",
+      "category": "post-train/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2403.09629"
+    },
+    {
+      "id": "1e20f52a1d3ac9f991ec",
+      "title": "self-instruct",
+      "category": "post-train/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2212.10560"
+    },
+    {
+      "id": "90a59356b2ecb277a78f",
+      "title": "self-rewarding LM",
+      "category": "post-train/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2401.10020"
+    },
+    {
+      "id": "36ff428ae10afc3fb02f",
+      "title": "SwS",
+      "category": "post-train/self-evolve",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2506.08989"
     },
     {
       "id": "10a8779f43ce2b067ecd",
@@ -1808,6 +2107,36 @@
       "arxivUrl": "https://arxiv.org/abs/2401.06066"
     },
     {
+      "id": "e37f360c0cc972ddfa1a",
+      "title": "Coconut",
+      "category": "structure/recurrent",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最有意思的不是把一段思维链压缩成几个向量，而是让“下一步必须先选一条路”不再成为推理的硬约束：一个连续状态可以暂时保留多个方向，等算得更深、看得更清楚，再决定该走哪条。",
+      "arxivUrl": "https://arxiv.org/abs/2412.06769"
+    },
+    {
+      "id": "f40df0a951a1519f0a65",
+      "title": "foil",
+      "category": "structure/recurrent",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最有意思的是：同一批专家不必被更多 token“平均用到”，甚至一个 token 实际接触的不同专家还会减少，模型仍能变强。把候选专家放到更大的公共池里，让共享专家反复处理由不同注意力形成的输入，比单纯追求专家覆盖数或负载均匀更值得关注。",
+      "arxivUrl": "https://arxiv.org/abs/2609.35751"
+    },
+    {
+      "id": "454169f194f550a2d1b2",
+      "title": "Symbolic Index",
+      "category": "structure/recurrent",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "这篇论文要解决的是显式与隐式思维链各有所长却互相牺牲的问题。显式 CoT 通过每步选择离散词元获得高确定性：argmax 把连续误差离散化并复位，因而能稳定执行算术，但也过早锁定单一路径，探索分布偏离均匀先验。Latent CoT 把推理留在连续隐空间，较低的确定性允许多条路径并行保留，所以在 ProsQA 等探索任务上更强；代价是没有离散复位，微小噪声按 …",
+      "arxivUrl": "https://arxiv.org/abs/2602.01148"
+    },
+    {
       "id": "68f185457747be846606",
       "title": "delta-mem",
       "category": "structure",
@@ -1826,16 +2155,6 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2512.24880"
-    },
-    {
-      "id": "3bde611fbf7aa5251552",
-      "title": "Symbolic Index",
-      "category": "structure",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "这篇论文要解决的是显式与隐式思维链各有所长却互相牺牲的问题。显式 CoT 通过每步选择离散词元获得高确定性：argmax 把连续误差离散化并复位，因而能稳定执行算术，但也过早锁定单一路径，探索分布偏离均匀先验。Latent CoT 把推理留在连续隐空间，较低的确定性允许多条路径并行保留，所以在 ProsQA 等探索任务上更强；代价是没有离散复位，微小噪声按 …",
-      "arxivUrl": "https://arxiv.org/abs/2602.01148"
     },
     {
       "id": "9fd1941deb18749b9471",
@@ -1938,6 +2257,36 @@
       "arxivUrl": "https://arxiv.org/abs/2502.19301"
     },
     {
+      "id": "031582312473e62ad04e",
+      "title": "EMMA",
+      "category": "unlearning/benchmarks/CV",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "文本到图像模型的概念擦除方法通常只用直接名称测试目标是否消失，因此可能只是切断了“词语到图像”的连接，目标的语义表示仍然存在。EMMA 针对这个问题建立统一基准：它覆盖 object、celebrity、art style、NSFW、copyright 五个 domain，共 206 个概念；用 explicit 的名称和前缀，以及 implicit 的同义…",
+      "arxivUrl": ""
+    },
+    {
+      "id": "0ec8c94066c10f5046f6",
+      "title": "EraseBench",
+      "category": "unlearning/benchmarks/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "405623a8bdfc90defa8e",
+      "title": "SALMUBench",
+      "category": "unlearning/benchmarks/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
       "id": "e9b22d37e0c2a9285849",
       "title": "MUSE",
       "category": "unlearning/benchmarks",
@@ -1966,6 +2315,66 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2403.03218"
+    },
+    {
+      "id": "d39712840f9072567d43",
+      "title": "FADE",
+      "category": "unlearning/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2503.19783"
+    },
+    {
+      "id": "5932fc4b7815c1689ecc",
+      "title": "MACE",
+      "category": "unlearning/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "4d3fd9b747e26d116f46",
+      "title": "SalUN",
+      "category": "unlearning/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2310.12508"
+    },
+    {
+      "id": "1d284dd3209283d6b25e",
+      "title": "SCADA",
+      "category": "unlearning/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2604.08238"
+    },
+    {
+      "id": "c5ed7947695a3e60f94d",
+      "title": "UCE",
+      "category": "unlearning/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2308.14761"
+    },
+    {
+      "id": "c8b05dd5b13610725811",
+      "title": "When Are Concepts Erased",
+      "category": "unlearning/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
     },
     {
       "id": "0b10fbab8010f3d08c5e",
@@ -2056,6 +2465,16 @@
       "hasSummary": false,
       "excerpt": "扩散模型的训练数据可能含有不宜公开生成的内容、私人信息或受版权保护的形象与画风。机器遗忘试图从已经训练好的模型中移除指定的“遗忘集”，同时保持模型在其余“保留集”上的生成能力。这里的困难不只在于发布模型之前能否把目标概念擦除，还在于开放权重的模型发布以后可以继续被微调：即使模型当下不再生成被遗忘内容，攻击者也可能用很少的目标样本把它重新教回来。",
       "arxivUrl": "https://arxiv.org/abs/2410.12777"
+    },
+    {
+      "id": "6da11626f200fdbfdcf2",
+      "title": "Utility and Complexity of ID&OOD MU",
+      "category": "unlearning/questions",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2412.09119"
     },
     {
       "id": "dee890158a93f3a8173f",
@@ -2306,16 +2725,6 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2604.14808"
-    },
-    {
-      "id": "07be137dfab36d12ce16",
-      "title": "SalUN",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2310.12508"
     },
     {
       "id": "699af9f985a67145f137",

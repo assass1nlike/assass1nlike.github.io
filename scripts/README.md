@@ -43,11 +43,32 @@ python scripts/sync-onedrive.py --apply
 
 全站语言按钮由 `site-i18n.js` 管理，默认中文，并在当前浏览器记住选择。它只翻译明确列出的网站界面区域；文章标题、摘要、正文、章节目录、论文文件夹名及用户留言保持原文。动态插入的界面文字也会更新，切换不会重载页面或重置筛选。新增界面文案时补充该文件的 `phrases` / 数量表达规则；正文旁的独立界面提示可标记 `data-site-ui`，不要给 Markdown 正文添加这个标记。
 
-博客、学习的文章入口由根目录 `script.js` 的 `CATEGORY_DEFINITIONS` / `DOC_DEFINITIONS` 管理。技术栏目递归收录 `everlasting/invisible/tech/` 的 Markdown，按一级子目录分组，标题取首个一级标题（没有时使用文件名）。新增、改名、删除技术文章或修改标题后运行 `python scripts/export-tech.py`，随网站部署生成的 `assets/tech/catalog.js`。忽略隐藏目录、符号链接、`AGENTS.md` / `CLAUDE.md`，不读取科研目录；正文仍从原 Markdown 读取。
+学习、博客、其它使用同一个更新命令。在仓库根目录运行：
+
+```powershell
+python scripts/export-articles.py
+```
+
+| 栏目 | 发布目录（相对仓库根目录） |
+| --- | --- |
+| 学习 | `everlasting/invisible/notes/` |
+| 博客 | `everlasting/invisible/minors/published/` |
+| 其它 | `everlasting/invisible/tech/` |
+| 博客中的年终总结 | `everlasting/invisible/annual/` |
+
+写好后把 Markdown 和图片放入对应发布目录，可创建子文件夹，文件名不限（博客也可继续叫 `determined.md`）。文章首个 `# 一级标题` 用作列表标题；没有一级标题时使用文件名。标题提取跳过 YAML 元数据与代码块。图片使用相对路径，例如 `![说明](./images/figure.png)`，发布时连同图片一起提交。
+
+新增、改名、删除文章或修改标题后运行命令，刷新本地页面即可检查。仅修改正文或图片时可直接刷新，重新运行脚本也无妨。预览可运行 `python -m http.server 8000`，打开 `http://localhost:8000/`。脚本生成 `assets/articles/catalog.js`，不修改文章、不暂存、不提交、不推送；正式发布时只提交准备公开的 Markdown、图片及生成的目录文件，再 push。首页预览、分类列表和阅读页共用此目录，无需再编辑 `script.js`。
+
+发布目录中所有 Markdown 都会被收录；草稿请放在这些目录之外。脚本跳过 `.gitignore` 排除的文件、隐藏文件与目录、`tmp`、`__pycache__`、`node_modules`、符号链接／目录联接，以及 `AGENTS.md`、`CLAUDE.md`、`README.md`。不扫描 `research/` 或 `minors/` 下其它目录。未被目录收录不等于私密：已提交到公开仓库的文件仍可被直接访问。
+
+特殊设置在 `scripts/articles.json`：`sources` 指定扫描目录，`order` 保留已有学习文章的顺序，`last` 将基础知识放在末尾，`overrides` 可指定特殊显示标题或旧链接别名。通常新增文章不需要修改该文件。新学习文章排在已有固定顺序之前；年终总结按文件名倒序，其它文章按路径排序，不依赖本机修改时间。`preliminaries.md` 继续显示“补一些非常basic的知识”，现有阅读链接与年终总结筛选保留。
+
+验证更新脚本：`python -B -m unittest discover -s scripts -p "test_export_articles.py"`。
 
 博客、学习、其它和开源项目共用 `article-library.js` 和 `article-library.css`，从 Markdown 提取摘要、搜索正文。独立分类页每页 6 项，首页预览每页 3 项，只有一页时隐藏分页。年终总结属于博客列表，右侧排序下方、分隔线下的“只看子集：各年年终总结”可切换筛选。博客、学习、其它不显示主题和状态；子集、搜索、排序及页码保留在分类页 URL 中，阅读页的返回链接会带回原来的列表状态。“其它”沿用 `cat=tech` 和原文章目录。
 
-默认将可阅读文章放在待补充和加载失败的条目前。阅读时间按中文约 350 字/分钟、英文约 220 词/分钟估算，不代表实测时间；没有正文的条目不显示阅读时间。桌面阅读页将目录置于侧栏，移动端默认折叠，目录高亮随当前章节更新。上一篇/下一篇按同栏目登记顺序生成。
+默认将可阅读文章放在待补充和加载失败的条目前。列表显示字数（中文字符数加英文单词数，排除公式与网址）。桌面阅读页将目录置于侧栏，移动端默认折叠，目录高亮随当前章节更新。上一篇/下一篇按同栏目目录顺序生成。
 
 # 论文树
 
@@ -69,6 +90,32 @@ python scripts/export-paper-tree.py --source D:\papers
 - 当前导出的是全部收录条目的讲解，部署前可在本地检查。页面没有嵌入原 PDF；Markdown 中的本地图片附件暂不导出。
 
 用现有的静态服务打开 `/category.html?cat=papers`；主页的论文树预览使用同一份目录。
+
+会议与期刊标签在导出目录后单独更新：
+
+```powershell
+python scripts/update-paper-publications.py
+```
+
+脚本按 arXiv 编号关联论文，使用 arXiv 的正式标题与第一作者核对 OpenReview 的已录用 venue 记录；有正式 DOI 时通过 Crossref 核对出版信息。Semantic Scholar 可提供 DOI 线索，可选环境变量 `SEMANTIC_SCHOLAR_API_KEY` 用于其 API 鉴权。不会按本地简称模糊配对，也不会把 arXiv/CoRR、投稿、拒稿或撤稿条目标为录用。OpenReview 主会与 Workshop 分开标注；Crossref 无法单凭类型区分主会与 Workshop，因此保留完整名称并标注“论文集”。
+
+`scripts/paper-publications-cache.json` 保存查询结果，`assets/papers/publications.json` 是网站读取的静态数据。已确认条目默认跳过，未确认条目每隔七天可重查；失败的查询下次可重试。遇到 403/429 时停止向相应接口继续请求，本轮仍可使用其它来源。查询失败或未找到不会清空已有确认结果。`--refresh` 强制重查，`--limit 10` 限制本轮查询数量，`--offline` 仅应用缓存和人工更正。
+
+人工更正在 `scripts/paper-publications.json` 中填写，以不带版本号的 arXiv 编号为键。格式示例（不是待录用状态）：
+
+```json
+{
+  "2410.10762": {
+    "label": "ICLR 2025 Oral",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=z5uVAKwmjf"
+  }
+}
+```
+
+`kind` 支持 `conference`、`workshop`、`journal`、`proceedings`。`label` 写完整会议／期刊名称与年份，`url` 指向确认来源。把某个编号的值设为 `null` 可隐藏错误标签；人工设置优先于自动结果，`--refresh` 也不会覆盖它。编辑后运行 `python scripts/update-paper-publications.py --offline` 即可生效。改名或移动论文文件不影响已关联的信息。
+
+没有可靠来源的论文不显示标签；这不代表未被录用。若同名同作者对应多个正式 OpenReview venue，需人工选择。跨来源论文改题或作者顺序变化也可能需要手动填写。
 
 验证导出逻辑：`python -B -m unittest discover -s scripts -p "test_*.py"`
 
