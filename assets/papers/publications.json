@@ -702,6 +702,11 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=XkDpZusDTK"
   },
+  "2603.22870": {
+    "label": "CVPR 2026",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=PbNDLMaJFq"
+  },
   "2604.05540": {
     "label": "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2026",
     "kind": "proceedings",
