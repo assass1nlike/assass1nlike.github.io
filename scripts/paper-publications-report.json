@@ -1,15 +1,15 @@
 {
-  "confirmed": 161,
-  "total": 204,
+  "confirmed": 162,
+  "total": 205,
   "unresolved": [
     {
       "key": "2307.15043",
       "title": "GCG",
       "fullTitle": "Universal and Transferable Adversarial Attacks on Aligned Language Models",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
-      "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
+      "status": "unconfirmed",
+      "error": "",
       "candidates": [
         {
           "title": "Toward Universal and Transferable Jailbreak Attacks on Vision-Language Models",
@@ -509,10 +509,10 @@
       "key": "2402.16929",
       "title": "LangGPT",
       "fullTitle": "LangGPT: Rethinking Structured Reusable Prompt Design Framework for LLMs from the Programming Language",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
-      "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
+      "status": "unconfirmed",
+      "error": "",
       "candidates": [
         {
           "title": "LangGPT: Rethinking Structured Reusable Prompt Design Framework for LLMs from the Programming Language",
@@ -616,23 +616,23 @@
         },
         {
           "url": "https://proceedings.mlr.press/v235/wang24ah.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/zhai24a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v202/lai23b.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v202/wang23j.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v202/ye23e.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -640,10 +640,10 @@
       "key": "2412.08201",
       "title": "TME",
       "fullTitle": "Model-Editing-Based Jailbreak against Safety-aligned Large Language Models",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
-      "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
+      "status": "unconfirmed",
+      "error": "",
       "candidates": [
         {
           "title": "Model-Editing-Based Jailbreak against Safety-aligned Large Language Models",
@@ -699,7 +699,7 @@
         },
         {
           "url": "https://api.openreview.net/notes/search?term=Model-Editing-Based+Jailbreak+against+Safety-aligned+Large+Language+Models&limit=100",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://api.crossref.org/works?query.title=Model-Editing-Based+Jailbreak+against+Safety-aligned+Large+Language+Models&rows=5",
@@ -707,11 +707,11 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/liu26bb.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/meng26k.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -719,11 +719,36 @@
       "key": "2503.01224",
       "title": "CE-U",
       "fullTitle": "CE-U: Cross Entropy Unlearning",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
-      "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429",
-      "candidates": [],
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
+      "status": "unconfirmed",
+      "error": "",
+      "candidates": [
+        {
+          "title": "Certified Graph Unlearning",
+          "venue": "NeurIPS 2022 GLFrontiers Workshop",
+          "url": "https://openreview.net/forum?id=wCxlGc9ZCwi",
+          "identityMatched": false
+        },
+        {
+          "title": "INSTANCE CROSS ENTROPY FOR DEEP METRIC LEARNING",
+          "venue": null,
+          "url": "https://openreview.net/forum?id=BJeguTEKDB",
+          "identityMatched": false
+        },
+        {
+          "title": "Cross-Entropy Loss Leads To Poor Margins",
+          "venue": null,
+          "url": "https://openreview.net/forum?id=ByfbnsA9Km",
+          "identityMatched": false
+        },
+        {
+          "title": "Inductive Graph Unlearning",
+          "venue": "CoRR 2023",
+          "url": "https://openreview.net/forum?id=ca1KQMa-zd",
+          "identityMatched": false
+        }
+      ],
       "checks": [
         {
           "url": "https://arxiv.org/abs/2503.01224",
@@ -735,8 +760,7 @@
         },
         {
           "url": "https://api.openreview.net/notes/search?term=CE-U%3A+Cross+Entropy+Unlearning&limit=100",
-          "status": "error",
-          "error": "HTTP 429"
+          "status": "ok"
         },
         {
           "url": "https://api.crossref.org/works?query.title=CE-U%3A+Cross+Entropy+Unlearning&rows=5",
@@ -744,67 +768,67 @@
         },
         {
           "url": "https://proceedings.mlr.press/v337/phillips26b.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/chen26fj.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/cheng26q.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/dai26b.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/dong26e.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/du26u.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/hu26av.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/leng26b.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/li26hn.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/li26in.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/li26jr.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/liu26fh.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/marro26a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/qiao26h.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/sun26r.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/tong26c.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26ia.html",
@@ -812,107 +836,107 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/xu26ct.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/yang26n.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/yang26dr.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zhang26w.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zhang26fj.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zhang26gd.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zhang26in.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26mb.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v300/shen26b.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/dong25i.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/guo25o.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/huang25an.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/sun25i.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/sun25y.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/yang25au.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/zhao25p.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v286/liu25d.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v258/wu25a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/huang24j.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/palumbo24a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/song24d.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/xi24a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/yang24m.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/yang24r.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/yang24ag.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/zhou24h.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -920,10 +944,10 @@
       "key": "2503.02312",
       "title": "OrthoGrad",
       "fullTitle": "Go Beyond Your Means: Unlearning with Per-Sample Gradient Orthogonalization",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
-      "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
+      "status": "unconfirmed",
+      "error": "",
       "candidates": [
         {
           "title": "Go Beyond Your Means: Unlearning with Per-Sample Gradient Orthogonalization",
@@ -942,6 +966,24 @@
           "venue": "ICLR 2026 Conference Withdrawn Submission",
           "url": "https://openreview.net/forum?id=3eYTRBGgFL",
           "identityMatched": true
+        },
+        {
+          "title": "Prompt Certified Machine Unlearning with Randomized Gradient Smoothing and Quantization",
+          "venue": "NeurIPS 2022 Accept",
+          "url": "https://openreview.net/forum?id=ue4gP8ZKiWb",
+          "identityMatched": false
+        },
+        {
+          "title": "Prompt Certified Machine Unlearning with Randomized Gradient Smoothing and Quantization",
+          "venue": "NeurIPS 2022",
+          "url": "https://openreview.net/forum?id=sNIzRCbf53",
+          "identityMatched": false
+        },
+        {
+          "title": "Learning with Per-Sample Side Information",
+          "venue": "AGI 2019",
+          "url": "https://openreview.net/forum?id=Bddrhoq3_gc",
+          "identityMatched": false
         }
       ],
       "checks": [
@@ -955,8 +997,7 @@
         },
         {
           "url": "https://api.openreview.net/notes/search?term=Go+Beyond+Your+Means%3A+Unlearning+with+Per-Sample+Gradient+Orthogonalization&limit=100",
-          "status": "deferred",
-          "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+          "status": "ok"
         },
         {
           "url": "https://api.crossref.org/works?query.title=Go+Beyond+Your+Means%3A+Unlearning+with+Per-Sample+Gradient+Orthogonalization&rows=5",
@@ -964,11 +1005,11 @@
         },
         {
           "url": "https://proceedings.mlr.press/v235/navon24a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/shamsian24a.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -976,10 +1017,10 @@
       "key": "2506.00876",
       "title": "SU",
       "fullTitle": "Not Every Token Needs Forgetting: Selective Unlearning to Limit Change in Utility in Large Language Model Unlearning",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
-      "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
+      "status": "unconfirmed",
+      "error": "",
       "candidates": [],
       "checks": [
         {
@@ -992,8 +1033,7 @@
         },
         {
           "url": "https://api.openreview.net/notes/search?term=Not+Every+Token+Needs+Forgetting%3A+Selective+Unlearning+to+Limit+Change+in+Utility+in+Large+Language+Model+Unlearning&limit=100",
-          "status": "deferred",
-          "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+          "status": "ok"
         },
         {
           "url": "https://api.crossref.org/works?query.title=Not+Every+Token+Needs+Forgetting%3A+Selective+Unlearning+to+Limit+Change+in+Utility+in+Large+Language+Model+Unlearning&rows=5",
@@ -1001,55 +1041,55 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/ousherovitch26a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26as.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/yang26cb.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v300/vo26a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v300/zhang26e.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/liu25bu.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/nejatbakhsh25a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v258/sanyal25a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v258/salazar25a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/balsells-rodas24a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v238/ahuja24a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v238/kausik24a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://aclanthology.org/2025.findings-emnlp.96/",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1057,10 +1097,10 @@
       "key": "2506.22479",
       "title": "HGM",
       "fullTitle": "Hindsight-Guided Momentum (HGM) Optimizer: An Approach to Adaptive Learning Rate",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
-      "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
+      "status": "unconfirmed",
+      "error": "",
       "candidates": [],
       "checks": [
         {
@@ -1073,8 +1113,7 @@
         },
         {
           "url": "https://api.openreview.net/notes/search?term=Hindsight-Guided+Momentum+%28HGM%29+Optimizer%3A+An+Approach+to+Adaptive+Learning+Rate&limit=100",
-          "status": "deferred",
-          "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+          "status": "ok"
         },
         {
           "url": "https://api.crossref.org/works?query.title=Hindsight-Guided+Momentum+%28HGM%29+Optimizer%3A+An+Approach+to+Adaptive+Learning+Rate&rows=5",
@@ -1086,10 +1125,10 @@
       "key": "2508.16546",
       "title": "understanding-SFT-RL",
       "fullTitle": "RL Is Neither a Panacea Nor a Mirage: Understanding Supervised vs. Reinforcement Learning Fine-Tuning for LLMs",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429",
       "candidates": [
         {
           "title": "RL Is Neither a Panacea Nor a Mirage: Understanding Supervised vs. Reinforcement Learning Fine-Tuning for LLMs",
@@ -1109,8 +1148,8 @@
         },
         {
           "url": "https://api.openreview.net/notes/search?term=RL+Is+Neither+a+Panacea+Nor+a+Mirage%3A+Understanding+Supervised+vs.+Reinforcement+Learning+Fine-Tuning+for+LLMs&limit=100",
-          "status": "deferred",
-          "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+          "status": "error",
+          "error": "HTTP 429"
         },
         {
           "url": "https://api.crossref.org/works?query.title=RL+Is+Neither+a+Panacea+Nor+a+Mirage%3A+Understanding+Supervised+vs.+Reinforcement+Learning+Fine-Tuning+for+LLMs&rows=5",
@@ -1122,10 +1161,10 @@
       "key": "2510.04860",
       "title": "ATP",
       "fullTitle": "Alignment Tipping Process: How Self-Evolution Pushes LLM Agents Off the Rails",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Alignment Tipping Process: How Self-Evolution Pushes LLM Agents Off the Rails",
@@ -1160,23 +1199,23 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/borchmann26a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/liu26dx.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/liu26fa.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26jh.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v235/zhang24t.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1184,10 +1223,10 @@
       "key": "2511.08598",
       "title": "OKBench",
       "fullTitle": "OKBench: Democratizing LLM Evaluation with Fully Automated, On-Demand, Open Knowledge Benchmarking",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "OKBench: Democratizing LLM Evaluation with Fully Automated, On-Demand Open Knowledge Benchmarking",
@@ -1216,7 +1255,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/merrill26a.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1224,10 +1263,10 @@
       "key": "2512.04457",
       "title": "RapidUn",
       "fullTitle": "RapidUn: Influence-Driven Parameter Reweighting for Efficient Large Language Model Unlearning",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "RapidUn: Influence-Driven Parameter Reweighting for Efficient Large Language Model Unlearning",
@@ -1266,10 +1305,10 @@
       "key": "2602.01148",
       "title": "Symbolic Index",
       "fullTitle": "Capabilities and Fundamental Limits of Latent Chain-of-Thought",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -1295,10 +1334,10 @@
       "key": "2602.06359",
       "title": "OGS",
       "fullTitle": "Training Data Selection with Gradient Orthogonality for Efficient Domain Adaptation",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -1324,10 +1363,10 @@
       "key": "2602.09877",
       "title": "THE DEVIL BEHIND MOLTBOOK",
       "fullTitle": "The Devil Behind Moltbook: Anthropic Safety is Always Vanishing in Self-Evolving AI Societies",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -1349,7 +1388,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26dt.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1357,10 +1396,10 @@
       "key": "2603.05872",
       "title": "Evolving-Deception",
       "fullTitle": "Evolving Deception: When Agents Evolve, Deception Wins",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Evolving Deception: When Agents Evolve, Deception Wins",
@@ -1395,7 +1434,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/liu26fn.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1403,10 +1442,10 @@
       "key": "2603.20807",
       "title": "benchbench",
       "fullTitle": "BenchBench: Benchmarking Automated Benchmark Generation",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -1432,10 +1471,10 @@
       "key": "2604.06684",
       "title": "GraphWalker",
       "fullTitle": "GraphWalker: Patient Analogy Meets Information Gain for Clinical Reasoning with Large Language Models",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "GraphWalker: Patient Analogy Meets Information Gain for Clinical Reasoning with Large Language Models",
@@ -1464,11 +1503,11 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/fang26j.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zhang26ae.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1476,10 +1515,10 @@
       "key": "2604.18292",
       "title": "Agent-World",
       "fullTitle": "Agent-World: Scaling Real-World Environment Synthesis for Evolving General Agent Intelligence",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Agent-World: Scaling Real-World Environment Synthesis for Evolving General Agent Intelligence",
@@ -1508,7 +1547,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/huang26cf.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1516,10 +1555,10 @@
       "key": "2605.00364",
       "title": "TokenUnlearn",
       "fullTitle": "Unlearning What Matters: Token-Level Attribution for Precise Language Model Unlearning",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -1541,15 +1580,15 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/tu26d.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/xu26ay.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/wang25ef.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1557,10 +1596,10 @@
       "key": "2605.08142",
       "title": "inference manifold",
       "fullTitle": "Reasoning emerges from constrained inference manifolds in large language models",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Audit-of-Understanding: Posterior-Constrained Inference for Mathematical Reasoning in Language Models",
@@ -1589,19 +1628,19 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/mu26c.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26cp.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wu26ay.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/xu26w.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1609,10 +1648,10 @@
       "key": "2605.12357",
       "title": "delta-mem",
       "fullTitle": "$\\delta$-mem: Efficient Online Memory for Large Language Models",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "δ-mem: Efficient Online Memory for Large Language Models",
@@ -1681,10 +1720,10 @@
       "key": "2605.19338",
       "title": "star-polya math",
       "fullTitle": "STAR-P\\'olyaMath: Multi-Agent Reasoning under Persistent Meta-Strategic Supervision",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -1706,7 +1745,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/tang26ac.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1714,10 +1753,10 @@
       "key": "2605.20025",
       "title": "AutoResearchClaw",
       "fullTitle": "AutoResearchClaw: Self-Reinforcing Autonomous Research with Human-AI Collaboration",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "AutoResearchClaw: Self-Reinforcing Autonomous Research with Human-AI Collaboration",
@@ -1752,7 +1791,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/jing26f.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/liu26dx.html",
@@ -1764,11 +1803,11 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26ib.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/xi26b.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1776,10 +1815,10 @@
       "key": "2606.01281",
       "title": "POPO",
       "fullTitle": "RLVR without Ineffective Samples: Group Prioritized Off-Policy Optimization for LLM Reasoning",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "RLVR without Ineffective Samples: Group Prioritized Off-Policy Optimization for LLM Reasoning",
@@ -1826,15 +1865,15 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/qu26f.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zou26j.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/qu25f.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1842,10 +1881,10 @@
       "key": "2606.05014",
       "title": "depth-attention",
       "fullTitle": "Depth-Attention: Cross-Layer Value Mixing for Language Models",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Cross-layer Attention Sharing for Large Language Models",
@@ -1874,7 +1913,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/zeng26l.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1882,10 +1921,10 @@
       "key": "2606.05405",
       "title": "ALE",
       "fullTitle": "Agents' Last Exam",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Agents' Last Exam",
@@ -1944,11 +1983,11 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/li26is.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/liang26t.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -1956,10 +1995,10 @@
       "key": "2606.06114",
       "title": "Towards Healthy Evolution",
       "fullTitle": "ANCHOR: An External LLM-Driven Supervisory Module Facilitating Healthy Evolution in Self-Evolving Systems",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -1985,10 +2024,10 @@
       "key": "2606.06320",
       "title": "ATWU",
       "fullTitle": "Learning What to Forget: Improving LLM Unlearning via Learned Token-Level Importance",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Learning What to Forget: Improving LLM Unlearning via Learned Token-Level Importance",
@@ -2017,11 +2056,11 @@
         },
         {
           "url": "https://proceedings.mlr.press/v267/jourdan25a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/varre25a.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -2029,10 +2068,10 @@
       "key": "2606.06462",
       "title": "benchmark agent",
       "fullTitle": "Benchmark Everything Everywhere All at Once",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Segment Everything Everywhere All at Once",
@@ -2179,10 +2218,10 @@
       "key": "2606.15734",
       "title": "ReGrad",
       "fullTitle": "Retrievable Gradients: Continual Post-Training Without Cumulative Weight Drift",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Retrievable Gradients: Continual Post-Training Without Cumulative Weight Drift",
@@ -2211,7 +2250,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/ai26e.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -2219,10 +2258,10 @@
       "key": "2606.16899",
       "title": "hyperball",
       "fullTitle": "Fantastic Pretraining Optimizers and Where to Find Them II: Hyperball Optimization",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Fantastic Pretraining Optimizers and Where to Find Them",
@@ -2263,10 +2302,10 @@
       "key": "2606.19348",
       "title": "DeepSeek-V4",
       "fullTitle": "DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -2292,10 +2331,10 @@
       "key": "2606.23075",
       "title": "Safety in Self-Evolving LLM Agent Systems",
       "fullTitle": "Safety in Self-Evolving LLM Agent Systems: Threats, Amplification, and Case Studies",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Safety in Self-Evolving LLM Agent Systems: Threats, Amplification, and Case Studies",
@@ -2324,11 +2363,11 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/lin26r.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/ma26w.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -2336,10 +2375,10 @@
       "key": "2606.26294",
       "title": "Red Queen",
       "fullTitle": "The Red Queen G\\\"odel Machine: Co-Evolving Agents and Their Evaluators",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "The Red Queen Gödel Machine: Co-Evolving Agents and Their Evaluators",
@@ -2368,7 +2407,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/jovanovic26a.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -2376,10 +2415,10 @@
       "key": "2607.02520",
       "title": "AutoResearch",
       "fullTitle": "AutoResearch: An Execution-Grounded Multi-Agent Framework for Reliable Research Workflow Automation",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "MARWA: Multi-agent retrieval-augmented framework for reliable bioinformatics workflow automation",
@@ -2414,7 +2453,7 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/xu26at.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -2422,10 +2461,10 @@
       "key": "2607.05147",
       "title": "Dspark",
       "fullTitle": "DSpark: Confidence-Scheduled Speculative Decoding with Semi-Autoregressive Generation",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "DSpark: Confidence-Scheduled Speculative Decoding with Semi-Autoregressive Generation",
@@ -2508,47 +2547,47 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/cheng26b.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/cheng26e.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/liu26dv.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/luo26af.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/shi26o.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/sun26ah.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26ac.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/cheng25c.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/cheng25j.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/liu25cd.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v286/zhang25g.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -2556,10 +2595,10 @@
       "key": "2607.09236",
       "title": "SUITE",
       "fullTitle": "Forget Narrowly, Retain Broadly: Unlearning as an Asymmetric Generalization Problem",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "Forget Narrowly, Retain Broadly: Unlearning as an Asymmetric Generalization Problem",
@@ -2592,10 +2631,10 @@
       "key": "2607.12790",
       "title": "Who Grades the Grader",
       "fullTitle": "Who Grades the Grader? Co-Evolving Evaluation Metrics and Skills for Self-Improving LLM Agents",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [],
       "checks": [
         {
@@ -2621,47 +2660,47 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/chen26c.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/chen26gm.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/ding26e.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/huang26ce.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/kim26h.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/lv26f.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/tong26a.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26ep.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26fl.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/wang26gc.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/xiao26h.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/xu26k.html",
@@ -2669,31 +2708,31 @@
         },
         {
           "url": "https://proceedings.mlr.press/v306/yang26dq.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/yao26o.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/yu26bt.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zeng26b.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zhang26am.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v306/zhang26cf.html",
-          "status": "ok"
+          "status": "cached"
         },
         {
           "url": "https://proceedings.mlr.press/v267/qu25a.html",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -2701,10 +2740,10 @@
       "key": "2607.14777",
       "title": "SEED",
       "fullTitle": "SEED: Self-Evolving On-Policy Distillation for Agentic Reinforcement Learning",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "SEED-RL: Self-Evolving Evaluation and Distillation Reinforcement Learning for Large Language Models",
@@ -2839,10 +2878,10 @@
       "key": "2608.02148",
       "title": "Douyin Multimodal Embedding Model",
       "fullTitle": "Douyin Multimodal Embedding Model Technical Report",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "QZhou-Embedding Technical Report",
@@ -2911,10 +2950,10 @@
       "key": "2609.35751",
       "title": "foil",
       "fullTitle": "How to Loop MoE: Flatten the Experts, Untie the Attention",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "query_failed",
-      "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run",
+      "error": "api.openreview.net: HTTP 429; stopped requests for this run",
       "candidates": [
         {
           "title": "How to Loop MoE: Flatten the Experts, Untie the Attention",
@@ -2939,7 +2978,7 @@
         },
         {
           "url": "https://api.crossref.org/works?query.title=How+to+Loop+MoE%3A+Flatten+the+Experts%2C+Untie+the+Attention&rows=5",
-          "status": "ok"
+          "status": "cached"
         }
       ]
     },
@@ -2947,8 +2986,8 @@
       "key": "paper:4c355e2937a03bae531f",
       "title": "right data retention",
       "fullTitle": "",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "missing_identity",
       "error": "No verified title and author metadata",
       "candidates": [],
@@ -2958,8 +2997,8 @@
       "key": "paper:6dbfaeea53c715576450",
       "title": "Engiworld",
       "fullTitle": "",
-      "checkedAt": "2026-10-05T12:03:06.284262+00:00",
-      "deepCheckedAt": "2026-10-05T12:03:06.284262+00:00",
+      "checkedAt": "2026-10-05T12:38:06.031720+00:00",
+      "deepCheckedAt": "2026-10-05T12:38:06.031720+00:00",
       "status": "missing_identity",
       "error": "No verified title and author metadata",
       "candidates": [],

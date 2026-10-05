@@ -641,9 +641,10 @@
               "242675ecef6e5df13445",
               "7cdf19552031e80a7bcf",
               "a458942f76b8b4cd02ad",
+              "bfcd960a971aaf234f75",
               "6da11626f200fdbfdcf2"
             ],
-            "count": 5,
+            "count": 6,
             "annotated": 3
           },
           {
@@ -697,12 +698,12 @@
           "15a3d70efaf2870762f0",
           "fdaab3fa2c1ebeb03f59"
         ],
-        "count": 60,
+        "count": 61,
         "annotated": 14
       }
     ],
     "papers": [],
-    "count": 207,
+    "count": 208,
     "annotated": 53
   },
   "papers": [
@@ -2465,6 +2466,16 @@
       "hasSummary": false,
       "excerpt": "扩散模型的训练数据可能含有不宜公开生成的内容、私人信息或受版权保护的形象与画风。机器遗忘试图从已经训练好的模型中移除指定的“遗忘集”，同时保持模型在其余“保留集”上的生成能力。这里的困难不只在于发布模型之前能否把目标概念擦除，还在于开放权重的模型发布以后可以继续被微调：即使模型当下不再生成被遗忘内容，攻击者也可能用很少的目标样本把它重新教回来。",
       "arxivUrl": "https://arxiv.org/abs/2410.12777"
+    },
+    {
+      "id": "bfcd960a971aaf234f75",
+      "title": "SPM",
+      "category": "unlearning/questions",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2603.22870"
     },
     {
       "id": "6da11626f200fdbfdcf2",
