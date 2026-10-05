@@ -1,5 +1,15 @@
 /* Shared taxonomy preview and full reading workspace. */
 .page-shell.paper-page-shell { width: min(1240px, calc(100% - 32px)); }
+.paper-page-shell .viewer-title-block { display: none; }
+.paper-page-shell .viewer-article {
+  padding: 24px 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.paper-page-shell .category-nav-inline { padding: 0; margin-bottom: 10px; }
 .paper-tree-host { --paper-accent: #7ddcd3; }
 .paper-tree-host [hidden] { display: none !important; }
 .paper-tree-host button,
@@ -138,10 +148,17 @@
 .paper-reader-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 22px; border-bottom: 1px solid var(--line-soft); }
 .paper-reader-actions a { color: var(--muted); font-size: .75rem; }
 .paper-source-unavailable { color: var(--faint); font-size: .75rem; }
-.paper-modes { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line-soft); border-radius: 7px; }
+.paper-title-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 12px 0 10px; font-size: 1rem; }
+.paper-reader-heading { margin: 16px 0; font-size: 1.65rem; }
+.paper-tree-host .paper-title-row h2 { min-width: 0; margin: 0; }
+.paper-tree-host .paper-publication { max-width: 100%; margin: 0; padding: 0; border: 0; background: none; color: var(--muted); font-size: .8em; font-weight: 400; line-height: 1.5; text-decoration: none; overflow-wrap: anywhere; }
+.paper-tree-host .paper-publication:hover { color: #d8b4fe; text-decoration: underline; }
+.paper-modes { display: flex; flex-wrap: wrap; max-width: 100%; gap: 4px; padding: 4px; border: 1px solid var(--line-soft); border-radius: 7px; }
 .paper-modes button { border: 0; border-radius: 4px; background: none; padding: 7px 14px; font-size: .8rem; }
 .paper-modes [aria-pressed="true"] { background: rgba(125, 220, 211, .12); color: var(--paper-accent); }
 .paper-reader-body { padding-top: 8px; overflow-wrap: anywhere; line-height: 1.95; }
+.paper-html-frame { display: block; width: 100%; height: 80vh; min-height: 420px; margin-top: 12px; border: 0; border-radius: 8px; background: #0d1020; color-scheme: dark; }
+.paper-html-frame[data-theme="light"] { background: #fff; color-scheme: light; }
 .paper-reader-body :is(pre, .math-display, mjx-container[display="true"]) { max-width: 100%; overflow-x: auto; }
 @media (max-width: 960px) {
   .paper-workspace { grid-template-columns: 220px minmax(0, 1fr); gap: 20px; }
@@ -152,4 +169,5 @@
   .paper-workspace { grid-template-columns: minmax(0, 1fr); }
   .paper-taxonomy { position: static; max-height: 250px; border-right: 0; border-bottom: 1px solid var(--line-soft); padding-bottom: 12px; }
   .paper-tree-host .paper-reader-title { font-size: 1.35rem; }
+  .paper-reader-heading { font-size: 1.35rem; }
 }

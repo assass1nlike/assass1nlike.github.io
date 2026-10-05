@@ -1,0 +1,807 @@
+{
+  "1312.6120": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "1812.05159": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "1911.03030": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2002.08484": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2010.01412": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2010.07468": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2011.09468": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2012.13255": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2110.11309": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2202.00622": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2202.05262": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2206.06520": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2206.07137": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2210.07229": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2210.14199": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2023 OralPoster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=9UCTB84L6e"
+    }
+  },
+  "2211.11031": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2023 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=Oc1SIKxwdV"
+    }
+  },
+  "2302.04863": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "EMNLP 2023 Findings",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=vq4BnrPyPb"
+    }
+  },
+  "2305.11206": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2023 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=KBMOKmX2he"
+    }
+  },
+  "2306.03819": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2023 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=awIpKpwTwF"
+    }
+  },
+  "2307.15043": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2308.07707": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2309.08600": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2310.08419": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "R0-FoMo Poster · 2023",
+      "kind": "workshop",
+      "url": "https://openreview.net/forum?id=rYWD5TMaLj"
+    }
+  },
+  "2310.12508": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2024 spotlight",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=gn0mIhQGNM"
+    }
+  },
+  "2310.20150": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "EMNLP 2023 Main",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=GprvtTwOxy"
+    }
+  },
+  "2311.04661": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2024 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=L6L1CJQ2PE"
+    }
+  },
+  "2312.01552": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2024 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=wxJ0eXwwda"
+    }
+  },
+  "2401.06066": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2401.06121": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2401.06692": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2402.02316": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2402.04333": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2402.09739": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2024 Spotlight",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=GLGYYqPwjy"
+    }
+  },
+  "2402.10052": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2402.13593": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2402.16929": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2403.03218": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2024 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=xlr6AUDuJz"
+    }
+  },
+  "2403.13355": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2024 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=duZANm2ABX"
+    }
+  },
+  "2404.05868": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2404.07965": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2404.07972": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2404.11045": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2404.15574": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Oral",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=EytBpUGB1Z"
+    }
+  },
+  "2405.14768": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2406.06046": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2024 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=6gzPSMUAz2"
+    }
+  },
+  "2406.07933": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2024 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=e5icsXBD8Q"
+    }
+  },
+  "2406.08607": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2024 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=tYdR1lTWqh"
+    }
+  },
+  "2406.09179": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=wUtCieKuQU"
+    }
+  },
+  "2406.10952": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2406.11011": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Oral",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=HD6bWcj87Y"
+    }
+  },
+  "2406.12038": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2407.06460": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=TArmA033BU"
+    }
+  },
+  "2407.08351": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=ymt4crbbXh"
+    }
+  },
+  "2407.10058": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2407.10490": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Oral",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=tPNHOoZFl9"
+    }
+  },
+  "2407.15235": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2407.19580": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=bAFVlpFQvT"
+    }
+  },
+  "2408.00764": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2409.13430": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2409.13474": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2410.02355": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Oral",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=HvSytvg3Jh"
+    }
+  },
+  "2410.02879": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2410.05192": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2410.07163": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2410.08109": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=Q1MHvGmhyT"
+    }
+  },
+  "2410.09335": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2410.10762": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Oral",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=z5uVAKwmjf"
+    }
+  },
+  "2410.12777": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2410.14802": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2410.17509": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2024 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=VzOgnDJMgh"
+    }
+  },
+  "2410.22086": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2410.23844": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2411.02622": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Workshop DATA-FM",
+      "kind": "workshop",
+      "url": "https://openreview.net/forum?id=uw7F7Ssz4l"
+    }
+  },
+  "2412.08201": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2501.14249": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2502.01683": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2502.05374": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2025 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=zZjLv6F0Ks"
+    }
+  },
+  "2502.05628": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2025 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=aJIoBur0Ef"
+    }
+  },
+  "2502.07218": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2025 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=teB4aqJsNP"
+    }
+  },
+  "2502.09990": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2502.11062": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2502.11441": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2502.14709": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2025 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=uX4dyc7Z5Z"
+    }
+  },
+  "2502.17424": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2502.17607": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2025 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=mHySkOp46b"
+    }
+  },
+  "2502.19301": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2025 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=huo8MqVH6t"
+    }
+  },
+  "2503.01224": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2503.02312": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2503.09117": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2025 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=EAjhGr1Oeo"
+    }
+  },
+  "2503.21730": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2504.13959": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2504.14194": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2505.03335": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2025 spotlight",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=neZSGqhxDa"
+    }
+  },
+  "2505.11953": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2025 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=mGOugCZlAq"
+    }
+  },
+  "2505.17646": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=l4q2Zk2yfk"
+    }
+  },
+  "2505.23866": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=c0ERcCz6lD"
+    }
+  },
+  "2505.24069": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 regular",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=kChzpoYFef"
+    }
+  },
+  "2505.24832": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2506.00876": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2506.03142": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2506.05314": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "NeurIPS 2025 poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=ZtB34bQI54"
+    }
+  },
+  "2506.08164": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2506.11613": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2506.12618": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "MemFM · 2025",
+      "kind": "workshop",
+      "url": "https://openreview.net/forum?id=K00sxDnBBd"
+    }
+  },
+  "2506.19823": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=yjrVOxjkDR"
+    }
+  },
+  "2506.22479": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2507.15112": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=IPqUBL4R9x"
+    }
+  },
+  "2508.05629": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=Lv7PjbcaMi"
+    }
+  },
+  "2508.16546": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2508.20443": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2509.02046": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=2J51qUZ0iG"
+    }
+  },
+  "2509.26354": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=Fd1jgQQW28"
+    }
+  },
+  "2510.02386": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=bhR00j6Mku"
+    }
+  },
+  "2510.04860": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2510.15501": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2510.19422": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=qCfYOLAzti"
+    }
+  },
+  "2510.21614": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Oral",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=T0EiEuhOOL"
+    }
+  },
+  "2510.22954": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2511.08598": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2511.20639": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 spotlight",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=syG9I9ofd8"
+    }
+  },
+  "2512.04457": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2512.24880": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 spotlight",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=mDhyxu8WRb"
+    }
+  },
+  "2601.18650": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=kBnvzwO5pN"
+    }
+  },
+  "2601.19487": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2601.21996": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 spotlight",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=PQaxfoEcRc"
+    }
+  },
+  "2602.01148": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2602.05400": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 spotlight",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=lcLxGrk5N9"
+    }
+  },
+  "2602.06359": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2602.07852": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=q5AawZ5UuQ"
+    }
+  },
+  "2602.09877": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2603.05872": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2603.07427": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 regular",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=XkDpZusDTK"
+    }
+  },
+  "2603.20807": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2604.05540": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2604.06126": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "SCALE@ICML2026 Oral",
+      "kind": "workshop",
+      "url": "https://openreview.net/forum?id=JhiyDsvar0"
+    }
+  },
+  "2604.09258": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "HiLD at ICML 2026 Poster",
+      "kind": "workshop",
+      "url": "https://openreview.net/forum?id=I2zPkXBfIG"
+    }
+  },
+  "2604.14808": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2604.16968": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2604.17785": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2604.18292": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2605.00364": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2605.08142": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2605.12357": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2605.19338": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2605.20025": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.01053": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 regular",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=W6qfbvysDh"
+    }
+  },
+  "2606.01281": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.01351": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 regular",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=VMMQj6M94x"
+    }
+  },
+  "2606.05014": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.05405": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.06114": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.06188": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00",
+    "publication": {
+      "label": "ICML 2026 spotlight",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=03ZTlJuX0y"
+    }
+  },
+  "2606.06320": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.06462": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.15734": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.16899": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.19348": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.23075": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2606.26294": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2607.02520": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2607.05147": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2607.09236": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2607.14777": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2608.02148": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  },
+  "2608.12346": {
+    "checkedAt": "2026-10-05T04:01:25.327039+00:00"
+  }
+}

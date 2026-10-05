@@ -1,0 +1,57 @@
+{
+  "categories": {
+    "invisible": {
+      "sources": [
+        { "path": "everlasting/invisible/notes", "publicIds": true },
+        { "path": "everlasting/invisible/preliminaries.md" }
+      ],
+      "order": [
+        "everlasting/invisible/notes/newton-residual-gradient.md",
+        "everlasting/invisible/notes/closeness-generalization.md",
+        "everlasting/invisible/notes/newton-output-distribution.md",
+        "everlasting/invisible/notes/closeness-gradient-similarity.md",
+        "everlasting/invisible/notes/nexus-implicit-bias.md",
+        "everlasting/invisible/notes/certified-removal.md",
+        "everlasting/invisible/notes/unlearning-akg.md",
+        "everlasting/invisible/notes/least-squares-gd.md",
+        "everlasting/invisible/notes/least-squares-existence.md",
+        "everlasting/invisible/notes/positive-gram-sgd.md",
+        "everlasting/invisible/notes/smooth-strongly-convex-sgd.md",
+        "everlasting/invisible/notes/two-task-convergence.md"
+      ],
+      "last": ["everlasting/invisible/preliminaries.md"]
+    },
+    "minors": {
+      "sources": [
+        { "path": "everlasting/invisible/minors/published" },
+        { "path": "everlasting/invisible/annual", "collection": "annual", "reverse": true }
+      ]
+    },
+    "tech": {
+      "sources": [{ "path": "everlasting/invisible/tech" }]
+    }
+  },
+  "overrides": {
+    "everlasting/invisible/preliminaries.md": {
+      "title": "补一些非常basic的知识",
+      "publicId": "preliminaries",
+      "outlinePreview": true
+    },
+    "everlasting/invisible/annual/2023.md": { "title": "2023 年终总结" },
+    "everlasting/invisible/annual/2024.md": { "title": "2024 年终总结" },
+    "everlasting/invisible/annual/2025.md": { "title": "2025 年终总结" },
+    "everlasting/invisible/tech/tech.md": { "title": "技术随记" },
+    "everlasting/invisible/tech/std/claude_web_tool_issues.md": {
+      "aliases": ["claude_web_tool_issues", "claude_web_tool_issues.md", "Claude 网页端工具调用问题总结", "everlasting/tech/std/claude_web_tool_issues.md"]
+    },
+    "everlasting/invisible/tech/std/deepseed_jailbreak.md": {
+      "aliases": ["deepseed_jailbreak", "deepseed_jailbreak.md", "deepseek jailbreak", "deepseed jailbreak", "everlasting/tech/std/deepseed_jailbreak.md"]
+    },
+    "everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md": {
+      "aliases": ["osu-auto-download-import", "osu auto download import", "everlasting/tech/osu-auto-download-import/osu-auto-download-import.md", "everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md"]
+    },
+    "everlasting/invisible/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md": {
+      "aliases": ["osu-get-poetry-difficulties", "osu get poetry difficulties", "everlasting/tech/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md", "everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md"]
+    }
+  }
+}

@@ -20,10 +20,10 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/piece_top.ico/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/piece_top.ico/favicon-16x16.png">
   <link rel="manifest" href="/piece_top.ico/manifest.json">
-  <link rel="stylesheet" href="/style.css?v=20261004-friends">
-  <script src="/site-i18n.js?v=20261004-friends" defer></script>
-  <link rel="stylesheet" href="/article-library.css?v=20261004-preview-math">
-  <link rel="stylesheet" href="/paper-tree.css?v=20260920-arxiv">
+  <link rel="stylesheet" href="/style.css?v=20261005-auth-methods">
+  <script src="/site-i18n.js?v=20261005-auth-methods" defer></script>
+  <link rel="stylesheet" href="/article-library.css?v=20261005-headings">
+  <link rel="stylesheet" href="/paper-tree.css?v=20261005-publication-inline">
   <script>
     window.MathJax = {
       tex: {
@@ -53,7 +53,7 @@
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" onload="window.__mathJaxLoaded = true; window.dispatchEvent(new Event('mathjax-loaded'))" onerror="loadMathJaxFallback()"></script>
 </head>
-<body>
+<body class="home-page">
   <div class="page-shell">
     <header class="topbar">
       <a class="brand" href="/" aria-label="home">
@@ -62,6 +62,7 @@
           <div class="brand-name">assassinlike</div>
         </div>
       </a>
+      <nav id="category-nav" class="category-nav home-navigation" aria-label="主要栏目"></nav>
       <div class="topbar-actions">
         <button id="language-toggle" class="icon-link language-toggle" type="button" aria-pressed="false">English</button>
       </div>
@@ -112,7 +113,7 @@
             </p>
             <hr>
             <h3>AI Researcher</h3>
-            <p>我在科研上高度 self-motivated. 我的一大研究主线涉及后训练、强化学习，以及略冷门一些的 unlearning 和 model editing；另一主线主要有关 self-evolve, LLM evaluation, multi-agent system.</p>
+            <p><strong>我在科研上高度 self-motivated.</strong> 我的一大研究主线涉及后训练、强化学习，以及略冷门一些的 unlearning 和 model editing；另一主线主要有关 self-evolve, LLM evaluation, multi-agent system.</p>
             <h3>Pure/Serious Math</h3>
             <p>在AI科研以外，我还对纯数学有着极大的兴趣，对 Algebraic Topology, Commutative Algebra 和其更深层的 Algebraic Geometry 都有过学习。我喜欢从事的事情（甚至超越AI科研），也是一个很早产生的理想，是<strong>给抽象的数学知识找到应用</strong>。</p>
           </div>
@@ -129,7 +130,6 @@
             <p>Outside AI research, I have a strong interest in pure mathematics. I have studied Algebraic Topology, Commutative Algebra, and the deeper subject of Algebraic Geometry. An early ideal of mine—one I value even beyond AI research—is to <strong>find applications for abstract mathematical knowledge</strong>.</p>
           </div>
         </section>
-        <div id="category-nav" class="category-nav"></div>
         <div id="home-category-previews" class="home-category-previews"></div>
         <div class="refresh-panel">
           <div class="refresh-label" data-language-label-zh="每天随机刷新一段文字" data-language-label-en="A random passage every day">每天随机刷新一段文字</div>
@@ -157,10 +157,10 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
-  <script src="/guestbook-config.js?v=20261004-email-auth" defer></script>
-  <script src="/paper-tree.js?v=20261004-descriptions" defer></script>
-  <script src="/assets/tech/catalog.js?v=20260920-collections" defer></script>
-  <script src="/article-library.js?v=20261004-word-count" defer></script>
-  <script src="/script.js?v=20261004-friends" defer></script>
+  <script src="/guestbook-config.js?v=20261005-discord-auth" defer></script>
+  <script src="/paper-tree.js?v=20261005-publication-inline" defer></script>
+  <script src="/assets/articles/catalog.js?v=20261005-articles" defer></script>
+  <script src="/article-library.js?v=20261005-headings" defer></script>
+  <script src="/script.js?v=20261005-articles" defer></script>
 </body>
 </html>

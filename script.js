@@ -23,22 +23,9 @@ const FRIEND_SITES = [
   { name: '時雨のBlog', description: 'A CS-AI Sophomore | XJTU', href: 'https://www.shiiyu.xyz/', avatar: '/figs/friends/shiiyu.png' },
   { name: '愿你我,写下新的结局...', description: 'Together,for end we like...', href: 'https://shadowalone.me.cyrene.xin/', avatar: '/figs/friends/shadowalone.png' },
   { name: "Feli77's Blog", description: 'A campsite to share knowledge and thoughts.', href: 'https://feli77.com/', avatar: '' },
+  { name: 'Ajisai', description: '喜欢拍拍照', href: 'https://ajisai.vip/', avatar: '/figs/friends/ajisai.jpg' },
+  { name: '新世纪传说的个人博客', description: '', href: 'https://faroars.com/', avatar: '/figs/friends/faroars.jpg' },
 ];
-
-const LEARNING_NOTES = [
-  { path: 'everlasting/invisible/notes/newton-residual-gradient.md', title: '牛顿更新法的残余梯度理论上界' },
-  { path: 'everlasting/invisible/notes/closeness-generalization.md', title: 'closeness 视角下的任务泛化能力' },
-  { path: 'everlasting/invisible/notes/newton-output-distribution.md', title: '牛顿更新法与重新训练模型的输出分布接近性' },
-  { path: 'everlasting/invisible/notes/closeness-gradient-similarity.md', title: '不同任务的 closeness 与其梯度余弦相似度的关系' },
-  { path: 'everlasting/invisible/notes/nexus-implicit-bias.md', title: 'Nexus 优化器的 implicit bias：优化梯度相似度' },
-  { path: 'everlasting/invisible/notes/certified-removal.md', title: '结合差分隐私训练的认证删除 (Certified Removal)' },
-  { path: 'everlasting/invisible/notes/unlearning-akg.md', title: 'unlearning 视角下的 AKG 分解' },
-  { path: 'everlasting/invisible/notes/least-squares-gd.md', title: '最小二乘问题在梯度下降下的收敛速率' },
-  { path: 'everlasting/invisible/notes/least-squares-existence.md', title: '最小二乘问题解的存在性' },
-  { path: 'everlasting/invisible/notes/positive-gram-sgd.md', title: 'Gram 矩阵正定时最小二乘问题的 (S)GD 收敛速率' },
-  { path: 'everlasting/invisible/notes/smooth-strongly-convex-sgd.md', title: '损失函数光滑且强凸时 (S)GD 的收敛速率' },
-  { path: 'everlasting/invisible/notes/two-task-convergence.md', title: '特定规则下双任务优化的收敛保证' },
-].map((doc) => ({ ...doc, publicId: doc.path.split('/').pop().replace(/\.md$/, ''), hidePath: true, aliases: [], category: 'invisible' }));
 
 const CATEGORY_DEFINITIONS = {
   permanence: {
@@ -55,10 +42,7 @@ const CATEGORY_DEFINITIONS = {
     titleEn: 'Learning',
     heading: '学习',
     description: '为科研进行的学习，涉及大量数学推导。大多为手搓，以及经过多轮 review 与迭代的 AI 总结',
-    docs: [
-      ...LEARNING_NOTES.map((doc) => doc.path),
-      'everlasting/invisible/preliminaries.md',
-    ],
+    docs: [],
   },
   minors: {
     id: 'minors',
@@ -67,11 +51,7 @@ const CATEGORY_DEFINITIONS = {
     heading: '博客',
     collectionFilter: { id: 'annual', title: '各年年终总结', label: '只看子集：各年年终总结' },
     description: '笔下的文字，有关技术或思考',
-    docs: [
-      'everlasting/invisible/annual/2025.md',
-      'everlasting/invisible/annual/2024.md',
-      'everlasting/invisible/annual/2023.md',
-    ],
+    docs: [],
   },
   papers: {
     id: 'papers',
@@ -87,45 +67,12 @@ const CATEGORY_DEFINITIONS = {
     titleEn: 'Other',
     heading: '其它',
     description: '一些经过试错，值得总结的工具使用和问题研究等。不具有创新性，且大多为纯 AI 总结',
-    docs: [
-      'everlasting/invisible/tech/std/claude_web_tool_issues.md',
-      'everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md',
-      'everlasting/invisible/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
-    ],
-    groups: [
-      {
-        id: 'std',
-        title: '技术文档',
-        description: '相对标准、偏工程和工具链的问题记录。',
-        docs: [
-          'everlasting/invisible/tech/std/claude_web_tool_issues.md',
-          'everlasting/invisible/tech/std/deepseed_jailbreak.md',
-        ],
-      },
-      {
-        id: 'na',
-        title: '兴趣项目与实践',
-        description: '更偏个人兴趣、游戏和非学术场景的技术实践。',
-        docs: [
-          'everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md',
-          'everlasting/invisible/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
-        ],
-      },
-    ],
+    docs: [],
   },
 };
 
 const DOC_DEFINITIONS = [
-  ...LEARNING_NOTES,
-  {
-    path: 'everlasting/invisible/preliminaries.md',
-    title: '补一些非常basic的知识',
-    publicId: 'preliminaries',
-    hidePath: true,
-    outlinePreview: true,
-    aliases: ['preliminaries'],
-    category: 'invisible',
-  },
+  ...(window.ArticleCatalog || []),
   {
     path: 'everlasting/invisible/minors/cybergym/determined.md',
     title: 'cybergym',
@@ -168,67 +115,12 @@ const DOC_DEFINITIONS = [
     aliases: ['刺客实验', 'assassin_experiment', 'assassin_experiment.md', 'failAEoverview.md'],
     category: null,
   },
-  {
-    path: 'everlasting/invisible/annual/2023.md',
-    title: '2023 年终总结',
-    aliases: ['2023.md', '2023 年终总结'],
-    category: 'minors',
-    collection: 'annual',
-  },
-  {
-    path: 'everlasting/invisible/annual/2024.md',
-    title: '2024 年终总结',
-    aliases: ['2024.md', '2024 年终总结'],
-    category: 'minors',
-    collection: 'annual',
-  },
-  {
-    path: 'everlasting/invisible/annual/2025.md',
-    title: '2025 年终总结',
-    aliases: ['2025.md', '2025 年终总结'],
-    category: 'minors',
-    collection: 'annual',
-  },
-  {
-    path: 'everlasting/invisible/tech/std/claude_web_tool_issues.md',
-    title: 'Claude 网页端工具调用问题总结',
-    aliases: ['claude_web_tool_issues', 'claude_web_tool_issues.md', 'Claude 网页端工具调用问题总结', 'everlasting/tech/std/claude_web_tool_issues.md'],
-    category: 'tech',
-  },
-  {
-    path: 'everlasting/invisible/tech/std/deepseed_jailbreak.md',
-    title: 'deepseed jailbreak',
-    aliases: ['deepseed_jailbreak', 'deepseed_jailbreak.md', 'deepseek jailbreak', 'deepseed jailbreak', 'everlasting/tech/std/deepseed_jailbreak.md'],
-    category: 'tech',
-  },
-  {
-    path: 'everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md',
-    title: 'osu-auto-download-import',
-    aliases: ['osu-auto-download-import', 'osu auto download import', 'everlasting/tech/osu-auto-download-import/osu-auto-download-import.md', 'everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md'],
-    category: 'tech',
-  },
-  {
-    path: 'everlasting/invisible/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md',
-    title: 'osu-get-poetry-difficulties',
-    aliases: ['osu-get-poetry-difficulties', 'osu get poetry difficulties', 'everlasting/tech/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md', 'everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md'],
-    category: 'tech',
-  },
 ];
 
-// The static catalog is rebuilt from everlasting/invisible/tech by export-tech.py.
-if (Array.isArray(window.TechCatalog)) {
-  const category = CATEGORY_DEFINITIONS.tech;
-  const labels = { std: '技术文档', na: '兴趣项目与实践', notes: '技术随记' };
-  category.docs = window.TechCatalog.map((doc) => doc.path);
-  category.groups = [...new Set(window.TechCatalog.map((doc) => doc.group))].map((id) => ({
-    id, title: labels[id] || id,
-    docs: window.TechCatalog.filter((doc) => doc.group === id).map((doc) => doc.path),
-  }));
-  for (const entry of window.TechCatalog) {
-    const existing = DOC_DEFINITIONS.find((doc) => doc.path === entry.path);
-    if (existing) existing.title = entry.title;
-    else DOC_DEFINITIONS.push({ path: entry.path, title: entry.title, aliases: [], category: 'tech' });
-  }
+// Rebuild the shared publication list with: python scripts/export-articles.py
+for (const id of ['invisible', 'minors', 'tech']) {
+  CATEGORY_DEFINITIONS[id].docs = (window.ArticleCatalog || [])
+    .filter((doc) => doc.category === id).map((doc) => doc.path);
 }
 
 const CATEGORY_LINK_PATTERNS = [
@@ -241,10 +133,11 @@ const CATEGORY_LINK_PATTERNS = [
 const DOC_LINK_PATTERNS = buildDocLinkPatterns();
 const HOME_TEXT_PATTERNS = [...CATEGORY_LINK_PATTERNS, ...DOC_LINK_PATTERNS];
 
-const DOC_INDEX = new Map(DOC_DEFINITIONS.map((doc) => [normalizeKey(doc.path), doc]));
+const DOC_INDEX = new Map(DOC_DEFINITIONS.flatMap((doc) =>
+  [doc.path, doc.publicId].filter(Boolean).map((key) => [normalizeKey(key), doc])));
 const DOC_ALIAS_INDEX = new Map();
 for (const doc of DOC_DEFINITIONS) {
-  for (const alias of [doc.title, ...doc.aliases, basename(doc.path).replace(/\.md$/i, '')]) {
+  for (const alias of [doc.title, ...doc.aliases, basename(doc.path), basename(doc.path).replace(/\.md$/i, '')]) {
     DOC_ALIAS_INDEX.set(normalizeKey(alias), doc);
   }
 }
@@ -263,7 +156,7 @@ const guestbookState = {
   user: null,
   authReady: false,
   authError: '',
-  emailLogin: { email: '', sent: false, busy: false, notice: '' },
+  emailLogin: { email: '', sent: false, busy: false, notice: '', expanded: false },
   pollTimer: null,
 };
 
@@ -498,6 +391,7 @@ function renderGuestbookAuth() {
   }
 
   const emailLogin = guestbookState.emailLogin;
+  const emailExpanded = emailLogin.expanded;
   const feedback = `<div class="guestbook-auth-feedback" role="status"><span class="guestbook-auth-error">${escapeHtml(guestbookState.authError)}</span><span class="guestbook-auth-note">${escapeHtml(emailLogin.notice)}</span></div>`;
   if (guestbookState.user) {
     const identity = getGuestbookIdentity(false);
@@ -527,12 +421,13 @@ function renderGuestbookAuth() {
       <div class="guestbook-auth-title">登录后留下身份</div>
       <div class="guestbook-auth-note">也可以继续匿名留言。</div>
     </div>
-    <div class="guestbook-auth-actions">
+    <div class="guestbook-auth-methods" role="group" aria-label="选择登录方式">
       ${guestbookState.config.authProviders.map((provider) => `
-        <button class="icon-link guestbook-login" type="button" data-provider="${provider}" ${emailLogin.busy ? 'disabled' : ''}>${provider === 'github' ? 'GitHub' : 'Google'} 登录</button>
+        <button class="icon-link guestbook-login" type="button" data-provider="${provider}" ${emailLogin.busy ? 'disabled' : ''}>${providerLabelFromId(provider)} 登录</button>
       `).join('')}
+      ${guestbookState.config.emailAuth ? `<button id="guestbook-email-toggle" class="icon-link" type="button" aria-expanded="${Boolean(emailExpanded)}" aria-controls="guestbook-email-form" ${emailLogin.busy ? 'disabled' : ''}>邮箱登录</button>` : ''}
     </div>
-    ${guestbookState.config.emailAuth ? `<form id="guestbook-email-form" class="guestbook-email-form">
+    ${guestbookState.config.emailAuth ? `<form id="guestbook-email-form" class="guestbook-email-form" ${emailExpanded ? '' : 'hidden'}>
       <label class="guestbook-field"><span class="guestbook-label">邮箱</span><input name="email" type="email" class="guestbook-input" autocomplete="email" value="${escapeAttr(emailLogin.email)}" ${emailLogin.sent ? 'readonly' : ''} required></label>
       ${emailLogin.sent ? `<label class="guestbook-field"><span class="guestbook-label">验证码</span><input name="token" class="guestbook-input" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" minlength="6" maxlength="10" required></label>` : ''}
       <div class="guestbook-auth-actions"><button class="icon-link" type="submit" ${emailLogin.busy ? 'disabled' : ''}>${emailLogin.busy ? '处理中…' : emailLogin.sent ? '验证并登录' : '发送验证码'}</button>
@@ -567,6 +462,15 @@ function bindGuestbookForm(host) {
 }
 
 function bindGuestbookAuthControls(host) {
+  host.querySelector('#guestbook-email-toggle')?.addEventListener('click', () => {
+    const state = guestbookState.emailLogin;
+    state.expanded = !state.expanded;
+    updateGuestbookAuthUi();
+    host.querySelector(state.expanded ? '#guestbook-email-form input' : '#guestbook-email-toggle')?.focus();
+  });
+  host.querySelector('#guestbook-email-form input[name="email"]')?.addEventListener('input', (event) => {
+    guestbookState.emailLogin.email = event.target.value;
+  });
   host.querySelector('#guestbook-email-form')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -655,6 +559,7 @@ async function signInGuestbook(provider) {
       provider,
       options: {
         redirectTo: `${window.location.origin}${window.location.pathname}`,
+        ...(provider === 'azure' ? { scopes: 'email' } : {}),
       },
     });
     if (error) {
@@ -670,6 +575,7 @@ async function signInGuestbookEmail(email, token = '') {
   const state = guestbookState.emailLogin;
   if (state.busy) return;
   state.email = String(email).trim();
+  state.expanded = true;
   state.busy = true;
   state.notice = '';
   guestbookState.authError = '';
@@ -734,7 +640,7 @@ async function signOutGuestbook() {
   }
   guestbookState.session = null;
   guestbookState.user = null;
-  guestbookState.emailLogin = { email: '', sent: false, busy: false, notice: '' };
+  guestbookState.emailLogin = { email: '', sent: false, busy: false, notice: '', expanded: false };
   guestbookState.authError = '';
   updateGuestbookAuthUi();
 }
@@ -931,7 +837,7 @@ function normalizeGuestbookConfig(config) {
     supabaseUrl,
     supabaseAnonKey,
     authProviders: Array.isArray(raw.authProviders)
-      ? [...new Set(raw.authProviders.filter((provider) => ['github', 'google'].includes(provider)))]
+      ? [...new Set(raw.authProviders.filter((provider) => ['github', 'google', 'azure', 'discord'].includes(provider)))]
       : [],
     emailAuth: raw.emailAuth === true,
     enabled: Boolean(supabaseUrl && supabaseAnonKey),
@@ -954,16 +860,14 @@ function getGuestbookIdentity(isAnonymous) {
 
   const metadata = user.user_metadata || {};
   const appMetadata = user.app_metadata || {};
-  const provider = String(appMetadata.provider || user.identities?.[0]?.provider || '').trim();
+  const recentIdentity = [...(user.identities || [])].sort((a, b) =>
+    (Date.parse(b.last_sign_in_at) || 0) - (Date.parse(a.last_sign_in_at) || 0))[0];
+  const provider = String(recentIdentity?.provider || appMetadata.provider || '').trim();
   const providerLabel = provider ? providerLabelFromId(provider) : 'third-party';
-  const displayName = String(
-    metadata.display_name ||
-    metadata.user_name ||
-    metadata.preferred_username ||
-    metadata.full_name ||
-    metadata.name ||
-    '已登录访客',
-  ).trim();
+  const displayName = [metadata.display_name, metadata.user_name, metadata.full_name,
+    metadata.name, metadata.preferred_username]
+    .map((name) => String(name || '').trim())
+    .find((name) => name && !name.includes('@')) || '已登录访客';
   const avatarUrl = String(metadata.avatar_url || metadata.picture || '').trim();
 
   return {
@@ -981,6 +885,8 @@ function providerLabelFromId(provider) {
   const labels = {
     github: 'GitHub',
     google: 'Google',
+    azure: 'Microsoft',
+    discord: 'Discord',
     email: 'Email',
   };
   return labels[provider] || provider;

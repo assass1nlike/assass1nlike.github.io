@@ -30,6 +30,8 @@ test('guestbook uses its own project and does not expose unconfigured sign-in bu
   assert.equal(context.createGuestbookAuthClient(), null);
   evaluate("guestbookState.authReady = true");
   assert.match(context.renderGuestbookAuth(), /data-provider="github"/);
+  assert.match(context.renderGuestbookAuth(), /data-provider="discord"/);
+  assert.doesNotMatch(context.renderGuestbookAuth(), /data-provider="azure"/);
   assert.doesNotMatch(context.renderGuestbookAuth(), /data-provider="google"/);
   assert.match(context.renderGuestbookAuth(), /guestbook-email-form/);
   evaluate("guestbookState.config.authProviders = []; guestbookState.config.emailAuth = false");
@@ -40,18 +42,19 @@ test('guestbook uses its own project and does not expose unconfigured sign-in bu
   assert.doesNotMatch(html, /data-provider="google"/);
 });
 
-test('both OAuth providers return to the current site and retain the signed-in identity', async () => {
+test('OAuth providers return to the current site with required scopes and retain identity', async () => {
   const { context, evaluate } = loadGuestbook();
   const calls = [];
   context.window.location = { origin: 'http://localhost:8000', pathname: '/' };
   context.window.supabase = { createClient: () => ({ auth: { signInWithOAuth: async (args) => { calls.push(args); return { error: null }; } } }) };
-  for (const provider of ['github', 'google']) {
+  for (const provider of ['github', 'google', 'azure', 'discord']) {
     await context.signInGuestbook(provider);
     assert.equal(calls.at(-1).provider, provider);
     assert.equal(calls.at(-1).options.redirectTo, 'http://localhost:8000/');
+    assert.equal(calls.at(-1).options.scopes, provider === 'azure' ? 'email' : undefined);
     context.testUser = { id: 'test-user', app_metadata: { provider }, user_metadata: provider === 'github'
       ? { user_name: 'example', avatar_url: 'https://example.com/avatar.png' }
-      : { full_name: 'Example User', picture: 'https://example.com/avatar.png' } };
+      : { full_name: 'Example User', preferred_username: 'private@example.com', picture: 'https://example.com/avatar.png' } };
     evaluate('guestbookState.user = testUser');
     const identity = context.getGuestbookIdentity(false);
     assert.equal(identity.userId, 'test-user');
@@ -60,6 +63,52 @@ test('both OAuth providers return to the current site and retain the signed-in i
     assert.equal(context.getGuestbookIdentity(true).publicName, '');
     assert.equal(context.getGuestbookIdentity(true).publicAvatarUrl, '');
   }
+});
+
+test('email form toggles beside OAuth and preserves pending verification', () => {
+  const { context, evaluate } = loadGuestbook();
+  evaluate('guestbookState.authReady = true');
+  assert.match(context.renderGuestbookAuth(), /id="guestbook-email-form"[^>]*hidden/);
+  let toggle;
+  context.bindGuestbookAuthControls({
+    querySelector: (selector) => selector === '#guestbook-email-toggle'
+      ? { addEventListener: (_event, handler) => { toggle = handler; }, focus() {} } : null,
+    querySelectorAll: () => [],
+  });
+  toggle();
+  assert.equal(evaluate('guestbookState.emailLogin.expanded'), true);
+  assert.doesNotMatch(context.renderGuestbookAuth(), /id="guestbook-email-form"[^>]*hidden/);
+  evaluate("guestbookState.emailLogin.sent = true; guestbookState.emailLogin.email = 'private@example.com'");
+  toggle();
+  assert.equal(evaluate('guestbookState.emailLogin.sent'), true);
+  toggle();
+  assert.match(context.renderGuestbookAuth(), /name="token"/);
+  assert.equal(evaluate('guestbookState.emailLogin.email'), 'private@example.com');
+});
+
+test('linked accounts display the most recently used provider instead of the original signup method', () => {
+  const { context, evaluate } = loadGuestbook();
+  context.testUser = {
+    id: 'linked-user', app_metadata: { provider: 'email' }, user_metadata: { full_name: 'Discord Visitor' },
+    identities: [
+      { provider: 'email', last_sign_in_at: '2026-10-01T00:00:00Z' },
+      { provider: 'discord', last_sign_in_at: '2026-10-05T00:00:00Z' },
+    ],
+  };
+  evaluate('guestbookState.user = testUser; guestbookState.authReady = true');
+  assert.equal(context.getGuestbookIdentity(false).provider, 'discord');
+  assert.match(context.renderGuestbookAuth(), /Discord 已登录/);
+  assert.doesNotMatch(context.renderGuestbookAuth(), /guestbook-nickname-form/);
+  assert.equal(context.testUser.identities[0].provider, 'email');
+  context.testUser.identities[0].last_sign_in_at = '2026-10-06T00:00:00Z';
+  assert.equal(context.getGuestbookIdentity(false).provider, 'email');
+  assert.match(context.renderGuestbookAuth(), /guestbook-nickname-form/);
+});
+
+test('provider email aliases are never used as public nicknames', () => {
+  const { context, evaluate } = loadGuestbook();
+  evaluate("guestbookState.user = { id: 'test', app_metadata: { provider: 'azure' }, user_metadata: { preferred_username: 'private@example.com', name: 'private@example.com' } }");
+  assert.equal(context.getGuestbookIdentity(false).publicName, '已登录访客');
 });
 
 test('email OTP verifies the code before using a session and never exposes the email as a name', async () => {
