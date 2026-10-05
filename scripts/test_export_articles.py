@@ -4,6 +4,7 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 spec = importlib.util.spec_from_file_location('export_articles', Path(__file__).with_name('export-articles.py'))
@@ -62,16 +63,17 @@ class ArticleCatalogTests(unittest.TestCase):
         self.assertEqual(exporter.first_heading(markdown), 'Real title')
         self.assertEqual(exporter.first_heading('# C#'), 'C#')
         self.write('everlasting/invisible/notes/no-heading.md', 'Plain text')
-        self.assertEqual(self.export()[0]['title'], 'no-heading')
+        self.assertEqual(next(doc for doc in self.export() if doc.get('publicId') == 'no-heading')['title'], 'no-heading')
 
-    def test_existing_order_new_articles_and_pinned_last(self):
+    @patch('publication_dates.today', return_value='2026-10-05')
+    def test_publication_date_order(self, _today):
         for name in ['closeness-generalization', 'newton-residual-gradient', 'a-new-note']:
             self.write(f'everlasting/invisible/notes/{name}.md', f'# {name}')
         for year in [2023, 2024, 2025, 2026]:
             self.write(f'everlasting/invisible/annual/{year}.md', f'# {year} 年终总结')
         docs = self.export()
         self.assertEqual([doc['publicId'] for doc in docs if doc['category'] == 'invisible'],
-                         ['a-new-note', 'newton-residual-gradient', 'closeness-generalization', 'preliminaries'])
+                         ['a-new-note', 'closeness-generalization', 'newton-residual-gradient', 'preliminaries'])
         self.assertEqual([doc['title'] for doc in docs if doc['category'] == 'minors'],
                          [f'{year} 年终总结' for year in [2026, 2025, 2024, 2023]])
         self.assertTrue(next(doc for doc in docs if doc.get('publicId') == 'preliminaries')['outlinePreview'])
@@ -107,6 +109,37 @@ class ArticleCatalogTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             self.export()
         self.assertEqual(output.read_bytes(), before)
+
+    def test_publication_dates_survive_edits_and_allow_explicit_correction(self):
+        path = 'everlasting/invisible/notes/dated.md'
+        self.write(path, '# First title')
+        with patch.object(exporter, 'first_file_date', return_value='2024-06-01'):
+            docs = self.export()
+        self.assertEqual(next(doc for doc in docs if doc['path'] == path)['publishedAt'], '2024-06-01')
+        self.write(path, '# Updated title\n\nNew content')
+        with patch.object(exporter, 'first_file_date', side_effect=AssertionError('Must reuse saved dates')):
+            docs = self.export()
+        self.assertEqual(next(doc for doc in docs if doc['path'] == path)['publishedAt'], '2024-06-01')
+        config_path = self.site / 'scripts/articles.json'
+        config = json.loads(config_path.read_text(encoding='utf-8'))
+        config['overrides'][path] = {'publishedAt': '2023-12-31'}
+        config_path.write_text(json.dumps(config), encoding='utf-8')
+        self.assertEqual(next(doc for doc in self.export() if doc['path'] == path)['publishedAt'], '2023-12-31')
+        output = self.site / 'assets/articles/catalog.js'
+        before = output.read_bytes()
+        config['overrides'][path]['publishedAt'] = '2023-02-30'
+        config_path.write_text(json.dumps(config), encoding='utf-8')
+        with self.assertRaises(ValueError):
+            self.export()
+        self.assertEqual(output.read_bytes(), before)
+
+    def test_new_articles_keep_first_export_date(self):
+        from publication_dates import today
+        self.write('everlasting/invisible/notes/new-note.md', '# New note')
+        docs = self.export()
+        self.assertEqual(next(doc for doc in docs if doc.get('publicId') == 'new-note')['publishedAt'], today())
+        with patch('publication_dates.today', return_value='2099-01-01'):
+            self.assertEqual(self.export(), docs)
 
     def test_symlink_cannot_publish_outside_files(self):
         private = self.write('everlasting/research/private.md', '# Private')

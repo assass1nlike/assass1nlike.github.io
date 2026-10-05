@@ -6,6 +6,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from publication_dates import first_file_date, publication_date
+
 
 SKIP_NAMES = {'tmp', '__pycache__', 'node_modules'}
 SKIP_FILES = {'AGENTS.MD', 'CLAUDE.MD', 'README.MD'}
@@ -73,13 +75,16 @@ def ignored_paths(site, paths):
 def export_articles(site):
     site = site.resolve()
     config = json.loads((site / 'scripts/articles.json').read_text(encoding='utf-8-sig'))
+    output = site / 'assets/articles/catalog.js'
+    previous = {}
+    if output.exists():
+        content = output.read_text(encoding='utf-8').removeprefix('window.ArticleCatalog = ').removesuffix(';\n')
+        previous = {doc['path']: doc for doc in json.loads(content)}
     candidates = []
     for category, settings in config['categories'].items():
         for source_settings in settings['sources']:
             source = site / source_settings['path']
             paths = markdown_files(source, site)
-            if source_settings.get('reverse'):
-                paths.reverse()
             candidates.extend((category, source_settings, source, path) for path in paths)
     ignored = ignored_paths(site, [path.relative_to(site).as_posix() for *_, path in candidates])
     documents = []
@@ -99,6 +104,11 @@ def export_articles(site):
         if settings.get('collection'):
             doc['collection'] = settings['collection']
         doc.update(config.get('overrides', {}).get(relative, {}))
+        saved_date = previous.get(relative, {}).get('publishedAt')
+        doc['publishedAt'] = publication_date(
+            doc.get('publishedAt'), saved_date,
+            first_file_date(site, relative) if not doc.get('publishedAt') and not saved_date else '',
+        )
         if doc.get('publicId'):
             public_id = doc['publicId'].casefold()
             if public_id in public_ids:
@@ -107,21 +117,12 @@ def export_articles(site):
         documents.append(doc)
 
     ordered = []
-    for category, settings in config['categories'].items():
-        ranks = {path: i for i, path in enumerate(settings.get('order', []))}
-        last = {path: i for i, path in enumerate(settings.get('last', []))}
+    for category in config['categories']:
+        ordered.extend(sorted(
+            (doc for doc in documents if doc['category'] == category),
+            key=lambda doc: doc['publishedAt'], reverse=True,
+        ))
 
-        def order(doc):
-            path = doc['path']
-            if path in last:
-                return (2, last[path])
-            if path in ranks:
-                return (1, ranks[path])
-            return (0, 0)  # Stable source order; new articles precede the curated list.
-
-        ordered.extend(sorted((doc for doc in documents if doc['category'] == category), key=order))
-
-    output = site / 'assets/articles/catalog.js'
     output.parent.mkdir(parents=True, exist_ok=True)
     content = 'window.ArticleCatalog = ' + json.dumps(ordered, ensure_ascii=False, indent=2) + ';\n'
     output.write_text(content, encoding='utf-8', newline='\n')
