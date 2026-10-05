@@ -1,0 +1,49 @@
+{
+  "2410.05192": {
+    "titleAliases": ["Understanding Warmup-Stable-Decay Learning Rates: A River Valley Loss Landscape View"],
+    "identitySources": ["https://arxiv.org/abs/2410.05192", "https://openreview.net/forum?id=m51BgoqvbP"]
+  },
+  "2502.09990": {
+    "titleAliases": ["X-Boundary: Establishing Exact Safety Boundary to Shield LLMs from Jailbreak Attacks without Compromising Usability"],
+    "identitySources": ["https://arxiv.org/abs/2502.09990", "https://aclanthology.org/2025.findings-emnlp.282/"]
+  },
+  "2505.24832": {
+    "titleAliases": ["How much can language models memorize?"],
+    "identitySources": ["https://arxiv.org/abs/2505.24832", "https://openreview.net/forum?id=bA6BgSbaUi"]
+  },
+  "agents/GLEAN": {
+    "title": "GLEAN: Guideline-Grounded Evidence Accumulation for High-Stakes Agent Verification",
+    "authors": ["Yichi Zhang", "Nabeel Seedat", "Yinpeng Dong", "Peng Cui", "Jun Zhu", "Mihaela van de Schaar"],
+    "year": 2026
+  },
+  "agents/Speculative Actions": {
+    "title": "Speculative Actions: A Lossless Framework for Faster Agentic Systems",
+    "authors": ["Naimeng Ye", "Arnav Ahuja", "Georgios Liargkovas", "Yunan Lu", "Kostis Kaffes", "Tianyi Peng"],
+    "year": 2026
+  },
+  "models/classification/condenseLM": {
+    "title": "CondenseLM: LLMs-driven Text Dataset Condensation via Reward Matching",
+    "authors": ["Cheng Shen", "Yew-Soon Ong", "Joey Tianyi Zhou"],
+    "year": 2025
+  },
+  "post-train/RL/f-softargmax": {
+    "title": "Beyond Softmax and Entropy: Convergence Rates of Policy Gradients with f-Softargmax Parameterization & Coupled Regularization",
+    "authors": ["Safwan Labbi", "Daniil Tiapkin", "Paul Mangold", "Eric Moulines"],
+    "year": 2026
+  },
+  "post-train/SFT/data selection/GREATS": {
+    "title": "GREATS: Online Selection of High-Quality Data for LLM Training in Every Iteration",
+    "authors": ["Jiachen T. Wang", "Tong Wu", "Dawn Song", "Prateek Mittal", "Ruoxi Jia"],
+    "year": 2024
+  },
+  "safety/ai-wellbeing": {
+    "title": "AI Wellbeing: Measuring and Improving the Functional Pleasure and Pain of AIs",
+    "authors": ["Richard Ren", "Kunyang Li", "Mantas Mazeika", "Wenyu Zhang", "Yury Orlovskiy", "Rishub Tamirisa", "Wenjie Jacky Mo", "Dung Thuy Nguyen", "Long Phan", "Steven Basart", "Austin Meek", "Aditya Mehta", "Oliver Ingebretsen", "Alice Blair", "Brianna Adewinmbi", "Vy Phan", "Alice Gatti", "Adam Khoja", "Jason Hausenloy", "Devin Kim", "Dan Hendrycks"],
+    "year": 2026
+  },
+  "unlearning/CV/When Are Concepts Erased": {
+    "title": "When Are Concepts Erased From Diffusion Models?",
+    "authors": ["Kevin Lu", "Nicky Kriplani", "Rohit Gandikota", "Minh Pham", "David Bau", "Chinmay Hegde", "Niv Cohen"],
+    "year": 2025
+  }
+}
