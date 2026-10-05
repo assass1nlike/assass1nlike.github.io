@@ -23,6 +23,8 @@
 .library-entry-actions { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
 .library-repository { font-size: .8rem; color: var(--muted); }
 .library-reader-head .library-repository { display: inline-block; margin-top: 18px; }
+.library-reader-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; color: var(--muted); font-size: .8rem; }
+.article-published { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .article-library .library-hero { gap: 12px; padding: 10px 0 30px; margin-bottom: 30px; }
 .library-eyebrow { color: var(--library-accent, var(--accent-cyan)); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
 .article-library .library-hero h1 { font-size: 2rem; line-height: 1.2; letter-spacing: -.03em; }

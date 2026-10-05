@@ -25,6 +25,7 @@ test('all published categories and reader links use the generated catalog', () =
     for (const path of paths) {
       assert.ok(existsSync(resolve(root, path)), `Missing public article: ${path}`);
       assert.equal(context.resolveDoc(path).path, path);
+      assert.match(context.resolveDoc(path).publishedAt, /^\d{4}-\d{2}-\d{2}$/);
     }
   }
   assert.equal(context.resolveDoc('newton-residual-gradient').path, 'everlasting/invisible/notes/newton-residual-gradient.md');

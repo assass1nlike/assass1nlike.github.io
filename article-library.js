@@ -4,6 +4,11 @@ window.ArticleLibrary = (() => {
   const mathPattern = /(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|(?<![\\$])\$(?!\$)(?:\\.|[^$\n])+?\$)/g;
   const isSimpleCollection = (category) => ['minors', 'invisible', 'tech'].includes(category.id);
 
+  function publicationTime(doc) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(doc.publishedAt || '')
+      ? `<time class="article-published" datetime="${doc.publishedAt}">${doc.publishedAt}</time>` : '';
+  }
+
   function entriesOf(category) {
     if (category.entries) return category.entries;
     const entries = category.groups?.length
@@ -149,6 +154,7 @@ window.ArticleLibrary = (() => {
       let matches = docs.filter((doc) => (!state.collection || doc.collection === state.collection) && (!state.group || doc.group === state.group) && (!state.status || (state.status === 'empty' ? doc.empty : !doc.empty && !doc.missing)) && words.every((word) => `${doc.title} ${simple ? '' : doc.groupTitle} ${doc.searchText}`.toLocaleLowerCase().includes(word)));
       if (state.sort === 'title') matches.sort((a, b) => a.title.localeCompare(b.title, 'zh-CN', { numeric: true }));
       else if (state.sort === 'short') matches.sort((a, b) => (a.empty || a.missing ? Infinity : a.wordCount) - (b.empty || b.missing ? Infinity : b.wordCount));
+      else if (simple) matches.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
       else matches.sort((a, b) => Number(Boolean(a.empty || a.missing)) - Number(Boolean(b.empty || b.missing)));
       const pages = Math.max(1, Math.ceil(matches.length / pageSize));
       state.page = Math.min(state.page, pages);
@@ -176,7 +182,7 @@ window.ArticleLibrary = (() => {
         }
         return `<article class="library-entry ${doc.empty && !simple ? 'is-draft' : ''}">
           <span class="library-entry-number" aria-hidden="true">${String(start + index + 1).padStart(2, '0')}</span><div class="library-entry-content">
-          <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>${doc.wordCount} 字</span>`}</div>
+          <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${publicationTime(doc)}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>${doc.wordCount} 字</span>`}</div>
           <h2><a href="${escapeAttr(href)}">${highlight(doc.title, words)}</a></h2>
           <p class="library-excerpt" ${doc.empty || doc.missing || !doc.excerpt ? 'data-site-ui' : ''}>${highlight(excerpt, words)}</p>
           <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'} <span aria-hidden="true">↗</span></a>`}${doc.repository ? `<a class="library-repository" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ''}</div>
@@ -235,7 +241,7 @@ window.ArticleLibrary = (() => {
     const group = entries.find((entry) => entry.path === doc.path)?.group;
     const header = document.createElement('header');
     header.className = 'library-reader-head';
-    header.innerHTML = `<div class="library-eyebrow">${escapeHtml(simple ? category.title : group?.title || category.title)}</div><h1>${escapeHtml(doc.title)}</h1>${empty && simple ? '' : `<p>${empty ? '待补充' : `${wordCount} 字`}</p>`}`;
+    header.innerHTML = `<div class="library-eyebrow">${escapeHtml(simple ? category.title : group?.title || category.title)}</div><h1>${escapeHtml(doc.title)}</h1><div class="library-reader-meta">${publicationTime(doc)}${empty && simple ? '' : `<span>${empty ? '待补充' : `${wordCount} 字`}</span>`}</div>`;
     const sourceTitle = content.firstElementChild;
     if (sourceTitle?.matches('h1') && sourceTitle.textContent.trim() === doc.title.trim()) {
       // Preserve README / article title anchors while showing the title only once.

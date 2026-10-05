@@ -4,27 +4,12 @@
       "sources": [
         { "path": "everlasting/invisible/notes", "publicIds": true },
         { "path": "everlasting/invisible/preliminaries.md" }
-      ],
-      "order": [
-        "everlasting/invisible/notes/newton-residual-gradient.md",
-        "everlasting/invisible/notes/closeness-generalization.md",
-        "everlasting/invisible/notes/newton-output-distribution.md",
-        "everlasting/invisible/notes/closeness-gradient-similarity.md",
-        "everlasting/invisible/notes/nexus-implicit-bias.md",
-        "everlasting/invisible/notes/certified-removal.md",
-        "everlasting/invisible/notes/unlearning-akg.md",
-        "everlasting/invisible/notes/least-squares-gd.md",
-        "everlasting/invisible/notes/least-squares-existence.md",
-        "everlasting/invisible/notes/positive-gram-sgd.md",
-        "everlasting/invisible/notes/smooth-strongly-convex-sgd.md",
-        "everlasting/invisible/notes/two-task-convergence.md"
-      ],
-      "last": ["everlasting/invisible/preliminaries.md"]
+      ]
     },
     "minors": {
       "sources": [
         { "path": "everlasting/invisible/minors/published" },
-        { "path": "everlasting/invisible/annual", "collection": "annual", "reverse": true }
+        { "path": "everlasting/invisible/annual", "collection": "annual" }
       ]
     },
     "tech": {
@@ -35,11 +20,24 @@
     "everlasting/invisible/preliminaries.md": {
       "title": "补一些非常basic的知识",
       "publicId": "preliminaries",
+      "publishedAt": "2026-07-15",
       "outlinePreview": true
     },
-    "everlasting/invisible/annual/2023.md": { "title": "2023 年终总结" },
-    "everlasting/invisible/annual/2024.md": { "title": "2024 年终总结" },
-    "everlasting/invisible/annual/2025.md": { "title": "2025 年终总结" },
+    "everlasting/invisible/annual/2023.md": { "title": "2023 年终总结", "publishedAt": "2024-02-11" },
+    "everlasting/invisible/annual/2024.md": { "title": "2024 年终总结", "publishedAt": "2025-01-30" },
+    "everlasting/invisible/annual/2025.md": { "title": "2025 年终总结", "publishedAt": "2026-02-18" },
+    "everlasting/invisible/notes/newton-residual-gradient.md": { "publishedAt": "2026-08-20" },
+    "everlasting/invisible/notes/closeness-generalization.md": { "publishedAt": "2026-08-22" },
+    "everlasting/invisible/notes/newton-output-distribution.md": { "publishedAt": "2026-08-24" },
+    "everlasting/invisible/notes/closeness-gradient-similarity.md": { "publishedAt": "2026-08-26" },
+    "everlasting/invisible/notes/nexus-implicit-bias.md": { "publishedAt": "2026-08-28" },
+    "everlasting/invisible/notes/certified-removal.md": { "publishedAt": "2026-08-30" },
+    "everlasting/invisible/notes/unlearning-akg.md": { "publishedAt": "2026-08-31" },
+    "everlasting/invisible/notes/least-squares-gd.md": { "publishedAt": "2026-09-02" },
+    "everlasting/invisible/notes/least-squares-existence.md": { "publishedAt": "2026-09-04" },
+    "everlasting/invisible/notes/positive-gram-sgd.md": { "publishedAt": "2026-09-06" },
+    "everlasting/invisible/notes/smooth-strongly-convex-sgd.md": { "publishedAt": "2026-09-08" },
+    "everlasting/invisible/notes/two-task-convergence.md": { "publishedAt": "2026-09-10" },
     "everlasting/invisible/tech/tech.md": { "title": "技术随记" },
     "everlasting/invisible/tech/std/claude_web_tool_issues.md": {
       "aliases": ["claude_web_tool_issues", "claude_web_tool_issues.md", "Claude 网页端工具调用问题总结", "everlasting/tech/std/claude_web_tool_issues.md"]

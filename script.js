@@ -22,7 +22,7 @@ const FRIEND_SITES = [
   { name: "master's blog", description: 'Notes on artificial intelligence, brain-computer interfaces, and life.', href: 'https://brianwang2007.com/', avatar: '/figs/friends/brianwang2007.jpeg' },
   { name: '時雨のBlog', description: 'A CS-AI Sophomore | XJTU', href: 'https://www.shiiyu.xyz/', avatar: '/figs/friends/shiiyu.png' },
   { name: '愿你我,写下新的结局...', description: 'Together,for end we like...', href: 'https://shadowalone.me.cyrene.xin/', avatar: '/figs/friends/shadowalone.png' },
-  { name: "Feli77's Blog", description: 'A campsite to share knowledge and thoughts.', href: 'https://feli77.com/', avatar: '' },
+  { name: "Feli77's Blog", description: 'A campsite to share knowledge and thoughts.', href: 'https://feli77.com/', avatar: '/figs/friends/feli77.png' },
   { name: 'Ajisai', description: '喜欢拍拍照', href: 'https://ajisai.vip/', avatar: '/figs/friends/ajisai.jpg' },
   { name: '新世纪传说的个人博客', description: '', href: 'https://faroars.com/', avatar: '/figs/friends/faroars.jpg' },
 ];
