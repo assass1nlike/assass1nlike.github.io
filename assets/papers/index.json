@@ -467,11 +467,12 @@
         "papers": [
           "3688a75ff2fd9b195401",
           "ddcd9affa9f3f65d8287",
+          "487bd5a53818a9ffa173",
           "339f0997b5480bb32723",
           "01636a2853591b02c2ee"
         ],
-        "count": 18,
-        "annotated": 6
+        "count": 19,
+        "annotated": 7
       },
       {
         "id": "structure",
@@ -584,13 +585,21 @@
                 ],
                 "count": 3,
                 "annotated": 1
+              },
+              {
+                "id": "unlearning/benchmarks/LM",
+                "name": "LM",
+                "children": [],
+                "papers": [
+                  "cb66371d6a0a826da747",
+                  "35da5b2bd0b1eb8b627f",
+                  "fd2b48c78c36666dfab6"
+                ],
+                "count": 3,
+                "annotated": 0
               }
             ],
-            "papers": [
-              "e9b22d37e0c2a9285849",
-              "5ecd9fce8a8eaa203f95",
-              "e22678110736f4ec541d"
-            ],
+            "papers": [],
             "count": 6,
             "annotated": 1
           },
@@ -675,8 +684,10 @@
           }
         ],
         "papers": [
+          "a5d229202b5154029948",
           "20c9836ec8f91dff63a7",
           "03efad274a14166ee197",
+          "7408f297fca3497f0679",
           "62d0ce4041ca40eee043",
           "9461c76feb8e459791f0",
           "df493460dae7c055267d",
@@ -685,26 +696,29 @@
           "9fea6b6a82c23f46a63a",
           "742cb432a559fef43de7",
           "51cac74d8a453f77b4c2",
+          "d98ad204046513402884",
           "da091026cd866e928517",
           "fa3beaf76fa0e9e02618",
           "d489143c2891ff28be29",
           "9c8207b1f2bcfe759d68",
+          "546df7c12849297d6883",
           "f8706c5316d751f1d815",
           "4c355e2937a03bae531f",
           "22e2c810f2d21da1039e",
           "699af9f985a67145f137",
           "62f00cf16405eb94a866",
           "51e9793f65b42f914f70",
+          "749bd73f78eb35d5cd88",
           "15a3d70efaf2870762f0",
           "fdaab3fa2c1ebeb03f59"
         ],
-        "count": 61,
-        "annotated": 14
+        "count": 66,
+        "annotated": 18
       }
     ],
     "papers": [],
-    "count": 208,
-    "annotated": 53
+    "count": 214,
+    "annotated": 58
   },
   "papers": [
     {
@@ -2048,6 +2062,16 @@
       "arxivUrl": "https://arxiv.org/abs/2608.12346"
     },
     {
+      "id": "487bd5a53818a9ffa173",
+      "title": "CoT monitor",
+      "category": "safety",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最出人意料的是，模型学会了“有选择地算错”：把监控者盯着的完整中间结果破坏掉，却保留足以恢复答案的信息。必须把计算写出来，并不意味着必须写出监控者预期的那种计算。",
+      "arxivUrl": "https://arxiv.org/abs/2507.05246"
+    },
+    {
       "id": "339f0997b5480bb32723",
       "title": "LLM-VA",
       "category": "safety",
@@ -2288,29 +2312,29 @@
       "arxivUrl": ""
     },
     {
-      "id": "e9b22d37e0c2a9285849",
+      "id": "cb66371d6a0a826da747",
       "title": "MUSE",
-      "category": "unlearning/benchmarks",
+      "category": "unlearning/benchmarks/LM",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2407.06460"
+      "arxivUrl": ""
     },
     {
-      "id": "5ecd9fce8a8eaa203f95",
+      "id": "35da5b2bd0b1eb8b627f",
       "title": "TOFU",
-      "category": "unlearning/benchmarks",
+      "category": "unlearning/benchmarks/LM",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2401.06121"
+      "arxivUrl": ""
     },
     {
-      "id": "e22678110736f4ec541d",
+      "id": "fd2b48c78c36666dfab6",
       "title": "WMDP",
-      "category": "unlearning/benchmarks",
+      "category": "unlearning/benchmarks/LM",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
@@ -2568,6 +2592,16 @@
       "arxivUrl": "https://arxiv.org/abs/2605.00364"
     },
     {
+      "id": "a5d229202b5154029948",
+      "title": "a survey of MU",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最有启发性的是把遗忘能力前移到训练设计：如果一开始就限制每份数据能影响哪些子模型和训练阶段，未来的删除就可以变成局部重算。训练时如何组织依赖，决定了以后“忘记”需要付出多大代价。",
+      "arxivUrl": ""
+    },
+    {
       "id": "20c9836ec8f91dff63a7",
       "title": "AdaProb",
       "category": "unlearning",
@@ -2586,6 +2620,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2606.06320"
+    },
+    {
+      "id": "7408f297fca3497f0679",
+      "title": "comprehensive survey",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最值得记住的是：“最终模型已经忘了”与“删除过程没有泄露”是两个独立要求。 删除造成的变化本身就可能暴露被删数据；而生成模型暂时不再输出某个概念，也可能只是可被提示或后续微调逆转的抑制。",
+      "arxivUrl": "https://arxiv.org/abs/2405.07406"
     },
     {
       "id": "62d0ce4041ca40eee043",
@@ -2668,6 +2712,16 @@
       "arxivUrl": "https://arxiv.org/abs/2410.08109"
     },
     {
+      "id": "d98ad204046513402884",
+      "title": "MU Doesn’t Do What You Think",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2412.06966"
+    },
+    {
       "id": "da091026cd866e928517",
       "title": "open-unlearning",
       "category": "unlearning",
@@ -2706,6 +2760,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2502.05374"
+    },
+    {
+      "id": "546df7c12849297d6883",
+      "title": "rethinking MU for LLMs",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "真正值得检验的，不是模型有没有停止回答几个问题，而是目标信息在改写、跨语言、再训练甚至权重量化后还能不能回来，以及与它紧密相邻的正常能力是否仍然完好。",
+      "arxivUrl": "https://arxiv.org/abs/2402.08787"
     },
     {
       "id": "f8706c5316d751f1d815",
@@ -2766,6 +2830,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2406.10952"
+    },
+    {
+      "id": "749bd73f78eb35d5cd88",
+      "title": "term MU is overused in LLMs",
+      "category": "unlearning",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "真正的遗忘可能要求模型失去一项有用能力；正确遗忘后的模型也可能继续回答所谓“遗忘问题”。判断标准不是它忘得多不多，而是它是否接近从未用过那批数据训练的模型。",
+      "arxivUrl": "https://arxiv.org/abs/2606.27379"
     },
     {
       "id": "15a3d70efaf2870762f0",

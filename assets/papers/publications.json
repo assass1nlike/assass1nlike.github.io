@@ -166,28 +166,6 @@
     "kind": "proceedings",
     "url": "https://doi.org/10.18653/v1/2024.acl-long.70"
   },
-  "2401.06121": {
-    "label": "COLM · 2024",
-    "kind": "conference",
-    "url": "https://openreview.net/forum?id=B41hNBoWLo",
-    "alternatives": [
-      {
-        "label": "DPFM 2024 Poster",
-        "kind": "workshop",
-        "url": "https://openreview.net/forum?id=q0eyIBnE2t"
-      },
-      {
-        "label": "Red Teaming GenAI Workshop @ NeurIPS'24 Poster · 2024",
-        "kind": "workshop",
-        "url": "https://openreview.net/forum?id=P8seBluN3c"
-      },
-      {
-        "label": "SeT LLM @ ICLR 2024",
-        "kind": "workshop",
-        "url": "https://openreview.net/forum?id=D7sxML2VcS"
-      }
-    ]
-  },
   "2401.06692": {
     "label": "Findings of the Association for Computational Linguistics ACL 2024",
     "kind": "proceedings",
@@ -207,6 +185,11 @@
     "label": "ICML 2024",
     "kind": "proceedings",
     "url": "https://openreview.net/forum?id=vHdyVyr6Zu"
+  },
+  "2402.08787": {
+    "label": "Nature Machine Intelligence · 2025",
+    "kind": "journal",
+    "url": "https://doi.org/10.1038/s42256-025-00985-0"
   },
   "2402.09739": {
     "label": "ICML 2024 Spotlight",
@@ -307,11 +290,6 @@
     "label": "Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
     "kind": "proceedings",
     "url": "https://doi.org/10.18653/v1/2025.naacl-long.204"
-  },
-  "2407.06460": {
-    "label": "ICLR 2025 Poster",
-    "kind": "conference",
-    "url": "https://openreview.net/forum?id=TArmA033BU"
   },
   "2407.08351": {
     "label": "ICLR 2025 Poster",
@@ -449,6 +427,11 @@
         "url": "https://openreview.net/forum?id=KrWSrrYGpT"
       }
     ]
+  },
+  "2412.06966": {
+    "label": "Advances in Neural Information Processing Systems 38 · 2025",
+    "kind": "proceedings",
+    "url": "https://doi.org/10.52202/085713-2990"
   },
   "2412.09119": {
     "label": "ICLR 2025 Poster",
@@ -763,6 +746,18 @@
     "label": "ICML 2026 spotlight",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=03ZTlJuX0y"
+  },
+  "2606.27379": {
+    "label": "International Conference on Machine Learning · 2026",
+    "kind": "proceedings",
+    "url": "https://proceedings.mlr.press/v306/yoon26g.html",
+    "alternatives": [
+      {
+        "label": "ICML MemFM 2026 Workshop Poster",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=J6VhgYtgYZ"
+      }
+    ]
   },
   "2608.12346": {
     "label": "International Conference on Machine Learning · 2026",
