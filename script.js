@@ -123,15 +123,6 @@ for (const id of ['invisible', 'minors', 'tech']) {
     .filter((doc) => doc.category === id).map((doc) => doc.path);
 }
 
-const CATEGORY_LINK_PATTERNS = [
-  { pattern: '开源项目', href: categoryHref('permanence') },
-  { pattern: '博客', href: categoryHref('minors') },
-  { pattern: 'tech总览', href: categoryHref('tech') },
-  { pattern: '各年年终总结', href: categoryHref('annual') },
-];
-
-const DOC_LINK_PATTERNS = buildDocLinkPatterns();
-const HOME_TEXT_PATTERNS = [...CATEGORY_LINK_PATTERNS, ...DOC_LINK_PATTERNS];
 
 const DOC_INDEX = new Map(DOC_DEFINITIONS.flatMap((doc) =>
   [doc.path, doc.publicId].filter(Boolean).map((key) => [normalizeKey(key), doc])));
@@ -248,7 +239,7 @@ async function loadHomeCategoryPreviews(host) {
       <h2 class="home-category-heading" id="home-category-${category.id}">
         <a href="${categoryHref(category.id)}">
           <span data-language-label-zh="${escapeAttr(category.title)}" data-language-label-en="${escapeAttr(category.titleEn)}">${escapeHtml(english ? category.titleEn : category.title)}</span>
-          <span aria-hidden="true">↗</span>
+          <span aria-hidden="true">→</span>
         </a>
       </h2>
       <div class="home-category-viewport markdown-body" data-category="${category.id}" tabindex="0" role="region" aria-labelledby="home-category-${category.id}"></div>
@@ -280,7 +271,7 @@ function renderFriendSites(sites) {
     <section class="friend-sites-panel" aria-labelledby="friend-sites-title">
       <div class="friend-sites-head">
         <h2 id="friend-sites-title" class="friend-sites-title">友站列表</h2>
-        <a class="friend-directory-link" href="/friends.html">查看全部友站 ↗</a>
+        <a class="friend-directory-link" href="/friends.html">查看全部友站</a>
       </div>
       <div class="friend-avatar-list">${sites.map((site) => `<a class="friend-avatar-link" href="${escapeAttr(site.href)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(site.name)}" title="${escapeAttr(site.name)}">${friendAvatar(site)}</a>`).join('')}</div>
     </section>
@@ -972,7 +963,6 @@ async function initViewerPage() {
       return;
     }
     await loadMarkdownInto(host, rootAssetPath(resolved?.path || docInput), {
-      linkScope: 'doc',
       outline: true,
     });
     if (resolved?.category) {
@@ -1149,7 +1139,6 @@ async function loadCategoryDocs(category) {
         const text = await response.text();
         let preview = renderMarkdown(text, {
           maxBlocks: 4,
-          linkScope: 'doc',
           basePath: rootAssetPath(doc.path),
         });
         if (doc.outlinePreview) {
@@ -1197,7 +1186,6 @@ async function loadCategoryDocEntries(entries, categoryId) {
         const text = await response.text();
         const preview = renderMarkdown(text, {
           maxBlocks: 4,
-          linkScope: 'doc',
           basePath: rootAssetPath(doc.path),
         });
         return {
@@ -1251,7 +1239,6 @@ async function loadCategoryPreview(categoryId) {
       const text = await response.text();
       const preview = renderMarkdown(text, {
         maxBlocks: 2,
-        linkScope: 'doc',
         basePath: rootAssetPath(doc.path),
       });
       previewParts.push(`
@@ -1602,10 +1589,7 @@ function renderMarkdown(source, options = {}) {
     blocks.push(`<p>${paragraphify(paragraphLines, options)}</p>`);
   }
 
-  const body = blocks.join('\n');
-  const scope = options.linkScope || 'none';
-  const patterns = buildTextPatterns(scope);
-  return patterns.length ? autoLinkText(body, patterns) : body;
+  return blocks.join('\n');
 }
 
 function paragraphify(lines, options = {}) {
@@ -1683,152 +1667,6 @@ function protectMathSegments(text, placeholders) {
   return working;
 }
 
-function buildTextPatterns(scope) {
-  if (scope === 'home') {
-    return HOME_TEXT_PATTERNS;
-  }
-  if (scope === 'doc' || scope === 'preview') {
-    return DOC_LINK_PATTERNS;
-  }
-  return [];
-}
-
-function buildDocLinkPatterns() {
-  const patterns = [];
-  for (const doc of DOC_DEFINITIONS) {
-    if (doc.collection === 'annual') continue;
-    const variants = new Set([
-      doc.title,
-      basename(doc.path).replace(/\.md$/i, ''),
-      ...doc.aliases,
-    ]);
-    for (const pattern of variants) {
-      if (!pattern) continue;
-      patterns.push({
-        pattern,
-        href: viewerHref(doc.path),
-      });
-    }
-  }
-  patterns.sort((a, b) => b.pattern.length - a.pattern.length);
-  return patterns;
-}
-
-function autoLinkText(html, patterns) {
-  const container = document.createElement('div');
-  container.innerHTML = html;
-  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
-  const textNodes = [];
-  const skipTags = new Set(['A', 'CODE', 'PRE', 'SCRIPT', 'STYLE', 'TEXTAREA']);
-
-  let node;
-  while ((node = walker.nextNode())) {
-    const parentTag = node.parentElement?.tagName;
-    if (!parentTag || skipTags.has(parentTag)) {
-      continue;
-    }
-    if (node.parentElement?.closest('.math-source, .math-display, mjx-container')) {
-      continue;
-    }
-    textNodes.push(node);
-  }
-
-  for (const textNode of textNodes) {
-    const original = textNode.nodeValue;
-    if (!original || !original.trim()) {
-      continue;
-    }
-
-    const fragment = document.createDocumentFragment();
-    let cursor = 0;
-
-    while (cursor < original.length) {
-      let best = null;
-      let bestIndex = -1;
-
-      for (const entry of patterns) {
-        const index = findPatternIndex(original, entry, cursor);
-        if (index === -1) {
-          continue;
-        }
-        if (
-          bestIndex === -1 ||
-          index < bestIndex ||
-          (index === bestIndex && entry.pattern.length > best.pattern.length)
-        ) {
-          best = entry;
-          bestIndex = index;
-        }
-      }
-
-      if (!best) {
-        fragment.appendChild(document.createTextNode(original.slice(cursor)));
-        break;
-      }
-
-      if (bestIndex > cursor) {
-        fragment.appendChild(document.createTextNode(original.slice(cursor, bestIndex)));
-      }
-
-      const anchor = document.createElement('a');
-      anchor.className = 'doc-link';
-      anchor.href = best.href;
-      anchor.textContent = original.slice(bestIndex, bestIndex + best.pattern.length);
-      fragment.appendChild(anchor);
-      cursor = bestIndex + best.pattern.length;
-    }
-
-    textNode.parentNode.replaceChild(fragment, textNode);
-  }
-
-  return container.innerHTML;
-}
-
-function findPatternIndex(text, entry, start) {
-  let index = text.indexOf(entry.pattern, start);
-  while (index !== -1) {
-    if (isAllowedAutoLinkMatch(text, index, entry.pattern)) {
-      return index;
-    }
-    index = text.indexOf(entry.pattern, index + 1);
-  }
-  return -1;
-}
-
-function isAllowedAutoLinkMatch(text, index, pattern) {
-  if (isInsideUrlLikeText(text, index, pattern.length)) {
-    return false;
-  }
-
-  const before = index > 0 ? text[index - 1] : '';
-  const afterIndex = index + pattern.length;
-  const after = afterIndex < text.length ? text[afterIndex] : '';
-  const startsWord = isWordLike(pattern[0]);
-  const endsWord = isWordLike(pattern[pattern.length - 1]);
-
-  if (startsWord && before && isWordLike(before)) {
-    return false;
-  }
-  if (endsWord && after && isWordLike(after)) {
-    return false;
-  }
-  return true;
-}
-
-function isInsideUrlLikeText(text, index, length) {
-  const left = text.slice(Math.max(0, index - 160), index);
-  const right = text.slice(index, Math.min(text.length, index + length + 160));
-  const lastWhitespace = Math.max(left.lastIndexOf(' '), left.lastIndexOf('\n'), left.lastIndexOf('\t'));
-  const tokenLeft = left.slice(lastWhitespace + 1);
-  const nextWhitespaceMatches = right.match(/[\s<>"'，。；、！？]/);
-  const tokenRight = nextWhitespaceMatches ? right.slice(0, nextWhitespaceMatches.index) : right;
-  const token = `${tokenLeft}${tokenRight}`;
-  return /^(?:https?:\/\/|www\.)/i.test(token) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(token);
-}
-
-function isWordLike(char) {
-  return /[\p{L}\p{N}_-]/u.test(char);
-}
 
 function enhanceMarkdownHost(host) {
   host.querySelectorAll('img').forEach((img) => {

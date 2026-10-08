@@ -1,0 +1,1635 @@
+\documentclass{ctexart}
+\usepackage{amsmath,amssymb}
+\usepackage[paperwidth=600mm,paperheight=600mm,margin=20mm]{geometry}
+\begin{document}
+Formula 1, source line 3.
+\[f_\theta\]
+Formula 2, source line 3.
+\[\theta\in\mathbb R^d\]
+Formula 3, source line 3.
+\[d\]
+Formula 4, source line 3.
+\[D\]
+Formula 5, source line 3.
+\[O\]
+Formula 6, source line 3.
+\[1\]
+Formula 7, source line 3.
+\[0\]
+Formula 8, source line 5.
+\[
+S_{f,D}(\theta)
+:=\mathbb E_{x\in D}\left[O\left(f_\theta(x)\right)\right]
+=\frac{1}{|D|}\sum\limits_{x\in D}O\left(f_\theta(x)\right).
+\]
+Formula 9, source line 11.
+\[x\]
+Formula 10, source line 11.
+\[|D|\]
+Formula 11, source line 11.
+\[\mathbb E_{x\in D}\]
+Formula 12, source line 11.
+\[S_{f,D}\]
+Formula 13, source line 11.
+\[S_{f,D}:\mathbb R^d\to[0,1]\]
+Formula 14, source line 11.
+\[S_D\]
+Formula 15, source line 11.
+\[S_{f,D}\]
+Formula 16, source line 13.
+\[T\]
+Formula 17, source line 13.
+\[\mathrm{min\_val}\]
+Formula 18, source line 13.
+\[\mathrm{max\_val}\]
+Formula 19, source line 15.
+\[
+T(s)=1-\frac{s-\mathrm{min\_val}}{\mathrm{max\_val}-\mathrm{min\_val}}.
+\]
+Formula 20, source line 19.
+\[s\]
+Formula 21, source line 19.
+\[\delta\sim\mathcal N(0,I)\]
+Formula 22, source line 19.
+\[L(\alpha)=T\circ S_{f,D}(\theta+\alpha\delta)\]
+Formula 23, source line 19.
+\[\alpha\in\mathbb R\]
+Formula 24, source line 19.
+\[I\]
+Formula 25, source line 19.
+\[d\]
+Formula 26, source line 19.
+\[T\circ S_{f,D}\]
+Formula 27, source line 19.
+\[T\]
+Formula 28, source line 21.
+\[D\]
+Formula 29, source line 25.
+\[\sigma>0\]
+Formula 30, source line 25.
+\[\tau\geq0\]
+Formula 31, source line 27.
+\[
+S_{f,D}(\theta)
+-\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}
+\left[S_{f,D}(\theta+\epsilon)\right]
+\leq\tau,
+\]
+Formula 32, source line 34.
+\[f_\theta\]
+Formula 33, source line 34.
+\[\sigma\]
+Formula 34, source line 34.
+\[\epsilon\in\mathbb R^d\]
+Formula 35, source line 34.
+\[0\]
+Formula 36, source line 34.
+\[\sigma^2\]
+Formula 37, source line 34.
+\[\tau\]
+Formula 38, source line 38.
+\[\tau\to0\]
+Formula 39, source line 40.
+\[
+S_{f,D}(\theta+\epsilon)\leq S_{f,D}(\theta)
+\quad\text{几乎必然成立}.
+\]
+Formula 40, source line 45.
+\[\tau=0\]
+Formula 41, source line 45.
+\[0\]
+Formula 42, source line 45.
+\[0\]
+Formula 43, source line 45.
+\[a>0\]
+Formula 44, source line 47.
+\[
+\mathbb P\left(
+S_{f,D}(\theta)-S_{f,D}(\theta+\epsilon)\geq a
+\right)
+\leq\frac{\tau}{a}.
+\]
+Formula 45, source line 54.
+\[\tau=0\]
+Formula 46, source line 54.
+\[a=1,1/2,1/3,\ldots\]
+Formula 47, source line 54.
+\[0\]
+Formula 48, source line 54.
+\[\tau>0\]
+Formula 49, source line 54.
+\[\square\]
+Formula 50, source line 56.
+\[S_{f,D}(\theta)\]
+Formula 51, source line 56.
+\[T\circ S_{f,D}(\theta+\epsilon)=0\]
+Formula 52, source line 56.
+\[\alpha\]
+Formula 53, source line 58.
+\[
+\mathbb E_{\delta\sim\mathcal N(0,I)}
+\left[\mathbb I\left\{T\circ S_{f,D}(\theta+\alpha\delta)=0\right\}\right],
+\]
+Formula 54, source line 63.
+\[\mathbb I\{\cdot\}\]
+Formula 55, source line 63.
+\[1\]
+Formula 56, source line 63.
+\[0\]
+Formula 57, source line 67.
+\[
+\mathbb E\left[\|\epsilon\|_2^2\right]
+=\sum\limits_{j=1}^{d}\mathbb E\left[\epsilon_j^2\right]
+=d\sigma^2.
+\]
+Formula 58, source line 73.
+\[\epsilon_j\]
+Formula 59, source line 73.
+\[j\]
+Formula 60, source line 73.
+\[\|\cdot\|_2\]
+Formula 61, source line 73.
+\[\sigma\sqrt d\]
+Formula 62, source line 73.
+\[\sigma\]
+Formula 63, source line 77.
+\[S_{f,D}:\mathbb R^d\to[0,1]\]
+Formula 64, source line 77.
+\[\sigma>0\]
+Formula 65, source line 77.
+\[1/(\sqrt{2\pi}\sigma)\]
+Formula 66, source line 77.
+\[\theta_0,\theta_{sft}\in\mathbb R^d\]
+Formula 67, source line 79.
+\[
+\left|
+\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}
+\left[S_{f,D}(\theta_{sft}+\epsilon)\right]
+-\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}
+\left[S_{f,D}(\theta_0+\epsilon)\right]
+\right|
+\leq\frac{\|\theta_{sft}-\theta_0\|_2}{\sqrt{2\pi}\sigma}.
+\]
+Formula 68, source line 89.
+\[\theta_0\]
+Formula 69, source line 89.
+\[\theta_{sft}\]
+Formula 70, source line 89.
+\[C\]
+Formula 71, source line 89.
+\[C\]
+Formula 72, source line 91.
+\[
+\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}
+\left[S_{f,D}(\theta_{sft}+\epsilon)\right]
+\geq
+\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}
+\left[S_{f,D}(\theta_0+\epsilon)\right]
+-\frac{\|\theta_{sft}-\theta_0\|_2}{\sqrt{2\pi}\sigma}.
+\]
+Formula 73, source line 104.
+\[
+q_\sigma(z)
+=\frac{1}{(2\pi\sigma^2)^{d/2}}
+\exp\left(-\frac{\|z\|_2^2}{2\sigma^2}\right),
+\qquad z\in\mathbb R^d.
+\]
+Formula 74, source line 111.
+\[v\in\mathbb R^d\]
+Formula 75, source line 111.
+\[\|v\|_2=1\]
+Formula 76, source line 113.
+\[
+\begin{aligned}
+v^\top\nabla_\theta
+\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}
+\left[S_{f,D}(\theta+\epsilon)\right]
+&=v^\top\nabla_\theta
+\int\limits_{\mathbb R^d}S_{f,D}(u)q_\sigma(u-\theta)\,du\\
+&=\int\limits_{\mathbb R^d}S_{f,D}(u)
+\frac{v^\top(u-\theta)}{\sigma^2}q_\sigma(u-\theta)\,du\\
+&=\frac{1}{\sigma}
+\mathbb E_{Z\sim\mathcal N(0,I)}
+\left[S_{f,D}(\theta+\sigma Z)v^\top Z\right].
+\end{aligned}
+\]
+Formula 77, source line 128.
+\[u\]
+Formula 78, source line 128.
+\[Z\]
+Formula 79, source line 128.
+\[\nabla_\theta\]
+Formula 80, source line 128.
+\[S_{f,D}\]
+Formula 81, source line 128.
+\[\theta\]
+Formula 82, source line 130.
+\[V=v^\top Z\]
+Formula 83, source line 130.
+\[\|v\|_2=1\]
+Formula 84, source line 130.
+\[V\sim\mathcal N(0,1)\]
+Formula 85, source line 130.
+\[V>0\]
+Formula 86, source line 130.
+\[0\leq S_{f,D}\leq1\]
+Formula 87, source line 132.
+\[
+\begin{aligned}
+\mathbb E\left[S_{f,D}(\theta+\sigma Z)V\right]
+&\leq\mathbb E\left[V\mathbb I\{V>0\}\right]\\
+&=\frac{1}{\sqrt{2\pi}}
+\int\limits_0^{+\infty}t\exp\left(-\frac{t^2}{2}\right)\,dt
+=\frac{1}{\sqrt{2\pi}}.
+\end{aligned}
+\]
+Formula 88, source line 142.
+\[v\]
+Formula 89, source line 142.
+\[-v\]
+Formula 90, source line 142.
+\[1/(\sqrt{2\pi}\sigma)\]
+Formula 91, source line 144.
+\[\theta_0\]
+Formula 92, source line 144.
+\[\theta_{sft}\]
+Formula 93, source line 144.
+\[t\in[0,1]\]
+Formula 94, source line 146.
+\[
+\begin{aligned}
+&\left|
+\mathbb E_\epsilon\left[S_{f,D}(\theta_{sft}+\epsilon)\right]
+-\mathbb E_\epsilon\left[S_{f,D}(\theta_0+\epsilon)\right]
+\right|\\
+&=\left|\int\limits_0^1
+(\theta_{sft}-\theta_0)^\top
+\nabla_\theta\mathbb E_\epsilon\left[S_{f,D}(\theta+\epsilon)\right]
+\bigg|_{\theta=\theta_0+t(\theta_{sft}-\theta_0)}\,dt\right|\\
+&\leq\int\limits_0^1
+\|\theta_{sft}-\theta_0\|_2\frac{1}{\sqrt{2\pi}\sigma}\,dt
+=\frac{\|\theta_{sft}-\theta_0\|_2}{\sqrt{2\pi}\sigma}.
+\end{aligned}
+\]
+Formula 95, source line 162.
+\[\mathbb E_\epsilon\]
+Formula 96, source line 162.
+\[\epsilon\sim\mathcal N(0,\sigma^2I)\]
+Formula 97, source line 162.
+\[\square\]
+Formula 98, source line 166.
+\[
+\mathbb E_\epsilon\left[S_{f,D}(\theta_{sft}+\epsilon)\right]
+\geq S_{f,D}(\theta_0)-\tau
+-\frac{\|\theta_{sft}-\theta_0\|_2}{\sqrt{2\pi}\sigma}.
+\]
+Formula 99, source line 172.
+\[S_{f,D}(\theta_{sft})\]
+Formula 100, source line 176.
+\[S_{f,D}:\mathbb R^d\to[0,1]\]
+Formula 101, source line 176.
+\[\sigma>0\]
+Formula 102, source line 176.
+\[\theta_0,\theta_{sft}\in\mathbb R^d\]
+Formula 103, source line 178.
+\[
+\Phi(x)=\frac{1}{\sqrt{2\pi}}
+\int\limits_{-\infty}^{x}\exp\left(-\frac{s^2}{2}\right)\,ds,
+\qquad x\in\mathbb R,
+\]
+Formula 104, source line 184.
+\[\Phi^{-1}:(0,1)\to\mathbb R\]
+Formula 105, source line 186.
+\[
+\mathbb E_\epsilon\left[S_{f,D}(\theta_{sft}+\epsilon)\right]
+\geq
+\Phi\left(
+\Phi^{-1}\left(
+\mathbb E_\epsilon\left[S_{f,D}(\theta_0+\epsilon)\right]
+\right)
+-\frac{\|\theta_{sft}-\theta_0\|_2}{\sigma}
+\right).
+\]
+Formula 106, source line 197.
+\[(0,1)\]
+Formula 107, source line 197.
+\[f:\mathbb R^d\to[0,1]\]
+Formula 108, source line 199.
+\[
+x\longmapsto
+\Phi^{-1}\left(
+\mathbb E_{\epsilon\sim\mathcal N(0,I)}[f(x+\epsilon)]
+\right)
+\]
+Formula 109, source line 206.
+\[1\]
+Formula 110, source line 206.
+\[f\]
+Formula 111, source line 206.
+\[1\]
+Formula 112, source line 208.
+\[\sigma\]
+Formula 113, source line 208.
+\[u\mapsto S_D(\sigma u)\]
+Formula 114, source line 210.
+\[
+\begin{aligned}
+\Phi^{-1}\left(
+\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}[S_D(\theta+\epsilon)]
+\right)
+&=\Phi^{-1}\left(
+\mathbb E_{\epsilon\sim\mathcal N(0,I)}[S_D(\theta+\sigma\epsilon)]
+\right)\\
+&=\Phi^{-1}\left(
+\mathbb E_{\epsilon\sim\mathcal N(0,I)}
+\left[S_D\left(\sigma\left(\frac{\theta}{\sigma}+\epsilon\right)\right)\right]
+\right).
+\end{aligned}
+\]
+Formula 115, source line 225.
+\[\theta/\sigma\]
+Formula 116, source line 225.
+\[1\]
+Formula 117, source line 225.
+\[\theta\]
+Formula 118, source line 225.
+\[1/\sigma\]
+Formula 119, source line 227.
+\[
+\Phi^{-1}\left(
+\mathbb E_\epsilon[S_{f,D}(\theta_{sft}+\epsilon)]
+\right)
+\geq
+\Phi^{-1}\left(
+\mathbb E_\epsilon[S_{f,D}(\theta_0+\epsilon)]
+\right)
+-\frac{\|\theta_{sft}-\theta_0\|_2}{\sigma}.
+\]
+Formula 120, source line 238.
+\[\Phi\]
+Formula 121, source line 238.
+\[\Phi\]
+Formula 122, source line 240.
+\[0\]
+Formula 123, source line 240.
+\[S_{f,D}=0\]
+Formula 124, source line 240.
+\[0\]
+Formula 125, source line 240.
+\[1\]
+Formula 126, source line 240.
+\[1-S_{f,D}\]
+Formula 127, source line 240.
+\[\square\]
+Formula 128, source line 244.
+\[
+p_A:=\mathbb E_\epsilon[S_{f,D}(\theta_0+\epsilon)].
+\]
+Formula 129, source line 248.
+\[r\geq0\]
+Formula 130, source line 248.
+\[r\]
+Formula 131, source line 250.
+\[
+\begin{aligned}
+p_A-\Phi\left(\Phi^{-1}(p_A)-\frac r\sigma\right)
+&=\int\limits_{\Phi^{-1}(p_A)-r/\sigma}^{\Phi^{-1}(p_A)}\Phi'(s)\,ds\\
+&\leq\frac{r}{\sqrt{2\pi}\sigma},
+\end{aligned}
+\]
+Formula 132, source line 258.
+\[\Phi'(s)=\exp(-s^2/2)/\sqrt{2\pi}\leq1/\sqrt{2\pi}\]
+Formula 133, source line 262.
+\[
+\begin{aligned}
+\left\|\nabla_\theta
+\Phi^{-1}\left(\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]\right)
+\right\|_2
+&=\frac{
+\left\|\nabla_\theta\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]\right\|_2
+}{
+\Phi'\left(\Phi^{-1}\left(\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]\right)\right)
+}
+\leq\frac1\sigma,\\
+\left\|\nabla_\theta\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]\right\|_2
+&\leq\frac1\sigma
+\Phi'\left(\Phi^{-1}\left(\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]\right)\right)
+\leq\frac{1}{\sqrt{2\pi}\sigma}.
+\end{aligned}
+\]
+Formula 134, source line 280.
+\[\sigma^2I\]
+Formula 135, source line 280.
+\[I\]
+Formula 136, source line 282.
+\[p_A\]
+Formula 137, source line 282.
+\[1\]
+Formula 138, source line 282.
+\[\Phi'(\Phi^{-1}(p_A))\]
+Formula 139, source line 282.
+\[0\]
+Formula 140, source line 282.
+\[p_A\]
+Formula 141, source line 282.
+\[p_A=1/2\]
+Formula 142, source line 282.
+\[0\]
+Formula 143, source line 282.
+\[1\]
+Formula 144, source line 282.
+\[p_A\geq1/2\]
+Formula 145, source line 284.
+\[q\in(0,p_A]\]
+Formula 146, source line 284.
+\[\Phi\]
+Formula 147, source line 286.
+\[
+\|\theta_{sft}-\theta_0\|_2
+\leq\sigma\left(\Phi^{-1}(p_A)-\Phi^{-1}(q)\right).
+\]
+Formula 148, source line 291.
+\[p_A\]
+Formula 149, source line 291.
+\[q\]
+Formula 150, source line 291.
+\[\sigma\]
+Formula 151, source line 291.
+\[\sigma\]
+Formula 152, source line 291.
+\[p_A\]
+Formula 153, source line 295.
+\[
+\begin{aligned}
+S_{f,D}(\theta_0)
+-\mathbb E_\epsilon[S_{f,D}(\theta_{sft}+\epsilon)]
+={}&S_{f,D}(\theta_0)
+-\mathbb E_\epsilon[S_{f,D}(\theta_0+\epsilon)]\\
+&+\mathbb E_\epsilon[S_{f,D}(\theta_0+\epsilon)]
+-\mathbb E_\epsilon[S_{f,D}(\theta_{sft}+\epsilon)].
+\end{aligned}
+\]
+Formula 154, source line 308.
+\[
+S_{f,D}(\theta_0)
+-\mathbb E_\epsilon[S_{f,D}(\theta_{sft}+\epsilon)]
+\leq\tau+p_A
+-\Phi\left(\Phi^{-1}(p_A)-\frac{\|\theta_{sft}-\theta_0\|_2}{\sigma}\right).
+\]
+Formula 155, source line 315.
+\[p_A\to1\]
+Formula 156, source line 315.
+\[\|\theta_{sft}-\theta_0\|_2/\sigma\]
+Formula 157, source line 315.
+\[0\]
+Formula 158, source line 315.
+\[1-p_A\]
+Formula 159, source line 315.
+\[0\]
+Formula 160, source line 321.
+\[\theta\in\mathbb R^d\]
+Formula 161, source line 321.
+\[\epsilon\sim\mathcal N(0,\sigma^2I)\]
+Formula 162, source line 321.
+\[\sigma>0\]
+Formula 163, source line 321.
+\[\delta\in(0,1)\]
+Formula 164, source line 321.
+\[S_{f,D}\]
+Formula 165, source line 321.
+\[L\]
+Formula 166, source line 321.
+\[L\geq0\]
+Formula 167, source line 323.
+\[
+|S_{f,D}(u)-S_{f,D}(v)|\leq L\|u-v\|_2,
+\qquad u,v\in\mathbb R^d.
+\]
+Formula 168, source line 328.
+\[1-\delta\]
+Formula 169, source line 330.
+\[
+S_{f,D}(\theta+\epsilon)
+\geq\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]
+-L\sigma\sqrt{2\log\frac1\delta}.
+\]
+Formula 170, source line 336.
+\[\log\]
+Formula 171, source line 336.
+\[L\]
+Formula 172, source line 336.
+\[0\]
+Formula 173, source line 336.
+\[1\]
+Formula 174, source line 336.
+\[L\]
+Formula 175, source line 338.
+\[Z\sim\mathcal N(0,I)\]
+Formula 176, source line 338.
+\[h:\mathbb R^d\to\mathbb R\]
+Formula 177, source line 340.
+\[
+\operatorname{Ent}(e^{h(Z)})
+\leq\frac12\mathbb E\left[e^{h(Z)}\|\nabla h(Z)\|_2^2\right],
+\]
+Formula 178, source line 345.
+\[U\]
+Formula 179, source line 347.
+\[
+\operatorname{Ent}(U)
+:=\mathbb E[U\log U]-\mathbb E[U]\log\mathbb E[U].
+\]
+Formula 180, source line 352.
+\[U\]
+Formula 181, source line 354.
+\[u:\mathbb R^d\to(0,+\infty)\]
+Formula 182, source line 354.
+\[t\geq0\]
+Formula 183, source line 356.
+\[
+P_tu(x)
+:=\mathbb E_Z\left[u\left(e^{-t}x+\sqrt{1-e^{-2t}}Z\right)\right].
+\]
+Formula 184, source line 361.
+\[x\in\mathbb R^d\]
+Formula 185, source line 361.
+\[t\]
+Formula 186, source line 361.
+\[t=0\]
+Formula 187, source line 361.
+\[P_0u=u\]
+Formula 188, source line 361.
+\[t\to\infty\]
+Formula 189, source line 361.
+\[P_tu(x)\to\mathbb E[u(Z)]\]
+Formula 190, source line 361.
+\[x\]
+Formula 191, source line 361.
+\[\mathbb E[P_tu(Z)]=\mathbb E[u(Z)]\]
+Formula 192, source line 365.
+\[
+\mathbb E[Z_j a(Z)]=\mathbb E[\partial_j a(Z)],
+\]
+Formula 193, source line 369.
+\[j\in\{1,\ldots,d\}\]
+Formula 194, source line 369.
+\[a\]
+Formula 195, source line 369.
+\[\partial_j\]
+Formula 196, source line 369.
+\[j\]
+Formula 197, source line 369.
+\[P_tu\]
+Formula 198, source line 369.
+\[Z_j\]
+Formula 199, source line 371.
+\[
+\partial_tP_tu=\mathcal L P_tu,
+\qquad
+\mathcal L a:=\Delta a-x^\top\nabla a,
+\qquad
+\nabla P_tu=e^{-t}P_t(\nabla u).
+\]
+Formula 200, source line 379.
+\[\Delta a=\sum\limits_{j=1}^d\partial_j^2a\]
+Formula 201, source line 379.
+\[\mathcal L\]
+Formula 202, source line 379.
+\[P_t\]
+Formula 203, source line 379.
+\[s=\sqrt{1-e^{-2t}}\]
+Formula 204, source line 379.
+\[t\]
+Formula 205, source line 379.
+\[-e^{-t}x^\top\mathbb E[\nabla u]\]
+Formula 206, source line 379.
+\[(e^{-2t}/s)\mathbb E[Z^\top\nabla u]\]
+Formula 207, source line 379.
+\[e^{-2t}\mathbb E[\Delta u]\]
+Formula 208, source line 379.
+\[\mathcal LP_tu\]
+Formula 209, source line 381.
+\[\mathbb E[a(Z)\mathcal Lb(Z)]=-\mathbb E[\nabla a(Z)^\top\nabla b(Z)]\]
+Formula 210, source line 383.
+\[
+\begin{aligned}
+\frac{d}{dt}\operatorname{Ent}(P_tu(Z))
+&=\mathbb E\left[\left(1+\log P_tu(Z)\right)\mathcal LP_tu(Z)\right]\\
+&=-\mathbb E\left[\frac{\|\nabla P_tu(Z)\|_2^2}{P_tu(Z)}\right].
+\end{aligned}
+\]
+Formula 211, source line 391.
+\[\nabla u=\sqrt u\,(\nabla u/\sqrt u)\]
+Formula 212, source line 393.
+\[
+\frac{\|\nabla P_tu\|_2^2}{P_tu}
+\leq e^{-2t}P_t\left(\frac{\|\nabla u\|_2^2}{u}\right).
+\]
+Formula 213, source line 398.
+\[t\to\infty\]
+Formula 214, source line 398.
+\[P_tu\]
+Formula 215, source line 398.
+\[0\]
+Formula 216, source line 398.
+\[0\]
+Formula 217, source line 398.
+\[+\infty\]
+Formula 218, source line 398.
+\[P_t\]
+Formula 219, source line 400.
+\[
+\begin{aligned}
+\operatorname{Ent}(u(Z))
+&=\int\limits_0^{+\infty}
+\mathbb E\left[\frac{\|\nabla P_tu(Z)\|_2^2}{P_tu(Z)}\right]dt\\
+&\leq\int\limits_0^{+\infty}e^{-2t}\,dt\,
+\mathbb E\left[\frac{\|\nabla u(Z)\|_2^2}{u(Z)}\right]
+=\frac12\mathbb E\left[\frac{\|\nabla u(Z)\|_2^2}{u(Z)}\right].
+\end{aligned}
+\]
+Formula 220, source line 411.
+\[u=e^h\]
+Formula 221, source line 413.
+\[F(z):=S_{f,D}(\theta+\sigma z)\]
+Formula 222, source line 413.
+\[F\]
+Formula 223, source line 413.
+\[L\sigma\]
+Formula 224, source line 413.
+\[Y:=F(Z)-\mathbb E[F(Z)]\]
+Formula 225, source line 413.
+\[\psi(\lambda):=\log\mathbb E[e^{\lambda Y}]\]
+Formula 226, source line 413.
+\[\lambda\in\mathbb R\]
+Formula 227, source line 413.
+\[h(z)=\lambda(F(z)-\mathbb E[F(Z)])\]
+Formula 228, source line 415.
+\[
+\lambda\psi'(\lambda)-\psi(\lambda)
+\leq\frac{\lambda^2L^2\sigma^2}{2}.
+\]
+Formula 229, source line 420.
+\[\psi(0)=\psi'(0)=0\]
+Formula 230, source line 420.
+\[\lambda>0\]
+Formula 231, source line 422.
+\[
+\frac{d}{d\lambda}\left(\frac{\psi(\lambda)}{\lambda}\right)
+\leq\frac{L^2\sigma^2}{2}
+\quad\Longrightarrow\quad
+\psi(\lambda)\leq\frac{\lambda^2L^2\sigma^2}{2}.
+\]
+Formula 232, source line 429.
+\[-Y\]
+Formula 233, source line 429.
+\[\mathbb E[e^{-\lambda Y}]\leq\exp(\lambda^2L^2\sigma^2/2)\]
+Formula 234, source line 429.
+\[a>0\]
+Formula 235, source line 429.
+\[\lambda>0\]
+Formula 236, source line 431.
+\[
+\begin{aligned}
+\mathbb P(Y\leq-a)
+&\leq e^{-\lambda a}\mathbb E[e^{-\lambda Y}]\\
+&\leq\exp\left(-\lambda a+\frac{\lambda^2L^2\sigma^2}{2}\right).
+\end{aligned}
+\]
+Formula 237, source line 439.
+\[L>0\]
+Formula 238, source line 439.
+\[\lambda=a/(L^2\sigma^2)\]
+Formula 239, source line 441.
+\[
+\mathbb P(Y\leq-a)
+\leq\exp\left(-\frac{a^2}{2L^2\sigma^2}\right).
+\]
+Formula 240, source line 446.
+\[a=L\sigma\sqrt{2\log(1/\delta)}\]
+Formula 241, source line 446.
+\[\delta\]
+Formula 242, source line 446.
+\[L=0\]
+Formula 243, source line 448.
+\[F\]
+Formula 244, source line 448.
+\[\eta>0\]
+Formula 245, source line 448.
+\[1\]
+Formula 246, source line 448.
+\[L\sigma\]
+Formula 247, source line 448.
+\[F\]
+Formula 248, source line 448.
+\[L\sigma\eta\]
+Formula 249, source line 448.
+\[\eta\to0\]
+Formula 250, source line 448.
+\[\square\]
+Formula 251, source line 450.
+\[\theta\]
+Formula 252, source line 450.
+\[\theta_{sft}\]
+Formula 253, source line 452.
+\[
+S_{f,D}(\theta_{sft}+\epsilon)
+\geq
+\Phi\left(\Phi^{-1}(p_A)-\frac{\|\theta_{sft}-\theta_0\|_2}{\sigma}\right)
+-L\sigma\sqrt{2\log\frac1\delta}
+\]
+Formula 254, source line 459.
+\[1-\delta\]
+Formula 255, source line 463.
+\[V\]
+Formula 256, source line 463.
+\[h\]
+Formula 257, source line 463.
+\[W\in\mathbb R^{h\times V}\]
+Formula 258, source line 463.
+\[e\in\mathbb R^V\]
+Formula 259, source line 463.
+\[We\in\mathbb R^h\]
+Formula 260, source line 463.
+\[D'\]
+Formula 261, source line 463.
+\[D\]
+Formula 262, source line 463.
+\[k\]
+Formula 263, source line 465.
+\[
+C=\left\{(e_i,e_i')\right\}_{i=1}^{k}.
+\]
+Formula 264, source line 469.
+\[i\]
+Formula 265, source line 469.
+\[e_i\]
+Formula 266, source line 469.
+\[e_i'\]
+Formula 267, source line 473.
+\[
+\mathbb E_\epsilon[S_{f,D'}(\theta+\epsilon)]
+\geq
+\Phi\left(
+\Phi^{-1}\left(\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]\right)
+-\frac{\sqrt{\sum\limits_{i=1}^{k}\|We_i-We_i'\|_2^2}}{\sigma}
+\right).
+\]
+Formula 268, source line 484.
+\[\Delta\theta\in\mathbb R^d\]
+Formula 269, source line 486.
+\[
+\begin{gathered}
+\|\Delta\theta\|_2
+\leq\sqrt{\sum\limits_{i=1}^{k}\|We_i-We_i'\|_2^2},\\
+S_{f,D'}(\theta+\epsilon)
+\overset{\mathrm{distribution}}{=}
+S_{f,D}(\theta+\Delta\theta+\epsilon),
+\qquad\epsilon\sim\mathcal N(0,\sigma^2I).
+\end{gathered}
+\]
+Formula 270, source line 499.
+\[\Phi\]
+Formula 271, source line 501.
+\[
+\begin{aligned}
+\mathbb E_\epsilon[S_{f,D'}(\theta+\epsilon)]
+&=\mathbb E_\epsilon[S_{f,D}(\theta+\Delta\theta+\epsilon)]\\
+&\geq\Phi\left(
+\Phi^{-1}\left(\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]\right)
+-\frac{\|\Delta\theta\|_2}{\sigma}
+\right)\\
+&\geq\Phi\left(
+\Phi^{-1}\left(\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]\right)
+-\frac{\sqrt{\sum\limits_{i=1}^{k}\|We_i-We_i'\|_2^2}}{\sigma}
+\right).
+\end{aligned}
+\]
+Formula 272, source line 516.
+\[\square\]
+Formula 273, source line 518.
+\[e_i^\top e_j=0\]
+Formula 274, source line 518.
+\[i\neq j\]
+Formula 275, source line 520.
+\[
+\delta_W:=\sum\limits_{i=1}^{k}(We_i'-We_i)e_i^\top.
+\]
+Formula 276, source line 524.
+\[\delta_W\in\mathbb R^{h\times V}\]
+Formula 277, source line 526.
+\[
+\begin{aligned}
+(W+\delta_W)e_j
+&=We_j+\sum\limits_{i=1}^{k}(We_i'-We_i)e_i^\top e_j
+=We_j',\\
+\|\delta_W\|_F^2
+&=\sum\limits_{i=1}^{k}\|We_i'-We_i\|_2^2.
+\end{aligned}
+\]
+Formula 278, source line 536.
+\[\|\cdot\|_F\]
+Formula 279, source line 538.
+\[\epsilon_W\]
+Formula 280, source line 538.
+\[\epsilon\]
+Formula 281, source line 540.
+\[
+(W+\epsilon_W)e_i'
+-\left(W+\delta_W+\epsilon_W\right)e_i
+=\epsilon_W(e_i'-e_i).
+\]
+Formula 282, source line 546.
+\[0\]
+Formula 283, source line 548.
+\[A,B\]
+Formula 284, source line 548.
+\[W=(0,a)\]
+Formula 285, source line 548.
+\[a>0\]
+Formula 286, source line 548.
+\[\sigma^2\]
+Formula 287, source line 548.
+\[\epsilon_A,\epsilon_B\]
+Formula 288, source line 548.
+\[D\]
+Formula 289, source line 548.
+\[(A,B)\]
+Formula 290, source line 548.
+\[1\]
+Formula 291, source line 548.
+\[0\]
+Formula 292, source line 548.
+\[\epsilon_A-\epsilon_B\sim\mathcal N(0,2\sigma^2)\]
+Formula 293, source line 550.
+\[
+\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)]
+=\mathbb P(\epsilon_A<a+\epsilon_B)
+=\Phi\left(\frac{a}{\sqrt2\sigma}\right).
+\]
+Formula 294, source line 556.
+\[B\]
+Formula 295, source line 556.
+\[D'\]
+Formula 296, source line 556.
+\[(B,B)\]
+Formula 297, source line 558.
+\[
+\mathbb E_\epsilon[S_{f,D'}(\theta+\epsilon)]=0.
+\]
+Formula 298, source line 564.
+\[
+\Phi\left(\frac{a}{\sqrt2\sigma}-\frac a\sigma\right)>0,
+\]
+Formula 299, source line 568.
+\[[0,1]\]
+Formula 300, source line 568.
+\[a\]
+Formula 301, source line 568.
+\[\square\]
+Formula 302, source line 570.
+\[\sqrt{\sum\limits_{i=1}^{k}\|We_i-We_i'\|_2^2}\]
+Formula 303, source line 572.
+\[W\delta_x=\delta_Wx\]
+Formula 304, source line 572.
+\[x\in\mathbb R^V\]
+Formula 305, source line 572.
+\[\delta_x\in\mathbb R^V\]
+Formula 306, source line 572.
+\[W\in\mathbb R^{h\times V}\]
+Formula 307, source line 572.
+\[W\]
+Formula 308, source line 572.
+\[\mathbb R^h\]
+Formula 309, source line 574.
+\[D=\{x\}\]
+Formula 310, source line 574.
+\[D'=\{x_{adv}\}\]
+Formula 311, source line 574.
+\[1/2\]
+Formula 312, source line 574.
+\[1/2\]
+Formula 313, source line 578.
+\[
+L_{train}(x,\theta)
+=-\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}
+\left[\log p(x\mid\theta+\epsilon)\right].
+\]
+Formula 314, source line 584.
+\[L_{train}\]
+Formula 315, source line 584.
+\[x\]
+Formula 316, source line 584.
+\[p(x\mid\theta+\epsilon)\]
+Formula 317, source line 584.
+\[\theta+\epsilon\]
+Formula 318, source line 584.
+\[\theta\]
+Formula 319, source line 584.
+\[0\]
+Formula 320, source line 584.
+\[1\]
+Formula 321, source line 590.
+\[n\]
+Formula 322, source line 590.
+\[p\in[0,1]\]
+Formula 323, source line 590.
+\[0\]
+Formula 324, source line 590.
+\[1\]
+Formula 325, source line 590.
+\[X\]
+Formula 326, source line 590.
+\[X\sim\operatorname{Binomial}(n,p)\]
+Formula 327, source line 590.
+\[x\in\{0,\ldots,n\}\]
+Formula 328, source line 590.
+\[\gamma\in(0,1)\]
+Formula 329, source line 590.
+\[[p_{lower},p_{upper}]\]
+Formula 330, source line 592.
+\[
+\mathbb P_p\left(p_{lower}(X)\leq p\leq p_{upper}(X)\right)
+\geq1-\gamma.
+\]
+Formula 331, source line 597.
+\[\mathbb P_p\]
+Formula 332, source line 597.
+\[p\]
+Formula 333, source line 597.
+\[X\]
+Formula 334, source line 597.
+\[1-\gamma\]
+Formula 335, source line 597.
+\[p\]
+Formula 336, source line 599.
+\[0<x<n\]
+Formula 337, source line 601.
+\[
+\mathbb P_{p_{lower}}(X\geq x)=\frac\gamma2,
+\qquad
+\mathbb P_{p_{upper}}(X\leq x)=\frac\gamma2.
+\]
+Formula 338, source line 607.
+\[x\]
+Formula 339, source line 607.
+\[x\]
+Formula 340, source line 611.
+\[
+I_{a,b}(z)
+:=\frac{\int\limits_0^z t^{a-1}(1-t)^{b-1}\,dt}
+{\int\limits_0^1 t^{a-1}(1-t)^{b-1}\,dt},
+\qquad a,b>0,\quad z\in[0,1].
+\]
+Formula 341, source line 618.
+\[a,b\]
+Formula 342, source line 618.
+\[I_{a,b}^{-1}\]
+Formula 343, source line 620.
+\[
+p_{lower}=
+\begin{cases}
+0,&x=0,\\
+I_{x,n-x+1}^{-1}\left(\dfrac\gamma2\right),&x>0,
+\end{cases}
+\qquad
+p_{upper}=
+\begin{cases}
+I_{x+1,n-x}^{-1}\left(1-\dfrac\gamma2\right),&x<n,\\
+1,&x=n.
+\end{cases}
+\]
+Formula 344, source line 634.
+\[1\leq x\leq n\]
+Formula 345, source line 636.
+\[
+\mathbb P_p(X\geq x)
+=\sum\limits_{j=x}^{n}\binom njp^j(1-p)^{n-j}.
+\]
+Formula 346, source line 641.
+\[\binom nj=n!/(j!(n-j)!)\]
+Formula 347, source line 641.
+\[p\]
+Formula 348, source line 641.
+\[j\binom nj=n\binom{n-1}{j-1}\]
+Formula 349, source line 641.
+\[(n-j)\binom nj=n\binom{n-1}{j}\]
+Formula 350, source line 643.
+\[
+\frac{d}{dp}\mathbb P_p(X\geq x)
+=\frac{n!}{(x-1)!(n-x)!}\,p^{x-1}(1-p)^{n-x}.
+\]
+Formula 351, source line 648.
+\[I_{x,n-x+1}\]
+Formula 352, source line 650.
+\[
+\int\limits_0^1t^{x-1}(1-t)^{n-x}\,dt
+=\frac{(x-1)!(n-x)!}{n!}.
+\]
+Formula 353, source line 655.
+\[p=0\]
+Formula 354, source line 655.
+\[0\]
+Formula 355, source line 655.
+\[\mathbb P_p(X\geq x)=I_{x,n-x+1}(p)\]
+Formula 356, source line 655.
+\[\mathbb P_p(X\leq x)=1-I_{x+1,n-x}(p)\]
+Formula 357, source line 657.
+\[p\]
+Formula 358, source line 657.
+\[p\]
+Formula 359, source line 657.
+\[x\]
+Formula 360, source line 657.
+\[p_{lower}(x)>p\]
+Formula 361, source line 657.
+\[\mathbb P_p(X\geq x)<\gamma/2\]
+Formula 362, source line 657.
+\[x\]
+Formula 363, source line 657.
+\[x_*\]
+Formula 364, source line 659.
+\[
+\mathbb P_p\left(p_{lower}(X)>p\right)
+=\mathbb P_p(X\geq x_*)<\frac\gamma2.
+\]
+Formula 365, source line 664.
+\[0\]
+Formula 366, source line 664.
+\[\mathbb P_p(p_{upper}(X)<p)\leq\gamma/2\]
+Formula 367, source line 664.
+\[p\]
+Formula 368, source line 664.
+\[\gamma\]
+Formula 369, source line 664.
+\[1-\gamma\]
+Formula 370, source line 664.
+\[\square\]
+Formula 371, source line 666.
+\[\epsilon\sim\mathcal N(0,\sigma^2I)\]
+Formula 372, source line 666.
+\[x\in D\]
+Formula 373, source line 666.
+\[O(f_{\theta+\epsilon}(x))\]
+Formula 374, source line 668.
+\[
+p=\mathbb E_\epsilon[S_{f,D}(\theta+\epsilon)].
+\]
+Formula 375, source line 672.
+\[S_{f,D}(\theta)-p_{lower}\leq\tau\]
+Formula 376, source line 672.
+\[\gamma\]
+Formula 377, source line 672.
+\[\delta\sim\mathcal N(0,I)\]
+Formula 378, source line 672.
+\[T\circ S_{f,D}(\theta+\alpha\delta)=0\]
+Formula 379, source line 672.
+\[p_{lower}\]
+Formula 380, source line 674.
+\[0\]
+Formula 381, source line 674.
+\[1\]
+Formula 382, source line 678.
+\[f:\mathbb R^d\to[0,1]\]
+Formula 383, source line 678.
+\[0\]
+Formula 384, source line 678.
+\[1\]
+Formula 385, source line 678.
+\[x\in\mathbb R^d\]
+Formula 386, source line 678.
+\[(0,1)\]
+Formula 387, source line 680.
+\[
+x\longmapsto
+\Phi^{-1}\left(
+\mathbb E_{\epsilon\sim\mathcal N(0,I)}[f(x+\epsilon)]
+\right)
+\]
+Formula 388, source line 687.
+\[1\]
+Formula 389, source line 689.
+\[\mathbb R\]
+Formula 390, source line 689.
+\[f\equiv2\]
+Formula 391, source line 689.
+\[\Phi^{-1}(\mathbb E[f])\]
+Formula 392, source line 689.
+\[[0,1]\]
+Formula 393, source line 691.
+\[x\in\mathbb R^d\]
+Formula 394, source line 691.
+\[v\in\mathbb R^d\]
+Formula 395, source line 691.
+\[Z\sim\mathcal N(0,I)\]
+Formula 396, source line 691.
+\[V=v^\top Z\sim\mathcal N(0,1)\]
+Formula 397, source line 693.
+\[
+v^\top\nabla_x\mathbb E_Z[f(x+Z)]
+=\mathbb E_Z[f(x+Z)V].
+\]
+Formula 398, source line 698.
+\[0\leq f\leq1\]
+Formula 399, source line 698.
+\[V\]
+Formula 400, source line 698.
+\[f\]
+Formula 401, source line 698.
+\[V\]
+Formula 402, source line 698.
+\[V\]
+Formula 403, source line 702.
+\[
+a:=-\Phi^{-1}\left(\mathbb E_Z[f(x+Z)]\right),
+\]
+Formula 404, source line 708.
+\[
+\mathbb P(V\geq a)=1-\Phi(a)
+=\mathbb E_Z[f(x+Z)].
+\]
+Formula 405, source line 713.
+\[f(x+Z)\]
+Formula 406, source line 713.
+\[\mathbb I\{V\geq a\}\]
+Formula 407, source line 713.
+\[V\geq a\]
+Formula 408, source line 713.
+\[1\]
+Formula 409, source line 713.
+\[V-a\]
+Formula 410, source line 713.
+\[V<a\]
+Formula 411, source line 713.
+\[V-a\]
+Formula 412, source line 715.
+\[
+\left(f(x+Z)-\mathbb I\{V\geq a\}\right)(V-a)\leq0.
+\]
+Formula 413, source line 719.
+\[a\]
+Formula 414, source line 721.
+\[
+\begin{aligned}
+\mathbb E_Z[f(x+Z)V]
+&\leq\mathbb E[V\mathbb I\{V\geq a\}]\\
+&=\frac1{\sqrt{2\pi}}\int\limits_a^{+\infty}
+t\exp\left(-\frac{t^2}{2}\right)\,dt\\
+&=\frac1{\sqrt{2\pi}}\exp\left(-\frac{a^2}{2}\right)\\
+&=\Phi'\left(\Phi^{-1}\left(\mathbb E_Z[f(x+Z)]\right)\right).
+\end{aligned}
+\]
+Formula 415, source line 732.
+\[v\]
+Formula 416, source line 732.
+\[-v\]
+Formula 417, source line 734.
+\[
+\left\|\nabla_x\mathbb E_Z[f(x+Z)]\right\|_2
+\leq\Phi'\left(\Phi^{-1}\left(\mathbb E_Z[f(x+Z)]\right)\right).
+\]
+Formula 418, source line 739.
+\[\Phi'(s)>0\]
+Formula 419, source line 739.
+\[s\]
+Formula 420, source line 741.
+\[
+\begin{aligned}
+\left\|\nabla_x\Phi^{-1}\left(\mathbb E_Z[f(x+Z)]\right)\right\|_2
+&=\frac{
+\left\|\nabla_x\mathbb E_Z[f(x+Z)]\right\|_2
+}{
+\Phi'\left(\Phi^{-1}\left(\mathbb E_Z[f(x+Z)]\right)\right)
+}
+\leq1.
+\end{aligned}
+\]
+Formula 421, source line 753.
+\[x,y\in\mathbb R^d\]
+Formula 422, source line 755.
+\[
+\left|
+\Phi^{-1}\left(\mathbb E_Z[f(x+Z)]\right)
+-\Phi^{-1}\left(\mathbb E_Z[f(y+Z)]\right)
+\right|
+\leq\|x-y\|_2.
+\]
+Formula 423, source line 763.
+\[\square\]
+Formula 424, source line 767.
+\[\sqrt{\mathbb E[\|\mathcal N(0,I)\|_2^2]}\]
+Formula 425, source line 767.
+\[\mathbb E[\|\mathcal N(0,I)\|_2]\]
+Formula 426, source line 767.
+\[0\]
+Formula 427, source line 769.
+\[Z\sim\mathcal N(0,I)\]
+Formula 428, source line 769.
+\[R:=\|Z\|_2\]
+Formula 429, source line 769.
+\[\mathbb E[R^2]=d\]
+Formula 430, source line 769.
+\[\sqrt d\]
+Formula 431, source line 769.
+\[R\]
+Formula 432, source line 771.
+\[
+\frac{r^{d-1}e^{-r^2/2}}{2^{d/2-1}\Gamma(d/2)},
+\qquad r>0,
+\]
+Formula 433, source line 776.
+\[\Gamma(z):=\int\limits_0^{+\infty}t^{z-1}e^{-t}\,dt\]
+Formula 434, source line 776.
+\[z>0\]
+Formula 435, source line 776.
+\[t=r^2/2\]
+Formula 436, source line 778.
+\[
+\mathbb E[R]
+=\sqrt2\frac{\Gamma((d+1)/2)}{\Gamma(d/2)}.
+\]
+Formula 437, source line 783.
+\[\sqrt d\]
+Formula 438, source line 785.
+\[
+\log\Gamma(z)
+=\left(z-\frac12\right)\log z-z
++\frac12\log(2\pi)+\frac1{12z}+O(z^{-3}),
+\qquad z\to+\infty.
+\]
+Formula 439, source line 792.
+\[O(z^{-3})\]
+Formula 440, source line 792.
+\[z^{-3}\]
+Formula 441, source line 792.
+\[z+1/2\]
+Formula 442, source line 792.
+\[z\]
+Formula 443, source line 792.
+\[\log(1+1/(2z))=1/(2z)-1/(8z^2)+O(z^{-3})\]
+Formula 444, source line 794.
+\[
+\begin{aligned}
+\log\frac{\Gamma(z+1/2)}{\Gamma(z)}
+&=\frac12\log z-\frac1{8z}+O(z^{-2}),\\
+\frac{\Gamma(z+1/2)}{\Gamma(z)}
+&=z^{1/2}\left(1-\frac1{8z}+O(z^{-2})\right),\\
+\mathbb E[R]
+&=\sqrt d\left(1-\frac1{4d}+O(d^{-2})\right),\\
+\operatorname{Var}(R)
+&=\mathbb E[R^2]-\mathbb E[R]^2
+=\frac12+O(d^{-1}).
+\end{aligned}
+\]
+Formula 445, source line 808.
+\[1/2\]
+Formula 446, source line 808.
+\[0\]
+Formula 447, source line 810.
+\[
+\frac{\mathbb E[R^2]-\mathbb E[R]^2}{\mathbb E[R]^2}
+=\frac{1}{2d}+O(d^{-2})\longrightarrow0.
+\]
+Formula 448, source line 815.
+\[1/(4\sqrt d)+O(d^{-3/2})\]
+Formula 449, source line 815.
+\[1/(4d)+O(d^{-2})\]
+Formula 450, source line 815.
+\[\square\]
+Formula 451, source line 817.
+\[\sigma\sqrt d\]
+Formula 452, source line 817.
+\[O(\sigma)\]
+Formula 453, source line 817.
+\[O(\sigma\sqrt d)\]
+Formula 454, source line 821.
+\[m\]
+Formula 455, source line 821.
+\[1/\sqrt m\]
+Formula 456, source line 821.
+\[m\to\infty\]
+Formula 457, source line 823.
+\[m\to\infty\]
+Formula 458, source line 823.
+\[L_{ft}\]
+Formula 459, source line 823.
+\[\Delta\theta\]
+Formula 460, source line 823.
+\[0\]
+Formula 461, source line 823.
+\[\|\Delta\theta\|_2\to0\]
+Formula 462, source line 825.
+\[f(x;\theta)\]
+Formula 463, source line 825.
+\[m\]
+Formula 464, source line 825.
+\[\theta\in\mathbb R^p\]
+Formula 465, source line 825.
+\[\theta_0\]
+Formula 466, source line 825.
+\[p\]
+Formula 467, source line 825.
+\[m\]
+Formula 468, source line 825.
+\[n\]
+Formula 469, source line 825.
+\[(x_i,t_i)\]
+Formula 470, source line 825.
+\[i=1,\ldots,n\]
+Formula 471, source line 827.
+\[
+L_{ft}(\theta)
+:=\frac12\sum\limits_{i=1}^{n}\left(f(x_i;\theta)-t_i\right)^2.
+\]
+Formula 472, source line 832.
+\[\Phi\in\mathbb R^{n\times p}\]
+Formula 473, source line 832.
+\[\vec y\in\mathbb R^n\]
+Formula 474, source line 834.
+\[
+\Phi_{ij}:=\frac{\partial f(x_i;\theta_0)}{\partial\theta_j},
+\qquad
+(\vec y)_i:=t_i-f(x_i;\theta_0).
+\]
+Formula 475, source line 840.
+\[\theta_j\]
+Formula 476, source line 840.
+\[j\]
+Formula 477, source line 840.
+\[\Phi\]
+Formula 478, source line 840.
+\[\sigma:=\sigma_{min}(\Phi)\]
+Formula 479, source line 842.
+\[p\geq n\]
+Formula 480, source line 842.
+\[\Phi\]
+Formula 481, source line 842.
+\[\sigma>0\]
+Formula 482, source line 842.
+\[r>0\]
+Formula 483, source line 844.
+\[
+\frac{\|\vec y\|_2}{\sigma}\leq r,
+\]
+Formula 484, source line 848.
+\[x_i\]
+Formula 485, source line 848.
+\[\nabla_\theta f(x_i;\theta)\]
+Formula 486, source line 848.
+\[\{\theta:\|\theta-\theta_0\|_2\leq r\}\]
+Formula 487, source line 848.
+\[\beta\]
+Formula 488, source line 848.
+\[\beta\geq0\]
+Formula 489, source line 852.
+\[
+g_\theta(x)
+:=f(x;\theta_0)
++\nabla_\theta f(x;\theta_0)^\top\Delta\theta,
+\qquad\Delta\theta:=\theta-\theta_0,
+\]
+Formula 490, source line 861.
+\[
+\widehat{\Delta\theta}
+=\Phi^\top(\Phi\Phi^\top)^{-1}\vec y,
+\qquad
+\|\widehat{\Delta\theta}\|_2\leq\frac{\|\vec y\|_2}{\sigma}.
+\]
+Formula 491, source line 870.
+\[
+\left|f(x_i;\theta_0+\widehat{\Delta\theta})-t_i\right|
+\leq\frac{\beta\|\vec y\|_2^2}{2\sigma^2}.
+\]
+Formula 492, source line 875.
+\[|(\vec y)_i|\leq C\]
+Formula 493, source line 875.
+\[C\]
+Formula 494, source line 875.
+\[\|\vec y\|_2\leq C\sqrt n\]
+Formula 495, source line 875.
+\[O(\sqrt n/\sigma)\]
+Formula 496, source line 875.
+\[O(\beta n/\sigma^2)\]
+Formula 497, source line 875.
+\[0\]
+Formula 498, source line 875.
+\[0\]
+Formula 499, source line 875.
+\[\|\vec y\|_2/\sigma\to0\]
+Formula 500, source line 875.
+\[0\]
+Formula 501, source line 879.
+\[
+\min\limits_{\Delta\theta\in\mathbb R^p}
+\frac12\|\Phi\Delta\theta-\vec y\|_2^2.
+\]
+Formula 502, source line 884.
+\[\Phi\]
+Formula 503, source line 884.
+\[\Phi\Phi^\top\]
+Formula 504, source line 886.
+\[
+\Phi\left(\Phi^\top(\Phi\Phi^\top)^{-1}\vec y\right)=\vec y.
+\]
+Formula 505, source line 890.
+\[\Delta\theta\]
+Formula 506, source line 890.
+\[z:=\Delta\theta-\widehat{\Delta\theta}\]
+Formula 507, source line 890.
+\[\Phi z=0\]
+Formula 508, source line 890.
+\[\widehat{\Delta\theta}\]
+Formula 509, source line 890.
+\[\Phi^\top\]
+Formula 510, source line 892.
+\[
+\begin{aligned}
+\widehat{\Delta\theta}^{\top}z
+&=\vec y^\top(\Phi\Phi^\top)^{-1}\Phi z=0,\\
+\|\Delta\theta\|_2^2
+&=\|\widehat{\Delta\theta}\|_2^2+\|z\|_2^2
+\geq\|\widehat{\Delta\theta}\|_2^2.
+\end{aligned}
+\]
+Formula 511, source line 902.
+\[\Phi^+\vec y\]
+Formula 512, source line 902.
+\[\Phi^+:=\Phi^\top(\Phi\Phi^\top)^{-1}\]
+Formula 513, source line 904.
+\[\Phi=U\Sigma V^\top\]
+Formula 514, source line 904.
+\[U\in\mathbb R^{n\times n}\]
+Formula 515, source line 904.
+\[V\in\mathbb R^{p\times n}\]
+Formula 516, source line 904.
+\[1\]
+Formula 517, source line 904.
+\[\Sigma\in\mathbb R^{n\times n}\]
+Formula 518, source line 904.
+\[\Phi^+=V\Sigma^{-1}U^\top\]
+Formula 519, source line 906.
+\[
+\begin{aligned}
+\|\widehat{\Delta\theta}\|_2
+&=\|\Phi^+\vec y\|_2
+\leq\|\Phi^+\|_{op}\|\vec y\|_2
+=\frac{\|\vec y\|_2}{\sigma}.
+\end{aligned}
+\]
+Formula 520, source line 915.
+\[A\]
+Formula 521, source line 915.
+\[\|A\|_{op}:=\sup_{\|v\|_2=1}\|Av\|_2\]
+Formula 522, source line 915.
+\[v\]
+Formula 523, source line 915.
+\[A\]
+Formula 524, source line 915.
+\[\Phi^+\]
+Formula 525, source line 915.
+\[1/\sigma\]
+Formula 526, source line 915.
+\[p\geq n\]
+Formula 527, source line 917.
+\[\|\Delta\theta\|_2\leq r\]
+Formula 528, source line 917.
+\[x\]
+Formula 529, source line 917.
+\[\theta_0+t\Delta\theta\]
+Formula 530, source line 917.
+\[t\in[0,1]\]
+Formula 531, source line 919.
+\[
+\begin{aligned}
+&f(x;\theta_0+\Delta\theta)-g_{\theta_0+\Delta\theta}(x)\\
+&=\int\limits_0^1
+\left(\nabla_\theta f(x;\theta_0+t\Delta\theta)
+-\nabla_\theta f(x;\theta_0)\right)^\top\Delta\theta\,dt,\\
+&\left|f(x;\theta_0+\Delta\theta)-g_{\theta_0+\Delta\theta}(x)\right|\\
+&\leq\int\limits_0^1\beta t\|\Delta\theta\|_2^2\,dt
+=\frac\beta2\|\Delta\theta\|_2^2.
+\end{aligned}
+\]
+Formula 532, source line 931.
+\[\Delta\theta=\widehat{\Delta\theta}\]
+Formula 533, source line 931.
+\[g_{\theta_0+\widehat{\Delta\theta}}(x_i)=t_i\]
+Formula 534, source line 933.
+\[
+\begin{aligned}
+\left|f(x_i;\theta_0+\widehat{\Delta\theta})-t_i\right|
+&\leq\frac\beta2\|\widehat{\Delta\theta}\|_2^2
+\leq\frac{\beta\|\vec y\|_2^2}{2\sigma^2},\\
+L_{ft}(\theta_0+\widehat{\Delta\theta})
+&\leq\frac{n\beta^2\|\vec y\|_2^4}{8\sigma^4}.
+\end{aligned}
+\]
+Formula 535, source line 943.
+\[n\]
+Formula 536, source line 943.
+\[\beta n/\sigma^2\to0\]
+Formula 537, source line 943.
+\[0\]
+Formula 538, source line 943.
+\[\|\vec y\|_2/\sigma\to0\]
+Formula 539, source line 943.
+\[0\]
+Formula 540, source line 943.
+\[\square\]
+Formula 541, source line 945.
+\[\beta/\sigma^2\propto1/\sqrt m\to0\]
+Formula 542, source line 945.
+\[\|\widehat{\Delta\theta}\|_2\]
+Formula 543, source line 945.
+\[\beta\to0\]
+Formula 544, source line 945.
+\[\sigma\]
+Formula 545, source line 945.
+\[m\]
+Formula 546, source line 947.
+\[1/\sqrt m\]
+Formula 547, source line 947.
+\[1\]
+Formula 548, source line 949.
+\[
+f(x;\theta)=\frac1{\sqrt m}\sum\limits_{j=1}^{m}\theta_j,
+\qquad\theta_0=0.
+\]
+Formula 549, source line 954.
+\[x\]
+Formula 550, source line 954.
+\[m\]
+Formula 551, source line 954.
+\[0\]
+Formula 552, source line 954.
+\[n=1\]
+Formula 553, source line 954.
+\[\vec y=(1)\]
+Formula 554, source line 956.
+\[
+\Phi=\frac1{\sqrt m}(1,\ldots,1),
+\qquad\Phi\Phi^\top=1,
+\qquad\sigma=1,
+\qquad\beta=0.
+\]
+Formula 555, source line 965.
+\[
+\widehat{\Delta\theta}
+=\frac1{\sqrt m}(1,\ldots,1)^\top,
+\qquad
+\|\widehat{\Delta\theta}\|_2=1.
+\]
+Formula 556, source line 972.
+\[0\]
+Formula 557, source line 972.
+\[1\]
+Formula 558, source line 974.
+\[
+1=\left|\frac1{\sqrt m}\sum\limits_{j=1}^{m}\Delta\theta_j\right|
+\leq\|\Delta\theta\|_2,
+\]
+Formula 559, source line 979.
+\[0\]
+Formula 560, source line 979.
+\[\square\]
+Formula 561, source line 981.
+\[\Phi\Phi^\top\]
+Formula 562, source line 981.
+\[\sigma\]
+Formula 563, source line 981.
+\[\|\Delta\theta\|_2\to0\]
+Formula 564, source line 987.
+\[\mathcal H\]
+Formula 565, source line 987.
+\[x_1,\ldots,x_n\]
+Formula 566, source line 989.
+\[
+\widehat{\mathfrak R}_n(\mathcal H)
+:=\mathbb E_{\xi}\left[
+\sup\limits_{g\in\mathcal H}
+\frac1n\sum\limits_{i=1}^{n}\xi_i g(x_i)
+\right],
+\]
+Formula 567, source line 997.
+\[\xi_1,\ldots,\xi_n\]
+Formula 568, source line 997.
+\[1/2\]
+Formula 569, source line 997.
+\[-1\]
+Formula 570, source line 997.
+\[1\]
+Formula 571, source line 999.
+\[O(d\sigma^2)\geq k\]
+Formula 572, source line 999.
+\[\sqrt{k/d}\]
+Formula 573, source line 999.
+\[d\]
+Formula 574, source line 999.
+\[\sigma\]
+Formula 575, source line 999.
+\[k\]
+Formula 576, source line 999.
+\[k\]
+Formula 577, source line 999.
+\[k\]
+\end{document}

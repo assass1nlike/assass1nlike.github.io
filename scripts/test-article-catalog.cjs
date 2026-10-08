@@ -34,7 +34,10 @@ test('all published categories and reader links use the generated catalog', () =
   assert.equal(context.resolveDoc('2025.md').collection, 'annual');
   assert.equal(context.categoryHref('annual'), '/category.html?cat=minors&collection=annual');
   assert.equal(context.resolveDoc('everlasting/tech/std/claude_web_tool_issues.md').category, 'tech');
-  assert.ok(!evaluate('DOC_LINK_PATTERNS').some(entry => /^202[345]$/.test(entry.pattern)));
+  const title = context.resolveDoc('least-squares-gd').title;
+  assert.equal(context.renderMarkdown(title), `<p>${title}</p>`);
+  assert.match(context.renderMarkdown(`[${title}](https://www.bilibili.com/opus/1241268741415632929)`),
+    /href="https:\/\/www\.bilibili\.com\/opus\/1241268741415632929"/);
   assert.ok(!context.window.ArticleCatalog.some(doc => /research\/|minors\/(cybergym|recurrent_MoE|4dim-bench)\//.test(doc.path)));
 });
 

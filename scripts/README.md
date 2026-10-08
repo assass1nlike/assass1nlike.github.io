@@ -124,7 +124,7 @@ python scripts/update-paper-publications.py --deep
 - Semantic Scholar：提供 DOI 和结构化的会议／期刊信息，可用环境变量 `SEMANTIC_SCHOLAR_API_KEY` 鉴权。其论文年份可能是预印本年份，因此不用于补会议年份。
 - arXiv Comments：仅采用明确的 `Accepted at/to/in/by ...` 声明，要求含支持的会议简称及四位年份，保留 Workshop 等限定语。该渠道属于作者声明，来源链接指向 arXiv；普通会议提及、投稿声明不算录用。
 
-不会按本地简称模糊配对，也不会把 arXiv/CoRR 书目记录标为录用。OpenReview 主会与 Workshop 分开标注；其它书目或论文集来源无法可靠区分主会与 Workshop 时保留完整名称并标注“论文集”。缺乏身份关联证据或上述渠道尚未收录的论文仍可能遗漏。
+不会按本地简称模糊配对，也不会把 arXiv/CoRR 书目记录标为录用。OpenReview 主会与 Workshop 分开标注；其它书目或论文集来源无法可靠区分主会与 Workshop 时保留完整名称。缺乏身份关联证据或上述渠道尚未收录的论文仍可能遗漏。
 
 `scripts/paper-publications-cache.json` 保存查询结果，`assets/papers/publications.json` 是网站读取的静态数据。已确认条目默认跳过，未确认条目每隔七天可重查；查询渠道版本更新或上次查询失败时可立即重查。遇到 403/429 或 JSON 接口返回 HTML 验证页时停止向相应接口继续请求，本轮仍可使用其它来源；Semantic Scholar 的批量错误也记入各篇查询记录。查询失败或未找到不会清空已有确认结果。`--refresh` 强制重查，`--limit 10` 限制本轮查询数量，`--offline` 仅应用缓存和人工更正。
 
