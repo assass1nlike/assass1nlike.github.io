@@ -48,7 +48,7 @@ window.PaperTree = (() => {
   function publicationHtml(paper) {
     const publication = paper.publication;
     if (!publication) return '';
-    const kind = { conference: '', workshop: 'Workshop', journal: '期刊', proceedings: '论文集' }[publication.kind];
+    const kind = { conference: '', workshop: 'Workshop', journal: '期刊', proceedings: '' }[publication.kind];
     return `<a class="paper-publication" href="${escapeAttr(publication.url)}" target="_blank" rel="noopener noreferrer" title="查看发表来源" data-site-ui>
       ${kind ? `<span>${kind}</span> ` : ''}<span data-site-content>${escapeHtml(publication.label)}</span></a>`;
   }
@@ -232,7 +232,7 @@ window.PaperTree = (() => {
           <div class="paper-card-top"><span>${escapeHtml(paper.category.split('/').join(' / '))}</span><span class="paper-status ${paper.hasNote ? 'has-note' : ''}">${status(paper)}</span></div>
           <div class="paper-title-row"><h2><button type="button" data-paper="${paper.id}">${escapeHtml(paper.title)}</button></h2>${publicationHtml(paper)}</div>
           ${paper.excerpt ? `<p class="paper-excerpt">${escapeHtml(paper.excerpt)}</p>` : ''}
-          <a class="paper-read-link" href="${paperHref(paper.id)}" data-paper="${paper.id}">${paper.hasSummary ? '阅读概述' : paper.hasNote ? '阅读讲解' : '查看条目'} ↗</a>
+          <a class="paper-read-link" href="${paperHref(paper.id)}" data-paper="${paper.id}">${paper.hasSummary ? '阅读概述' : paper.hasNote ? '阅读讲解' : '查看条目'}</a>
         </article>`).join('') || '<p class="paper-empty">没有匹配的论文，试试其他词语或分类。</p>';
         host.querySelectorAll('[data-folder]').forEach((button) => {
           button.setAttribute('aria-current', String(button.dataset.folder === folder));

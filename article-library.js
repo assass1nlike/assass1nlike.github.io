@@ -185,7 +185,7 @@ window.ArticleLibrary = (() => {
           <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${publicationTime(doc)}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>${doc.wordCount} 字</span>`}</div>
           <h2><a href="${escapeAttr(href)}">${highlight(doc.title, words)}</a></h2>
           <p class="library-excerpt" ${doc.empty || doc.missing || !doc.excerpt ? 'data-site-ui' : ''}>${highlight(excerpt, words)}</p>
-          <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'} <span aria-hidden="true">↗</span></a>`}${doc.repository ? `<a class="library-repository" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ''}</div>
+          <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'}</a>`}${doc.repository ? `<a class="library-repository" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ''}</div>
           </div>
         </article>`;
       }).join('') || `<div class="library-empty">${docs.length ? `没有找到匹配的${noun}。试试其他关键词，或清除筛选。` : `这个板块还没有${noun}。`}</div>`;
@@ -268,7 +268,7 @@ window.ArticleLibrary = (() => {
       nav.className = 'library-adjacent';
       nav.setAttribute('data-site-ui', '');
       nav.setAttribute('aria-label', '继续阅读');
-      nav.innerHTML = siblings.map(([entry, label]) => `<a href="${escapeAttr((entry.href || viewerHref(entry.path)) + '&from=' + encodeURIComponent(returnUrl))}"><small data-site-ui>${category.id === 'permanence' ? label.replace('篇', '个项目') : label}</small><span data-site-content>${escapeHtml(entry.title || resolveDoc(entry.path)?.title || displayNameFromPath(entry.path))} ↗</span></a>`).join('');
+      nav.innerHTML = siblings.map(([entry, label]) => `<a href="${escapeAttr((entry.href || viewerHref(entry.path)) + '&from=' + encodeURIComponent(returnUrl))}"><small data-site-ui>${category.id === 'permanence' ? label.replace('篇', '个项目') : label}</small><span data-site-content>${escapeHtml(entry.title || resolveDoc(entry.path)?.title || displayNameFromPath(entry.path))}</span></a>`).join('');
       content.append(nav);
     }
     if (outline && window.IntersectionObserver) {
