@@ -1,0 +1,281 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "Seedance 2.0 fast",
+      "object": "model",
+      "created": 0,
+      "owned_by": "toonflow",
+      "modelInfo": {
+        "mode": [
+          "text",
+          "startFrameOptional",
+          [
+            "imageReference:9",
+            "videoReference:3",
+            "audioReference:3"
+          ]
+        ],
+        "audio": "optional",
+        "durationResolutionMap": [
+          {
+            "duration": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "resolution": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Seedance 2.0",
+      "object": "model",
+      "created": 0,
+      "owned_by": "toonflow",
+      "modelInfo": {
+        "mode": [
+          "text",
+          "startFrameOptional",
+          [
+            "imageReference:9",
+            "videoReference:3",
+            "audioReference:3"
+          ]
+        ],
+        "audio": "optional",
+        "durationResolutionMap": [
+          {
+            "duration": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "resolution": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Seedance 2.0 mini",
+      "object": "model",
+      "created": 0,
+      "owned_by": "toonflow",
+      "modelInfo": {
+        "mode": [
+          "text",
+          "startFrameOptional",
+          [
+            "imageReference:9",
+            "videoReference:3",
+            "audioReference:3"
+          ]
+        ],
+        "audio": "optional",
+        "durationResolutionMap": [
+          {
+            "duration": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "resolution": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Seedance 2.5",
+      "object": "model",
+      "created": 0,
+      "owned_by": "toonflow",
+      "modelInfo": {
+        "mode": [
+          "text",
+          "startFrameOptional",
+          [
+            "imageReference:30",
+            "videoReference:10",
+            "audioReference:10"
+          ]
+        ],
+        "audio": "optional",
+        "durationResolutionMap": [
+          {
+            "duration": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "resolution": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "wan-3.0",
+      "object": "model",
+      "created": 0,
+      "owned_by": "toonflow",
+      "modelInfo": {
+        "mode": [
+          "text",
+          "startFrameOptional",
+          [
+            "imageReference:10",
+            "videoReference:5",
+            "audioReference:5"
+          ]
+        ],
+        "audio": "optional",
+        "durationResolutionMap": [
+          {
+            "duration": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "resolution": [
+              "480p",
+              "720p",
+              "1080p"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MiniMax-H3",
+      "object": "model",
+      "created": 0,
+      "owned_by": "toonflow",
+      "modelInfo": {
+        "mode": [
+          "text",
+          "startFrameOptional",
+          [
+            "imageReference:9",
+            "audioReference:3"
+          ]
+        ],
+        "audio": true,
+        "durationResolutionMap": [
+          {
+            "duration": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "resolution": [
+              "480p",
+              "768p"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

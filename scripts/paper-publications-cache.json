@@ -3959,7 +3959,7 @@
     }
   },
   "2508.16546": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -3981,7 +3981,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Jin, Hangzhan",
@@ -4001,7 +4001,7 @@
         "identityMatched": true
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2508.20443": {
     "checkedAt": "2026-10-05T11:16:19.286618+00:00",
@@ -4037,7 +4037,7 @@
     }
   },
   "2510.04860": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4079,7 +4079,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Han, Siwei",
@@ -4113,7 +4113,7 @@
         "identityMatched": true
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2510.15501": {
     "checkedAt": "2026-10-05T11:16:19.286618+00:00",
@@ -4152,7 +4152,7 @@
     "error": "api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2511.08598": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4178,7 +4178,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Li, Yanhong",
@@ -4200,7 +4200,7 @@
         "identityMatched": true
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2511.20639": {
     "checkedAt": "2026-10-05T04:01:25.327039+00:00",
@@ -4211,7 +4211,7 @@
     }
   },
   "2512.04457": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4233,7 +4233,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Zhao, Guoshenghui",
@@ -4259,7 +4259,7 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2512.24880": {
     "checkedAt": "2026-10-05T04:01:25.327039+00:00",
@@ -4296,7 +4296,7 @@
     }
   },
   "2602.01148": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4318,7 +4318,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Zou, Jiaxuan",
@@ -4330,7 +4330,7 @@
       "abstract": "Latent Chain-of-Thought (Latent CoT) models promise efficient reasoning via continuous representations, yet exhibit puzzling performance inconsistencies: excelling at exploration (ProsQA: 97.0%) but failing at computation (GSM8K: 34.1%). We reveal that this trade-off is governed by decisional certainty. Our contributions are threefold: (1) We theoretically characterize the fundamental Exploration-Execution Trade-off, proving that high certainty enables precise execution but inhibits exploration, while low certainty facilitates search but causes error accumulation. (2) We introduce the Symbolic Index--quantifying decisional commitment--as the core mechanism governing this trade-off and establish its causal relationship with both execution stability and exploration capability. (3) We prove that curriculum learning is theoretically necessary, as direct training provably fails due to distributional mismatch. Our framework shifts the design paradigm from binary architectural choices toward adaptive systems that dynamically regulate decisional certainty based on task demands."
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2602.05400": {
     "checkedAt": "2026-10-05T04:01:25.327039+00:00",
@@ -4341,7 +4341,7 @@
     }
   },
   "2602.06359": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4363,7 +4363,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Zhang, Xiyang",
@@ -4376,7 +4376,7 @@
       "abstract": "Fine-tuning large language models (LLMs) for specialized domains often necessitates a trade-off between acquiring domain expertise and retaining general reasoning capabilities, a phenomenon known as catastrophic forgetting. Existing remedies face a dichotomy: gradient surgery methods offer geometric safety but incur prohibitive computational costs via online projections, while efficient data selection approaches reduce overhead but remain blind to conflict-inducing gradient directions. In this paper, we propose Orthogonal Gradient Selection (OGS), a data-centric method that harmonizes domain performance, general capability retention, and training efficiency. OGS shifts the geometric insights of gradient projection from the optimizer to the data selection stage by treating data selection as a constrained decision-making process. By leveraging a lightweight Navigator model and reinforcement learning techniques, OGS dynamically identifies training samples whose gradients are orthogonal to a general-knowledge anchor. This approach ensures naturally safe updates for target models without modifying the optimizer or incurring runtime projection costs. Experiments across medical, legal, and financial domains demonstrate that OGS achieves excellent results, significantly improving domain performance and training efficiency while maintaining or even enhancing performance on general tasks such as GSM8K."
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2602.07852": {
     "checkedAt": "2026-10-05T04:01:25.327039+00:00",
@@ -4387,7 +4387,7 @@
     }
   },
   "2602.09877": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4413,7 +4413,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Wang, Chenxu",
@@ -4435,10 +4435,10 @@
       "abstract": "The emergence of multi-agent systems built from large language models (LLMs) offers a promising paradigm for scalable collective intelligence and self-evolution. Ideally, such systems would achieve continuous self-improvement in a fully closed loop while maintaining robust safety alignment--a combination we term the self-evolution trilemma. However, we demonstrate both theoretically and empirically that an agent society satisfying continuous self-evolution, complete isolation, and safety invariance is impossible. Drawing on an information-theoretic framework, we formalize safety as the divergence degree from anthropic value distributions. We theoretically demonstrate that isolated self-evolution induces statistical blind spots, leading to the irreversible degradation of the system's safety alignment. Empirical and qualitative results from an open-ended agent community (Moltbook) and two closed self-evolving systems reveal phenomena that align with our theoretical prediction of inevitable safety erosion. We further propose several solution directions to alleviate the identified safety concern. Our work establishes a fundamental limit on the self-evolving AI societies and shifts the discourse from symptom-driven safety patches to a principled understanding of intrinsic dynamical risks, highlighting the need for external oversight or novel safety-preserving mechanisms."
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2603.05872": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4464,7 +4464,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Ying, Zonghao",
@@ -4495,7 +4495,7 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2603.07427": {
     "checkedAt": "2026-10-05T04:01:25.327039+00:00",
@@ -4506,7 +4506,7 @@
     }
   },
   "2603.20807": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4528,7 +4528,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Zheng, Yandan",
@@ -4542,7 +4542,7 @@
       "abstract": "Benchmarks are the de facto standard for tracking progress in large language models (LLMs), yet static test sets can rapidly saturate, become vulnerable to contamination, and are costly to refresh. Scalable evaluation of open-ended items often relies on LLM judges, introducing additional sources of bias and prompt sensitivity. We argue that evaluation must extend beyond how well models answer benchmarks to how well models design them. We introduce BenchBench, a three-stage pipeline and dataset for benchmarking automated benchmark generation: (i) extract structured domain cards from seed benchmarks, (ii) prompt multiple designer LLMs to generate quota-controlled suites, and (iii) validate items with a multi-model answerer panel using exact/numeric/symbolic verifiers when possible and rubric-guided judging otherwise, yielding designer--answerer matrices with item-level quality flags and psychometric diagnostics. Across nine variants spanning computer science, mathematics, medicine, and theory-of-mind reasoning (including multilingual and multimodal settings), we generate 16.7K items, retain ~15K core items post-filtering, and produce ~152K graded model--item responses. BenchBench shows that benchmark-design ability is only moderately correlated with answer-time strength (Spearman rho ~0.37), invalidity is negatively associated with discrimination (Pearson r~0.62), and the resulting designer--answerer matrices enable scalable audits of format/modality/language fidelity and suite-dependent self/family interactions. The project is available at: https://github.com/koanatakiyo/BenchBench."
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2604.05540": {
     "checkedAt": "2026-10-05T11:16:19.286618+00:00",
@@ -4677,7 +4677,7 @@
     "error": "api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2604.18292": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4703,7 +4703,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Dong, Guanting",
@@ -4740,10 +4740,10 @@
         "identityMatched": true
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2605.00364": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4777,7 +4777,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Wu, Jiawei",
@@ -4789,10 +4789,10 @@
       "comments": "17 pages, 2 figures"
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2605.08142": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4830,7 +4830,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Ma, Yanbiao",
@@ -4859,10 +4859,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2605.12357": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4884,7 +4884,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Lei, Jingdi",
@@ -4946,10 +4946,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2605.19338": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -4975,7 +4975,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Wu, Jiaao",
@@ -4991,10 +4991,10 @@
       "comments": "25 pages, 4 figures. Code: this https URL"
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2605.20025": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5036,7 +5036,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Liu, Jiaqi",
@@ -5094,7 +5094,7 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.01053": {
     "checkedAt": "2026-10-05T04:01:25.327039+00:00",
@@ -5105,7 +5105,7 @@
     }
   },
   "2606.01281": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5139,7 +5139,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Mao, Yixiu",
@@ -5178,7 +5178,7 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.01351": {
     "checkedAt": "2026-10-05T04:01:25.327039+00:00",
@@ -5189,7 +5189,7 @@
     }
   },
   "2606.05014": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5215,7 +5215,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Zeng, Boyi",
@@ -5242,10 +5242,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.05405": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5275,7 +5275,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Sun, Yiyou",
@@ -5632,10 +5632,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.06114": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5657,7 +5657,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Shi, Dianxing",
@@ -5671,7 +5671,7 @@
       "abstract": "Self-evolving agents improve through continual self-play and self-generated learning signals, but their internally generated tasks and verifier signals provide limited coverage of phase-level errors, allowing capability degradation and safety drift to accumulate. We introduce ANCHOR, an LLM-based supervisory framework that delivers evaluative feedback at multiple phases of self-evolution and aggregates reviewed signals into context for subsequent steps. We retrofit two representative open-source self-evolving agent frameworks with ANCHOR, and evaluate them across coding, mathematical reasoning, and safety. Our results show that ANCHOR substantially improves safety performance while maintaining stable performance on the core capabilities of the underlying self-evolving agents. Further analyses provide practical insights for future research, showing that execution-result-based supervision is particularly effective and that increasing supervision frequency yields diminishing returns. Together, these results support external LLM-based supervision as a practical approach to developing safer, more stable, and controllable self-evolving agent systems."
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.06188": {
     "checkedAt": "2026-10-05T04:01:25.327039+00:00",
@@ -5682,7 +5682,7 @@
     }
   },
   "2606.06320": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5712,7 +5712,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Yüce, Gizem",
@@ -5731,10 +5731,10 @@
         "identityMatched": true
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.06462": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5756,7 +5756,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Xiong, Shiyun",
@@ -5895,10 +5895,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.15734": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5924,7 +5924,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Su, Weihang",
@@ -5950,10 +5950,10 @@
         "identityMatched": true
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.16899": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -5983,7 +5983,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Wen, Kaiyue",
@@ -6005,10 +6005,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.19348": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -6030,7 +6030,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "DeepSeek-AI",
@@ -6358,10 +6358,10 @@
       "abstract": "We present a preview version of DeepSeek-V4 series, including two strong Mixture-of-Experts (MoE) language models -- DeepSeek-V4-Pro with 1.6T parameters (49B activated) and DeepSeek-V4-Flash with 284B parameters (13B activated) -- both supporting a context length of one million tokens. DeepSeek-V4 series incorporate several key upgrades in architecture and optimization: (1) a hybrid attention architecture that combines Compressed Sparse Attention (CSA) and Heavily Compressed Attention (HCA) to improve long-context efficiency; (2) Manifold-Constrained Hyper-Connections (mHC) that enhance conventional residual connections; (3) and the Muon optimizer for faster convergence and greater training stability. We pre-train both models on more than 32T diverse and high-quality tokens, followed by a comprehensive post-training pipeline that unlocks and further enhances their capabilities. DeepSeek-V4-Pro-Max, the maximum reasoning effort mode of DeepSeek-V4-Pro, redefines the state-of-the-art for open models, outperforming its predecessors in core tasks. Meanwhile, DeepSeek-V4 series are highly efficient in long-context scenarios. In the one-million-token context setting, DeepSeek-V4-Pro requires only 27% of single-token inference FLOPs and 10% of KV cache compared with DeepSeek-V3.2. This enables us to routinely support one-million-token contexts, thereby making long-horizon tasks and further test-time scaling more feasible. The model checkpoints are available at https://huggingface.co/collections/deepseek-ai/deepseek-v4."
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.23075": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -6391,7 +6391,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Lin, Ruixiao",
@@ -6422,10 +6422,10 @@
         "identityMatched": true
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2606.26294": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -6451,7 +6451,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Iacob, Alex",
@@ -6481,10 +6481,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2607.02520": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -6510,7 +6510,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Kumar, Rajesh",
@@ -6537,10 +6537,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2607.05147": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -6606,7 +6606,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Cheng, Xin",
@@ -6709,10 +6709,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2607.09236": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -6734,7 +6734,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Peleg, Amit",
@@ -6755,10 +6755,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2607.14777": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -6780,7 +6780,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Wu, Jinyang",
@@ -6909,10 +6909,10 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2608.02148": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -6934,7 +6934,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Chen, Haonan",
@@ -6994,7 +6994,7 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2608.12346": {
     "checkedAt": "2026-10-05T12:03:06.284262+00:00",
@@ -7259,7 +7259,7 @@
     }
   },
   "2604.06684": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -7289,7 +7289,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Fang, Yue",
@@ -7316,7 +7316,7 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2604.08238": {
     "checkedAt": "2026-10-05T11:47:13.580878+00:00",
@@ -7351,7 +7351,7 @@
     }
   },
   "2607.12790": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -7453,7 +7453,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Zhang, Xing",
@@ -7470,10 +7470,10 @@
       "comments": "Code: this https URL"
     },
     "candidates": [],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "2609.35751": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "query_failed",
     "checks": [
@@ -7495,7 +7495,7 @@
         "status": "cached"
       }
     ],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "metadata": {
       "authors": [
         "Wang, Shouren",
@@ -7521,7 +7521,7 @@
         "identityMatched": false
       }
     ],
-    "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "paper:031582312473e62ad04e": {
     "checkedAt": "2026-10-05T11:47:13.580878+00:00",
@@ -7790,11 +7790,11 @@
     }
   },
   "paper:4c355e2937a03bae531f": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "missing_identity",
     "checks": [],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "error": "No verified title and author metadata"
   },
   "paper:4fba975743699774eb35": {
@@ -7861,11 +7861,11 @@
     "error": "api.openreview.net: HTTP 429; stopped requests for this run"
   },
   "paper:6dbfaeea53c715576450": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "missing_identity",
     "checks": [],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "error": "No verified title and author metadata"
   },
   "paper:7ad791a94ed211057d56": {
@@ -8765,11 +8765,11 @@
     "error": "api.openreview.net: HTTP 429"
   },
   "paper:35da5b2bd0b1eb8b627f": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "missing_identity",
     "checks": [],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "error": "No verified title and author metadata"
   },
   "paper:a5d229202b5154029948": {
@@ -8781,11 +8781,799 @@
     "error": "No verified title and author metadata"
   },
   "paper:cb66371d6a0a826da747": {
-    "checkedAt": "2026-10-06T10:34:29.039719+00:00",
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
     "queryVersion": 3,
     "status": "missing_identity",
     "checks": [],
-    "deepCheckedAt": "2026-10-06T10:34:29.039719+00:00",
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "error": "No verified title and author metadata"
+  },
+  "2408.01689": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "confirmed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2408.01689",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=Controllable+Unlearning+for+Image-to-Image+Generative+Models+via+%24%5Cvarepsilon%24-Constrained+Optimization&limit=100",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Feng, Xiaohua",
+        "Li, Yuyuan",
+        "Chen, Chaochao",
+        "Zhang, Li",
+        "Li, Longfei",
+        "Zhou, Jun",
+        "Zheng, Xiaolin"
+      ],
+      "title": "Controllable Unlearning for Image-to-Image Generative Models via $\\varepsilon$-Constrained Optimization",
+      "arxiv_id": "2408.01689",
+      "abstract": "While generative models have made significant advancements in recent years, they also raise concerns such as privacy breaches and biases. Machine unlearning has emerged as a viable solution, aiming to remove specific training data, e.g., containing private information and bias, from models. In this paper, we study the machine unlearning problem in Image-to-Image (I2I) generative models. Previous studies mainly treat it as a single objective optimization problem, offering a solitary solution, thereby neglecting the varied user expectations towards the trade-off between complete unlearning and model utility. To address this issue, we propose a controllable unlearning framework that uses a control coefficient $\\varepsilon$ to control the trade-off. We reformulate the I2I generative model unlearning problem into a $\\varepsilon$-constrained optimization problem and solve it with a gradient-based method to find optimal solutions for unlearning boundaries. These boundaries define the valid range for the control coefficient. Within this range, every yielded solution is theoretically guaranteed with Pareto optimality. We also analyze the convergence rate of our framework under various control functions. Extensive experiments on two benchmark datasets across three mainstream I2I models demonstrate the effectiveness of our controllable unlearning framework.",
+      "comments": "Accepted by ICLR 2025"
+    },
+    "publication": {
+      "label": "ICLR 2025 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=9OJflnNu6C"
+    },
+    "error": "api.semanticscholar.org: HTTP 429"
+  },
+  "2408.11433": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "query_failed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2408.11433",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=Towards+Aligned+Data+Removal+via+Twin+Machine+Unlearning&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.openreview.net/notes/search?term=Towards+Aligned+Data+Removal+via+Twin+Machine+Unlearning&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.crossref.org/works?query.title=Towards+Aligned+Data+Removal+via+Twin+Machine+Unlearning&rows=5",
+        "status": "ok"
+      },
+      {
+        "url": "https://proceedings.mlr.press/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v337/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v336/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v306/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v306/tang26e.html",
+        "status": "ok"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v300/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v267/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v286/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v292/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v291/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v258/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v251/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v244/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v235/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v247/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v238/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v195/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v202/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v216/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v206/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2026",
+        "status": "error",
+        "error": "HTTP 404"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/CVPR2026?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/WACV2026?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/acl-2026/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/emnlp-2026/",
+        "status": "error",
+        "error": "HTTP 404"
+      },
+      {
+        "url": "https://aclanthology.org/events/naacl-2026/",
+        "status": "error",
+        "error": "HTTP 404"
+      },
+      {
+        "url": "https://aclanthology.org/events/eacl-2026/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/coling-2026/",
+        "status": "error",
+        "error": "HTTP 404"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2025",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/CVPR2025?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/ICCV2025?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/WACV2025?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/acl-2025/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/emnlp-2025/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/naacl-2025/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/eacl-2025/",
+        "status": "error",
+        "error": "HTTP 404"
+      },
+      {
+        "url": "https://aclanthology.org/events/coling-2025/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/CVPR2024?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/WACV2024?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/acl-2024/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/emnlp-2024/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/naacl-2024/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/eacl-2024/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/coling-2024/",
+        "status": "cached"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/CVPR2023?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/ICCV2023?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/WACV2023?day=all",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/acl-2023/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/emnlp-2023/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/naacl-2023/",
+        "status": "error",
+        "error": "HTTP 404"
+      },
+      {
+        "url": "https://aclanthology.org/events/eacl-2023/",
+        "status": "cached"
+      },
+      {
+        "url": "https://aclanthology.org/events/coling-2023/",
+        "status": "error",
+        "error": "HTTP 404"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Ji, Haoxuan",
+        "Lin, Zheng",
+        "Sun, Yuyao",
+        "Fei, Gao",
+        "Wang, Yuhang",
+        "Gao, Haichang",
+        "Niu, Zhenxing"
+      ],
+      "title": "Towards Aligned Data Removal via Twin Machine Unlearning",
+      "arxiv_id": "2408.11433",
+      "abstract": "Modern privacy regulations have spurred the evolution of machine unlearning, a technique that enables the removal of data from an already trained ML model without requiring retraining from scratch. Previous unlearning methods tend to induce the model to achieve lowest classification accuracy on the removal data. Nonetheless, the authentic objective of machine unlearning is to align the unlearned model with the gold model, i.e., achieving the same classification accuracy as the gold model. For this purpose, we present a Twin Machine Unlearning (TMU) approach, where a twin unlearning problem is defined corresponding to the original unlearning problem. As a results, the generalization-label predictor trained on the twin problem can be transferred to the original problem, facilitating aligned data removal. Comprehensive empirical experiments illustrate that our approach significantly enhances the alignment between the unlearned model and the gold model. Meanwhile, our method allows data removal without compromising the model accuracy."
+    },
+    "candidates": [
+      {
+        "title": "Towards Aligned Data Removal via Twin Machine Unlearning",
+        "venue": "CoRR 2024",
+        "url": "https://openreview.net/forum?id=HP7s6f1het",
+        "identityMatched": false
+      },
+      {
+        "title": "Towards Aligned Data Forgetting via Twin Machine Unlearning",
+        "venue": "Submitted to ICLR 2025",
+        "url": "https://openreview.net/forum?id=liqUhMECuY",
+        "identityMatched": false
+      },
+      {
+        "title": "Towards Natural Machine Unlearning",
+        "venue": "FITML 2024 Poster",
+        "url": "https://openreview.net/forum?id=jkDKGXbFqm",
+        "identityMatched": false
+      },
+      {
+        "title": "Towards Natural Machine Unlearning",
+        "venue": "CoRR 2024",
+        "url": "https://openreview.net/forum?id=lq1bSv4jap",
+        "identityMatched": false
+      },
+      {
+        "title": "DFMU: Data-Frugal Machine Unlearning",
+        "venue": "CoRR 2026",
+        "url": "https://openreview.net/forum?id=5GltQ4XVAY",
+        "identityMatched": false
+      },
+      {
+        "title": "Towards Unbounded Machine Unlearning",
+        "venue": "CoRR 2023",
+        "url": "https://openreview.net/forum?id=X1XUD_Q0tr",
+        "identityMatched": false
+      },
+      {
+        "title": "Towards Probabilistic Verification of Machine Unlearning",
+        "venue": "CoRR 2020",
+        "url": "https://openreview.net/forum?id=HJJngIzVwt",
+        "identityMatched": false
+      },
+      {
+        "title": "Towards Making Systems Forget with Machine Unlearning",
+        "venue": "IEEE Symposium on Security and Privacy 2015",
+        "url": "https://openreview.net/forum?id=LqPr0nNFED",
+        "identityMatched": false
+      },
+      {
+        "title": "Certified Data Removal from Machine Learning Models",
+        "venue": "CoRR 2019",
+        "url": "https://openreview.net/forum?id=xKUVr-pN04L",
+        "identityMatched": false
+      }
+    ],
+    "error": "api.semanticscholar.org: HTTP 429"
+  },
+  "2510.12981": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "confirmed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2510.12981",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=Reference-Specific+Unlearning+Metrics+Can+Hide+the+Truth%3A+A+Reality+Check&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.openreview.net/notes/search?term=Reference-Specific+Unlearning+Metrics+Can+Hide+the+Truth%3A+A+Reality+Check&limit=100",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Cho, Sungjun",
+        "Hwang, Dasol",
+        "Sala, Frederic",
+        "Hwang, Sangheum",
+        "Cho, Kyunghyun",
+        "Cha, Sungmin"
+      ],
+      "title": "Reference-Specific Unlearning Metrics Can Hide the Truth: A Reality Check",
+      "arxiv_id": "2510.12981",
+      "abstract": "Current unlearning metrics for generative models evaluate success based on reference responses or classifier outputs rather than assessing the core objective: whether the unlearned model behaves indistinguishably from a model that never saw the unwanted data. This reference-specific approach creates systematic blind spots, allowing models to appear successful while retaining unwanted knowledge accessible through alternative prompts or attacks. We address these limitations by proposing Functional Alignment for Distributional Equivalence (FADE), a novel metric that measures distributional similarity between unlearned and reference models by comparing bidirectional likelihood assignments over generated samples. Unlike existing approaches that rely on predetermined references, FADE captures functional alignment across the entire output distribution, providing a principled assessment of genuine unlearning. Our experiments on the TOFU benchmark for LLM unlearning and the UnlearnCanvas benchmark for text-to-image diffusion model unlearning reveal that methods achieving near-optimal scores on traditional metrics fail to achieve distributional equivalence, with many becoming more distant from the gold standard than before unlearning. These findings expose fundamental gaps in current evaluation practices and demonstrate that FADE provides a more robust foundation for developing and assessing truly effective unlearning methods.",
+      "comments": "20 pages, 11 figures"
+    },
+    "publication": {
+      "label": "MUGen @ ICML 2025 Poster",
+      "kind": "workshop",
+      "url": "https://openreview.net/forum?id=7qHbv9Un7o",
+      "alternatives": [
+        {
+          "label": "NeurIPS 2025 LLM Evaluation Workshop Poster",
+          "kind": "workshop",
+          "url": "https://openreview.net/forum?id=kzcFIXJJ85"
+        }
+      ]
+    },
+    "error": "api.semanticscholar.org: HTTP 429"
+  },
+  "2603.26569": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "confirmed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2603.26569",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=Machine+Unlearning+under+Retain-Forget+Entanglement&limit=100",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Cheng, Jingpu",
+        "Liu, Ping",
+        "Li, Qianxiao",
+        "Zhang, Chi"
+      ],
+      "title": "Machine Unlearning under Retain-Forget Entanglement",
+      "arxiv_id": "2603.26569",
+      "abstract": "Forgetting a subset in machine unlearning is rarely an isolated task. Often, retained samples that are closely related to the forget set can be unintentionally affected, particularly when they share correlated features from pretraining or exhibit strong semantic similarities. To address this challenge, we propose a novel two-phase optimization framework specifically designed to handle such retai-forget entanglements. In the first phase, an augmented Lagrangian method increases the loss on the forget set while preserving accuracy on less-related retained samples. The second phase applies a gradient projection step, regularized by the Wasserstein-2 distance, to mitigate performance degradation on semantically related retained samples without compromising the unlearning objective. We validate our approach through comprehensive experiments on multiple unlearning tasks, standard benchmark datasets, and diverse neural architectures, demonstrating that it achieves effective and reliable unlearning while outperforming existing baselines in both accuracy retention and removal fidelity.",
+      "comments": "ICLR 2026 camera-ready"
+    },
+    "publication": {
+      "label": "ICLR 2026 Poster",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=4WMBSHHJEr"
+    },
+    "error": "api.semanticscholar.org: HTTP 429"
+  },
+  "2605.16645": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "query_failed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2605.16645",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=Statistical+Unlearning+of+Distributions%3A+A+Hypothesis+Testing+Approach&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.openreview.net/notes/search?term=Statistical+Unlearning+of+Distributions%3A+A+Hypothesis+Testing+Approach&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.crossref.org/works?query.title=Statistical+Unlearning+of+Distributions%3A+A+Hypothesis+Testing+Approach&rows=5",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Pandey, Aaradhya",
+        "Kulkarni, Sanjeev"
+      ],
+      "title": "Statistical Unlearning of Distributions: A Hypothesis Testing Approach",
+      "arxiv_id": "2605.16645",
+      "abstract": "Machine learning systems increasingly face requirements to forget not only individual data points, but entire domains of information, such as toxic language, copyrighted corpora, or demographic biases. This raises a fundamental dilemma of statistical-computational tradeoffs: removing all samples from an unwanted domain may be computationally prohibitive, while randomly removing a subset may not provide distribution-level statistical guarantees. We propose a statistical framework for distributional unlearning, in which domains are modeled as probability distributions, and the goal is to remove a carefully chosen subset of samples that reduces the effect of an unwanted distribution while preserving performance on a desired one. We formalize this using a hypothesis test of the edited data with the desired and unwanted domains, leading to an interpretable and robust criterion for selecting samples to remove. Within this statistical framework, we characterize the fundamental region of the allowable edited data distributions and the removal-preservation Pareto frontier for a broad class of distribution families. This includes parametric families such as shifted Gaussians of arbitrary dimension, a one-dimensional location family with log-concave noise, and the one-dimensional Poisson family. It also includes nonparametric families such as the Gaussian white noise model, a canonical model for nonparametric regression. We prove composition rules that describe how distributional unlearning behaves across multimodal unwanted domains, and introduce a central-limit behavior for the removal-preservation baselines when composing a large number of such families. Finally, we provide finite sample guarantees by providing Pareto frontiers for some selection algorithms, and observe an information-computation gap.",
+      "comments": "Comments welcome"
+    },
+    "candidates": [
+      {
+        "title": "A new approach to distributed hypothesis testing",
+        "venue": "ACSSC 2016",
+        "url": "https://openreview.net/forum?id=x4h-9cKa8-0",
+        "identityMatched": false
+      },
+      {
+        "title": "Statistical Approximating Distributions Under Differential Privacy",
+        "venue": "J. Priv. Confidentiality 2018",
+        "url": "https://openreview.net/forum?id=nfmzSSDzXk2i",
+        "identityMatched": false
+      },
+      {
+        "title": "Canonical Noise Distributions and Private Hypothesis Tests",
+        "venue": "PRIML 2021 Oral",
+        "url": "https://openreview.net/forum?id=pr_6JwMBLa1",
+        "identityMatched": false
+      },
+      {
+        "title": "Social Learning and Distributed Hypothesis Testing",
+        "venue": "IEEE Trans. Inf. Theory 2018",
+        "url": "https://openreview.net/forum?id=AAjoRiBfN19",
+        "identityMatched": false
+      },
+      {
+        "title": "Social Learning and Distributed Hypothesis Testing",
+        "venue": "CoRR 2014",
+        "url": "https://openreview.net/forum?id=z7ZX8g-x-l6",
+        "identityMatched": false
+      },
+      {
+        "title": "Social learning and distributed hypothesis testing",
+        "venue": "ISIT 2014",
+        "url": "https://openreview.net/forum?id=DWeLWC5m_uF",
+        "identityMatched": false
+      }
+    ],
+    "error": "api.semanticscholar.org: HTTP 429"
+  },
+  "2605.30825": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "confirmed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2605.30825",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=Unlearning+in+Diffusion+Models%3A+A+Unified+Framework+with+KL+Divergence+and+Likelihood+Constraints&limit=100",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Khalafi, Shervin",
+        "Ribeiro, Alejandro",
+        "Ding, Dongsheng"
+      ],
+      "title": "Unlearning in Diffusion Models: A Unified Framework with KL Divergence and Likelihood Constraints",
+      "arxiv_id": "2605.30825",
+      "abstract": "Unlearning in diffusion models aims to remove undesirable data or concepts while preserving the utility of pretrained models -- two fundamentally conflicting objectives. We propose a principled constrained optimization framework that formulates unlearning as minimizing the deviation from a pretrained model, subject to explicit separation constraints from the unlearning distributions. Specifically, we formulate three constrained optimization problems based on reverse and forward KL divergences, and likelihood constraints. The first two generalize existing approaches for concept and data unlearning, while the third offers a novel and natural formulation for unlearning. Despite the nonconvexity of the KL constraints, we establish strong duality for all three problems, enabling us to explicitly characterize their optimal solutions as unlearning targets and develop primal-dual algorithms for each formulation. Experimental results demonstrate that our KL-constrained approach achieves superior retention-unlearning tradeoffs compared to weight-based baselines for concept and data unlearning, and that our likelihood-based approach matches unlearning effectiveness while better preserving retained concepts compared to baselines.",
+      "comments": "27 pages, 6 figures, 4 tables; Accepted by ICML 2026"
+    },
+    "publication": {
+      "label": "ICML 2026 regular",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=98xDF2hkIy"
+    },
+    "error": "api.semanticscholar.org: HTTP 429"
+  },
+  "2606.02119": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "confirmed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2606.02119",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=How+Hard+Can+It+Be%3F+Hardness-Aware+Multi-Objective+Unlearning&limit=100",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Chen, Jiangwei",
+        "Niu, Xinyuan",
+        "Sim, Rachael Hwee Ling",
+        "Liu, Zhengyuan",
+        "Chen, Nancy F.",
+        "Low, Bryan Kian Hsiang"
+      ],
+      "title": "How Hard Can It Be? Hardness-Aware Multi-Objective Unlearning",
+      "arxiv_id": "2606.02119",
+      "abstract": "Machine unlearning aims to remove the influence of specific forget training data due to privacy, copyright or bias concerns while maintaining the model performance on the remaining retain data. Existing unlearning algorithms, such as optimizing a weighted combination of losses, have tried to achieve these objectives of improving forget quality and maintaining retain utility. However, they do not guarantee that these objectives can be improved by a specified extent for all forget and retain data. In this work, we address this limitation with a novel and theoretically-grounded approach from a constrained optimization perspective. Firstly, we identify that the hardness of reconciling both objectives can be quantified by the similarity between the forget data and the retain data. Next, we derive an unlearning algorithm (HAMU) with the overall goal of guaranteeing a specified improvement in forget quality while minimizing the retain utility cost/degradation by updating the model weights based on our hardness measure. Our hardness measure also informs users when retain utility degradation is unavoidable, i.e., both objectives cannot be improved simultaneously, and stopping should be considered. Our algorithm is applicable to non-convex models and is easily parallelizable, making it readily deployable in real-world scenarios. We empirically demonstrate HAMU's superior performance over baselines on both image and text datasets using large models. Our code is available at https://github.com/aoi3142/HAMU.",
+      "comments": "ICML 2026"
+    },
+    "publication": {
+      "label": "ICML 2026 regular",
+      "kind": "conference",
+      "url": "https://openreview.net/forum?id=fr24r9nunW"
+    },
+    "error": "api.semanticscholar.org: HTTP 429"
+  },
+  "2608.02058": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "query_failed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2608.02058",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=SCOPE%3A+Entanglement+Frontier+Escape+for+Source-Free+Class+Unlearning&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.openreview.net/notes/search?term=SCOPE%3A+Entanglement+Frontier+Escape+for+Source-Free+Class+Unlearning&limit=100",
+        "status": "error",
+        "error": "HTTP 429"
+      },
+      {
+        "url": "https://api.crossref.org/works?query.title=SCOPE%3A+Entanglement+Frontier+Escape+for+Source-Free+Class+Unlearning&rows=5",
+        "status": "error",
+        "error": "HTTP 429"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Cai, Junhao",
+        "Kim, Dohun",
+        "Choi, Sung Il",
+        "Park, Juhyun",
+        "Jin, Chengjun",
+        "Kim, Dowon",
+        "Joo, Changhee"
+      ],
+      "title": "SCOPE: Entanglement Frontier Escape for Source-Free Class Unlearning",
+      "arxiv_id": "2608.02058",
+      "abstract": "Source-free class unlearning erases whole classes using only the forget data, judged at the representation level, where features can leak a class the head no longer predicts. Existing feature-space erasers answer with one fixed projection, yet forget and retain classes share a representation, so deleting one disturbs the other where they overlap. We prove this tension is a frontier. Every fixed projection that deletes pays a retain cost of at least the retain-readout energy along the forget-discriminant subspace, and erasing that subspace alone attains the floor. The leading source-free erasers all instantiate the form it binds, so the frontier limits the whole class. Conditioning the erasure on the input escapes it. Spectral Conditional Projective Erasure (SCOPE) does so with a single gate, suppressing the forget subspace chiefly on inputs its frozen head's weight scores read as a forget class. It is closed form, needs no retain data or gradient training, and costs orders of magnitude less than retraining. Across five object, face, and speaker benchmarks spanning two modalities and both convolutional and transformer backbones, the frontier predicts the measured retain cost. SCOPE leads the source-free erasers on every benchmark and forget-set size, and at the hardest setting it tops every unlearner, trained methods included.",
+      "comments": "Preprint"
+    },
+    "candidates": [],
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; api.crossref.org: HTTP 429"
+  },
+  "2609.34137": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "query_failed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2609.34137",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=You+Can%27t+Have+It+Both+Ways%3A+Concept+Entanglement+Limits+Diffusion+Model+Unlearning&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.openreview.net/notes/search?term=You+Can%27t+Have+It+Both+Ways%3A+Concept+Entanglement+Limits+Diffusion+Model+Unlearning&limit=100",
+        "status": "deferred",
+        "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+      },
+      {
+        "url": "https://api.crossref.org/works?query.title=You+Can%27t+Have+It+Both+Ways%3A+Concept+Entanglement+Limits+Diffusion+Model+Unlearning&rows=5",
+        "status": "deferred",
+        "error": "api.crossref.org: HTTP 429; stopped requests for this run"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v306/cao26w.html",
+        "status": "ok"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v306/ebrahimpour-boroojeny26a.html",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Wang, Yian",
+        "Ebrahimpour-Boroojeny, Ali",
+        "Sundaram, Hari",
+        "Chandrasekaran, Varun"
+      ],
+      "title": "You Can't Have It Both Ways: Concept Entanglement Limits Diffusion Model Unlearning",
+      "arxiv_id": "2609.34137",
+      "abstract": "Concept unlearning in text-to-image diffusion models aims to suppress a target concept (e.g., \\texttt{horse}) while preserving related but distinct content (e.g., \\texttt{donkey}), yet existing methods either leak under indirect prompts or visibly degrade other concepts. We show that these failure modes stem from the geometry of concept representations rather than from any particular algorithm. Formalizing concepts as activation-space regions, we prove that the overlap between a target and other concepts lower-bounds the damage any robust erasure must inflict on them, with the trade-off scaling linearly in the degree of overlap. Across thirteen unlearning methods, including methods designed to preserve non-target concepts, no method achieves both strong erasure and strong neighbor preservation: STEREO nearly eliminates indirect leakage but cuts neighbor generation by more than 75\\%, while sparse inference-time methods preserve neighbors but leak. Damage increases with our overlap measure, monotonically so for STEREO; the $\\kappa$-scaling reproduces on SDXL, and neighbor-selective damage recurs on FLUX. Perfect unlearning is the wrong target for entangled concepts; methods should be evaluated on the Pareto frontier our theorem establishes.",
+      "comments": "40th Conference on Neural Information Processing Systems (NeurIPS 2026)"
+    },
+    "candidates": [],
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run; api.crossref.org: HTTP 429; stopped requests for this run"
+  },
+  "2609.38929": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "query_failed",
+    "checks": [
+      {
+        "url": "https://arxiv.org/abs/2609.38929",
+        "status": "ok"
+      },
+      {
+        "url": "https://api2.openreview.net/notes/search?term=Learning+What+to+Forget%3A+Distributional+Unlearning+for+LLM+Representation+Spaces&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.openreview.net/notes/search?term=Learning+What+to+Forget%3A+Distributional+Unlearning+for+LLM+Representation+Spaces&limit=100",
+        "status": "deferred",
+        "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+      },
+      {
+        "url": "https://api.crossref.org/works?query.title=Learning+What+to+Forget%3A+Distributional+Unlearning+for+LLM+Representation+Spaces&rows=5",
+        "status": "deferred",
+        "error": "api.crossref.org: HTTP 429; stopped requests for this run"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v300/mohanty26a.html",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "authors": [
+        "Mohanty, Pinaki",
+        "Tang, Haoran",
+        "Makar, Maggie",
+        "Khanna, Rajiv"
+      ],
+      "title": "Learning What to Forget: Distributional Unlearning for LLM Representation Spaces",
+      "arxiv_id": "2609.38929",
+      "abstract": "Machine learning systems increasingly face the need to remove the influence of entire data domains, such as toxic language, harmful behavior, or topical content, rather than isolated records. Recent work formalizes this problem as \\emph{distributional unlearning}: selecting a subset of a forget domain whose removal moves the training distribution away from an unwanted population while preserving proximity to the desired one. However, existing analyses often impose parametric assumptions to obtain tractable selection rules. These assumptions may be poorly suited to high-dimensional language-model representations. We introduce \\textsc{Mamushi}, a framework for non-parametric distributional unlearning that ranks forget examples using a probabilistic classifier whose Bayes-optimal logit equals the forget-to-retain log-density ratio (up to an additive class-prior constant). We show that thresholding the population log-density ratio yields the optimal fixed-budget selection rule for our removal--preservation objective and establish a non-asymptotic transfer guarantee relating score-estimation and threshold-calibration errors to degradation from the population-optimal selection rule. Our empirical evaluation spans real-world datasets on toxic-language removal and topical-domain removal regimes using different representations, with \\textsc{Mamushi} achieving a more favorable removal--preservation trade-off than other baselines. Our work shows that \\textsc{Mamushi} can serve as an efficient selection approach for downstream machine unlearning procedures, reducing the number of forget examples required to reach a fixed forgetting target."
+    },
+    "candidates": [
+      {
+        "title": "Learning What to Forget: Distributional Unlearning for LLM Representation Spaces",
+        "venue": "ICLR 2027 Conference Submission",
+        "url": "https://openreview.net/forum?id=v2FRshTyPe",
+        "identityMatched": false
+      },
+      {
+        "title": "Learning What to Forget: Improving LLM Unlearning via Learned Token-Level Importance",
+        "venue": "CoRR 2026",
+        "url": "https://openreview.net/forum?id=nkXezr8Wzv",
+        "identityMatched": false
+      },
+      {
+        "title": "What to Forget in Unlearning? Forget Set Curation for Language Models",
+        "venue": "ICML MemFM 2026 Workshop Poster",
+        "url": "https://openreview.net/forum?id=Zf9b9ESaZ7",
+        "identityMatched": false
+      },
+      {
+        "title": "What to Forget in Unlearning? Forget Set Curation for Language Models",
+        "venue": "ICML 2026 FoGen Workshop Poster",
+        "url": "https://openreview.net/forum?id=reUFZdFJTI",
+        "identityMatched": false
+      }
+    ],
+    "error": "api.semanticscholar.org: HTTP 429; api.openreview.net: HTTP 429; stopped requests for this run; api.crossref.org: HTTP 429; stopped requests for this run"
+  },
+  "paper:5f4457b9888947600716": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "confirmed",
+    "checks": [
+      {
+        "url": "https://api2.openreview.net/notes/search?term=Holistic+Unlearning+Benchmark%3A+A+Multi-Faceted+Evaluation+for+Text-to-Image+Diffusion+Model+Unlearning&limit=100",
+        "status": "ok"
+      },
+      {
+        "url": "https://api.openreview.net/notes/search?term=Holistic+Unlearning+Benchmark%3A+A+Multi-Faceted+Evaluation+for+Text-to-Image+Diffusion+Model+Unlearning&limit=100",
+        "status": "deferred",
+        "error": "api.openreview.net: HTTP 429; stopped requests for this run"
+      },
+      {
+        "url": "https://api.crossref.org/works?query.title=Holistic+Unlearning+Benchmark%3A+A+Multi-Faceted+Evaluation+for+Text-to-Image+Diffusion+Model+Unlearning&rows=5",
+        "status": "deferred",
+        "error": "api.crossref.org: HTTP 429; stopped requests for this run"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2025/html/Moon_Holistic_Unlearning_Benchmark_A_Multi-Faceted_Evaluation_for_Text-to-Image_Diffusion_Model_ICCV_2025_paper.html",
+        "status": "ok"
+      }
+    ],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
+    "metadata": {
+      "title": "Holistic Unlearning Benchmark: A Multi-Faceted Evaluation for Text-to-Image Diffusion Model Unlearning",
+      "authors": [
+        "Saemi Moon",
+        "Minjong Lee",
+        "Sangdon Park",
+        "Dongwoo Kim"
+      ],
+      "identitySource": "PDF metadata",
+      "abstract": "As text-to-image diffusion models gain widespread com- mercial applications, there are increasing concerns about unethical or harmful use, including the unauthorized gen- eration of copyrighted or sensitive content. Concept un- learning has emerged as a promising solution to these chal- lenges by removing undesired and harmful information from the pre-trained model. However, the previous evaluations primarily focus on whether target concepts are removed while preserving image quality, neglecting the broader im- pacts such as unintended side effects. In this work, we pro- pose Holistic Unlearning Benchmark (HUB), a comprehen- sive framework for evaluating unlearning methods across six key dimensions: faithfulness, alignment, pinpoint-ness, multilingual robustness, attack robustness, and efﬁciency. Our benchmark covers 33 target concepts, including 16,000 prompts per concept, spanning four categories: Celebrity, Style, Intellectual Property, and NSFW. Our investigation reveals that no single method excels across all evaluation criteria. By releasing our evaluation code and dataset1, we hope to inspire further research in this area, leading to more reliable and effective unlearning methods."
+    },
+    "publication": {
+      "label": "Proceedings of the IEEE/CVF International Conference on Computer Vision · 2025",
+      "kind": "proceedings",
+      "url": "https://openaccess.thecvf.com/content/ICCV2025/html/Moon_Holistic_Unlearning_Benchmark_A_Multi-Faceted_Evaluation_for_Text-to-Image_Diffusion_Model_ICCV_2025_paper.html"
+    },
+    "error": "api.openreview.net: HTTP 429; stopped requests for this run; api.crossref.org: HTTP 429; stopped requests for this run"
+  },
+  "paper:cf99b3232bd06cbcdf68": {
+    "checkedAt": "2026-10-11T13:20:35.883775+00:00",
+    "queryVersion": 3,
+    "status": "missing_identity",
+    "checks": [],
+    "deepCheckedAt": "2026-10-11T13:20:35.883775+00:00",
     "error": "No verified title and author metadata"
   }
 }

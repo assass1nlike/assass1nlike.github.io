@@ -326,6 +326,11 @@
     "kind": "proceedings",
     "url": "https://openreview.net/forum?id=CpIfDGYbCv"
   },
+  "2408.01689": {
+    "label": "ICLR 2025 Poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=9OJflnNu6C"
+  },
   "2408.08994": {
     "label": "ICLR 2025 Poster",
     "kind": "conference",
@@ -625,6 +630,18 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=bhR00j6Mku"
   },
+  "2510.12981": {
+    "label": "MUGen @ ICML 2025 Poster",
+    "kind": "workshop",
+    "url": "https://openreview.net/forum?id=7qHbv9Un7o",
+    "alternatives": [
+      {
+        "label": "NeurIPS 2025 LLM Evaluation Workshop Poster",
+        "kind": "workshop",
+        "url": "https://openreview.net/forum?id=kzcFIXJJ85"
+      }
+    ]
+  },
   "2510.15501": {
     "label": "Advances in Neural Information Processing Systems 38 · 2025",
     "kind": "proceedings",
@@ -690,6 +707,11 @@
     "kind": "conference",
     "url": "https://openreview.net/forum?id=PbNDLMaJFq"
   },
+  "2603.26569": {
+    "label": "ICLR 2026 Poster",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=4WMBSHHJEr"
+  },
   "2604.05540": {
     "label": "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2026",
     "kind": "proceedings",
@@ -732,6 +754,11 @@
     "kind": "proceedings",
     "url": "https://doi.org/10.18653/v1/2026.acl-long.1175"
   },
+  "2605.30825": {
+    "label": "ICML 2026 regular",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=98xDF2hkIy"
+  },
   "2606.01053": {
     "label": "ICML 2026 regular",
     "kind": "conference",
@@ -741,6 +768,11 @@
     "label": "ICML 2026 regular",
     "kind": "conference",
     "url": "https://openreview.net/forum?id=VMMQj6M94x"
+  },
+  "2606.02119": {
+    "label": "ICML 2026 regular",
+    "kind": "conference",
+    "url": "https://openreview.net/forum?id=fr24r9nunW"
   },
   "2606.06188": {
     "label": "ICML 2026 spotlight",
@@ -813,6 +845,11 @@
     "label": "CVPR 2024",
     "kind": "proceedings",
     "url": "https://openreview.net/forum?id=Oec20VwmkR"
+  },
+  "paper:5f4457b9888947600716": {
+    "label": "Proceedings of the IEEE/CVF International Conference on Computer Vision · 2025",
+    "kind": "proceedings",
+    "url": "https://openaccess.thecvf.com/content/ICCV2025/html/Moon_Holistic_Unlearning_Benchmark_A_Multi-Faceted_Evaluation_for_Text-to-Image_Diffusion_Model_ICCV_2025_paper.html"
   },
   "paper:7ad791a94ed211057d56": {
     "label": "ICLR 2026 Poster",
