@@ -48,7 +48,8 @@ class SplitBackupTests(unittest.TestCase):
             report = syncer.plan(repo, backup, remote)
             self.assertEqual(report['copy'], ['research/a.md'])
             self.assertEqual(report['cleanup'], ['public.md'])
-            self.assertEqual(len(report['retained']), 2)
+            self.assertEqual(len(report['retained']), 1)
+            self.assertEqual(report['deleted'], ['only-backup.md', 'research/only-backup.md'])
             self.assertEqual(report['missing_local'], ['research/deleted.md', 'research/only-backup.md'])
             syncer.sync(repo, backup, report, archive)
             self.assertEqual((backup / 'research/a.md').read_text(), 'private new')
@@ -56,6 +57,10 @@ class SplitBackupTests(unittest.TestCase):
             self.assertEqual(syncer.git(repo, 'ls-files', 'everlasting/research/a.md'), b'')
             self.assertFalse((backup / 'public.md').exists())
             self.assertTrue((backup / 'changed.md').exists())
+            self.assertFalse((backup / 'research/only-backup.md').exists())
+            self.assertFalse((backup / 'only-backup.md').exists())
+            self.assertEqual((archive / 'deleted/research/only-backup.md').read_text(), 'keep')
+            self.assertEqual((archive / 'deleted/only-backup.md').read_text(), 'keep')
             self.assertTrue((archive / 'removed/public.md').exists())
             self.assertEqual((archive / 'removed-locally/research/deleted.md').read_text(), 'deleted snapshot')
             self.assertEqual(syncer.git(repo, 'ls-files', 'everlasting/research/deleted.md'), b'')
@@ -64,6 +69,23 @@ class SplitBackupTests(unittest.TestCase):
             self.assertEqual(second['copy'], [])
             self.assertEqual(second['cleanup'], [])
             self.assertEqual(second['untrack'], [])
+            self.assertEqual(second['deleted'], [])
+            self.assertEqual(second['missing_local'], [])
+
+    def test_recreated_local_file_is_not_removed_from_backup(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            repo, backup, archive = root / 'repo', root / 'backup', root / 'archive'
+            source = repo / 'everlasting/research'
+            source.mkdir(parents=True)
+            (backup / 'research').mkdir(parents=True)
+            (backup / 'research/restored.md').write_text('old backup', encoding='utf-8')
+            (source / 'restored.md').write_text('recreated', encoding='utf-8')
+            report = {'copy': [], 'selected': [], 'archive_index': [], 'untrack': [],
+                      'cleanup': [], 'deleted': ['research/restored.md']}
+            with self.assertRaisesRegex(RuntimeError, 'reappeared'):
+                syncer.sync(repo, backup, report, archive)
+            self.assertEqual((backup / 'research/restored.md').read_text(), 'old backup')
 
 
 if __name__ == '__main__':

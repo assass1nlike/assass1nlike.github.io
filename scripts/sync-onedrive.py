@@ -20,8 +20,11 @@ def git(repo, *args, data=None):
 
 
 def files(root):
+    def fail(error):
+        raise error
+
     found = {}
-    for folder, directories, names in os.walk(root):
+    for folder, directories, names in os.walk(root, onerror=fail):
         for name in directories + names:
             path = Path(folder) / name
             if path.is_symlink() or (hasattr(path, 'is_junction') and path.is_junction()):
@@ -78,8 +81,9 @@ def plan(repo, destination, remote):
         raise ValueError('Keep the routing list public: add !/.gitignore to the list.')
     copies = [name for name in sorted(selected & local.keys())
               if name not in backup or digest(local[name]) != digest(backup[name])]
+    deleted = sorted(backup.keys() - local.keys())
     cleanup, retained = [], []
-    for name in sorted(backup.keys() - selected):
+    for name in sorted((backup.keys() - selected) & local.keys()):
         try:
             blob = git(repo, 'show', f'{remote}:everlasting/{name}')
         except RuntimeError:
@@ -92,7 +96,7 @@ def plan(repo, destination, remote):
     missing = sorted((selected & (backup.keys() | tracked)) - local.keys())
     return {'remote_commit': remote, 'copy': copies, 'untrack': sorted(selected & tracked),
             'archive_index': sorted((selected & tracked) - local.keys()),
-            'cleanup': cleanup, 'retained': retained, 'missing_local': missing,
+            'cleanup': cleanup, 'deleted': deleted, 'retained': retained, 'missing_local': missing,
             'selected': sorted(selected & local.keys())}
 
 
@@ -135,6 +139,13 @@ def sync(repo, destination, report, archive):
         if not same_remote(target, blob):
             raise RuntimeError(f'Backup changed during sync: {name}')
         saved = archive / 'removed' / name
+        saved.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(target), str(saved))
+    for name in report['deleted']:
+        if (source / name).exists():
+            raise RuntimeError(f'Local file reappeared during sync; rerun: {name}')
+        target = destination / name
+        saved = archive / 'deleted' / name
         saved.parent.mkdir(parents=True, exist_ok=True)
         shutil.move(str(target), str(saved))
     # Remove only empty directories inside the validated backup root.

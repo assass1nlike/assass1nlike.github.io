@@ -35,9 +35,9 @@ python scripts/sync-onedrive.py --apply
 
 第一条只预览，第二条执行。默认目标是 `C:\Users\15951\OneDrive\everlasting`，可用 `--destination` 指定其他电脑的同名目录。脚本先拉取 `origin`，按远程 `main` 当前提交核对备份；已安装 GitHub CLI 时使用其当前登录账号。
 
-清单内的本地文件按原路径复制到 OneDrive，逐一校验后取消 Git 跟踪，原文件留在本地。清单外的 OneDrive 文件只有在相同路径、相同内容已存在于远程当前版本时才移出备份目录（文本允许 CRLF/LF 差异）。远程缺失或内容不同的副本会保留并列出；本地已删除但 OneDrive 仍存在的文件也保留，避免误删传播。
+以本地仓库 `everlasting/` 为准：清单内的现存文件按原路径复制到 OneDrive，逐一校验后取消 Git 跟踪；本地已删除的文件也从 OneDrive 当前备份中移除。清单外但本地仍存在的 OneDrive 文件，只有在相同路径、相同内容已存在于远程当前版本时才移出备份目录（文本允许 CRLF/LF 差异）；远程缺失或内容不同的副本会保留并列出。
 
-被替换和清理的旧副本移入 OneDrive 下的 `.everlasting-sync-history/`，可恢复。已在本地删除的清单内文件会先从 Git 暂存区保存旧版本到恢复历史，再取消跟踪。它是独立的恢复历史，不属于当前 `everlasting/` 分区。脚本不提交、不推送、不改写 Git 历史；取消跟踪产生的暂存删除需要正常提交推送。它只能确认本机 OneDrive 副本已写入，云端上传由 OneDrive 客户端完成。
+被替换、清理和随本地删除的旧副本移入 OneDrive 下的 `.everlasting-sync-history/`，可恢复。已在本地删除的清单内文件会先从 Git 暂存区保存旧版本到恢复历史，再取消跟踪。它是独立的恢复历史，不属于当前 `everlasting/` 分区。脚本不提交、不推送、不改写 Git 历史；取消跟踪产生的暂存删除需要正常提交推送。它只能确认本机 OneDrive 副本已写入，云端上传由 OneDrive 客户端完成。
 
 # 一键发布
 
