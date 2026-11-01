@@ -165,7 +165,8 @@ window.PaperTree = (() => {
       host.classList.add('paper-tree-host');
       if (compact) {
         host.innerHTML = `<div class="paper-preview-intro"><span>${escapeHtml(description)}</span><span>${stats}</span></div>
-          <ul class="paper-tree-list paper-tree-compact">${data.tree.children.map((node) => branchHtml(node, byId, true)).join('')}${leavesHtml(data.tree.papers, byId, true)}</ul>`;
+          <ul class="paper-tree-list paper-tree-compact">${data.tree.children.map((node) => branchHtml(node, byId, true)).join('')}${leavesHtml(data.tree.papers, byId, true)}</ul>
+          <a class="more-link library-preview-more" href="/category.html?cat=papers" data-site-ui>查看全部 ${data.tree.count} 篇论文</a>`;
         return;
       }
 
@@ -232,7 +233,7 @@ window.PaperTree = (() => {
           <div class="paper-card-top"><span>${escapeHtml(paper.category.split('/').join(' / '))}</span><span class="paper-status ${paper.hasNote ? 'has-note' : ''}">${status(paper)}</span></div>
           <div class="paper-title-row"><h2><button type="button" data-paper="${paper.id}">${escapeHtml(paper.title)}</button></h2>${publicationHtml(paper)}</div>
           ${paper.excerpt ? `<p class="paper-excerpt">${escapeHtml(paper.excerpt)}</p>` : ''}
-          <a class="paper-read-link" href="${paperHref(paper.id)}" data-paper="${paper.id}">${paper.hasSummary ? '阅读概述' : paper.hasNote ? '阅读讲解' : '查看条目'}</a>
+          <a class="paper-read-link more-link" href="${paperHref(paper.id)}" data-paper="${paper.id}">${paper.hasSummary ? '阅读概述' : paper.hasNote ? '阅读讲解' : '查看条目'}</a>
         </article>`).join('') || '<p class="paper-empty">没有匹配的论文，试试其他词语或分类。</p>';
         host.querySelectorAll('[data-folder]').forEach((button) => {
           button.setAttribute('aria-current', String(button.dataset.folder === folder));

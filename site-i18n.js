@@ -37,7 +37,7 @@ window.SiteI18n = (() => {
     '没有找到匹配的项目。试试其他关键词，或清除筛选。': 'No matching projects. Try another search or reset the filters.',
     '这个板块还没有文章。': 'No articles in this collection yet.', '这个板块还没有项目。': 'No projects in this collection yet.',
     '文章目录': 'On this page', '继续阅读': 'Keep reading', '上一篇': 'Previous article', '下一篇': 'Next article',
-    '上一个项目': 'Previous project', '下一个项目': 'Next project', 'GitHub 仓库 ↗': 'GitHub repository ↗',
+    '上一个项目': 'Previous project', '下一个项目': 'Next project', 'GitHub 仓库 ↗': 'GitHub repository ↗', 'GitHub 仓库': 'GitHub repository',
     '正在加载项目介绍…': 'Loading project documentation…', '未找到这个项目。': 'Project not found.',
     '暂时无法加载项目介绍，请稍后重试。': 'Unable to load project documentation. Please try again later.',
     '暂时无法加载这篇文档，请稍后重试。': 'Unable to load this document. Please try again later.',
@@ -63,6 +63,7 @@ window.SiteI18n = (() => {
     '一个对这段文字的“诗意”的量化指标': 'A numerical estimate of how poetic this passage is',
     '自我介绍': 'About me', '知乎': 'Zhihu', '小红书': 'Xiaohongshu', '友站列表': 'Friends',
     '查看全部友站': 'View all friends', '一些朋友的博客与个人主页。': 'Blogs and personal websites by friends.',
+    '本站信息': 'Site information',
     '主要栏目': 'Main navigation',
     '匿名留言': 'Guestbook', '刷新': 'Refresh', '留言': 'Message', '发送': 'Send',
     '可以匿名留言，也可以登录后用昵称留言；邮箱不会公开展示。': 'Leave a message anonymously or sign in to use a nickname. Your email address is not displayed publicly.',
@@ -106,7 +107,7 @@ window.SiteI18n = (() => {
     '没有可解密的历史记录。': 'No readable message history.', '远程待同步': 'Waiting to sync',
   };
   // These are website UI surfaces, not arbitrary Chinese text in the document.
-  const surfaces = '[data-site-ui], [data-language-label-zh], .topbar, .category-nav, .category-intro, .home-category-heading, .profile-social-links, .home-intro, .refresh-panel, .friend-sites-head, .guestbook, #secret-app, .history-summary, .library-facets, .library-toolbar, .library-overview, .library-group-description, .library-entry-meta, .library-entry-actions, .library-pagination, .library-empty, .library-reader-head, .article-return, .document-outline, .paper-preview-intro, .paper-explorer-head, .paper-taxonomy, .paper-leaf small, .paper-filters, .paper-results-meta, .paper-status, .paper-read-link, .paper-reader-actions, .paper-back, .paper-empty, .loading-state, .error-state';
+  const surfaces = '[data-site-ui], [data-language-label-zh], .topbar, .category-intro, .profile-social-links, .home-intro, .refresh-panel, .friend-sites-head, .guestbook, #secret-app, .history-summary, .library-facets, .library-toolbar, .library-overview, .library-group-description, .library-entry-meta, .library-entry-actions, .library-pagination, .library-empty, .library-reader-head, .article-return, .document-outline, .paper-preview-intro, .paper-explorer-head, .paper-taxonomy, .paper-leaf small, .paper-filters, .paper-results-meta, .paper-status, .paper-read-link, .paper-reader-actions, .paper-back, .paper-empty, .loading-state, .error-state';
   const content = '.language-copy, #language-toggle, #daily-quote, .history-quote, #viewer-title, .library-reader-head h1, .library-reader-content, .library-excerpt:not([data-site-ui]), .library-entry h2, .document-outline nav, .paper-reader-body, .paper-reader-title, .paper-excerpt, .paper-folder:not(.paper-all), .paper-branch summary > span, .paper-leaf > span, .doc-card-body, .project-readme-body, .guestbook-item, .secret-message, .secret-history-item, textarea, pre, code, mjx-container, script, style';
   const originalText = new WeakMap();
   const originalAttributes = new WeakMap();
@@ -126,6 +127,7 @@ window.SiteI18n = (() => {
         [/^(\d+) 字$/, (_, n) => `${n} words`],
         [/^(\d+) (篇文章|个项目)(?: · 显示 (\d+)–(\d+))?$/, (_, n, unit, first, last) => `${n} ${unit === '篇文章' ? 'article' : 'project'}${n === '1' ? '' : 's'}${first ? ` · Showing ${first}–${last}` : ''}`],
         [/^第 (\d+) 页$/, (_, n) => `Page ${n}`],
+        [/^查看全部 (\d+) (篇文章|个项目|篇论文)$/, (_, n, unit) => `View all ${n} ${{ 篇文章: 'articles', 个项目: 'projects', 篇论文: 'papers' }[unit]}`],
         [/^← 返回(.+)列表$/, (_, name) => `← Back to ${phrases[name] || name}`],
         [/^搜索(博客|学习|其它|各年年终总结|开源项目)(文章|项目)?$/, (_, name) => `Search ${phrases[name]}`],
         [/^(\d+) 篇论文 · (\d+) 份讲解$/, (_, n, notes) => `${n} papers · ${notes} with notes`],
@@ -197,8 +199,8 @@ window.SiteI18n = (() => {
   }
 
   function revealActiveNavigation() {
-    document.querySelectorAll('.category-nav-inline').forEach(nav => {
-      const active = nav.querySelector('.is-active');
+    document.querySelectorAll('.site-nav').forEach(nav => {
+      const active = nav.querySelector('[aria-current="page"]');
       if (!active) return;
       const state = `${language}:${active.href}:${nav.clientWidth}`;
       if (navigationStates.get(nav) === state) return;

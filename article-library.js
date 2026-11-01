@@ -93,7 +93,11 @@ window.ArticleLibrary = (() => {
     host.innerHTML = '<div class="loading-state">正在整理文章列表…</div>';
     const unique = entriesOf(category);
     const docs = preparedDocs || await Promise.all(unique.map(({ path, group }) => loadEntry(path, group, category)));
-    const params = compact ? new URLSearchParams() : new URL(window.location.href).searchParams;
+    if (compact) {
+      renderPreview(host, category, docs, { simple, projects, unit });
+      return;
+    }
+    const params = new URL(window.location.href).searchParams;
     const state = {
       query: params.get('q') || '',
       collection: collectionFilter && params.get('collection') === collectionFilter.id ? collectionFilter.id : '',
@@ -185,7 +189,7 @@ window.ArticleLibrary = (() => {
           <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${publicationTime(doc)}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>${doc.wordCount} 字</span>`}</div>
           <h2><a href="${escapeAttr(href)}">${highlight(doc.title, words)}</a></h2>
           <p class="library-excerpt" ${doc.empty || doc.missing || !doc.excerpt ? 'data-site-ui' : ''}>${highlight(excerpt, words)}</p>
-          <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'}</a>`}${doc.repository ? `<a class="library-repository" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ''}</div>
+          <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read more-link" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'}</a>`}${doc.repository ? `<a class="library-repository more-link is-external" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub</a>` : ''}</div>
           </div>
         </article>`;
       }).join('') || `<div class="library-empty">${docs.length ? `没有找到匹配的${noun}。试试其他关键词，或清除筛选。` : `这个板块还没有${noun}。`}</div>`;
@@ -224,6 +228,27 @@ window.ArticleLibrary = (() => {
     render();
   }
 
+  // Home keeps only the newest entries; search, sorting and paging live on the category page.
+  function renderPreview(host, category, docs, { simple, projects, unit }) {
+    const ordered = simple
+      ? [...docs].sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''))
+      : [...docs].sort((a, b) => Number(Boolean(a.empty || a.missing)) - Number(Boolean(b.empty || b.missing)));
+    const from = categoryHref(category.id);
+    host.innerHTML = `<p class="library-preview-copy" data-site-ui>${escapeHtml(category.description)}</p>
+      <div class="library-preview-list" data-site-ui>${ordered.slice(0, 3).map((doc) => {
+        const href = `${doc.href || viewerHref(doc.path)}&from=${encodeURIComponent(from)}`;
+        const size = doc.empty ? '<span>待补充</span>' : doc.missing ? '' : `<span>${doc.wordCount} 字</span>`;
+        return `<article class="library-entry">
+          <div class="library-entry-meta">${publicationTime(doc)}${size}</div>
+          <h2><a href="${escapeAttr(href)}">${highlight(doc.title, [])}</a></h2>
+          ${doc.excerpt && !doc.empty ? `<p class="library-excerpt">${highlight(doc.excerpt, [])}</p>` : ''}
+          ${doc.repository ? `<div class="library-entry-actions"><a class="library-repository more-link is-external" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub</a></div>` : ''}
+        </article>`;
+      }).join('') || `<div class="library-empty">这个板块还没有${projects ? '项目' : '文章'}。</div>`}</div>
+      ${docs.length ? `<a class="more-link library-preview-more" href="${escapeAttr(from)}" data-site-ui>查看全部 ${docs.length} ${unit}</a>` : ''}`;
+    typesetMath(host);
+  }
+
   function enhanceReader(host, doc, returnUrl, category) {
     if (host.querySelector('.error-state')) return;
     const simple = isSimpleCollection(category);
@@ -241,7 +266,8 @@ window.ArticleLibrary = (() => {
     const group = entries.find((entry) => entry.path === doc.path)?.group;
     const header = document.createElement('header');
     header.className = 'library-reader-head';
-    header.innerHTML = `<div class="library-eyebrow">${escapeHtml(simple ? category.title : group?.title || category.title)}</div><h1>${escapeHtml(doc.title)}</h1><div class="library-reader-meta">${publicationTime(doc)}${empty && simple ? '' : `<span>${empty ? '待补充' : `${wordCount} 字`}</span>`}</div>`;
+    const label = simple ? category.title : group?.title || category.title;
+    header.innerHTML = `${back ? '' : `<div class="library-eyebrow">${escapeHtml(label)}</div>`}<h1>${escapeHtml(doc.title)}</h1><div class="library-reader-meta">${publicationTime(doc)}${empty && simple ? '' : `<span>${empty ? '待补充' : `${wordCount} 字`}</span>`}</div>`;
     const sourceTitle = content.firstElementChild;
     if (sourceTitle?.matches('h1') && sourceTitle.textContent.trim() === doc.title.trim()) {
       // Preserve README / article title anchors while showing the title only once.
@@ -249,6 +275,14 @@ window.ArticleLibrary = (() => {
       sourceTitle.remove();
     }
     if (back) header.prepend(back);
+    // The page title already heads the article, so the outline starts from its sections.
+    const titleItem = outline?.querySelector('nav > ol > li:first-child');
+    if (titleItem && titleItem.querySelector(':scope > a')?.textContent.trim() === doc.title.trim()) {
+      const children = titleItem.querySelector(':scope > ol');
+      if (children) titleItem.replaceWith(...children.children);
+      else titleItem.remove();
+      if (!outline.querySelector('nav li')) outline.remove();
+    }
     host.append(header);
     const workspace = document.createElement('div');
     workspace.className = 'library-reader-workspace';

@@ -20,10 +20,10 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/piece_top.ico/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/piece_top.ico/favicon-16x16.png">
   <link rel="manifest" href="/piece_top.ico/manifest.json">
-  <link rel="stylesheet" href="/style.css?v=20261007-navigation">
-  <script src="/site-i18n.js?v=20261007-navigation" defer></script>
-  <link rel="stylesheet" href="/article-library.css?v=20261005-dates">
-  <link rel="stylesheet" href="/paper-tree.css?v=20261005-publication-inline">
+  <link rel="stylesheet" href="/style.css?v=20261102-design">
+  <script src="/site-i18n.js?v=20261102-design" defer></script>
+  <link rel="stylesheet" href="/article-library.css?v=20261102-design">
+  <link rel="stylesheet" href="/paper-tree.css?v=20261102-design">
   <script>
     window.MathJax = {
       tex: {
@@ -54,24 +54,30 @@
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" onload="window.__mathJaxLoaded = true; window.dispatchEvent(new Event('mathjax-loaded'))" onerror="loadMathJaxFallback()"></script>
 </head>
 <body>
-  <div class="page-shell viewer-shell">
-    <header class="topbar viewer-topbar">
-      <a class="icon-link" href="/">← Home</a>
-      <div class="viewer-title-block">
-        <div id="category-title" class="viewer-title">Category</div>
-        <div id="category-subtitle" class="viewer-subtitle"></div>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="home">
+        <img src="/figs/bg.jpg" alt="" class="brand-mark">
+        <span class="brand-name">assassinlike</span>
+      </a>
+      <nav id="site-nav" class="site-nav" aria-label="主要栏目"></nav>
+      <div class="topbar-actions">
+        <button id="language-toggle" class="icon-link language-toggle" type="button" aria-pressed="false">English</button>
       </div>
     </header>
 
     <main class="viewer-layout">
-      <div id="category-links" class="category-nav category-nav-inline"></div>
+      <header class="page-heading" hidden>
+        <h1 id="category-title" class="viewer-title"></h1>
+        <div id="category-subtitle" class="viewer-subtitle"></div>
+      </header>
       <article id="category-article" class="markdown-body viewer-article" aria-label="category content"></article>
     </main>
   </div>
 
-  <script src="/paper-tree.js?v=20261007-navigation" defer></script>
+  <script src="/paper-tree.js?v=20261102-design" defer></script>
   <script src="/assets/articles/catalog.js?v=20261005-dates" defer></script>
-  <script src="/article-library.js?v=20261007-navigation" defer></script>
-  <script src="/script.js?v=20261007-navigation" defer></script>
+  <script src="/article-library.js?v=20261102-design" defer></script>
+  <script src="/script.js?v=20261102-design" defer></script>
 </body>
 </html>

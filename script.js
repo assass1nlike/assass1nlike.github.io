@@ -152,6 +152,7 @@ const guestbookState = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  renderSiteNav();
   initLanguageToggle();
   const page = document.documentElement.dataset.page || 'home';
   if (page === 'viewer') {
@@ -173,6 +174,20 @@ document.addEventListener('DOMContentLoaded', () => {
   initHomePage();
 });
 
+// The active item follows the category being browsed or read.
+function renderSiteNav() {
+  const nav = document.getElementById('site-nav');
+  if (!nav) return;
+  const url = new URL(window.location.href);
+  let active = '';
+  if (url.pathname.endsWith('/category.html')) active = normalizeKey(url.searchParams.get('cat')) === 'annual' ? 'minors' : normalizeKey(url.searchParams.get('cat'));
+  else if (url.pathname.endsWith('/viewer.html')) active = url.searchParams.has('project') ? 'permanence' : resolveDoc(url.searchParams.get('doc') || '')?.category || '';
+  nav.innerHTML = CATEGORY_ORDER.map((id) => {
+    const category = CATEGORY_DEFINITIONS[id];
+    return `<a href="${categoryHref(id)}"${id === active ? ' aria-current="page"' : ''} data-language-label-zh="${escapeAttr(category.title)}" data-language-label-en="${escapeAttr(category.titleEn || category.title)}">${escapeHtml(category.title)}</a>`;
+  }).join('');
+}
+
 function initLanguageToggle() {
   window.SiteI18n?.init();
 }
@@ -186,16 +201,8 @@ async function initHomePage() {
   const quoteMeta = document.getElementById('daily-quote-meta');
   const quoteScoreHelp = document.getElementById('quote-score-help');
   const previewsHost = document.getElementById('home-category-previews');
-  const categoryNav = document.getElementById('category-nav');
   const friendSitesHost = document.getElementById('friend-sites');
   const guestbookHost = document.getElementById('guestbook');
-
-  if (categoryNav) {
-    categoryNav.innerHTML = CATEGORY_ORDER.map((id) => {
-      const category = CATEGORY_DEFINITIONS[id];
-      return `<a class="pill-link" href="${categoryHref(id)}" data-language-label-zh="${escapeAttr(category.title)}" data-language-label-en="${escapeAttr(category.titleEn || category.title)}">${escapeHtml(category.title)}</a>`;
-    }).join('');
-  }
 
   const previewsReady = previewsHost ? loadHomeCategoryPreviews(previewsHost) : Promise.resolve();
 
@@ -235,14 +242,13 @@ async function loadHomeCategoryPreviews(host) {
   const categories = CATEGORY_ORDER.filter((id) => id !== 'tech').map((id) => CATEGORY_DEFINITIONS[id]);
   const english = document.documentElement.lang === 'en';
   host.innerHTML = categories.map((category) => `
-    <section class="home-category-preview" aria-labelledby="home-category-${category.id}">
-      <h2 class="home-category-heading" id="home-category-${category.id}">
-        <a href="${categoryHref(category.id)}">
-          <span data-language-label-zh="${escapeAttr(category.title)}" data-language-label-en="${escapeAttr(category.titleEn)}">${escapeHtml(english ? category.titleEn : category.title)}</span>
-          <span aria-hidden="true">→</span>
-        </a>
-      </h2>
-      <div class="home-category-viewport markdown-body" data-category="${category.id}" tabindex="0" role="region" aria-labelledby="home-category-${category.id}"></div>
+    <section class="home-section home-category-preview" aria-labelledby="home-category-${category.id}">
+      <div class="section-head">
+        <h2 class="section-title" id="home-category-${category.id}">
+          <a href="${categoryHref(category.id)}" data-language-label-zh="${escapeAttr(category.title)}" data-language-label-en="${escapeAttr(category.titleEn)}">${escapeHtml(english ? category.titleEn : category.title)}</a>
+        </h2>
+      </div>
+      <div class="home-category-viewport markdown-body" data-category="${category.id}"></div>
     </section>
   `).join('');
 
@@ -271,7 +277,7 @@ function renderFriendSites(sites) {
     <section class="friend-sites-panel" aria-labelledby="friend-sites-title">
       <div class="friend-sites-head">
         <h2 id="friend-sites-title" class="friend-sites-title">友站列表</h2>
-        <a class="friend-directory-link" href="/friends.html">查看全部友站</a>
+        <a class="more-link" href="/friends.html">查看全部友站</a>
       </div>
       <div class="friend-avatar-list">${sites.map((site) => `<a class="friend-avatar-link" href="${escapeAttr(site.href)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(site.name)}" title="${escapeAttr(site.name)}">${friendAvatar(site)}</a>`).join('')}</div>
     </section>
@@ -951,10 +957,12 @@ async function initViewerPage() {
   if (resolved) {
     document.title = `${resolved.title} | assassinlike`;
   }
-  if (titleHost) {
+  // Collection articles get their own reader header, so only plain documents use this title.
+  const plainDocument = !['minors', 'invisible', 'tech'].includes(resolved?.category);
+  if (titleHost && plainDocument) {
     titleHost.textContent = resolved?.title || displayNameFromPath(docInput);
   }
-  if (subtitleHost) {
+  if (subtitleHost && plainDocument) {
     subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(resolved?.category) ? CATEGORY_DEFINITIONS[resolved.category].title : resolved?.path || docInput;
   }
   if (host) {
@@ -994,7 +1002,6 @@ async function initCategoryPage() {
   const host = document.getElementById('category-article');
   const titleHost = document.getElementById('category-title');
   const subtitleHost = document.getElementById('category-subtitle');
-  const navHost = document.getElementById('category-links');
 
   if (!category) {
     if (host) {
@@ -1010,14 +1017,6 @@ async function initCategoryPage() {
   if (subtitleHost) {
     subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(category.id) ? '文章与笔记' : category.description;
   }
-  if (navHost) {
-    navHost.innerHTML = CATEGORY_ORDER.map((id) => {
-      const item = CATEGORY_DEFINITIONS[id];
-      const active = id === category.id ? ' is-active' : '';
-      return `<a class="pill-link${active}" href="${categoryHref(id)}">${escapeHtml(item.title)}</a>`;
-    }).join('');
-  }
-
   if (!host) {
     return;
   }
@@ -1427,7 +1426,7 @@ async function loadProjectViewer(id) {
     } catch { /* Keep the default list URL. */ }
     host.innerHTML = `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回开源项目列表</a></div>${renderDocumentOutline(html)}${html}`;
     window.ArticleLibrary.enhanceReader(host, { path: project.id, title: project.title }, returnUrl, projectCategory(projects));
-    if (project.repository) host.querySelector('.library-reader-head').insertAdjacentHTML('beforeend', `<a class="library-repository" href="${escapeAttr(project.repository)}" target="_blank" rel="noopener noreferrer">GitHub 仓库 ↗</a>`);
+    if (project.repository) host.querySelector('.library-reader-head').insertAdjacentHTML('beforeend', `<a class="library-repository more-link is-external" href="${escapeAttr(project.repository)}" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>`);
     enhanceMarkdownHost(host);
     scrollToDocumentHash(host);
   } catch (error) {
@@ -1615,6 +1614,13 @@ function parseInline(text, options = {}) {
 
   working = protectMathSegments(working, placeholders);
 
+  working = working.replace(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|\\([-*_#+.!|~<>`])/g, (match, char) => {
+    if (!char) return match;
+    const token = `%%ESC${placeholders.length}%%`;
+    placeholders.push(escapeHtml(char));
+    return token;
+  });
+
   working = escapeHtml(working);
   working = working.replace(/\n/g, '<br>');
 
@@ -1646,6 +1652,7 @@ function parseInline(text, options = {}) {
   working = working.replace(/%%ANCHOR(\d+)%%/g, (_, index) => placeholders[Number(index)] || '');
   working = working.replace(/%%CODE(\d+)%%/g, (_, index) => placeholders[Number(index)] || '');
   working = working.replace(/%%MATH(\d+)%%/g, (_, index) => placeholders[Number(index)] || '');
+  working = working.replace(/%%ESC(\d+)%%/g, (_, index) => placeholders[Number(index)] || '');
   return working;
 }
 
