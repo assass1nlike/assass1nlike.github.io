@@ -89,26 +89,10 @@ window.SiteI18n = (() => {
     '正在发送…': 'Sending…', '已发送并公开显示。': 'Sent and published.', '已发送，只会由站点主人查看。': 'Sent. Only the site owner can read it.',
     '留言服务暂时不可用。': 'The message service is currently unavailable.', '正在加载公开留言…': 'Loading public messages…',
     '还没有公开留言。': 'No public messages yet.', '匿名访客': 'Anonymous visitor', '已登录访客': 'Signed-in visitor',
-    '秘密空间': 'Private Space', '输入密码进入秘密空间': 'Enter the password to open Private Space',
-    '密码只在当前浏览器内用于解开房间密钥。远程空间只保存加密后的消息正文。': 'The password unlocks the room key in this browser only. Only encrypted messages are stored remotely.',
-    '密码': 'Password', '请输入密码': 'Enter password', '进入': 'Enter',
-    '仅支持两个身份：assassinlike 与 vitality x。锁定或刷新页面后需要重新输入密码。': 'Available to assassinlike and vitality x. Enter the password again after locking or refreshing the page.',
-    '密码不正确，或当前浏览器不支持 Web Crypto。': 'Incorrect password, or Web Crypto is unavailable in this browser.',
-    '远程已配置': 'Remote storage configured', '当前为本地模式': 'Local mode', '本地模式': 'Local mode',
-    '当前身份：': 'Signed in as:', '。 消息会先在本机加密，再写入远程空间。': '. Messages are encrypted locally before being stored remotely.',
-    '同步': 'Sync', '历史': 'History', '锁定': 'Lock', '关闭历史': 'Close history', '消息区': 'Messages',
-    'Ctrl + Enter 发送': 'Ctrl + Enter to send', '编辑消息': 'Write a message', '在这里输入内容，确认后发送。': 'Write your message here, then send it.',
-    '消息正文不会以明文写入远程或本地缓存。': 'Messages are never stored as plain text remotely or in the local cache.',
-    '历史信息': 'Message history', '按时间倒序浏览已解密记录': 'Decrypted messages, newest first',
-    '正在加密发送…': 'Encrypting and sending…', '远程写入失败，已保存在本地加密缓存': 'Remote save failed. Saved in the encrypted local cache.',
-    '当前未配置远程后端，仍在使用本地加密缓存': 'No remote backend configured. Using the encrypted local cache.',
-    '正在同步远程消息…': 'Syncing messages…', '远程同步失败，已回退到本地加密缓存': 'Remote sync failed. Using the encrypted local cache.',
-    '还没有可解密的消息。先写第一条。': 'No readable messages yet. Write the first one.',
-    '没有可解密的历史记录。': 'No readable message history.', '远程待同步': 'Waiting to sync',
   };
   // These are website UI surfaces, not arbitrary Chinese text in the document.
-  const surfaces = '[data-site-ui], [data-language-label-zh], .topbar, .category-intro, .profile-social-links, .home-intro, .refresh-panel, .friend-sites-head, .guestbook, #secret-app, .history-summary, .library-facets, .library-toolbar, .library-overview, .library-group-description, .library-entry-meta, .library-entry-actions, .library-pagination, .library-empty, .library-reader-head, .article-return, .document-outline, .paper-preview-intro, .paper-explorer-head, .paper-taxonomy, .paper-leaf small, .paper-filters, .paper-results-meta, .paper-status, .paper-read-link, .paper-reader-actions, .paper-back, .paper-empty, .loading-state, .error-state';
-  const content = '.language-copy, #language-toggle, #daily-quote, .history-quote, #viewer-title, .library-reader-head h1, .library-reader-content, .library-excerpt:not([data-site-ui]), .library-entry h2, .document-outline nav, .paper-reader-body, .paper-reader-title, .paper-excerpt, .paper-folder:not(.paper-all), .paper-branch summary > span, .paper-leaf > span, .doc-card-body, .project-readme-body, .guestbook-item, .secret-message, .secret-history-item, textarea, pre, code, mjx-container, script, style';
+  const surfaces = '[data-site-ui], [data-language-label-zh], .topbar, .category-intro, .profile-social-links, .home-intro, .refresh-panel, .friend-sites-head, .guestbook, .history-summary, .library-facets, .library-toolbar, .library-overview, .library-group-description, .library-entry-meta, .library-entry-actions, .library-pagination, .library-empty, .library-reader-head, .article-return, .document-outline, .paper-preview-intro, .paper-explorer-head, .paper-taxonomy, .paper-leaf small, .paper-filters, .paper-results-meta, .paper-status, .paper-read-link, .paper-reader-actions, .paper-back, .paper-empty, .loading-state, .error-state';
+  const content = '.language-copy, #language-toggle, #daily-quote, .history-quote, #viewer-title, .library-reader-head h1, .library-reader-content, .library-excerpt:not([data-site-ui]), .library-entry h2, .document-outline nav, .paper-reader-body, .paper-reader-title, .paper-excerpt, .paper-folder:not(.paper-all), .paper-branch summary > span, .paper-leaf > span, .doc-card-body, .project-readme-body, .guestbook-item, textarea, pre, code, mjx-container, script, style';
   const originalText = new WeakMap();
   const originalAttributes = new WeakMap();
   const navigationStates = new WeakMap();
@@ -135,10 +119,6 @@ window.SiteI18n = (() => {
         [/^已加载 (\d+) 条公开留言。$/, (_, n) => `Loaded ${n} public messages.`],
         [/^(.+) 已登录$/, (_, provider) => `Signed in with ${provider}`],
         [/^(发送失败：|加载失败：|无法加载公开留言：)(.*)$/, (_, prefix, detail) => `${{ '发送失败：': 'Send failed: ', '加载失败：': 'Load failed: ', '无法加载公开留言：': 'Unable to load public messages: ' }[prefix]}${phrases[detail] || detail}`],
-        [/^远程同步完成 · (\d+) 条$/, (_, n) => `Sync complete · ${n} messages`],
-        [/^远程(读取|写入)失败 (.*)$/, (_, action, detail) => `Remote ${action === '读取' ? 'read' : 'write'} failed ${detail}`],
-        [/^· 兼容显示 (\d+) 条旧版明文记录$/, (_, n) => `· Showing ${n} legacy plain-text records`],
-        [/^· 已忽略 (\d+) 条无法解密记录$/, (_, n) => `· Skipped ${n} unreadable records`],
       ];
       for (const [pattern, replacement] of patterns) {
         if (pattern.test(normalized)) { result = normalized.replace(pattern, replacement); break; }

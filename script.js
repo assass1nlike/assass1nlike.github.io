@@ -351,7 +351,7 @@ function renderGuestbookShell(host) {
 
         <div class="guestbook-actions">
           <div id="guestbook-status" class="guestbook-status" role="status"></div>
-          <button class="secret-submit guestbook-submit" type="submit">发送</button>
+          <button class="guestbook-submit" type="submit">发送</button>
         </div>
       </form>
 
@@ -1640,7 +1640,7 @@ function parseInline(text, options = {}) {
     if (!/^(?:https?:|mailto:|tel:|\/|#)/i.test(resolved) && /^[a-z][a-z0-9+.-]*:/i.test(resolved)) return escapeHtml(label.trim());
     const external = isExternalUrl(resolved);
     const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
-    const className = resolved.includes('category.html') || resolved.includes('viewer.html') || resolved.includes('secret.html') ? 'doc-link' : '';
+    const className = resolved.includes('category.html') || resolved.includes('viewer.html') ? 'doc-link' : '';
     return `<a class="${className}" href="${escapeAttr(resolved)}"${attrs}>${escapeHtml(label.trim())}</a>`;
   });
 

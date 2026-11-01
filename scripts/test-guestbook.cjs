@@ -9,7 +9,7 @@ const root = resolve(__dirname, '..');
 function loadGuestbook() {
   const requests = [];
   const context = vm.createContext({
-    window: { addEventListener() {}, SECRET_SPACE_CONFIG: { supabaseUrl: 'https://old.invalid' } },
+    window: { addEventListener() {} },
     document: { addEventListener() {} },
     localStorage: { getItem() { return null; }, setItem() {} },
     crypto: webcrypto,

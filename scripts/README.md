@@ -1,6 +1,6 @@
 # 留言服务
 
-主页留言使用 `guestbook-config.js` 中的 Supabase 项目。它与秘密空间的 `secret-config.js` 独立配置。
+主页留言使用 `guestbook-config.js` 中的 Supabase 项目。`.github/workflows/supabase-keepalive.yml` 每 3 天读取一次公开留言，避免免费版项目因长期无活动被暂停。
 
 首次初始化时，在新项目的 SQL Editor 中执行根目录 `guestbook-supabase-schema.sql` 全部内容。脚本创建留言表、开放访客读取公开留言和提交留言的权限，并启用行级权限；访客不能读取非公开留言，也不能修改或删除留言。站主可在 Supabase Table Editor 的 `guestbook_messages` 表中查看和管理所有留言。
 

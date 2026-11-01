@@ -1,5 +1,8 @@
 name: Supabase keepalive
 
+# Free-tier Supabase projects are paused after a stretch without activity.
+# Reading one public guestbook row every three days keeps the guestbook project awake.
+
 on:
   schedule:
     - cron: '17 3 */3 * *'
@@ -10,20 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Ping Supabase REST endpoints
+      - name: Read one public guestbook message
         env:
-          SUPABASE_URL: https://afhzpxkbudtsofxwktci.supabase.co
-          SUPABASE_ANON_KEY: sb_publishable_jsLUI42WJb7AUd9vKk7i1Q_QnZ1CC29
+          SUPABASE_URL: https://myrhtqbjnkxqaniuivzm.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: sb_publishable_e0WjGdoi8kz7Acb3xV_u0Q_KmbeXH-Z
         run: |
           set -euo pipefail
-
-          headers=(
-            -H "apikey: ${SUPABASE_ANON_KEY}"
-            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}"
-            -H "Accept: application/json"
-            -H "Cache-Control: no-cache"
-          )
-
-          curl -fsS "${headers[@]}" "${SUPABASE_URL}/rest/v1/guestbook_messages?select=id&limit=1" \
-            || curl -fsS "${headers[@]}" "${SUPABASE_URL}/rest/v1/secret_messages?select=id&limit=1" \
-            || curl -fsS -H "apikey: ${SUPABASE_ANON_KEY}" "${SUPABASE_URL}/auth/v1/settings"
+          curl -fsS --retry 3 --retry-delay 10 \
+            -H "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+            -H "Accept: application/json" \
+            "${SUPABASE_URL}/rest/v1/guestbook_messages?select=id&limit=1"
