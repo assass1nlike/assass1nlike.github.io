@@ -71,5 +71,23 @@ class PaperExportTests(unittest.TestCase):
             self.assertEqual(next(p['id'] for p in updated['papers'] if p['title'] == 'Paper++'), paper['id'])
 
 
+    def test_excluded_paths_and_folder_guides(self):
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp) / 'source'
+            for rel in ['_archive/old.md', 'inbox/new.md', 'topic/index.md', 'topic/Paper_review.md', 'topic/Paper.md']:
+                (source / rel).parent.mkdir(parents=True, exist_ok=True)
+                (source / rel).write_text('正文', encoding='utf-8')
+            exclude = Path(temp) / 'paper-exclude.json'
+            exclude.write_text(json.dumps({'exclude': ['_archive', 'INBOX', '*_review.md']}), encoding='utf-8')
+            original = exporter.EXCLUDE_FILE
+            exporter.EXCLUDE_FILE = exclude
+            try:
+                result = exporter.export_tree(source, Path(temp) / 'out')
+            finally:
+                exporter.EXCLUDE_FILE = original
+            self.assertEqual([p['title'] for p in result['papers']], ['Paper'])
+            self.assertEqual([c['name'] for c in result['tree']['children']], ['topic'])
+
+
 if __name__ == '__main__':
     unittest.main()

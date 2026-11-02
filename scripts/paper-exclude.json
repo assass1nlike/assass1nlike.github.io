@@ -1,0 +1,7 @@
+{
+  "exclude": [
+    "_archive",
+    "inbox",
+    "*_review.md"
+  ]
+}

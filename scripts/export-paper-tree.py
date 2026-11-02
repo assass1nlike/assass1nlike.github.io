@@ -1,6 +1,7 @@
 """Export a local paper taxonomy and notes for the static site (PDFs stay local)."""
 
 import argparse
+import fnmatch
 import hashlib
 import json
 import re
@@ -8,6 +9,11 @@ from pathlib import Path
 
 import fitz
 
+
+# Paths (relative to the library root) that stay off the site; see paper-exclude.json.
+EXCLUDE_FILE = Path(__file__).with_name('paper-exclude.json')
+# Per-folder reading guides and agent instructions are not papers.
+NON_PAPER_FILES = ('agents.md', 'claude.md', 'index.md')
 
 ARXIV_ID = r'(?:\d{4}\.\d{4,5}|[a-z][a-z.-]+/\d{7})(?:v\d+)?'
 
@@ -86,6 +92,11 @@ def export_tree(source, output):
     papers = []
     overrides_file = Path(__file__).with_name('paper-links.json')
     overrides = json.loads(overrides_file.read_text(encoding='utf-8')) if overrides_file.exists() else {}
+    patterns = json.loads(EXCLUDE_FILE.read_text(encoding='utf-8'))['exclude'] if EXCLUDE_FILE.exists() else []
+
+    def excluded(item):
+        rel = item.relative_to(source).as_posix()
+        return any(fnmatch.fnmatchcase(rel.casefold(), pattern.casefold()) for pattern in patterns)
 
     def walk(folder):
         rel = folder.relative_to(source).as_posix()
@@ -93,12 +104,12 @@ def export_tree(source, output):
                 'children': [], 'papers': [], 'count': 0, 'annotated': 0}
         pairs = {}
         for item in sorted(folder.iterdir(), key=lambda p: p.name.casefold()):
-            if item.is_symlink() or item.name.startswith('.'):
+            if item.is_symlink() or item.name.startswith('.') or excluded(item):
                 continue
             if item.is_dir():
                 if item.name.casefold() not in ('tmp', '__pycache__'):
                     node['children'].append(walk(item))
-            elif item.suffix.lower() in ('.md', '.pdf') and item.name.casefold() not in ('agents.md', 'claude.md'):
+            elif item.suffix.lower() in ('.md', '.pdf') and item.name.casefold() not in NON_PAPER_FILES:
                 pairs.setdefault(item.stem.casefold(), {})[item.suffix.lower()] = item
         for pair in pairs.values():
             file = pair.get('.pdf') or pair['.md']

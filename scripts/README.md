@@ -100,7 +100,8 @@ python scripts/export-paper-tree.py --source D:\papers
 - PDF 只登记条目，不复制、上传或提供在线阅读；本地原文件不会被改动。
 - 同一目录中同名的 PDF / Markdown 合并为一个条目；只有其中一种也会收录。
 - 最后一个独占一行的 `---` 后的非空正文作为概述，前面作为详细讲解。忽略 YAML 元数据和代码块内的分隔符；无分隔段时仅提供详细讲解。该规则按约定拆分，不做语义判断。
-- 忽略 `tmp`、`__pycache__`、隐藏文件、符号链接及 `AGENTS.md` / `CLAUDE.md`；保留空分类。
+- 忽略 `tmp`、`__pycache__`、隐藏文件、符号链接及 `AGENTS.md` / `CLAUDE.md` / 各目录的 `index.md` 导读；保留空分类。
+- `scripts/paper-exclude.json` 列出不上网站的路径（相对论文库根目录，大小写不敏感，`*` 可跨目录）：目前是 `_archive/`、`inbox/` 和所有 `*_review.md` 审稿意见。
 - 再次导出会移除已经撤下条目对应的旧 JSON 讲解，仅操作本工具先前登记的文件。
 - 当前导出的是全部收录条目的讲解，部署前可在本地检查。页面没有嵌入原 PDF；Markdown 中的本地图片附件暂不导出。
 

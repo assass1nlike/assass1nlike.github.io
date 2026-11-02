@@ -24,7 +24,7 @@ def publication_paths(root, only):
         scopes += [s['path'] for c in config['categories'].values() for s in c['sources']]
         scopes += ['scripts/articles.json', 'assets/articles/catalog.js']
     if only in ('all', 'papers'):
-        scopes += ['assets/papers', 'scripts/paper-links.json', 'scripts/paper-identities.json',
+        scopes += ['assets/papers', 'scripts/paper-exclude.json', 'scripts/paper-links.json', 'scripts/paper-identities.json',
                    'scripts/paper-publications.json', 'scripts/paper-publications-cache.json',
                    'scripts/paper-publications-report.json']
     for scope in scopes:
