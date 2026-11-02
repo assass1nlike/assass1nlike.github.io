@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 from difflib import SequenceMatcher
 import hashlib
 from html.parser import HTMLParser
+from http.client import HTTPException
 from html import unescape
 import json
 import os
@@ -142,7 +143,8 @@ class Client:
             if error.code in (403, 429):
                 self.blocked[host] = f'{host}: HTTP {error.code}; stopped requests for this run'
             raise RuntimeError(f'{host}: HTTP {error.code}') from error
-        except (URLError, TimeoutError) as error:
+        # URLError and TimeoutError are OSErrors; a dropped connection raises HTTPException or ConnectionResetError.
+        except (OSError, HTTPException) as error:
             self.events.append({'url': url, 'status': 'error', 'error': 'network unavailable'})
             raise RuntimeError(f'{host}: network unavailable') from error
 
