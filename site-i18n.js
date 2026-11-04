@@ -2,7 +2,7 @@
 window.SiteI18n = (() => {
   const key = 'assassinlike.language';
   const phrases = {
-    '博客': 'Blog', '学习': 'Learning', '论文树': 'Paper Tree', '开源项目': 'Open Source', '其它': 'Other',
+    '博客': 'Blog', '学习': 'Learning', '论文积累': 'Paper Library', '开源仓库': 'Repositories', '技术实践': 'Engineering Notes', '项目经历': 'Experience', '还没有内容。': 'Nothing here yet.', '报告 PDF': 'Report (PDF)',
     '各年年终总结': 'Annual Reviews', '只看子集：各年年终总结': 'Subset: Annual reviews only',
     '在观察自身行为和自我思考后得到的结论。': 'Reflections on my experiences, actions, and thinking.',
     '各年年终总结': 'Annual Reviews', '文章与笔记': 'Articles and notes',
@@ -21,8 +21,8 @@ window.SiteI18n = (() => {
     '更偏个人兴趣、游戏和非学术场景的技术实践。': 'Experiments with games, personal interests, and practical tools.',
     '浏览主题与状态': 'Browse topics and status', '主题': 'Topics', '全部主题': 'All topics',
     '内容状态': 'Status', '全部': 'All', '可阅读': 'Ready to read', '待补充': 'In progress',
-    '篇可阅读': 'ready to read', '个开源项目': 'open-source projects', '项目介绍与使用文档': 'Project overviews and documentation',
-    '搜索文章': 'Search articles', '搜索项目': 'Search projects', '搜索开源项目项目': 'Search open-source projects',
+    '篇可阅读': 'ready to read', '个开源仓库': 'open-source repositories', '项目介绍与使用文档': 'Project overviews and documentation',
+    '搜索文章': 'Search articles', '搜索项目': 'Search projects', '搜索开源仓库项目': 'Search repositories',
     '标题或正文关键词': 'Search titles or text', '项目名称或 README 关键词': 'Search projects or README text',
     '排序': 'Sort by', '文章排序': 'Sort articles', '项目排序': 'Sort projects',
     '默认顺序': 'Default order', '标题 A–Z': 'Title A–Z', '篇幅较短优先': 'Shortest first',
@@ -43,7 +43,7 @@ window.SiteI18n = (() => {
     '暂时无法加载这篇文档，请稍后重试。': 'Unable to load this document. Please try again later.',
     '论文目录暂时无法加载。': 'Unable to load the paper catalog.', '讲解暂时无法加载，请稍后重试。': 'Unable to load the notes. Please try again later.',
     '有讲解': 'With notes', '仅收录': 'Cataloged', '暂无论文': 'No papers yet', '全部论文': 'All papers',
-    '正在展开论文树…': 'Loading the paper tree…', '展开主题，沿着分支阅读': 'Explore topics and follow the branches',
+    '正在加载论文…': 'Loading papers…', '展开主题，沿着分支阅读': 'Explore topics and follow the branches',
     '沿分类找到问题，从概述读到细节。': 'Explore by topic, from summaries to detailed notes.',
     '论文分类': 'Paper topics', '在当前分类搜索': 'Search this topic', '搜索论文': 'Search papers',
     '论文名、主题或概述中的词语': 'Title, topic, or summary keywords', '只看有讲解': 'Only papers with notes',
@@ -113,7 +113,7 @@ window.SiteI18n = (() => {
         [/^第 (\d+) 页$/, (_, n) => `Page ${n}`],
         [/^查看全部 (\d+) (篇文章|个项目|篇论文)$/, (_, n, unit) => `View all ${n} ${{ 篇文章: 'articles', 个项目: 'projects', 篇论文: 'papers' }[unit]}`],
         [/^← 返回(.+)列表$/, (_, name) => `← Back to ${phrases[name] || name}`],
-        [/^搜索(博客|学习|其它|各年年终总结|开源项目)(文章|项目)?$/, (_, name) => `Search ${phrases[name]}`],
+        [/^搜索(博客|学习|技术实践|各年年终总结|开源仓库)(文章|项目)?$/, (_, name) => `Search ${phrases[name]}`],
         [/^(\d+) 篇论文 · (\d+) 份讲解$/, (_, n, notes) => `${n} papers · ${notes} with notes`],
         [/^(.+) · (\d+) 篇$/, (_, folder, n) => `${folder === '全部论文' ? 'All papers' : folder} · ${n} papers`],
         [/^已加载 (\d+) 条公开留言。$/, (_, n) => `Loaded ${n} public messages.`],

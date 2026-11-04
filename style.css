@@ -385,6 +385,60 @@ a.contact-value {
   min-width: 0;
 }
 
+/* Project experience: date and organisation, result-first title, summary, outside links. */
+.experience-list {
+  display: grid;
+}
+
+.experience-entry {
+  display: grid;
+  gap: 6px;
+  padding: 18px 0;
+}
+
+.experience-entry + .experience-entry {
+  border-top: 1px solid var(--line-soft);
+}
+
+.home-category-viewport .experience-entry:first-child {
+  padding-top: 0;
+}
+
+.experience-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  color: var(--faint);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.markdown-body .experience-title {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.markdown-body .experience-summary {
+  max-width: 70ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.experience-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-top: 2px;
+  font-size: 0.86rem;
+}
+
 /* Daily passage */
 .home-section-quote {
   margin-top: 48px;

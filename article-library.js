@@ -111,7 +111,7 @@ window.ArticleLibrary = (() => {
       <header class="category-intro library-hero">
         ${compact ? '' : `<h1 class="category-intro-title">${escapeHtml(category.title)}</h1>`}
         <p class="category-intro-copy">${escapeHtml(category.description)}</p>
-        ${simple ? '' : `<div class="library-statline"><span><strong>${docs.filter((doc) => !doc.empty && !doc.missing).length}</strong> ${projects ? '个开源项目' : '篇可阅读'}</span>${projects ? '<span>项目介绍与使用文档</span>' : `<span>${category.groups?.length || 1} 个主题</span>`}${docs.some((doc) => doc.empty) ? `<span>${docs.filter((doc) => doc.empty).length} 篇待补充</span>` : ''}</div>`}
+        ${simple ? '' : `<div class="library-statline"><span><strong>${docs.filter((doc) => !doc.empty && !doc.missing).length}</strong> ${projects ? '个开源仓库' : '篇可阅读'}</span>${projects ? '<span>项目介绍与使用文档</span>' : `<span>${category.groups?.length || 1} 个主题</span>`}${docs.some((doc) => doc.empty) ? `<span>${docs.filter((doc) => doc.empty).length} 篇待补充</span>` : ''}</div>`}
       </header>
       <div class="library-workspace">
       ${simple ? '' : `<details class="library-facets" ${compact ? '' : 'open'}><summary>浏览主题与状态 <span aria-hidden="true">⌄</span></summary><div class="library-facet-content">

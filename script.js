@@ -28,11 +28,48 @@ const FRIEND_SITES = [
 ];
 
 const CATEGORY_DEFINITIONS = {
+  experience: {
+    id: 'experience',
+    title: '项目经历',
+    titleEn: 'Experience',
+    heading: '项目经历',
+    description: '',
+    docs: [],
+    // Newest first. Text is given in both languages because it is site content, not UI.
+    entries: [
+      {
+        date: '2026.10',
+        org: { zh: '方寸跃迁', en: 'Fangcun AI' },
+        title: { zh: 'DeepSeek V4.1 Flash-1017 全面安全评测', en: 'Safety evaluation of DeepSeek V4.1 Flash-1017' },
+        summary: {
+          zh: '方寸跃迁评测团队的首份公开第三方安全评测报告，评估模型的失控与有害操纵风险，并与 DeepSeek 其它版本及 GPT、Gemini 模型对比。',
+          en: 'The first public third-party safety evaluation from the Fangcun AI Evaluation Team, assessing loss-of-control and harmful-manipulation risks against other DeepSeek versions and GPT and Gemini models.',
+        },
+        links: [
+          { label: '报告 PDF', href: 'https://fangcunleap.com/public/reports/fangcun_eval_deepseek_v4_1_flash_1017.pdf' },
+          { label: 'X', href: 'https://x.com/FangcunLeap/status/2114719692137136245' },
+        ],
+      },
+      {
+        date: '2026.08',
+        org: { zh: '方寸跃迁', en: 'Fangcun AI' },
+        title: { zh: 'FangcunCyber：CyberGym Level 1 成功率 91.3%', en: 'FangcunCyber: 91.3% on CyberGym Level 1' },
+        summary: {
+          zh: '基于 DeepSeek V4 Flash 的多智能体漏洞复现 agent，在 1507 个真实漏洞中复现 1376 个；Binary Only 设置下排名第 1，所有公开结果中并列第 5。',
+          en: 'A multi-agent vulnerability reproduction agent built on DeepSeek V4 Flash. It reproduced 1,376 of 1,507 real-world vulnerabilities, ranking first in the Binary Only setting and tied for fifth across all public results.',
+        },
+        links: [
+          { label: 'GitHub', href: 'https://github.com/Fangcun-AI/FangcunCyber' },
+          { label: 'X', href: 'https://x.com/FangcunLeap/status/2095532240889614559' },
+        ],
+      },
+    ],
+  },
   permanence: {
     id: 'permanence',
-    title: '开源项目',
-    titleEn: 'Open Source',
-    heading: '开源项目',
+    title: '开源仓库',
+    titleEn: 'Repositories',
+    heading: '开源仓库',
     description: '各种实用或有趣的项目',
     docs: [],
   },
@@ -55,17 +92,17 @@ const CATEGORY_DEFINITIONS = {
   },
   papers: {
     id: 'papers',
-    title: '论文树',
-    titleEn: 'Paper Tree',
-    heading: '论文树',
+    title: '论文积累',
+    titleEn: 'Paper Library',
+    heading: '论文积累',
     description: '读过的所有论文。部分配有AI给出的讲解',
     docs: [],
   },
   tech: {
     id: 'tech',
-    title: '其它',
-    titleEn: 'Other',
-    heading: '其它',
+    title: '技术实践',
+    titleEn: 'Engineering Notes',
+    heading: '技术实践',
     description: '一些经过试错，值得总结的工具使用和问题研究等。不具有创新性，且大多为纯 AI 总结',
     docs: [],
   },
@@ -133,7 +170,7 @@ for (const doc of DOC_DEFINITIONS) {
   }
 }
 
-const CATEGORY_ORDER = ['invisible', 'papers', 'minors', 'permanence', 'tech'];
+const CATEGORY_ORDER = ['experience', 'invisible', 'papers', 'minors', 'permanence', 'tech'];
 
 let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
@@ -1024,7 +1061,26 @@ async function initCategoryPage() {
   await loadCategoryInto(host, category);
 }
 
+function renderExperience(entries) {
+  const english = document.documentElement.lang === 'en';
+  const bilingual = (tag, className, text) => `<${tag} class="${className}" data-language-label-zh="${escapeAttr(text.zh)}" data-language-label-en="${escapeAttr(text.en)}">${escapeHtml(english ? text.en : text.zh)}</${tag}>`;
+  if (!entries.length) return '<div class="library-empty" data-site-ui>还没有内容。</div>';
+  return `<div class="experience-list">${entries.map((entry) => `<article class="experience-entry">
+      <div class="experience-meta"><time>${escapeHtml(entry.date)}</time>${bilingual('span', 'experience-org', entry.org)}</div>
+      ${bilingual('h2', 'experience-title', entry.title)}
+      ${bilingual('p', 'experience-summary', entry.summary)}
+      <div class="experience-links" data-site-ui>${entry.links.map((link) => `<a class="more-link is-external" href="${escapeAttr(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`).join('')}</div>
+    </article>`).join('')}</div>`;
+}
+
 async function loadCategoryInto(host, category) {
+  if (category.id === 'experience') {
+    const compact = host.classList.contains('home-category-viewport');
+    host.innerHTML = `${compact ? '' : `<header class="category-intro library-hero"><h1 class="category-intro-title">${escapeHtml(category.title)}</h1></header>`}${renderExperience(category.entries)}`;
+    host.classList.add('article-library');
+    if (!compact) host.closest('.page-shell')?.classList.add('library-page-shell');
+    return;
+  }
   if (['minors', 'invisible', 'tech'].includes(category.id)) {
     await window.ArticleLibrary.mount(host, category);
     return;
@@ -1417,14 +1473,14 @@ async function loadProjectViewer(id) {
     if (!project) throw new Error('未找到这个项目。');
     document.title = `${project.title} | assassinlike`;
     title.textContent = project.title;
-    subtitle.textContent = '开源项目';
+    subtitle.textContent = '开源仓库';
     const html = renderProjectReadme(project);
     let returnUrl = categoryHref('permanence');
     try {
       const from = new URL(new URL(location.href).searchParams.get('from') || returnUrl, location.origin);
       if (from.origin === location.origin && from.pathname === '/category.html' && from.searchParams.get('cat') === 'permanence') returnUrl = from.pathname + from.search;
     } catch { /* Keep the default list URL. */ }
-    host.innerHTML = `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回开源项目列表</a></div>${renderDocumentOutline(html)}${html}`;
+    host.innerHTML = `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回开源仓库列表</a></div>${renderDocumentOutline(html)}${html}`;
     window.ArticleLibrary.enhanceReader(host, { path: project.id, title: project.title }, returnUrl, projectCategory(projects));
     if (project.repository) host.querySelector('.library-reader-head').insertAdjacentHTML('beforeend', `<a class="library-repository more-link is-external" href="${escapeAttr(project.repository)}" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>`);
     enhanceMarkdownHost(host);

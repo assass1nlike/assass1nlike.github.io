@@ -157,7 +157,7 @@ window.PaperTree = (() => {
   }
 
   async function mount(host, { compact = false, description = '' } = {}) {
-    host.innerHTML = '<p class="paper-empty">正在展开论文树…</p>';
+    host.innerHTML = '<p class="paper-empty">正在加载论文…</p>';
     try {
       const data = await catalog();
       const byId = new Map(data.papers.map((paper) => [paper.id, paper]));
@@ -172,7 +172,7 @@ window.PaperTree = (() => {
 
       host.innerHTML = `<div class="paper-explorer">
         <header class="paper-explorer-head">
-          <h1>论文树</h1><p>${escapeHtml(description)}</p><div class="paper-stats">${stats}</div>
+          <h1>论文积累</h1><p>${escapeHtml(description)}</p><div class="paper-stats">${stats}</div>
         </header>
         <div class="paper-workspace">
           <nav class="paper-taxonomy" aria-label="论文分类">
