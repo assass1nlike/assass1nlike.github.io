@@ -85,6 +85,13 @@ def export_articles(site):
         for source_settings in settings['sources']:
             source = site / source_settings['path']
             paths = markdown_files(source, site)
+            if 'files' in source_settings:
+                # Only the listed files in this folder are public; anything else there stays private.
+                listed = set(source_settings['files'])
+                paths = [path for path in paths if path.relative_to(source).as_posix() in listed]
+                missing = listed - {path.relative_to(source).as_posix() for path in paths}
+                if missing:
+                    raise FileNotFoundError(f'Listed articles are missing from {source_settings["path"]}: {sorted(missing)}')
             candidates.extend((category, source_settings, source, path) for path in paths)
     ignored = ignored_paths(site, [path.relative_to(site).as_posix() for *_, path in candidates])
     documents = []

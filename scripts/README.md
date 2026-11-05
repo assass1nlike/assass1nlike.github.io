@@ -33,7 +33,7 @@ python scripts/sync-onedrive.py
 python scripts/sync-onedrive.py --apply
 ```
 
-第一条只预览，第二条执行。默认目标是 `C:\Users\15951\OneDrive\everlasting`，可用 `--destination` 指定其他电脑的同名目录。脚本先拉取 `origin`，按远程 `main` 当前提交核对备份；已安装 GitHub CLI 时使用其当前登录账号。
+第一条只预览，第二条执行。`everlasting/research/` 同时是独立的私有仓库 `assass1nlike/research`，在该目录里正常 commit / push 即可；其中自带 `.git` 的第三方 clone 与 IdeaScientist 不进入该仓库。默认目标是 `C:\Users\15951\OneDrive\everlasting`，可用 `--destination` 指定其他电脑的同名目录。脚本先拉取 `origin`，按远程 `main` 当前提交核对备份；已安装 GitHub CLI 时使用其当前登录账号。
 
 以本地仓库 `everlasting/` 为准：清单内的现存文件按原路径复制到 OneDrive，逐一校验后取消 Git 跟踪；本地已删除的文件也从 OneDrive 当前备份中移除。清单外但本地仍存在的 OneDrive 文件，只有在相同路径、相同内容已存在于远程当前版本时才移出备份目录（文本允许 CRLF/LF 差异）；远程缺失或内容不同的副本会保留并列出。
 
@@ -62,18 +62,17 @@ python scripts/export-articles.py
 
 | 栏目 | 发布目录（相对仓库根目录） |
 | --- | --- |
-| 学习 | `everlasting/invisible/notes/` |
-| 博客 | `everlasting/invisible/minors/published/` |
+| 学习 | `everlasting/invisible/AI-Theoretical-Proofs/` 中 `files` 列出的文件 |
 | 技术实践 | `everlasting/invisible/tech/` |
-| 博客中的年终总结 | `everlasting/invisible/annual/` |
+| 博客中的年终总结 | `everlasting/invisible/others/annual/` |
 
-写好后把 Markdown 和图片放入对应发布目录，可创建子文件夹，文件名不限（博客也可继续叫 `determined.md`）。文章首个 `# 一级标题` 用作列表标题；没有一级标题时使用文件名。标题提取跳过 YAML 元数据与代码块。图片使用相对路径，例如 `![说明](./images/figure.png)`，发布时连同图片一起提交。
+写好后把 Markdown 和图片放入对应发布目录，可创建子文件夹，文件名不限。学习栏目的 `AI-Theoretical-Proofs/` 里还有未公开的笔记，所以只发布 `scripts/articles.json` 中该来源 `files` 列出的文件，新增一篇需要把文件名加进列表；列表中的文件缺失时导出会报错。博客目前只有年终总结。文章首个 `# 一级标题` 用作列表标题；没有一级标题时使用文件名。标题提取跳过 YAML 元数据与代码块。图片使用相对路径，例如 `![说明](./images/figure.png)`，发布时连同图片一起提交。
 
 新增、改名、删除文章或修改标题后运行命令，刷新本地页面即可检查。仅修改正文或图片时可直接刷新，重新运行脚本也无妨。预览可运行 `python -m http.server 8000`，打开 `http://localhost:8000/`。脚本生成 `assets/articles/catalog.js`，不修改文章、不暂存、不提交、不推送；正式发布时只提交准备公开的 Markdown、图片及生成的目录文件，再 push。首页预览、分类列表和阅读页共用此目录，无需再编辑 `script.js`。
 
-发布目录中所有 Markdown 都会被收录；草稿请放在这些目录之外。脚本跳过 `.gitignore` 排除的文件、隐藏文件与目录、`tmp`、`__pycache__`、`node_modules`、符号链接／目录联接，以及 `AGENTS.md`、`CLAUDE.md`、`README.md`。不扫描 `research/` 或 `minors/` 下技术实践目录。未被目录收录不等于私密：已提交到公开仓库的文件仍可被直接访问。
+除学习栏目外，发布目录中所有 Markdown 都会被收录；草稿请放在这些目录之外。脚本跳过 `.gitignore` 排除的文件、隐藏文件与目录、`tmp`、`__pycache__`、`node_modules`、符号链接／目录联接，以及 `AGENTS.md`、`CLAUDE.md`、`README.md`。不扫描 `research/`、`minors/` 等其它目录。未被目录收录不等于私密：已提交到公开仓库的文件仍可被直接访问。
 
-特殊设置在 `scripts/articles.json`：`sources` 指定扫描目录，`overrides` 可指定显示标题、发布日期或旧链接别名。通常新增文章不需要修改该文件。学习、博客和技术实践按发布日期从晚到早排列，同日文章保留扫描顺序。`preliminaries.md` 显示“补一些非常basic的知识”，日期为 `2026-07-15`，现有阅读链接与年终总结筛选保留。
+特殊设置在 `scripts/articles.json`：`sources` 指定扫描目录，`overrides` 可指定显示标题、发布日期或旧链接别名。除学习笔记外，新增文章通常不需要修改该文件。学习、博客和技术实践按发布日期从晚到早排列，同日文章保留扫描顺序。`preliminaries.md` 显示“补一些非常basic的知识”，日期为 `2026-07-15`，现有阅读链接与年终总结筛选保留。
 
 列表与阅读页显示首次发布日期 `publishedAt`，格式为 `YYYY-MM-DD`，按上海时区记录。已有文章用当前 Git 历史中该文件首次加入的日期补齐（跟随已提交的改名记录），不是文件修改时间或年终总结的年份；更早的实际发表日期如已无法从历史恢复，可在 `scripts/articles.json` 的 `overrides` 中为对应路径设置 `"publishedAt": "2023-12-31"`。新文章没有提交记录时，首次生成目录的当天作为默认发布日期，保存在生成目录中；预览与实际发布间隔较长时可用同样方式指定日期。以后修改正文或重新生成目录都会保留日期。提交时保留生成目录，换电脑后也不会重置。
 
@@ -125,9 +124,9 @@ python scripts/update-paper-publications.py --deep
 - Semantic Scholar：提供 DOI 和结构化的会议／期刊信息，可用环境变量 `SEMANTIC_SCHOLAR_API_KEY` 鉴权。其论文年份可能是预印本年份，因此不用于补会议年份。
 - arXiv Comments：仅采用明确的 `Accepted at/to/in/by ...` 声明，要求含支持的会议简称及四位年份，保留 Workshop 等限定语。该渠道属于作者声明，来源链接指向 arXiv；普通会议提及、投稿声明不算录用。
 
-不会按本地简称模糊配对，也不会把 arXiv/CoRR 书目记录标为录用。OpenReview 主会与 Workshop 分开标注；技术实践书目或论文集来源无法可靠区分主会与 Workshop 时保留完整名称。缺乏身份关联证据或上述渠道尚未收录的论文仍可能遗漏。
+不会按本地简称模糊配对，也不会把 arXiv/CoRR 书目记录标为录用。OpenReview 主会与 Workshop 分开标注；其它书目或论文集来源无法可靠区分主会与 Workshop 时保留完整名称。缺乏身份关联证据或上述渠道尚未收录的论文仍可能遗漏。
 
-`scripts/paper-publications-cache.json` 保存查询结果，`assets/papers/publications.json` 是网站读取的静态数据。已确认条目默认跳过，未确认条目每隔七天可重查；查询渠道版本更新或上次查询失败时可立即重查。遇到 403/429 或 JSON 接口返回 HTML 验证页时停止向相应接口继续请求，本轮仍可使用技术实践来源；Semantic Scholar 的批量错误也记入各篇查询记录。查询失败或未找到不会清空已有确认结果。`--refresh` 强制重查，`--limit 10` 限制本轮查询数量，`--offline` 仅应用缓存和人工更正。
+`scripts/paper-publications-cache.json` 保存查询结果，`assets/papers/publications.json` 是网站读取的静态数据。已确认条目默认跳过，未确认条目每隔七天可重查；查询渠道版本更新或上次查询失败时可立即重查。遇到 403/429 或 JSON 接口返回 HTML 验证页时停止向相应接口继续请求，本轮仍可使用其它来源；Semantic Scholar 的批量错误也记入各篇查询记录。查询失败或未找到不会清空已有确认结果。`--refresh` 强制重查，`--limit 10` 限制本轮查询数量，`--offline` 仅应用缓存和人工更正。
 
 成功的网络响应在 `.cache/paper-publications/` 缓存七天，该目录不提交；`--refresh` 会绕过该缓存。查询优先未确认且最久未检查的条目，便于用 `--limit` 分批处理。深度检索也会检查仅有 Workshop 的记录是否已有主会版本。`scripts/paper-publications-report.json` 列出未确认条目、候选记录和各来源的查询情况，区分 `unconfirmed`、`query_failed`、`missing_identity`；未确认不等于未录用。
 

@@ -1,6 +1,6 @@
 window.ArticleCatalog = [
   {
-    "path": "everlasting/invisible/notes/two-task-convergence.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/two-task-convergence.md",
     "title": "特定规则下双任务优化的收敛保证",
     "category": "invisible",
     "aliases": [],
@@ -9,7 +9,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-10"
   },
   {
-    "path": "everlasting/invisible/notes/smooth-strongly-convex-sgd.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/smooth-strongly-convex-sgd.md",
     "title": "损失函数光滑且强凸时 (S)GD 的收敛速率",
     "category": "invisible",
     "aliases": [],
@@ -18,7 +18,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-08"
   },
   {
-    "path": "everlasting/invisible/notes/positive-gram-sgd.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/positive-gram-sgd.md",
     "title": "Gram 矩阵正定时最小二乘问题的 (S)GD 收敛速率",
     "category": "invisible",
     "aliases": [],
@@ -27,7 +27,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-06"
   },
   {
-    "path": "everlasting/invisible/notes/least-squares-existence.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/least-squares-existence.md",
     "title": "最小二乘问题解的存在性",
     "category": "invisible",
     "aliases": [],
@@ -36,7 +36,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-04"
   },
   {
-    "path": "everlasting/invisible/notes/least-squares-gd.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/least-squares-gd.md",
     "title": "最小二乘问题在梯度下降下的收敛速率",
     "category": "invisible",
     "aliases": [],
@@ -45,7 +45,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-02"
   },
   {
-    "path": "everlasting/invisible/notes/unlearning-akg.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/unlearning-akg.md",
     "title": "unlearning 视角下的 AKG 分解",
     "category": "invisible",
     "aliases": [],
@@ -54,7 +54,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-31"
   },
   {
-    "path": "everlasting/invisible/notes/certified-removal.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/certified-removal.md",
     "title": "结合差分隐私训练的认证删除 (Certified Removal)",
     "category": "invisible",
     "aliases": [],
@@ -63,7 +63,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-30"
   },
   {
-    "path": "everlasting/invisible/notes/nexus-implicit-bias.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/nexus-implicit-bias.md",
     "title": "Nexus 优化器的 implicit bias：优化梯度相似度",
     "category": "invisible",
     "aliases": [],
@@ -72,7 +72,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-28"
   },
   {
-    "path": "everlasting/invisible/notes/closeness-gradient-similarity.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/closeness-gradient-similarity.md",
     "title": "不同任务的 closeness 与其梯度余弦相似度的关系",
     "category": "invisible",
     "aliases": [],
@@ -81,7 +81,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-26"
   },
   {
-    "path": "everlasting/invisible/notes/newton-output-distribution.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/newton-output-distribution.md",
     "title": "牛顿更新法与重新训练模型的输出分布接近性",
     "category": "invisible",
     "aliases": [],
@@ -90,7 +90,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-24"
   },
   {
-    "path": "everlasting/invisible/notes/closeness-generalization.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/closeness-generalization.md",
     "title": "closeness 视角下的任务泛化能力",
     "category": "invisible",
     "aliases": [],
@@ -99,7 +99,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-22"
   },
   {
-    "path": "everlasting/invisible/notes/newton-residual-gradient.md",
+    "path": "everlasting/invisible/AI-Theoretical-Proofs/newton-residual-gradient.md",
     "title": "牛顿更新法的残余梯度理论上界",
     "category": "invisible",
     "aliases": [],
@@ -118,7 +118,7 @@ window.ArticleCatalog = [
     "outlinePreview": true
   },
   {
-    "path": "everlasting/invisible/annual/2025.md",
+    "path": "everlasting/invisible/others/annual/2025.md",
     "title": "2025 年终总结",
     "category": "minors",
     "aliases": [],
@@ -127,7 +127,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-02-18"
   },
   {
-    "path": "everlasting/invisible/annual/2024.md",
+    "path": "everlasting/invisible/others/annual/2024.md",
     "title": "2024 年终总结",
     "category": "minors",
     "aliases": [],
@@ -136,13 +136,45 @@ window.ArticleCatalog = [
     "publishedAt": "2025-01-30"
   },
   {
-    "path": "everlasting/invisible/annual/2023.md",
+    "path": "everlasting/invisible/others/annual/2023.md",
     "title": "2023 年终总结",
     "category": "minors",
     "aliases": [],
     "hidePath": true,
     "collection": "annual",
     "publishedAt": "2024-02-11"
+  },
+  {
+    "path": "everlasting/invisible/tech/std/chatgpt-latex-rendering.md",
+    "title": "为 Windows ChatGPT 启用单美元符号公式渲染",
+    "category": "tech",
+    "aliases": [],
+    "hidePath": true,
+    "publishedAt": "2026-11-05"
+  },
+  {
+    "path": "everlasting/invisible/tech/std/claude-code-npm-update-fix.md",
+    "title": "服务器上 Claude Code 更新失败的排查与修复",
+    "category": "tech",
+    "aliases": [],
+    "hidePath": true,
+    "publishedAt": "2026-11-05"
+  },
+  {
+    "path": "everlasting/invisible/tech/std/claude-code-pdf-read-password-error.md",
+    "title": "Claude Code 读 PDF 误报 \"PDF is password-protected\" 的定位与解决",
+    "category": "tech",
+    "aliases": [],
+    "hidePath": true,
+    "publishedAt": "2026-11-05"
+  },
+  {
+    "path": "everlasting/invisible/tech/std/codex-resume-hang.md",
+    "title": "Codex `resume` 卡死排查与修复",
+    "category": "tech",
+    "aliases": [],
+    "hidePath": true,
+    "publishedAt": "2026-11-05"
   },
   {
     "path": "everlasting/invisible/tech/std/ssh conda init.md",

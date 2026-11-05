@@ -28,7 +28,7 @@ test('all published categories and reader links use the generated catalog', () =
       assert.match(context.resolveDoc(path).publishedAt, /^\d{4}-\d{2}-\d{2}$/);
     }
   }
-  assert.equal(context.resolveDoc('newton-residual-gradient').path, 'everlasting/invisible/notes/newton-residual-gradient.md');
+  assert.equal(context.resolveDoc('newton-residual-gradient').path, 'everlasting/invisible/AI-Theoretical-Proofs/newton-residual-gradient.md');
   assert.equal(context.resolveDoc('preliminaries').title, '补一些非常basic的知识');
   assert.equal(evaluate('CATEGORY_DEFINITIONS.invisible.docs.at(-1)'), 'everlasting/invisible/preliminaries.md');
   assert.equal(context.resolveDoc('2025.md').collection, 'annual');
@@ -43,10 +43,10 @@ test('all published categories and reader links use the generated catalog', () =
 
 test('public IDs remain unambiguous when other articles have the same filename', () => {
   const { context } = loadCatalog([
-    { path: 'everlasting/invisible/notes/nested/newton-residual-gradient.md', title: 'Another article',
+    { path: 'everlasting/invisible/AI-Theoretical-Proofs/nested/newton-residual-gradient.md', title: 'Another article',
       category: 'invisible', aliases: [], publicId: 'nested/newton-residual-gradient' },
   ]);
-  assert.equal(context.resolveDoc('newton-residual-gradient').path, 'everlasting/invisible/notes/newton-residual-gradient.md');
+  assert.equal(context.resolveDoc('newton-residual-gradient').path, 'everlasting/invisible/AI-Theoretical-Proofs/newton-residual-gradient.md');
   assert.equal(context.resolveDoc('nested/newton-residual-gradient').title, 'Another article');
 });
 
