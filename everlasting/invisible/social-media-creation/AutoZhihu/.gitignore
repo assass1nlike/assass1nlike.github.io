@@ -1,0 +1,4 @@
+.env
+browser/
+data/
+__pycache__/

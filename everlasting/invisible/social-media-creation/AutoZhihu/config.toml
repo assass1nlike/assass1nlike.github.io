@@ -1,0 +1,17 @@
+# 写作模型（接口地址和 key 在 .env）
+model = "claude-opus-5-5"
+
+# 发布时勾选“包含 AI 辅助创作”
+declare_ai = true
+
+# 一次 run 默认写几篇
+per_run = 3
+
+# 两次发布之间随机等待的秒数范围
+publish_interval = [600, 1800]
+
+# 问题发现：要抓的页面
+sources = ["hot", "invited", "recommend"]
+
+# 跳过关注数低于此值的问题（太冷门没人看）
+min_followers = 20
