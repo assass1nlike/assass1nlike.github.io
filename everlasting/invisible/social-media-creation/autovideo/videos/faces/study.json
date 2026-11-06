@@ -1,0 +1,16 @@
+{
+  "_source": "Jenkins, Dowsett & Burton (2018). How many faces do people know? Proc. R. Soc. B 285: 20181319",
+  "participants": 25,
+  "mean_age": 24,
+  "hours": 6,
+  "personal": {"recalled": 362, "first5": 40, "last5": 21, "zero_min": 145, "projected": 549},
+  "famous": {"recalled": 290, "first5": 31, "last5": 16, "zero_min": 120, "projected": 395},
+  "recall_total": 944,
+  "database": 3441,
+  "recognized_both": 775,
+  "ratio": 4.62,
+  "estimate": 4240,
+  "rounded": 5000,
+  "min": 1031,
+  "max": 8579
+}

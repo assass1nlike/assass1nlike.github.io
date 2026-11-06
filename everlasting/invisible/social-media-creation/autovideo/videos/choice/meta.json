@@ -1,0 +1,656 @@
+{
+ "source": "Scheibehenne, Greifeneder & Todd (2010), JCR 37(3), Table 1",
+ "paper": {
+  "mean": 0.02,
+  "lo": -0.09,
+  "hi": 0.12,
+  "k": 63,
+  "experiments": 50,
+  "N": 5036,
+  "I2": 0.68
+ },
+ "recomputed": {
+  "mean": 0.0194,
+  "lo": -0.083,
+  "hi": 0.1217,
+  "tau2": 0.1035,
+  "Q": 185.6587,
+  "I2": 0.6661
+ },
+ "n_total": 4896,
+ "n_positive": 24,
+ "n_negative": 31,
+ "n_zero": 8,
+ "studies": [
+  {
+   "author": "Alleman et al.",
+   "year": 2007,
+   "d": -0.24,
+   "s2": 0.08,
+   "small": "6",
+   "large": "24",
+   "n": 52,
+   "item": "Monetary gambles"
+  },
+  {
+   "author": "Berger, Draganska, and Simonson",
+   "year": 2007,
+   "d": -0.52,
+   "s2": 0.05,
+   "small": "13",
+   "large": "30",
+   "n": 90,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Chernev",
+   "year": 2003,
+   "d": -0.36,
+   "s2": 0.09,
+   "small": "4",
+   "large": "16",
+   "n": 45,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Chernev",
+   "year": 2003,
+   "d": 0.72,
+   "s2": 0.09,
+   "small": "4",
+   "large": "16",
+   "n": 43,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Chernev",
+   "year": 2003,
+   "d": -0.33,
+   "s2": 0.12,
+   "small": "4",
+   "large": "16",
+   "n": 34,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Chernev",
+   "year": 2003,
+   "d": 0.57,
+   "s2": 0.1,
+   "small": "4",
+   "large": "16",
+   "n": 41,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Chernev",
+   "year": 2003,
+   "d": -0.28,
+   "s2": 0.05,
+   "small": "6",
+   "large": "24",
+   "n": 81,
+   "item": "Various products"
+  },
+  {
+   "author": "Chernev",
+   "year": 2003,
+   "d": 0.47,
+   "s2": 0.05,
+   "small": "6",
+   "large": "24",
+   "n": 86,
+   "item": "Various products"
+  },
+  {
+   "author": "Diehl and Poynor",
+   "year": 2007,
+   "d": 0.54,
+   "s2": 0.06,
+   "small": "60",
+   "large": "300",
+   "n": 65,
+   "item": "Wallpapers"
+  },
+  {
+   "author": "Diehl and Poynor",
+   "year": 2007,
+   "d": 0.32,
+   "s2": 0.02,
+   "small": "8",
+   "large": "32",
+   "n": 165,
+   "item": "Camcorders"
+  },
+  {
+   "author": "Effron and Lepper",
+   "year": 2007,
+   "d": -0.48,
+   "s2": 0.26,
+   "small": "10",
+   "large": "15",
+   "n": 16,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Fasolo, Carmeci, and Misuraca",
+   "year": 2009,
+   "d": 0.06,
+   "s2": 0.06,
+   "small": "6",
+   "large": "24",
+   "n": 64,
+   "item": "Mobile phones"
+  },
+  {
+   "author": "Fasolo, Carmeci, and Misuraca",
+   "year": 2009,
+   "d": -0.26,
+   "s2": 0.03,
+   "small": "6",
+   "large": "24",
+   "n": 120,
+   "item": "Mobile phones"
+  },
+  {
+   "author": "Gao and Simonson",
+   "year": 2008,
+   "d": -0.67,
+   "s2": 0.09,
+   "small": "10",
+   "large": "50",
+   "n": 43,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Gao and Simonson",
+   "year": 2008,
+   "d": 0.22,
+   "s2": 0.09,
+   "small": "10",
+   "large": "50",
+   "n": 43,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Gingras",
+   "year": 2003,
+   "d": -0.6,
+   "s2": 0.05,
+   "small": "10",
+   "large": "30",
+   "n": 89,
+   "item": "Food dishes"
+  },
+  {
+   "author": "Gingras",
+   "year": 2003,
+   "d": 0.0,
+   "s2": 0.07,
+   "small": "6",
+   "large": "24",
+   "n": 30,
+   "item": "Vacation packages"
+  },
+  {
+   "author": "Gingras",
+   "year": 2003,
+   "d": 0.0,
+   "s2": 0.07,
+   "small": "6",
+   "large": "24",
+   "n": 31,
+   "item": "Vacation packages"
+  },
+  {
+   "author": "Gingras",
+   "year": 2003,
+   "d": 0.0,
+   "s2": 0.07,
+   "small": "5",
+   "large": "21",
+   "n": 61,
+   "item": "Candy bars"
+  },
+  {
+   "author": "Gingras",
+   "year": 2003,
+   "d": 0.52,
+   "s2": 0.06,
+   "small": "6",
+   "large": "30",
+   "n": 69,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Greifeneder",
+   "year": 2008,
+   "d": -0.2,
+   "s2": 0.05,
+   "small": "6",
+   "large": "30",
+   "n": 80,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Greifeneder, Scheibehenne, and Kleber",
+   "year": 2010,
+   "d": -0.12,
+   "s2": 0.1,
+   "small": "6",
+   "large": "30",
+   "n": 80,
+   "item": "Pencils"
+  },
+  {
+   "author": "Greifeneder, Scheibehenne, and Kleber",
+   "year": 2010,
+   "d": 0.81,
+   "s2": 0.11,
+   "small": "6",
+   "large": "30",
+   "n": 80,
+   "item": "Pencils"
+  },
+  {
+   "author": "Greifeneder, Scheibehenne, and Kleber",
+   "year": 2010,
+   "d": -0.28,
+   "s2": 0.08,
+   "small": "6",
+   "large": "30",
+   "n": 52,
+   "item": "mp3 player"
+  },
+  {
+   "author": "Greifeneder, Scheibehenne, and Kleber",
+   "year": 2010,
+   "d": 0.54,
+   "s2": 0.08,
+   "small": "6",
+   "large": "30",
+   "n": 52,
+   "item": "mp3 player"
+  },
+  {
+   "author": "Haynes",
+   "year": 2009,
+   "d": 0.48,
+   "s2": 0.06,
+   "small": "3",
+   "large": "10",
+   "n": 69,
+   "item": "Various products"
+  },
+  {
+   "author": "Haynes and Olson",
+   "year": 2007,
+   "d": -0.05,
+   "s2": 0.06,
+   "small": "5",
+   "large": "20",
+   "n": 72,
+   "item": "Various products"
+  },
+  {
+   "author": "Inbar et al.",
+   "year": 2008,
+   "d": 0.08,
+   "s2": 0.19,
+   "small": "6",
+   "large": "30",
+   "n": 21,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Inbar et al.",
+   "year": 2008,
+   "d": 1.21,
+   "s2": 0.23,
+   "small": "6",
+   "large": "30",
+   "n": 21,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Inbar et al.",
+   "year": 2008,
+   "d": -0.12,
+   "s2": 0.07,
+   "small": "6",
+   "large": "30",
+   "n": 56,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Iyengar and Lepper",
+   "year": 2000,
+   "d": 0.88,
+   "s2": 0.06,
+   "small": "6",
+   "large": "30",
+   "n": 67,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Iyengar and Lepper",
+   "year": 2000,
+   "d": 0.77,
+   "s2": 0.02,
+   "small": "6",
+   "large": "24",
+   "n": 249,
+   "item": "Jam"
+  },
+  {
+   "author": "Kahn and Wansink",
+   "year": 2004,
+   "d": 0.0,
+   "s2": 0.22,
+   "small": "6",
+   "large": "24",
+   "n": 18,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Kahn and Wansink",
+   "year": 2004,
+   "d": -1.89,
+   "s2": 0.32,
+   "small": "6",
+   "large": "24",
+   "n": 18,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Kahn and Wansink",
+   "year": 2004,
+   "d": 0.0,
+   "s2": 0.09,
+   "small": "6",
+   "large": "24",
+   "n": 46,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Kahn and Wansink",
+   "year": 2004,
+   "d": -0.94,
+   "s2": 0.1,
+   "small": "6",
+   "large": "24",
+   "n": 46,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Kahn and Wansink",
+   "year": 2004,
+   "d": 0.0,
+   "s2": 0.07,
+   "small": "6",
+   "large": "24",
+   "n": 54,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Kahn and Wansink",
+   "year": 2004,
+   "d": -0.82,
+   "s2": 0.08,
+   "small": "6",
+   "large": "24",
+   "n": 54,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Kilchherr, Wanke, and Messner",
+   "year": 2008,
+   "d": -0.02,
+   "s2": 0.1,
+   "small": "12",
+   "large": "72",
+   "n": 40,
+   "item": "Sundaes"
+  },
+  {
+   "author": "Kleinschmidt",
+   "year": 2008,
+   "d": -0.17,
+   "s2": 0.07,
+   "small": "3",
+   "large": "12",
+   "n": 60,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Kleinschmidt",
+   "year": 2008,
+   "d": 0.05,
+   "s2": 0.07,
+   "small": "6",
+   "large": "24",
+   "n": 61,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Lenton, Fasolo, and Todd",
+   "year": 2008,
+   "d": -0.09,
+   "s2": 0.04,
+   "small": "4",
+   "large": "20",
+   "n": 89,
+   "item": "Dating partner"
+  },
+  {
+   "author": "Lenton and Stewart",
+   "year": 2007,
+   "d": 0.04,
+   "s2": 0.06,
+   "small": "4",
+   "large": "64",
+   "n": 68,
+   "item": "Dating partner"
+  },
+  {
+   "author": "Lin and Wu",
+   "year": 2006,
+   "d": 0.08,
+   "s2": 0.05,
+   "small": "6",
+   "large": "16",
+   "n": 82,
+   "item": "Chocolates"
+  },
+  {
+   "author": "Mogilner, Rudnick, and Iyengar",
+   "year": 2008,
+   "d": 0.64,
+   "s2": 0.09,
+   "small": "5",
+   "large": "50",
+   "n": 60,
+   "item": "Coffee"
+  },
+  {
+   "author": "Mogilner, Rudnick, and Iyengar",
+   "year": 2008,
+   "d": 0.09,
+   "s2": 0.09,
+   "small": "5",
+   "large": "50",
+   "n": 60,
+   "item": "Coffee"
+  },
+  {
+   "author": "Olivola and Schwartz",
+   "year": 2006,
+   "d": -0.43,
+   "s2": 0.09,
+   "small": "4",
+   "large": "20",
+   "n": 48,
+   "item": "Magazines"
+  },
+  {
+   "author": "Reutskaja",
+   "year": 2008,
+   "d": 0.0,
+   "s2": 0.07,
+   "small": "10",
+   "large": "30",
+   "n": 60,
+   "item": "Gift boxes"
+  },
+  {
+   "author": "Reutskaja and Hogarth",
+   "year": 2009,
+   "d": 0.68,
+   "s2": 0.07,
+   "small": "10",
+   "large": "30",
+   "n": 60,
+   "item": "Gift boxes"
+  },
+  {
+   "author": "Scheibehenne",
+   "year": 2008,
+   "d": 0.02,
+   "s2": 0.01,
+   "small": "6",
+   "large": "24",
+   "n": 504,
+   "item": "Jam"
+  },
+  {
+   "author": "Scheibehenne",
+   "year": 2008,
+   "d": -0.27,
+   "s2": 0.06,
+   "small": "6",
+   "large": "30",
+   "n": 66,
+   "item": "Jelly beans"
+  },
+  {
+   "author": "Scheibehenne",
+   "year": 2008,
+   "d": -0.08,
+   "s2": 0.01,
+   "small": "3",
+   "large": "12",
+   "n": 280,
+   "item": "Red wine"
+  },
+  {
+   "author": "Scheibehenne, Greifeneder, and Todd",
+   "year": 2009,
+   "d": -0.31,
+   "s2": 0.07,
+   "small": "2",
+   "large": "30",
+   "n": 60,
+   "item": "Charities"
+  },
+  {
+   "author": "Scheibehenne, Greifeneder, and Todd",
+   "year": 2009,
+   "d": -0.04,
+   "s2": 0.07,
+   "small": "5",
+   "large": "40",
+   "n": 57,
+   "item": "Charities"
+  },
+  {
+   "author": "Scheibehenne, Greifeneder, and Todd",
+   "year": 2009,
+   "d": -0.16,
+   "s2": 0.04,
+   "small": "5",
+   "large": "40 & 80",
+   "n": 112,
+   "item": "Charities"
+  },
+  {
+   "author": "Scheibehenne, Greifeneder, and Todd",
+   "year": 2009,
+   "d": 0.39,
+   "s2": 0.04,
+   "small": "5",
+   "large": "40 & 80",
+   "n": 119,
+   "item": "Charities"
+  },
+  {
+   "author": "Scheibehenne, Greifeneder, and Todd",
+   "year": 2009,
+   "d": -0.17,
+   "s2": 0.03,
+   "small": "6",
+   "large": "30",
+   "n": 80,
+   "item": "Classical music"
+  },
+  {
+   "author": "Scheibehenne, Greifeneder, and Todd",
+   "year": 2009,
+   "d": -0.05,
+   "s2": 0.02,
+   "small": "6",
+   "large": "30",
+   "n": 87,
+   "item": "Classical music"
+  },
+  {
+   "author": "Scheibehenne, Greifeneder, and Todd",
+   "year": 2009,
+   "d": -0.11,
+   "s2": 0.05,
+   "small": "5",
+   "large": "30",
+   "n": 80,
+   "item": "Restaurants"
+  },
+  {
+   "author": "Scheibehenne and Todd",
+   "year": 2009,
+   "d": 0.0,
+   "s2": 0.02,
+   "small": "6",
+   "large": "63",
+   "n": 191,
+   "item": "Mutual funds"
+  },
+  {
+   "author": "Shah and Wolford",
+   "year": 2007,
+   "d": 0.77,
+   "s2": 0.05,
+   "small": "6-12",
+   "large": "14-20",
+   "n": 80,
+   "item": "Pens"
+  },
+  {
+   "author": "Sollner and Newell",
+   "year": 2009,
+   "d": -0.22,
+   "s2": 0.07,
+   "small": "3",
+   "large": "18",
+   "n": 57,
+   "item": "Perfume"
+  },
+  {
+   "author": "Sollner and Newell",
+   "year": 2009,
+   "d": -0.82,
+   "s2": 0.14,
+   "small": "3",
+   "large": "30",
+   "n": 32,
+   "item": "Sun cream"
+  }
+ ]
+}

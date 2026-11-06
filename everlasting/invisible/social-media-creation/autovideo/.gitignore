@@ -1,0 +1,11 @@
+# 依赖与中间产物：都能由仓库里的文件重新生成
+node_modules/
+build/
+
+# 成片：体积大（每条 30~50 MB），且含有版权音乐；本地保留，发布在 B 站
+videos/*/out/*.mp4
+
+# 配乐音频：版权属于原作者，不能放进公开仓库（节拍分析 music/*.json 照常提交）
+music/*.m4a
+music/*.mp3
+music/*.wav
