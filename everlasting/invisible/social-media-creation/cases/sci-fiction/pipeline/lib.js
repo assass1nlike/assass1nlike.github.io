@@ -303,8 +303,9 @@ function grain(ctx, t) {
 }
 
 function drawSubtitles(ctx, t) {
-  const s = TL.subs.find(x => t >= x.start - 0.05 && t < x.end + 0.15);
-  if (!s) return;
+  // 取最近一条已开始的字幕，前一条的淡出不会盖住下一条
+  const s = TL.subs.filter(x => t >= x.start - 0.05).pop();
+  if (!s || t >= s.end + 0.15) return;
   const a = Math.min(prog(t, s.start - 0.05, s.start + 0.12), 1 - prog(t, s.end, s.end + 0.15));
   text(ctx, s.text, W / 2, H - BAR / 2 + 14, { size: 40, weight: 500, color: '#ecebe6', alpha: a, spacing: 1 });
 }
