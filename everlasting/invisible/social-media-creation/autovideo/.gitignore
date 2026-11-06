@@ -9,3 +9,8 @@ videos/*/out/*.mp4
 music/*.m4a
 music/*.mp3
 music/*.wav
+
+# 发布：B 站登录凭据绝不能提交；biliup 可执行文件按 README 下载
+publish/cookies.json
+publish/bin/
+publish/browser/

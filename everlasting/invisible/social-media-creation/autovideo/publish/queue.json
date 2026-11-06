@@ -1,0 +1,88 @@
+{
+ "items": [
+  {
+   "name": "exposure",
+   "status": "published",
+   "bvid": "BV1mR4e6mEtm",
+   "note": "手动发布"
+  },
+  {
+   "name": "queue",
+   "status": "scheduled",
+   "slot": "2026-11-07 08:00",
+   "bvid": "BV1nb4e6vEua"
+  },
+  {
+   "name": "bus",
+   "status": "scheduled",
+   "slot": "2026-11-08 08:00",
+   "bvid": "BV1nb4e6vETC"
+  },
+  {
+   "name": "habit",
+   "status": "scheduled",
+   "tid": 124,
+   "slot": "2026-11-09 08:00",
+   "bvid": "BV16b4e6vEYF"
+  },
+  {
+   "name": "elevator",
+   "status": "scheduled",
+   "slot": "2026-11-10 08:00",
+   "bvid": "BV1nb4e6vEsx"
+  },
+  {
+   "name": "faces",
+   "status": "scheduled",
+   "tid": 124,
+   "slot": "2026-11-11 08:00",
+   "bvid": "BV1nb4e6vE8p"
+  },
+  {
+   "name": "coin",
+   "status": "scheduled",
+   "slot": "2026-11-12 08:00",
+   "bvid": "BV1Ht4e6KE3i"
+  },
+  {
+   "name": "bystander",
+   "status": "scheduled",
+   "tid": 124,
+   "slot": "2026-11-13 08:00",
+   "bvid": "BV1Ht4e6KEGN"
+  },
+  {
+   "name": "rps",
+   "status": "scheduled",
+   "tid": 124,
+   "slot": "2026-11-14 08:00",
+   "bvid": "BV1rt4e6KEv3"
+  },
+  {
+   "name": "marshmallow",
+   "status": "scheduled",
+   "tid": 124,
+   "slot": "2026-11-15 08:00",
+   "bvid": "BV1nt4e6KEXb"
+  },
+  {
+   "name": "practice",
+   "status": "scheduled",
+   "tid": 124,
+   "slot": "2026-11-16 08:00",
+   "bvid": "BV1nt4e6KEnL"
+  },
+  {
+   "name": "choice",
+   "status": "scheduled",
+   "tid": 124,
+   "slot": "2026-11-17 08:00",
+   "bvid": "BV16t4e6KEmq"
+  },
+  {
+   "name": "blindbox",
+   "status": "skipped",
+   "note": "不发"
+  }
+ ]
+}
