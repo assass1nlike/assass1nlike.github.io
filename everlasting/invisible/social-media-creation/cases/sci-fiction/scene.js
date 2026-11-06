@@ -298,7 +298,7 @@ SCENES.depart = (ctx, t, s) => {
 // ---------- 三、星光聚拢 ----------
 XF.starbow = 2.0;
 SCENES.starbow = (ctx, t, s) => {
-  const vg = voyageAt(t);
+  const vg = voyageAt(clamp(t, s.start, s.end - 1e-3));
   const { s: st, fov } = skyAt(ctx, vg);
   fovLabel(ctx, fov);
   // 后视：身后的星空变暗变红
@@ -438,7 +438,7 @@ function flash(ctx, t) {
 
 SCENES.flyby = (ctx, t, s) => {
   const L = i => lineAt('flyby', i);
-  const vg = voyageAt(t);
+  const vg = voyageAt(clamp(t, s.start, s.end - 1e-3));
   const { fov } = skyAt(ctx, vg);
   fovLabel(ctx, fov);
   // 信标：正前方偏一点的一颗蓝白光点，越来越亮
@@ -521,7 +521,7 @@ function calendar(ctx, t, a, alpha) {
 XF.arrive = 1.2;
 SCENES.arrive = (ctx, t, s) => {
   const L = i => lineAt('arrive', i);
-  const vg = voyageAt(t) || { leg: 'out', tau: P.tau_leg };
+  const vg = voyageAt(clamp(t, s.start, s.end - 1e-3)) || { leg: 'out', tau: P.tau_leg };
   // 调头：镜头随船首转过 180°，之后切回运动方向的前视
   const turn = ramp(t, FLIP[0], FLIP[1], easeInOut);
   const back = t > FLIP[1] + 0.8 && t < L(1) - 0.2;
@@ -546,7 +546,7 @@ const CITIES = ['city1', 'city2', 'city3', 'city4'];
 XF.return = 1.2;
 SCENES.return = (ctx, t, s) => {
   const L = i => lineAt('return', i);
-  const vg = voyageAt(t);
+  const vg = voyageAt(clamp(t, s.start, s.end - 1e-3));
   const { s: st, fov } = skyAt(ctx, vg);
   fovLabel(ctx, fov);
   // 收到的地球信号：发出年份飞快翻动，城市一座座换样子
