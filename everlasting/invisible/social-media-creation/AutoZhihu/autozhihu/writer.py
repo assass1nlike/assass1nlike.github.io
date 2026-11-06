@@ -1,4 +1,4 @@
-"""选题 + 写作流水线：计划 → 初稿 → 审稿 → 修订。每一步的产物都存在 data/answers/<qid>/ 里。"""
+"""选题 + 写作流水线：计划 → 初稿 → 审稿 → 修订 → 润色。每一步的产物都存在 data/answers/<qid>/ 里。"""
 import json
 from pathlib import Path
 
@@ -45,6 +45,15 @@ def build_context(q, max_answers=5, max_chars=3000):
     return "\n\n".join(parts)
 
 
+def polish(d, text):
+    """只做句子级改写去掉 AI 腔，改动清单存 polish.md，结果存 final.md。"""
+    out = chat(STYLE, _prompt("polish", draft=text))
+    (d / "polish.md").write_text(extract_block(out, "changes"), encoding="utf-8")
+    final = extract_block(out, "answer")
+    (d / "final.md").write_text(final, encoding="utf-8")
+    return final
+
+
 def write(q):
     """对一个已抓取详情的问题跑完整写作流程，返回最终回答 Markdown。"""
     d = answer_dir(q["id"])
@@ -65,9 +74,12 @@ def write(q):
     (d / "review.md").write_text(review, encoding="utf-8")
 
     print("  修订")
-    final = extract_block(chat(STYLE, _prompt("revise", context=ctx, draft=draft, review=review)),
-                          "answer")
-    (d / "final.md").write_text(final, encoding="utf-8")
+    revised = extract_block(chat(STYLE, _prompt("revise", context=ctx, draft=draft, review=review)),
+                            "answer")
+    (d / "revised.md").write_text(revised, encoding="utf-8")
+
+    print("  润色")
+    final = polish(d, revised)
 
     meta = load_meta(q["id"])
     meta.update(id=q["id"], title=q["title"], url=f"https://www.zhihu.com/question/{q['id']}",

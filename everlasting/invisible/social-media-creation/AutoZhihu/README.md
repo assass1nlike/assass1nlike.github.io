@@ -23,7 +23,7 @@ python -m autozhihu publish            # 发布所有已写好未发布的回答
 
 ## 流程
 
-选题时，模型从候选池里挑出能在“不编造经历、不依赖实时信息”的前提下写出明显优于已有回答的问题。每个问题的写作分四步：读问题和前 5 个高赞回答，制定写作计划（真实需求、已有回答的不足、自己的角度、结构）；按计划写初稿；以挑剔编辑的身份审稿（事实、编造、空话、AI 味）；根据审稿意见修订成终稿。所有步骤共用 `autozhihu/prompts/style.md` 中的身份和文风规则。
+选题时，模型从候选池里挑出能在“不编造经历、不依赖实时信息”的前提下写出明显优于已有回答的问题。每个问题的写作分五步：读问题和前 5 个高赞回答，制定写作计划（真实需求、已有回答的不足、自己的角度、结构）；按计划写初稿；以挑剔编辑的身份审稿（事实、编造、空话、AI 味）；根据审稿意见修订；最后只做句子级润色，去掉拟人化、强调词、自我预告、格言口号、教练口吻这几类 AI 腔，得到终稿。所有步骤共用 `autozhihu/prompts/style.md` 中的身份和文风规则。
 
 发布时把终稿转成 HTML 粘贴进知乎编辑器（公式、标题、列表、代码块都会转成原生格式），按配置勾选“包含 AI 辅助创作”，两篇之间随机间隔。
 
@@ -33,7 +33,7 @@ python -m autozhihu publish            # 发布所有已写好未发布的回答
 - `.env`：模型接口地址和 key。
 - `autozhihu/`：代码；`prompts/` 是各步骤的提示词。
 - `data/candidates.json`：候选问题池，`status` 记录每个问题的进度（new / written / published / skipped / failed）。
-- `data/answers/<问题id>/`：每篇回答的全部中间产物（context、plan、draft、review、final）和 `meta.json`。
+- `data/answers/<问题id>/`：每篇回答的全部中间产物（context、plan、draft、review、revised、polish 改动清单、final）和 `meta.json`。
 - `browser/`：Chrome 登录态。
 
 `.env`、`browser/`、`data/` 都不进 git。
