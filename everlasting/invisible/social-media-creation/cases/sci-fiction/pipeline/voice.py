@@ -26,8 +26,8 @@ PUNCT = "，。？！；："
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 
-async def synth(text, voice, rate, mp3_path):
-    comm = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
+async def synth(text, voice, rate, pitch, mp3_path):
+    comm = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch, boundary="WordBoundary")
     words = []
     with open(mp3_path, "wb") as f:
         async for chunk in comm.stream():
@@ -105,10 +105,12 @@ def main(video_dir):
             if isinstance(line, str):
                 line = {"text": line}
             text, say = line["text"], line.get("say", line["text"])
-            key = hashlib.sha1(f"{voice}|{rate}|{say}".encode()).hexdigest()[:16]
+            # 人物的台词可以单独指定声音
+            lv, lr, lp = line.get("voice", voice), line.get("rate", rate), line.get("pitch", "+0Hz")
+            key = hashlib.sha1(f"{lv}|{lr}|{lp}|{say}".encode()).hexdigest()[:16]
             mp3, meta = cache / f"{key}.mp3", cache / f"{key}.json"
             if not mp3.exists() or not meta.exists():
-                words = asyncio.run(synth(say, voice, rate, mp3))
+                words = asyncio.run(synth(say, lv, lr, lp, mp3))
                 meta.write_text(json.dumps(words, ensure_ascii=False), encoding="utf-8")
             words = json.loads(meta.read_text(encoding="utf-8"))
             audio = decode(mp3)
@@ -129,7 +131,7 @@ def main(video_dir):
                 line_subs[k]["end"] = line_subs[k + 1]["start"]
             line_subs[-1]["end"] = max(line_subs[-1]["end"], t + dur - 0.05)
             subs += line_subs
-            lines.append({"text": text, "say": say, "start": t, "end": t + dur,
+            lines.append({"text": text, "say": say, "start": t, "end": t + dur, "voice": lv,
                           "chars": [round(a, 3) for a, _ in ct]})
             t += dur + LINE_GAP + line.get("hold", 0)   # 句后留给画面的停顿
         t += sc.get("hold", 0)
