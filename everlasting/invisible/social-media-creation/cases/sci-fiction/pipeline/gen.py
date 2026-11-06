@@ -4,6 +4,7 @@
   python pipeline/gen.py img [名字 ...] [--n 3]    生成候选静帧到 build/candidates/<名字>/，不写名字就生成 assets/ 里还没有的全部
   python pipeline/gen.py pick <名字> <序号>        选定一张候选，存为 assets/<名字>.jpg
   python pipeline/gen.py clip <名字 ...>           用选定的静帧生成动态镜头 assets/<名字>.mp4（提示词里要有 clip）
+  python pipeline/gen.py sheet [名字 ...]          把候选拼成 build/candidates/sheet.jpg 方便挑选
 
 API key 放在环境变量 DASHSCOPE_API_KEY，或本目录下不进 git 的 dashscope.key 文件里。
 提示词里的 {_xxx} 会替换成 prompts.json 里 _xxx 的内容；写了 "ref": [名字] 的条目会把那些已选定的静帧作为参考图传入，
@@ -19,7 +20,7 @@ import time
 from pathlib import Path
 
 import requests
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 HOST = "https://dashscope.aliyuncs.com/api/v1"
@@ -66,11 +67,14 @@ def data_uri(path, max_side=2560):
 
 
 def submit(path, body):
-    r = requests.post(f"{HOST}/services/aigc/{path}", headers=headers(), json=body, timeout=60)
-    j = r.json()
-    if "output" not in j:
-        raise RuntimeError(j)
-    return j["output"]["task_id"]
+    for k in range(8):
+        j = requests.post(f"{HOST}/services/aigc/{path}", headers=headers(), json=body, timeout=60).json()
+        if "output" in j:
+            return j["output"]["task_id"]
+        if not j.get("code", "").startswith("Throttling"):
+            break
+        time.sleep(10 * (k + 1))
+    raise RuntimeError(j)
 
 
 def wait(task_id, every=8):
@@ -88,7 +92,6 @@ def gen_images(names, n):
     P = prompts()
     style = P["_style"]
     todo = names or [k for k, v in P.items() if not k.startswith("_") and not (ROOT / "assets" / f"{k}.jpg").exists()]
-    tasks = []
     for name in todo:
         e = P[name]
         content = [{"text": f"{expand(P, e['prompt'])}。{style}"}]
@@ -97,12 +100,16 @@ def gen_images(names, n):
             if not ref.exists():
                 sys.exit(f"{name} 需要先选定参考图 {r}")
             content.append({"image": data_uri(ref)})
-        body = {"model": IMG_MODEL, "input": {"messages": [{"role": "user", "content": content}]},
-                "parameters": {"size": SIZE, "n": n, "watermark": False, "seed": random.randrange(2 ** 31)}}
-        tasks.append((name, submit("image-generation/generation", body)))
-        print(f"submitted {name}")
-    for name, tid in tasks:
-        j = wait(tid)
+        for attempt in range(3):   # 内容审核偶尔误判，换个种子重试
+            body = {"model": IMG_MODEL, "input": {"messages": [{"role": "user", "content": content}]},
+                    "parameters": {"size": SIZE, "n": n, "watermark": False, "seed": random.randrange(2 ** 31)}}
+            try:
+                j = wait(submit("image-generation/generation", body))
+                break
+            except RuntimeError as err:
+                print(f"{name} 失败：{str(err)[:300]}")
+        else:
+            continue
         out = CAND / name
         out.mkdir(parents=True, exist_ok=True)
         start = len(list(out.glob("*.png")))
@@ -120,7 +127,6 @@ def pick(name, i):
 
 def gen_clips(names):
     P = prompts()
-    tasks = []
     for name in names:
         e = P[name]
         body = {"model": VIDEO_MODEL,
@@ -128,12 +134,25 @@ def gen_clips(names):
                           "img_url": data_uri(ROOT / "assets" / f"{name}.jpg", 1920)},
                 "parameters": {"resolution": "720P", "duration": e.get("seconds", 5), "audio": False,
                                "prompt_extend": False, "watermark": False}}
-        tasks.append((name, submit("video-generation/video-synthesis", body)))
-        print(f"submitted {name}")
-    for name, tid in tasks:
-        j = wait(tid, 15)
+        j = wait(submit("video-generation/video-synthesis", body), 15)
         (ROOT / "assets" / f"{name}.mp4").write_bytes(requests.get(j["output"]["video_url"], timeout=300).content)
         print(f"{name} → assets/{name}.mp4")
+
+
+def sheet(names):
+    names = names or sorted(d.name for d in CAND.iterdir() if d.is_dir())
+    rows = [(n, sorted((CAND / n).glob("*.png"), key=lambda f: int(f.stem))) for n in names]
+    cols = max(len(r[1]) for r in rows)
+    tw, th = 960, 402
+    im = Image.new("RGB", (cols * tw, len(rows) * th), "black")
+    dr = ImageDraw.Draw(im)
+    ft = ImageFont.truetype("C:/Windows/Fonts/msyh.ttc", 28)
+    for y, (n, fs) in enumerate(rows):
+        for x, f in enumerate(fs):
+            im.paste(Image.open(f).convert("RGB").resize((tw, th)), (x * tw, y * th))
+            dr.text((x * tw + 10, y * th + 6), f"{n} {f.stem}", fill="yellow", font=ft)
+    im.save(CAND / "sheet.jpg", quality=85)
+    print(CAND / "sheet.jpg")
 
 
 if __name__ == "__main__":
@@ -148,3 +167,5 @@ if __name__ == "__main__":
         pick(rest[0], int(rest[1]))
     elif cmd == "clip":
         gen_clips(rest)
+    elif cmd == "sheet":
+        sheet(rest)

@@ -7,10 +7,10 @@ function setup() {
   STARS = makeStars();
   // 望舒放在正前方（+z），也就是夸父号的航向
   STARS.x[0] = 0; STARS.y[0] = 0; STARS.z[0] = 1; STARS.f[0] = 5; STARS.T[0] = 5600; STARS.ll[0] = bbLogLum(5600);
-  const sfx = (t, kind, gain = 0.5) => SFX.push({ t, kind, gain });
+  const sfx = (t, kind, gain = 0.5, dur) => SFX.push({ t, kind, gain, ...(dur ? { dur } : {}) });
   sfx(0.6, 'blip', 0.35);
   sfx(lineAt('depart', 2) + 0.2, 'ignite', 0.8);
-  sfx(lineAt('flyby', 0) + 0.3, 'beacon', 0.4);
+  sfx(lineAt('flyby', 0) + 0.3, 'beacon', 0.4, FLASH - lineAt('flyby', 0) - 0.3);
   sfx(FLASH - 0.25, 'flyby', 0.9);
   sfx(lineAt('flyby', 5) + 0.4, 'decode', 0.5);
   sfx(lineAt('arrive', 2) - 0.2, 'swell', 0.7);
@@ -303,7 +303,10 @@ SCENES.starbow = (ctx, t, s) => {
   fovLabel(ctx, fov);
   // 后视：身后的星空变暗变红
   const l1 = lineAt('starbow', 1), l2 = lineAt('starbow', 2);
-  inset(ctx, 60, H - BAR - 300, 480, 270, '后视', r => drawSky(ctx, { beta: st.v, yaw: 180, fov: 75, rect: r }),
+  inset(ctx, 60, H - BAR - 300, 480, 270, '后视　同等曝光', r => {
+    drawSky(ctx, { beta: st.v, yaw: 180, fov: 75, rect: r });
+    text(ctx, '星光已红移出可见光', r.x + r.w / 2, r.y + r.h / 2 + 10, { size: 24, color: 'rgba(255,140,110,0.8)' });
+  },
     ramp(t, cue('starbow', '身后') - 0.4, cue('starbow', '身后') + 0.3) * (1 - ramp(t, l2 - 0.3, l2 + 0.3)));
   // 地球信号：发出年份走得很慢
   const an = ramp(t, cue('starbow', '拉长') - 0.6, cue('starbow', '拉长')) ;
@@ -335,6 +338,7 @@ function decode(ctx, t, a, alpha) {
   if (alpha <= 0) return;
   const msg = '我们正在去你们那里';
   ctx.save(); ctx.globalAlpha = alpha;
+  ctx.fillStyle = 'rgba(0,0,0,0.75)'; ctx.fillRect(0, BAR, W, H - 2 * BAR);
   const rows = [['收到', 101, ICE], ['发出', 202, AMBER]];
   rows.forEach(([lab, seed, col], j) => {
     const y = H / 2 - 90 + j * 180;
