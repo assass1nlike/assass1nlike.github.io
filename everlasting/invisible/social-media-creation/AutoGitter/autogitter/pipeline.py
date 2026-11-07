@@ -58,7 +58,7 @@ TRIAGE_SCHEMA = {
 
 def discover():
     pool = read_json(CANDIDATES, {})
-    for repo in CONFIG["repos"]:
+    for repo in CONFIG["pr_repos"]:
         try:
             items = [it for it in gh.search_issues(repo) if f"{repo}#{it['number']}" not in pool]
             linked = gh.linked_prs(repo, [it["number"] for it in items]) if items else {}
@@ -76,7 +76,7 @@ def discover():
 
 def triage():
     pool = read_json(CANDIDATES, {})
-    for repo in CONFIG["repos"]:
+    for repo in CONFIG["pr_repos"]:
         fresh = [c for c in pool.values() if c["repo"] == repo and c["status"] == "new"]
         if not fresh:
             continue
@@ -156,6 +156,10 @@ def _diff(tree, base):
 # ---------- 修复与审稿 ----------
 
 def new_task(repo, number=None):
+    allowed = CONFIG["pr_repos"] + ([] if number else CONFIG["issue_repos"])
+    if repo not in allowed:
+        print(f"{repo} 不在白名单（{'pr_repos' if number else 'pr_repos / issue_repos'}）里，跳过")
+        return None
     if number:
         tid, branch = f"{slug(repo)}__{number}", f"fix-issue-{number}"
     else:
@@ -185,7 +189,16 @@ def work(tid):
             text = prompt("fix", env=_env_text(ctx), issue=issue, style=prompt("style"), **ctx)
         else:
             issue = "(No existing issue: the contributor found this bug while reading recent changes.)"
-            text = prompt("hunt", env=_env_text(ctx), style=prompt("style"), **ctx)
+            if meta["repo"] in CONFIG["issue_repos"]:
+                deliverable = ("a high-quality bug report issue. This repo doesn't accept pull requests from outside "
+                               "contributors, so don't change the worktree, even if the fix is easy; describe the fix in the issue")
+                outcomes = '`issue` or `abandon` (never `pr` for this repo)'
+            else:
+                deliverable = ("either a pull request with the fix (preferred, if the fix is clear and small) "
+                               "or a high-quality bug report issue")
+                outcomes = "`pr`, `issue` or `abandon`"
+            text = prompt("hunt", env=_env_text(ctx), style=prompt("style"), deliverable=deliverable,
+                          outcomes=outcomes, **ctx)
         add = [d, ENVS]
         r = agent.run(text, tree, WORK_SCHEMA, d / "work.log", add_dirs=add, timeout=CONFIG["work_timeout"])
         meta["session_id"] = r["session_id"]
@@ -196,6 +209,9 @@ def work(tid):
             write_json(d / f"result-{rnd}.json", result)
             if result["outcome"] == "abandon":
                 meta.update(status="abandoned", reason=result["notes"])
+                break
+            if result["outcome"] == "pr" and meta["repo"] in CONFIG["issue_repos"]:
+                meta.update(status="failed", reason="只收 issue 的 repo 产出了 pr")
                 break
             if result["outcome"] == "pr" and not _diff(tree, meta["base"]).strip():
                 meta.update(status="failed", reason="outcome 是 pr 但 worktree 没有改动")
@@ -307,6 +323,10 @@ def submit(tids=None):
             body += "\n\n" + CONFIG["disclosure"].strip()
         try:
             if meta["outcome"] == "pr":
+                claim = CONFIG["self_assign"].get(repo)
+                if claim and meta["kind"] == "issue":
+                    gh.comment(repo, meta["number"], claim)
+                    time.sleep(20)
                 fork = gh.fork(repo)
                 time.sleep(5)
                 _git(TREES / meta["id"], "push", "--force",

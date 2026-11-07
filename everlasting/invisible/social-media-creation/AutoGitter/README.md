@@ -32,11 +32,13 @@ worker 交付后，reviewer 会话（只读）自己重跑复现和测试，检�
 
 提交前再确认一次 issue 仍开着、没人认领、没有新的关联 PR；然后 fork、push、建 PR，按 `disclose_ai` 在末尾附上 AI 声明（repo 规定必须披露时总会附上）。
 
+目标 repo 分两类，都在 `config.toml` 里。`pr_repos` 是贡献规范里没有反 agent 条款的 repo：凡是禁止全自动 agent、要求真人逐行审过或手写描述、要求先拿到维护者批准或 assign 的（transformers、trl、peft、diffusers、scikit-learn、langchain 等）都没收。`issue_repos` 不收外部 PR，只走 hunt、只提 issue。规范可能会变，所以 worker 每次都会重读 repo 当前的规范，发现上述条款就放弃。
+
 worker 和 reviewer 拿不到 GitHub 凭据：`gh`、`git push` 被禁用，环境里清空了 git credential helper，读 GitHub 只能走未认证 API。所有写操作只在 `autogitter/gh.py` 里由 pipeline 执行。
 
 ## 文件
 
-- `config.toml`：账号、模型、工作区路径、审稿门槛、提交频率、AI 声明文本、目标 repo 列表。
+- `config.toml`：账号、模型、工作区路径、审稿门槛、提交频率、AI 声明文本、目标 repo 白名单、需要先评论认领的 repo。
 - `.env`：headless Claude Code 的接口，`ANTHROPIC_BASE_URL` 和 `ANTHROPIC_API_KEY`（或 `ANTHROPIC_AUTH_TOKEN`）。不设则用 `claude` CLI 自己的登录。
 - `autogitter/`：代码；`prompts/` 是各步骤的提示词（`env.md` 和 `style.md` 是 worker 与 reviewer 共用的环境说明和写作规范）。
 - `data/candidates.json`：候选 issue 池及筛选结果。

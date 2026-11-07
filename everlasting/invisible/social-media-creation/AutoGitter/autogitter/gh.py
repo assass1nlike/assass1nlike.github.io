@@ -107,6 +107,10 @@ def create_pr(repo, head, base, title, body):
               "--title", title, "--body-file", "-", input=body).strip()
 
 
+def comment(repo, number, body):
+    gh("issue", "comment", str(number), "--repo", repo, "--body-file", "-", input=body)
+
+
 def create_issue(repo, title, body):
     return gh("issue", "create", "--repo", repo, "--title", title, "--body-file", "-", input=body).strip()
 

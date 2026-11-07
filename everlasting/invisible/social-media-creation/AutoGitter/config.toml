@@ -32,27 +32,31 @@ issue_age_days = 60
 max_issue_comments = 12
 candidates_per_repo = 30
 
-repos = [
-    "huggingface/transformers",
+# 白名单只收没有反 agent 条款的 repo：禁止全自动 agent、要求真人审过每行或手写描述、
+# 要求先拿到维护者批准或 assign 的都不在内（transformers、trl、peft、diffusers、keras、jax、
+# scikit-learn、langchain、dspy、optuna、litellm、haystack、timm、vllm 等）。
+# mlflow 要求 commit 带 Claude 的 Co-Authored-By，不投。tokenizers、safetensors、ollama 需要 Rust/Go，本机没装。
+
+# 可以提 PR 也可以提 issue
+pr_repos = [
     "huggingface/datasets",
     "huggingface/accelerate",
-    "huggingface/peft",
-    "huggingface/trl",
-    "huggingface/diffusers",
-    "huggingface/huggingface_hub",
-    "UKPLab/sentence-transformers",
-    "huggingface/pytorch-image-models",
-    "scikit-learn/scikit-learn",
+    "huggingface/sentence-transformers",
     "Lightning-AI/pytorch-lightning",
-    "optuna/optuna",
-    "keras-team/keras",
-    "langchain-ai/langchain",
+    "Lightning-AI/torchmetrics",
     "run-llama/llama_index",
-    "stanfordnlp/dspy",
-    "BerriAI/litellm",
-    "mlflow/mlflow",
-    "EleutherAI/lm-evaluation-harness",
-    "deepset-ai/haystack",
     "pydantic/pydantic-ai",
+    "567-labs/instructor",
+    "mlfoundations/open_clip",
+    "EleutherAI/lm-evaluation-harness",
+]
+
+# 不收外部 PR 或倾向自己修，只提 bug issue（只走 hunt）
+issue_repos = [
+    "huggingface/huggingface_hub",
+    "gradio-app/gradio",
     "openai/openai-agents-python",
 ]
+
+# 开 PR 前要先在 issue 下评论认领的 repo，值是认领评论
+self_assign = { "huggingface/datasets" = "#self-assign" }
