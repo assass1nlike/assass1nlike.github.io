@@ -1,0 +1,8 @@
+{
+  "name": "cool-video",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "playwright-core": "^1.56.0"
+  }
+}
