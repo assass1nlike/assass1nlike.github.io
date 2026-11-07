@@ -12,8 +12,9 @@ from .common import CONFIG, DOTENV
 CLAUDE = shutil.which("claude")
 
 # agent 不许碰 GitHub 的写接口：禁用 gh 和 git push，另外在环境里让它拿不到凭据（见 _env）
-DENY = ["Bash(gh:*)", "Bash(git push:*)", "Bash(git commit:*)", "Bash(git remote:*)",
-        "Bash(git config:*)", "WebSearch"]
+# Windows 上 agent 也会用 PowerShell 工具，两边都要禁
+DENY = [f"{shell}({cmd}:*)" for shell in ("Bash", "PowerShell")
+        for cmd in ("gh", "git push", "git commit", "git remote", "git config")] + ["WebSearch"]
 
 
 def _env():
