@@ -62,11 +62,12 @@ def discover():
         try:
             items = [it for it in gh.search_issues(repo) if f"{repo}#{it['number']}" not in pool]
             linked = gh.linked_prs(repo, [it["number"] for it in items]) if items else {}
+            mentioned = gh.referenced_by_open_prs(repo) if items else set()
         except Exception as e:
             print(f"{repo}：抓取失败（{e}）")
             continue
         for it in items:
-            it["status"] = "has_pr" if linked.get(it["number"]) else "new"
+            it["status"] = "has_pr" if linked.get(it["number"]) or it["number"] in mentioned else "new"
             it["found_at"] = now()
             pool[f"{repo}#{it['number']}"] = it
         time.sleep(3)  # search API 有 secondary rate limit
@@ -302,7 +303,9 @@ def _still_open(meta):
     if meta["kind"] != "issue":
         return True
     t = gh.issue_thread(meta["repo"], meta["number"])
-    return t["state"] == "OPEN" and not t["assignees"] and not gh.linked_prs(meta["repo"], [meta["number"]])[meta["number"]]
+    return (t["state"] == "OPEN" and not t["assignees"]
+            and not gh.linked_prs(meta["repo"], [meta["number"]])[meta["number"]]
+            and meta["number"] not in gh.referenced_by_open_prs(meta["repo"]))
 
 
 def submit(tids=None):

@@ -1,6 +1,7 @@
 """通过 gh CLI 访问 GitHub。所有写操作（fork、push、建 PR/issue）只在这里发生。"""
 import json
 import os
+import re
 import time
 from datetime import date, timedelta
 from functools import cache
@@ -85,6 +86,13 @@ def linked_prs(repo, numbers):
                     prs.append(pr["number"])
             out[n] = prs
     return out
+
+
+def referenced_by_open_prs(repo):
+    """open PR 标题和正文里以 #N 引用到的 issue 号。timeline 的交叉引用事件会漏，所以另扫正文。"""
+    prs = json.loads(gh("pr", "list", "--repo", repo, "--state", "open", "--limit", "1000", "--json", "title,body"))
+    text = " ".join(f"{p['title']} {p['body']}" for p in prs)
+    return {int(n) for n in re.findall(r"#([0-9]+)(?![0-9])", text)}
 
 
 def issue_thread(repo, number):
