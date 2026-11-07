@@ -285,11 +285,13 @@ def review(meta, result, issue):
 def _commit(meta, result):
     tree = TREES / meta["id"]
     if meta["kind"] == "hunt":  # hunt 的分支名在知道要修什么之后再起
-        words = re.sub(r"[^a-z0-9]+", "-", result["title"].lower()).strip("-")
-        meta["branch"] = "fix-" + "-".join(words.split("-")[:6])
+        words = [w for w in re.sub(r"[^a-z0-9]+", "-", result["title"].lower()).split("-") if w]
+        words = words[1:] if words and words[0] in ("fix", "fixes", "fixed") else words
+        meta["branch"] = "fix-" + "-".join(words[:6])
         _git(tree, "branch", "-m", meta["branch"])
     _git(tree, "add", "-A")
-    _git(tree, "commit", *(["-s"] if result["signoff"] else []), "-m", result["commit_message"])
+    _git(tree, "-c", f"user.name={CONFIG['git_name']}", "-c", f"user.email={CONFIG['git_email']}",
+         "commit", *(["-s"] if result["signoff"] else []), "-m", result["commit_message"])
 
 
 # ---------- 提交 ----------
