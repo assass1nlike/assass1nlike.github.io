@@ -22,7 +22,7 @@ max_open_prs_per_repo = 1
 submit_interval = [1800, 5400]
 
 # 在 PR/issue 末尾声明由 AI agent 完成（repo 规定必须披露时，无论此项都会披露）
-disclose_ai = true
+disclose_ai = false
 disclosure = """
 <sub>This contribution was prepared by an AI coding agent (Claude Code) working from @assass1nlike's account. The reproduction and tests described above were actually run by the agent.</sub>
 """
