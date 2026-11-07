@@ -16,7 +16,7 @@ You have no GitHub credentials; use `curl -s "https://api.github.com/search/issu
 2. Correctness: is this the root cause? Could the fix break other callers, other backends, edge cases, backward compatibility? Is there a simpler or more idiomatic fix the maintainers would prefer?
 3. Scope: is every changed line necessary? Unrelated edits, formatting churn, stray files (`git status`), debug prints?
 4. Conventions: code style, test placement and style, repo mechanisms (copied code, generated files, changelog), lint/format checks pass on changed files, commit message convention, DCO if required.
-5. Duplicates and etiquette: is there already an open PR or issue for this? Did someone claim it? Does it comply with CONTRIBUTING and the repo's AI-contribution policy?
+5. Duplicates and etiquette: is there already an open PR or issue for this? `{{scratch}}/open_prs.md` lists all open PRs; check it, and search by the names of the changed functions. Did someone claim it? Does it comply with CONTRIBUTING and the repo's AI-contribution policy?
 6. The text: accurate (every claim verified), complete (repro, cause, fix, tests), concise, follows the template, sounds like a competent human contributor, no filler or overclaiming. The writing rules the contributor was given:
 
 {{style}}

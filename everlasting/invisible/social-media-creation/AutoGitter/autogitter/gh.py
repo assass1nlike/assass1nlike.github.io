@@ -92,6 +92,11 @@ def issue_thread(repo, number):
                          "number,title,body,author,state,labels,comments,assignees,url,createdAt"))
 
 
+def open_prs(repo, limit=1000):
+    return json.loads(gh("pr", "list", "--repo", repo, "--state", "open", "--limit", str(limit),
+                         "--json", "number,title,author,createdAt,headRefName"))
+
+
 def my_open_prs(repo):
     return json.loads(gh("pr", "list", "--repo", repo, "--author", ACCOUNT, "--state", "open",
                          "--json", "number,url"))

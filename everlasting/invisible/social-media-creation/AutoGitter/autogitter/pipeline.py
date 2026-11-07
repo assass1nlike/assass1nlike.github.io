@@ -144,6 +144,15 @@ def _ctx(meta):
                 scratch=task_dir(tid) / "scratch", venv=ENVS / slug(meta["repo"]))
 
 
+def _write_open_prs(repo, scratch):
+    """repo 当前所有 open PR 的标题清单，给 agent 查重用（未认证的 search API 太慢，agent 自己搜容易漏）。"""
+    prs = gh.open_prs(repo)
+    lines = [f"#{p['number']} {p['title']} (@{p['author']['login']}, {p['createdAt'][:10]}, branch {p['headRefName']})"
+             for p in prs]
+    text = f"# Open PRs of {repo} ({len(prs)})\n\n" + "\n".join(lines)
+    (scratch / "open_prs.md").write_text(text, encoding="utf-8")
+
+
 def _env_text(ctx):
     return prompt("env", **ctx)
 
@@ -183,6 +192,7 @@ def work(tid):
         tree, meta["base"] = prepare_tree(meta["repo"], tid, meta["branch"])
         save_meta(tid, meta)
         ctx = _ctx(meta)
+        _write_open_prs(meta["repo"], ctx["scratch"])
         if meta["kind"] == "issue":
             issue = issue_md(meta["repo"], meta["number"])
             (d / "issue.md").write_text(issue, encoding="utf-8")
