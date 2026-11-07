@@ -57,7 +57,7 @@ if (stills) {
   const f0 = Math.round(from * FPS), f1 = Math.round(to * FPS);
   const out = path.join(build, partial ? 'part.mp4' : 'silent.mp4');
   const ff = spawn(FFMPEG, ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
-    '-vf', 'scale=in_range=pc:out_range=tv,format=yuv420p', '-c:v', 'libx264', '-preset', partial ? 'veryfast' : 'slow', '-crf', partial ? '20' : '16',
+    '-vf', 'scale=in_range=pc:out_range=tv,format=yuv420p', '-c:v', 'libx264', '-preset', partial ? 'veryfast' : 'slow', '-crf', partial ? '20' : '18', '-maxrate', '30M', '-bufsize', '60M',
     '-color_range', 'tv', out], { stdio: ['pipe', 'inherit', 'inherit'] });
   await page.evaluate(() => resetTrail());
   for (let t = Math.max(0, from - 0.4); t < from - 1e-6; t += 1 / FPS) await step(t, 1);

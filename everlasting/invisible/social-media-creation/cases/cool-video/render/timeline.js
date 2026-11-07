@@ -127,7 +127,7 @@ function frameState(t) {
       uFade: fade,
       uBloomAmt: .45 + .3 * int + .3 * s.pulse * int,
       uExposure: 1 + .15 * s.pulse * int,
-      uGrain: .035, uVignette: .55,
+      uGrain: .015, uVignette: .55,
       uRadial: Math.min(1, (P.radial || 0) * s.pulse + rise * .5 + s.kick * int * .25),
       uSat: 1.15, uScan: P.scan || 0,
     },

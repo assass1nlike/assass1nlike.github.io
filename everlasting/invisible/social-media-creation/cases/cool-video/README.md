@@ -16,11 +16,17 @@
 
 8 个场景在 `render/shaders/scene_*.glsl`：`warp` 超空间星流、`tunnel` 霓虹隧道、`fractal` 分形飞越、`kaleido` 万花筒、`cubes` 立方体城市、`core` 脉冲核心、`liquid` 液态等值线、`grid` 合成波网格地形。段落到镜头的安排、配色和各段后期参数都在 `render/timeline.js` 的 `PARTS` 里。
 
+每个镜头里有一个 3D 主体（`render/subject.js` 算骨骼和位姿，`render/shaders/subject.glsl` 用 SDF 光线步进画出来，反射取自场景画面本身）。主体由场景决定：
+
+- 隧道、分形、立方体城市里是一艘追随镜头的飞船，强拍时喷焰加长、向镜头冲一下，高强度段每 4 小节做一次桶滚。
+- 网格地形里，单数变体是飞船，双数变体是铬合金人形朝落日冲刺，一拍一个步态周期，两脚分别落在正拍和后半拍。
+- 星流里是朝光源飞的人形；万花筒和液态背景前是舞者，每 2 拍、1 拍或半拍换一个定格动作（段落越强换得越快），动作在拍点后 0.07 s 内到位；脉冲核心前是背对镜头的剪影，随铺垫进度张开双臂。
+
 ## 目录
 
 - `tools/analyze.py`：音乐分析 → `build/music.json`；`tools/contact.py`：截图拼联系表；`tools/synccheck.py`：画面变化与低频起音的互相关。
-- `render/music.js`：任意时刻的音乐信号；`render/timeline.js`：时间轴；`render/engine.js`：WebGL2 管线（场景子帧叠加做运动模糊 → 拖尾 → 辉光 → 合成）；`render/render.mjs`：用无头 Chrome 逐帧渲染并交给 ffmpeg。
-- `build/`：中间产物，可删。`out/cool-video.mp4`：成片。
+- `render/music.js`：任意时刻的音乐信号；`render/timeline.js`：时间轴；`render/subject.js`：主体；`render/engine.js`：WebGL2 管线（场景与主体各自子帧叠加做运动模糊 → 拖尾 → 辉光 → 合成）；`render/render.mjs`：用无头 Chrome 逐帧渲染并交给 ffmpeg。
+- `build/`：中间产物，可删。`out/cool-video.mp4`：成片；`out/demo.mp4`：73.0–100.6 s 的试看片段。
 
 ## 制作
 
@@ -30,8 +36,8 @@
 ffmpeg -i base-music.mp3 -t 180 -vn -c:a pcm_s16le -ar 44100 build/music.wav   # ffmpeg 用 imageio-ffmpeg 自带的
 python tools/analyze.py build/music.wav 60
 node render/render.mjs --stills 20,83 [--force fractal,3,fire]   # 截图检查；--force 替换成指定场景
-node render/render.mjs --from 78 --to 100                         # 渲染一段（带音乐）到 build/part-av.mp4
-node render/render.mjs                                            # 全片 → out/cool-video.mp4，Arc 核显上约 25 分钟
+node render/render.mjs --from 73 --to 100.6                       # 渲染一段（带音乐）到 build/part-av.mp4
+node render/render.mjs                                            # 全片 → out/cool-video.mp4，Arc 核显上约 20 分钟
 ```
 
 音乐和成片不进 git。
