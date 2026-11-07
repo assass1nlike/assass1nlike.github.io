@@ -32,7 +32,7 @@ page.on('pageerror', e => { console.error('page error:', e.message); process.exi
 page.on('console', m => console.log('[page]', m.text()));
 await page.goto(pathToFileURL(path.join(here, 'page.html')).href);
 await page.evaluate(([m, s, f]) => { window.MUSIC = m; window.SHADERS = s; window.FORCE = f; }, [MUSIC, SHADERS, force ? force.split(',').map((x, i) => i === 1 ? Number(x) : x) : null]);
-for (const f of ['music.js', 'timeline.js', 'engine.js']) await page.addScriptTag({ path: path.join(here, f) });
+for (const f of ['music.js', 'timeline.js', 'subject.js', 'engine.js']) await page.addScriptTag({ path: path.join(here, f) });
 
 const step = (t, n) => page.evaluate(([t, n]) => { renderFrame(t, n); }, [t, n]);
 const grab = (t, n) => page.evaluate(([t, n]) => {

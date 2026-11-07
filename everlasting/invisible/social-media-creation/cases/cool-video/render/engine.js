@@ -26,6 +26,7 @@ function setU(p, name, v) {
   if (!(name in p.loc)) p.loc[name] = gl.getUniformLocation(p, name);
   const l = p.loc[name]; if (l === null) return;
   if (typeof v === 'number') gl.uniform1f(l, v);
+  else if (v.length === 48) gl.uniform3fv(l, v);
   else if (v.length === 2) gl.uniform2fv(l, v);
   else if (v.length === 3) gl.uniform3fv(l, v);
   else gl.uniform4fv(l, v);
@@ -48,9 +49,9 @@ function fbo(w, h) {
 const SCENE_NAMES = Object.keys(SHADERS).filter(k => k.startsWith('scene_')).map(k => k.slice(6));
 const PROG = {};
 for (const s of SCENE_NAMES) PROG[s] = compile(s, SHADERS.common + '\n' + SHADERS['scene_' + s] + '\nvoid main(){ fragColor = vec4(scene((gl_FragCoord.xy + uJit - .5 * uRes) / uRes.y) * uW, 1.); }');
-for (const s of ['mix', 'trail', 'down', 'up', 'final']) PROG[s] = compile(s, SHADERS[s]);
+for (const s of ['subject', 'comp', 'mix', 'trail', 'down', 'up', 'final']) PROG[s] = compile(s, SHADERS[s]);
 
-const sceneA = fbo(W, H), sceneB = fbo(W, H), sceneM = fbo(W, H);
+const sceneA = fbo(W, H), sceneB = fbo(W, H), sceneM = fbo(W, H), subj = fbo(W, H), compA = fbo(W, H), compB = fbo(W, H);
 const trail = [fbo(W, H), fbo(W, H)];
 const mips = []; for (let i = 1, w = W / 2, h = H / 2; i <= 6; i++, w = Math.ceil(w / 2), h = Math.ceil(h / 2)) mips.push(fbo(Math.ceil(w), Math.ceil(h)));
 let ping = 0;
@@ -70,32 +71,41 @@ function draw(prog, target, texs = {}, uni = {}) {
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 }
 
-// 场景：在快门时间内取 n 个子帧（带亚像素抖动）叠加，得到运动模糊和抗锯齿
+// 镜头：在快门时间内取 n 个子帧（带亚像素抖动）叠加，得到运动模糊和抗锯齿。
+// 先叠加场景，再叠加主体（颜色与覆盖度一起平均，主体边缘也有运动模糊），最后合成，返回结果纹理。
 const SHUTTER = 0.5 / 60;
-function renderScene(shot, t, target, nSub) {
+function accumulate(target, passes) {
   gl.bindFramebuffer(gl.FRAMEBUFFER, target.fb);
   gl.viewport(0, 0, W, H);
   gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
   gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
-  const prog = PROG[shot.scene];
+  for (const [prog, texs, u] of passes) draw(prog, target, texs, u);
+  gl.disable(gl.BLEND);
+}
+function renderShot(shot, t, sceneBuf, compBuf, nSub) {
+  const sub = [];
   for (let i = 0; i < nSub; i++) {
     const ts = t - SHUTTER * (nSub > 1 ? i / (nSub - 1) : 0);
     const u = sceneUniforms(shot, ts);
     u.uRes = [W, H];
     u.uJit = nSub > 1 ? [((i * 0.618) % 1) - 0.5, ((i * 0.382 + 0.25) % 1) - 0.5] : [0, 0];
     u.uW = 1 / nSub;
-    draw(prog, target, {}, u);
+    sub.push(u);
   }
-  gl.disable(gl.BLEND);
+  accumulate(sceneBuf, sub.map(u => [PROG[shot.scene], {}, u]));
+  const su = sub.map(u => { const v = subjectUniforms(shot, u.uT, signals(u.uT), u); return v && Object.assign({}, u, v); });
+  if (!su[0]) return sceneBuf.tex;
+  accumulate(subj, su.map(u => [PROG.subject, { uScene: sceneBuf.tex }, u]));
+  draw(PROG.comp, compBuf, { uScene: sceneBuf.tex, uSubj: subj.tex }, { uRes: [W, H] });
+  return compBuf.tex;
 }
 
 function renderFrame(t, nSub = 1) {
   const st = frameState(t);
-  renderScene(st.shot, t, sceneA, nSub);
-  let src = sceneA.tex;
+  let src = renderShot(st.shot, t, sceneA, compA, nSub);
   if (st.next) {
-    renderScene(st.next, t, sceneB, nSub);
-    draw(PROG.mix, sceneM, { uA: sceneA.tex, uB: sceneB.tex }, { uRes: [W, H], uMix: st.mix, uKind: st.mixKind, uT: t });
+    const b = renderShot(st.next, t, sceneB, compB, nSub);
+    draw(PROG.mix, sceneM, { uA: src, uB: b }, { uRes: [W, H], uMix: st.mix, uKind: st.mixKind, uT: t });
     src = sceneM.tex;
   }
   const cur = trail[ping], prev = trail[1 - ping];
