@@ -1,0 +1,58 @@
+# 提交用的 GitHub 账号（gh 已登录）
+account = "assass1nlike"
+
+# 干活的 headless Claude Code（接口地址和 key 在 .env）
+model = "claude-opus-5-5"
+effort = "high"
+
+# 重型工作区：repo clone、worktree、venv。Windows 没开长路径，路径必须短
+workspace = "D:/ag"
+
+# 每个任务的时间上限（秒）
+work_timeout = 5400
+review_timeout = 2400
+
+# 质量关卡：reviewer 打分 1-10，低于此分不提交；最多按审稿意见修改几轮
+min_review_score = 8
+max_revisions = 2
+
+# 提交节奏：每天最多提交几个，同一 repo 同时最多几个我方 open PR，两次提交间隔（秒）
+max_submissions_per_day = 2
+max_open_prs_per_repo = 1
+submit_interval = [1800, 5400]
+
+# 在 PR/issue 末尾声明由 AI agent 完成（repo 规定必须披露时，无论此项都会披露）
+disclose_ai = true
+disclosure = """
+<sub>This contribution was prepared by an AI coding agent (Claude Code) working from @assass1nlike's account. The reproduction and tests described above were actually run by the agent.</sub>
+"""
+
+# 候选 issue 的筛选
+issue_age_days = 60
+max_issue_comments = 12
+candidates_per_repo = 30
+
+repos = [
+    "huggingface/transformers",
+    "huggingface/datasets",
+    "huggingface/accelerate",
+    "huggingface/peft",
+    "huggingface/trl",
+    "huggingface/diffusers",
+    "huggingface/huggingface_hub",
+    "UKPLab/sentence-transformers",
+    "huggingface/pytorch-image-models",
+    "scikit-learn/scikit-learn",
+    "Lightning-AI/pytorch-lightning",
+    "optuna/optuna",
+    "keras-team/keras",
+    "langchain-ai/langchain",
+    "run-llama/llama_index",
+    "stanfordnlp/dspy",
+    "BerriAI/litellm",
+    "mlflow/mlflow",
+    "EleutherAI/lm-evaluation-harness",
+    "deepset-ai/haystack",
+    "pydantic/pydantic-ai",
+    "openai/openai-agents-python",
+]
