@@ -1,9 +1,9 @@
 # SSH 登录后 Conda 初始化卡顿排查记录
 
 记录日期：2026-09-16（本机日期）  
-目标主机：`zangyihe@100.88.94.46`  
+目标主机：`user@<服务器 IP>`  
 远程系统：Ubuntu 22.04 系列，Linux 6.8.0-111-generic，Bash  
-Conda 安装目录：`/data1/zangyihe/miniconda3`
+Conda 安装目录：`/data1/user/miniconda3`
 
 > 本文中的 `~/.bashrc`、`/proc`、`/sys` 等路径均指远程服务器。本文档保存在本机 Windows 桌面。备份文件名使用远程服务器当时的时间，因此日期与本机记录日期不同。
 
@@ -16,7 +16,7 @@ SSH 登录后，Conda 初始化经常卡住。用户将 `~/.bashrc` 中整个 `c
 关键事实：
 
 - 账号的 `memory.high` 为 **760 GiB**，当时账号用量约为 **760 GiB**。
-- 三个 EvaluationClaw 验证进程占用约 **746 GiB RSS**，其中最大的一个约 **488 GiB**。
+- 三个评测验证进程占用约 **746 GiB RSS**，其中最大的一个约 **488 GiB**。
 - `conda --version`、`conda shell.bash hook` 都超过 20 秒仍未完成。
 - 独立启动 Conda Python 也会超时，系统 `strace` 工具同样出现启动超时。
 - 经用户授权，仅终止最大的那个 Python 进程后，账号内存降至约 **281 GiB**，Conda 查询、hook 和激活均恢复到一秒以内。
@@ -28,10 +28,10 @@ SSH 登录后，Conda 初始化经常卡住。用户将 `~/.bashrc` 中整个 `c
 先使用非交互式 SSH 命令确认连接可用：
 
 ```bash
-ssh -o BatchMode=yes -o ConnectTimeout=12 zangyihe@100.88.94.46
+ssh -o BatchMode=yes -o ConnectTimeout=12 user@<服务器 IP>
 ```
 
-实际检查确认当前账号为 `zangyihe`，默认 shell 为 `/bin/bash`。
+实际检查确认当前账号正确，默认 shell 为 `/bin/bash`。
 
 随后检查 `~/.bashrc`、`~/.profile` 及其他可能的 Bash 登录配置，发现：
 
@@ -41,7 +41,7 @@ ssh -o BatchMode=yes -o ConnectTimeout=12 zangyihe@100.88.94.46
 4. 原初始化使用以下方式同步生成 shell hook：
 
 ```bash
-__conda_setup="$('/data1/zangyihe/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/data1/user/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 ```
 
 该命令需要启动 Conda Python，完成之前 shell 会一直等待。它解释了为什么注释这个区块后能够恢复登录，但当时还不足以判断 Conda 为什么慢。
@@ -53,7 +53,7 @@ __conda_setup="$('/data1/zangyihe/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /
 为避免诊断命令一直挂起，分别为测试设置超时。以下命令均在远端执行：
 
 ```bash
-C=/data1/zangyihe/miniconda3
+C=/data1/user/miniconda3
 
 time timeout -k 2s 15s "$C/bin/python" -V
 time timeout -k 2s 20s "$C/bin/conda" --version
@@ -108,11 +108,11 @@ ps -eo user,pid,ppid,stat,rss,pcpu,comm --sort=-rss | head -20
 
 | PID | 当时 RSS | 父进程 PID | 用途 |
 | --- | ---: | ---: | --- |
-| `729297` | 约 487.62 GiB | `1` | EvaluationClaw 的 `02-computer-science` 验证任务，执行 `_verify/run_one.py` |
-| `1238496` | 约 130.90 GiB | `1237702` | EvaluationClaw 的 `07-least-privilege` 验证任务，执行 `files/harness/tests/run_eval.py` |
-| `1268931` | 约 127.62 GiB | `1` | 同一类 `07-least-privilege` 验证任务 |
+| `729297` | 约 487.62 GiB | `1` | 评测项目中一个维度的验证任务，执行 `_verify/run_one.py` |
+| `1238496` | 约 130.90 GiB | `1237702` | 另一个维度的验证任务，执行 `files/harness/tests/run_eval.py` |
+| `1268931` | 约 127.62 GiB | `1` | 与上一行同一维度的验证任务 |
 
-这些进程通过 EvaluationClaw 的 `.venv/bin/python` 启动，实际可执行文件均指向 Conda 安装中的 `python3.14`。其中两个进程的父进程已经退出，进程被 PID 1 接管。
+这些进程通过评测项目的 `.venv/bin/python` 启动，实际可执行文件均指向 Conda 安装中的 `python3.14`。其中两个进程的父进程已经退出，进程被 PID 1 接管。
 
 RSS 加总可能包含共享页，因此它用于识别主要内存占用者；判断账号是否触发限制，以 cgroup 的统计为准。仅凭父进程退出也不能认定任务可以终止，因此最初按用户要求保留了全部三个进程。
 
@@ -124,7 +124,7 @@ RSS 加总可能包含共享页，因此它用于识别主要内存占用者；�
 cat /proc/self/cgroup
 
 for cg in /sys/fs/cgroup/user.slice \
-          /sys/fs/cgroup/user.slice/user-1015.slice; do
+          "/sys/fs/cgroup/user.slice/user-$(id -u).slice"; do
     for f in memory.current memory.max memory.high memory.events memory.pressure; do
         printf '\n%s/%s\n' "$cg" "$f"
         cat "$cg/$f"
@@ -136,7 +136,7 @@ done
 
 | 范围 | `memory.current` | `memory.high` | `memory.max` |
 | --- | ---: | ---: | ---: |
-| 当前账号 `user-1015.slice` | 816,076,316,672 字节，约 760.03 GiB | 816,043,786,240 字节，760 GiB | 858,993,459,200 字节，800 GiB |
+| 当前账号 `user-<uid>.slice` | 816,076,316,672 字节，约 760.03 GiB | 816,043,786,240 字节，760 GiB | 858,993,459,200 字节，800 GiB |
 | 上级 `user.slice` | 911,278,665,728 字节，约 848.7 GiB | 912,680,550,400 字节，850 GiB | 944,892,805,120 字节，880 GiB |
 
 进一步的证据：
@@ -166,7 +166,7 @@ done
 
 ```bash
 time bash --noprofile --norc -c '
-    . /data1/zangyihe/miniconda3/etc/profile.d/conda.sh
+    . /data1/user/miniconda3/etc/profile.d/conda.sh
     type -t conda
     printf "CONDA_SHLVL=%s\n" "$CONDA_SHLVL"
 '
@@ -180,8 +180,8 @@ time bash --noprofile --norc -c '
 # >>> conda initialize >>>
 # Load shell functions only: avoid starting Python during SSH login.
 # Activate environments explicitly with: conda activate <environment>
-if [ -r "/data1/zangyihe/miniconda3/etc/profile.d/conda.sh" ]; then
-    . "/data1/zangyihe/miniconda3/etc/profile.d/conda.sh"
+if [ -r "/data1/user/miniconda3/etc/profile.d/conda.sh" ]; then
+    . "/data1/user/miniconda3/etc/profile.d/conda.sh"
 fi
 # <<< conda initialize <<<
 ```
@@ -189,7 +189,7 @@ fi
 修改前完成 Bash 语法检查，并备份原文件到：
 
 ```text
-/home/zangyihe/.bashrc.backup-conda-20260915-231827
+/home/user/.bashrc.backup-conda-20260915-231827
 ```
 
 修改后验证交互式登录 shell：
@@ -215,8 +215,8 @@ time timeout -k 2s 10s bash -lic '
 ```text
 PID: 729297
 RSS: 约 487.62 GiB
-EXE: /data1/zangyihe/miniconda3/bin/python3.14
-CWD: /data1/zangyihe/EvaluationClaw/benchmark-output/batch-7-20260915/02-computer-science/assets/task-builder/dimension_1__dimension_1_task_design_1
+EXE: /data1/user/miniconda3/bin/python3.14
+CWD: /data1/user/<评测项目>/benchmark-output/<批次>/<维度>/assets/task-builder/<任务目录>
 ```
 
 终止过程：
@@ -236,13 +236,13 @@ CWD: /data1/zangyihe/EvaluationClaw/benchmark-output/batch-7-20260915/02-compute
 再次执行版本查询、hook 生成及实际环境激活：
 
 ```bash
-time timeout -k 2s 20s /data1/zangyihe/miniconda3/bin/conda --version
+time timeout -k 2s 20s /data1/user/miniconda3/bin/conda --version
 
 time timeout -k 2s 20s \
-    /data1/zangyihe/miniconda3/bin/conda shell.bash hook >/dev/null
+    /data1/user/miniconda3/bin/conda shell.bash hook >/dev/null
 
 time timeout -k 2s 20s bash --noprofile --norc -c '
-    . /data1/zangyihe/miniconda3/etc/profile.d/conda.sh
+    . /data1/user/miniconda3/etc/profile.d/conda.sh
     conda activate base && printf "ACTIVATED=%s\n" "$CONDA_PREFIX"
 '
 ```
@@ -257,7 +257,7 @@ time timeout -k 2s 20s bash --noprofile --norc -c '
 激活结果：
 
 ```text
-ACTIVATED=/data1/zangyihe/miniconda3
+ACTIVATED=/data1/user/miniconda3
 ```
 
 没有更换 Conda 包或 Python 版本，仅释放主要内存占用后，原先超时的 Conda 操作就迅速恢复。这为内存限流导致本次卡顿提供了直接的前后对照证据。

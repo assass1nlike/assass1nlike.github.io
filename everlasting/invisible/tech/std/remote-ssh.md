@@ -2,11 +2,7 @@
 
 ## 1. 问题描述
 
-本机通过 PowerShell 执行 SSH 可以连接远程服务器，但 VS Code Remote-SSH 无法稳定连接服务器 `182.18.81.126`。
-
-连接账号：`zangyihe`
-
-本机 SSH 配置别名：`tstar_003`
+本机通过 PowerShell 执行 SSH 可以连接远程服务器，但 VS Code Remote-SSH 无法稳定连接。该服务器在本机 SSH 配置中的别名为 `gpu-server`。
 
 ## 2. 排查过程
 
@@ -15,10 +11,10 @@
 读取了以下配置：
 
 ```text
-Host tstar_003
-  HostName 182.18.81.126
-  User zangyihe
-  IdentityFile C:/Users/15951/.ssh/id_ed25519
+Host gpu-server
+  HostName <服务器 IP>
+  User user
+  IdentityFile ~/.ssh/id_ed25519
 ```
 
 本机使用 Windows OpenSSH：
@@ -33,7 +29,7 @@ OpenSSH_for_Windows_9.5p2
 执行：
 
 ```powershell
-ssh -vvv -o BatchMode=yes -o ConnectTimeout=15 tstar_003 exit
+ssh -vvv -o BatchMode=yes -o ConnectTimeout=15 gpu-server exit
 ```
 
 结果：
@@ -42,7 +38,7 @@ ssh -vvv -o BatchMode=yes -o ConnectTimeout=15 tstar_003 exit
 - 远端 SSH 服务返回 `OpenSSH_8.9p1 Ubuntu`。
 - 远端主机密钥与本机 `known_hosts` 匹配。
 - `id_ed25519` 被服务器接受。
-- 用户 `zangyihe` 公钥认证成功。
+- 用户公钥认证成功。
 - 远程命令返回退出状态 `0`。
 
 因此，网络、22 端口、用户名、私钥和 SSH 服务均正常，故障不在基础 SSH 连接层。
@@ -108,7 +104,7 @@ Error: Failed Installing Extensions: ms-toolsai.jupyter, ms-python.python
 已创建原始配置备份：
 
 ```text
-C:\Users\15951\AppData\Roaming\Code\User\settings.json.bak-remote-ssh-20260907
+%APPDATA%\Code\User\settings.json.bak-remote-ssh-20260907
 ```
 
 ### 4.2 移除自动安装扩展配置
@@ -116,19 +112,19 @@ C:\Users\15951\AppData\Roaming\Code\User\settings.json.bak-remote-ssh-20260907
 从以下文件中移除了 `remote.SSH.defaultExtensions`：
 
 ```text
-C:\Users\15951\AppData\Roaming\Code\User\settings.json
+%APPDATA%\Code\User\settings.json
 ```
 
 SSH 主机配置和 `remote.SSH.remotePlatform` 保持不变。
 
 ## 5. 修复验证
 
-重新启动 `ssh-remote+tstar_003` 后，最新 Remote-SSH 日志显示：
+重新启动 `ssh-remote+gpu-server` 后，最新 Remote-SSH 日志显示：
 
 ```text
 Extensions to install:
 Remote server is listening on port ...
-Exec server for ssh-remote+tstar_003 created and cached
+Exec server for ssh-remote+gpu-server created and cached
 Verified and reusing cached exec server
 ```
 

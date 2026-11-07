@@ -238,7 +238,7 @@ bthmodem.sys
 原始内核转储副本、WinDbg 分析所用文件及操作日志保存在：
 
 ```text
-C:\Users\15951\gpu-crash-diagnostics\
+%USERPROFILE%\gpu-crash-diagnostics\
 ```
 
 其中包括蓝屏 Minidump、WATCHDOG 转储、管理员操作日志和 SFC 检查记录。

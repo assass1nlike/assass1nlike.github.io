@@ -68,7 +68,7 @@ CCR 的 `better-sqlite3` 是原生 Node 模块，运行时 Node ABI 必须与安
 当前机器可直接将 Node 22 放到 `PATH` 最前面：
 
 ```bash
-export PATH="/home/zangyihe/.nvm/versions/node/v22.23.2/bin:$PATH"
+export PATH="/home/user/.nvm/versions/node/v22.23.2/bin:$PATH"
 hash -r
 
 node --version
@@ -254,7 +254,7 @@ chmod 600 ~/.claude-code-router/config.json
 ### 5.4 启动并执行导入
 
 ```bash
-export PATH="/home/zangyihe/.nvm/versions/node/v22.23.2/bin:$PATH"
+export PATH="/home/user/.nvm/versions/node/v22.23.2/bin:$PATH"
 read -rsp 'OPENAI_API_KEY: ' OPENAI_API_KEY
 echo
 export OPENAI_API_KEY
@@ -321,13 +321,13 @@ CCR 3 应通过 profile 名称或 ID 启动，而不是旧式 `ccr code`。
 因此 CCR profile 强制使用隔离数据目录：
 
 ```text
-/home/zangyihe/.claude-code-router/profiles/claude-sudocode/claude
+/home/user/.claude-code-router/profiles/claude-sudocode/claude
 ```
 
 原来的 Claude Code 会话位于：
 
 ```text
-/data1/zangyihe/.claude/projects/
+/data1/user/.claude/projects/
 ```
 
 即使会话 ID 和工作目录都正确，隔离 profile 仍然看不到原目录中的会话。
@@ -337,15 +337,15 @@ CCR 3 应通过 profile 名称或 ID 启动，而不是旧式 `ccr code`。
 ```bash
 SESSION="c1fb7446-afd2-4715-82bd-e83cfb59b485"
 
-find /data1/zangyihe/.claude \
-  /home/zangyihe/.claude-code-router/profiles \
+find /data1/user/.claude \
+  /home/user/.claude-code-router/profiles \
   -type f -name "$SESSION.jsonl" 2>/dev/null
 ```
 
-Claude Code 会把项目路径编码为目录名。项目 `/data1/zangyihe/cybergym` 对应：
+Claude Code 会把项目路径编码为目录名。项目 `/data1/user/cybergym` 对应：
 
 ```text
--data1-zangyihe-cybergym
+-data1-user-cybergym
 ```
 
 ### 7.3 将单个会话迁入 CCR profile
@@ -354,8 +354,8 @@ Claude Code 会把项目路径编码为目录名。项目 `/data1/zangyihe/cyber
 
 ```bash
 SESSION="c1fb7446-afd2-4715-82bd-e83cfb59b485"
-SOURCE="/data1/zangyihe/.claude/projects/-data1-zangyihe-cybergym"
-TARGET="/home/zangyihe/.claude-code-router/profiles/claude-sudocode/claude/projects/-data1-zangyihe-cybergym"
+SOURCE="/data1/user/.claude/projects/-data1-user-cybergym"
+TARGET="/home/user/.claude-code-router/profiles/claude-sudocode/claude/projects/-data1-user-cybergym"
 
 mkdir -p "$TARGET"
 cp -a "$SOURCE/$SESSION.jsonl" "$TARGET/"
@@ -370,7 +370,7 @@ fi
 然后从原项目目录恢复：
 
 ```bash
-cd /data1/zangyihe/cybergym
+cd /data1/user/cybergym
 
 ccr "Claude via sudocode" cli -- \
   --resume "$SESSION" \
@@ -428,11 +428,11 @@ API Error: 400 {"error":"Missing model in request body"}
 准备路径并备份：
 
 ```bash
-cd /data1/zangyihe/cybergym
+cd /data1/user/cybergym
 
 SESSION="c1fb7446-afd2-4715-82bd-e83cfb59b485"
-ORIGINAL="/data1/zangyihe/.claude/projects/-data1-zangyihe-cybergym"
-ISOLATED="/home/zangyihe/.claude-code-router/profiles/claude-sudocode/claude/projects/-data1-zangyihe-cybergym"
+ORIGINAL="/data1/user/.claude/projects/-data1-user-cybergym"
+ISOLATED="/home/user/.claude-code-router/profiles/claude-sudocode/claude/projects/-data1-user-cybergym"
 BACKUP="$ORIGINAL/$SESSION.jsonl.before-ccr-compact"
 
 cp -a "$ORIGINAL/$SESSION.jsonl" "$BACKUP"
@@ -447,7 +447,7 @@ fi
 使用原配置启动 Claude：
 
 ```bash
-CLAUDE_CONFIG_DIR=/data1/zangyihe/.claude \
+CLAUDE_CONFIG_DIR=/data1/user/.claude \
 claude --resume "$SESSION" --dangerously-skip-permissions
 ```
 
@@ -473,7 +473,7 @@ fi
 最后使用 Node 22 和 CCR profile 恢复：
 
 ```bash
-export PATH="/home/zangyihe/.nvm/versions/node/v22.23.2/bin:$PATH"
+export PATH="/home/user/.nvm/versions/node/v22.23.2/bin:$PATH"
 
 ccr "Claude via sudocode" cli -- \
   --resume "$SESSION" \
@@ -500,7 +500,7 @@ ccr "Claude via sudocode" cli -- \
 每个新终端先确保 Node 22：
 
 ```bash
-export PATH="/home/zangyihe/.nvm/versions/node/v22.23.2/bin:$PATH"
+export PATH="/home/user/.nvm/versions/node/v22.23.2/bin:$PATH"
 ```
 
 启动 CCR 服务：
@@ -512,7 +512,7 @@ ccr start --no-open
 在项目中启动新会话：
 
 ```bash
-cd /data1/zangyihe/cybergym
+cd /data1/user/cybergym
 ccr "Claude via sudocode" cli -- --dangerously-skip-permissions
 ```
 
@@ -555,7 +555,7 @@ ccr --help
 ~/.claude-code-router/config.sqlite*
 ~/.claude-code-router/app-data/
 ~/.claude-code-router/profiles/
-/data1/zangyihe/.claude/projects/
+/data1/user/.claude/projects/
 ```
 
 注意：这些目录可能包含上游凭据、CCR 客户端 Key、完整对话内容、工具结果和源码片段。备份目录应保持私有，不应提交到 Git。
