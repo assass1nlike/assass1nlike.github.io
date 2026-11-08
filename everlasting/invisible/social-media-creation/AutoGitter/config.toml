@@ -22,7 +22,8 @@ review_timeout = 2400
 min_review_score = 8
 max_revisions = 2
 
-# 提交节奏：每天最多提交几个，同一 repo 同时最多几个我方 open PR，两次提交间隔（秒）
+# 提交节奏（跨多次运行生效）：最近 24 小时最多提交几个，同一 repo 同时最多几个我方 open PR，
+# 每次提交后随机取多少秒内不再提交。间隔没到时 submit 直接返回，剩下的留给下次运行
 max_submissions_per_day = 2
 max_open_prs_per_repo = 1
 submit_interval = [1800, 5400]

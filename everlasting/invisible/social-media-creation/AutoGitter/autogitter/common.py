@@ -11,6 +11,7 @@ PROMPTS = ROOT / "autogitter" / "prompts"
 DATA = ROOT / "data"
 TASKS = DATA / "tasks"
 CANDIDATES = DATA / "candidates.json"
+SCHEDULE = DATA / "schedule.json"  # 下次最早可提交的时间
 
 CONFIG = tomllib.loads((ROOT / "config.toml").read_text(encoding="utf-8"))
 

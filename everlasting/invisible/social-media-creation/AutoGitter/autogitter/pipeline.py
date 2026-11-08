@@ -9,10 +9,10 @@ import random
 import re
 import shutil
 import time
-from datetime import date, datetime
+from datetime import datetime, timedelta
 
 from . import agent, gh
-from .common import (CANDIDATES, CONFIG, DATA, ENVS, REPOS, TREES, all_tasks, load_meta, now, prompt,
+from .common import (CANDIDATES, CONFIG, DATA, SCHEDULE, ENVS, REPOS, TREES, all_tasks, load_meta, now, prompt,
                      read_json, save_meta, sh, slug, task_dir, write_json)
 
 WORK_SCHEMA = {
@@ -296,8 +296,17 @@ def _commit(meta, result):
 
 # ---------- 提交 ----------
 
-def _submitted_today():
-    return sum(1 for t in all_tasks() if t["status"] == "submitted" and t["submitted_at"][:10] == date.today().isoformat())
+def _can_submit():
+    """跨所有运行的节奏控制：最近 24 小时内不超过上限，且距上次提交已过随机间隔。返回 (能否提交, 原因)。"""
+    times = [datetime.fromisoformat(t["submitted_at"]) for t in all_tasks() if t["status"] == "submitted"]
+    current = datetime.now().astimezone()
+    recent = [t for t in times if current - t < timedelta(hours=24)]
+    if len(recent) >= CONFIG["max_submissions_per_day"]:
+        return False, f"最近 24 小时已提交 {len(recent)} 个，到 {min(recent) + timedelta(hours=24):%m-%d %H:%M} 后才能再提交"
+    after = read_json(SCHEDULE, {}).get("next_after")
+    if after and current < datetime.fromisoformat(after):
+        return False, f"距上次提交间隔未到，{datetime.fromisoformat(after):%m-%d %H:%M} 后才能再提交"
+    return True, ""
 
 
 def _still_open(meta):
@@ -311,12 +320,13 @@ def _still_open(meta):
 
 
 def submit(tids=None):
+    """按分数从高到低提交 ready 的任务。间隔没到就停下，剩下的留给下次运行，不在这里干等。"""
     ready = [t for t in all_tasks() if t["status"] == "ready" and (not tids or t["id"] in tids)]
     ready.sort(key=lambda t: -t.get("score", 0))
-    first = True
     for meta in ready:
-        if _submitted_today() >= CONFIG["max_submissions_per_day"]:
-            print(f"今天已提交 {CONFIG['max_submissions_per_day']} 个，达到上限")
+        ok, why = _can_submit()
+        if not ok:
+            print(f"{why}；还有 {sum(1 for t in all_tasks() if t['status'] == 'ready')} 个 ready 待提交")
             return
         repo, result = meta["repo"], meta["result"]
         if not _still_open(meta):
@@ -327,11 +337,6 @@ def submit(tids=None):
         if meta["outcome"] == "pr" and len(gh.my_open_prs(repo)) >= CONFIG["max_open_prs_per_repo"]:
             print(f"{meta['id']}：{repo} 上我方 open PR 已达上限，留到以后")
             continue
-        if not first:
-            wait = random.randint(*CONFIG["submit_interval"])
-            print(f"等待 {wait // 60} 分钟再提交下一个")
-            time.sleep(wait)
-        first = False
 
         body = result["body"].rstrip()
         if CONFIG["disclose_ai"] or result["ai_disclosure_required"]:
@@ -357,7 +362,10 @@ def submit(tids=None):
             continue
         meta.update(status="submitted", url=url, submitted_at=now())
         save_meta(meta["id"], meta)
-        print(f"{meta['id']}：已提交 {url}")
+        gap = random.randint(*CONFIG["submit_interval"])
+        next_after = datetime.now().astimezone() + timedelta(seconds=gap)
+        write_json(SCHEDULE, {"next_after": next_after.isoformat(timespec="seconds")})
+        print(f"{meta['id']}：已提交 {url}（下次最早 {next_after:%m-%d %H:%M}）")
 
 
 # ---------- 跟进与查看 ----------
