@@ -14,8 +14,15 @@ python -m autogitter run -n 1          # 先提交排队的，再发现 → 筛�
 定时自动运行（Windows 任务计划程序，任务名 `AutoGitter`，每 `schedule_hours` 小时一轮，用 pythonw 在后台跑，不弹窗口，日志在 `data/logs/cron-<日期>.log`）：
 
 ```bash
-python -m autogitter schedule install     # 注册；status 查看，uninstall 删除
+python -m autogitter schedule install     # 注册
+python -m autogitter schedule status      # 查看状态、上次和下次运行时间（python -m autogitter status 也会显示）
+python -m autogitter schedule pause       # 暂停定时（正在跑的一轮继续跑完）；resume 恢复
+python -m autogitter schedule start       # 立即跑一轮
+python -m autogitter schedule stop        # 中断正在跑的一轮，连同它启动的 claude 子进程
+python -m autogitter schedule uninstall   # 删除任务
 ```
+
+睡眠时任务不会唤醒电脑；唤醒或重启后登录时，错过的轮次只补跑一次。被睡眠、重启或 stop 打断的任务在下一轮开始时标为 failed，对应的 issue 放回候选。建 PR 前会先查同一分支是否已有 PR，所以提交过程中被打断也不会重复建。
 
 每轮先提交排队的；过审待提交的已有 `max_ready_backlog` 个时只提交不干活。否则修筛选分不低于 `min_pick_score` 的 issue，再轮流 hunt `hunts_per_run` 个 repo（最久没 hunt 过的优先，已有我方 open PR 的 repo 跳过），最后 followup。上一轮没跑完时下一轮跳过。只在你登录 Windows 时运行，因为要用 gh 的 keyring 登录态。
 
