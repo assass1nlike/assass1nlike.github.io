@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 import sys
 import tomllib
@@ -12,6 +13,10 @@ TASKS = DATA / "tasks"
 CANDIDATES = DATA / "candidates.json"
 
 CONFIG = tomllib.loads((ROOT / "config.toml").read_text(encoding="utf-8"))
+
+if CONFIG.get("proxy"):
+    for k in ("HTTPS_PROXY", "HTTP_PROXY", "https_proxy", "http_proxy"):
+        os.environ[k] = CONFIG["proxy"]
 
 WS = Path(CONFIG["workspace"])
 REPOS = WS / "repos"  # 每个 repo 一份 base clone

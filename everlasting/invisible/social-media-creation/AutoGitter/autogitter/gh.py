@@ -1,4 +1,5 @@
 """通过 gh CLI 访问 GitHub。所有写操作（fork、push、建 PR/issue）只在这里发生。"""
+import base64
 import json
 import os
 import re
@@ -41,6 +42,24 @@ def graphql(query):
 
 def token():
     return _env()["GH_TOKEN"]
+
+
+def push(tree, fork, branch, retries=3):
+    """把 worktree 的 HEAD 推到我方 fork。token 通过环境变量里的认证头传，不进命令行和报错信息。"""
+    auth = base64.b64encode(f"x-access-token:{token()}".encode()).decode()
+    env = {**os.environ, "GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
+           "GIT_CONFIG_VALUE_0": f"AUTHORIZATION: basic {auth}", "GIT_TERMINAL_PROMPT": "0"}
+    for i in range(retries):
+        try:
+            sh("git", "-C", str(tree), "-c", "credential.helper=", "push", "--force",
+               f"https://github.com/{fork}.git", f"HEAD:refs/heads/{branch}", env=env)
+            return
+        except RuntimeError as e:
+            err = str(e).replace(token(), "***").replace(auth, "***")
+            if i == retries - 1:
+                raise RuntimeError(err) from None
+            print(f"  push 失败，30 秒后重试：{err.splitlines()[-1][:200]}")
+            time.sleep(30)
 
 
 def default_branch(repo):

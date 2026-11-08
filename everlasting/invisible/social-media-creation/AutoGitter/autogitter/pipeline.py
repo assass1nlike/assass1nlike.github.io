@@ -339,13 +339,14 @@ def submit(tids=None):
         try:
             if meta["outcome"] == "pr":
                 claim = CONFIG["self_assign"].get(repo)
-                if claim and meta["kind"] == "issue":
+                if claim and meta["kind"] == "issue" and not meta.get("claimed"):
                     gh.comment(repo, meta["number"], claim)
+                    meta["claimed"] = True
+                    save_meta(meta["id"], meta)
                     time.sleep(20)
                 fork = gh.fork(repo)
                 time.sleep(5)
-                _git(TREES / meta["id"], "push", "--force",
-                     f"https://x-access-token:{gh.token()}@github.com/{fork}.git", f"HEAD:refs/heads/{meta['branch']}")
+                gh.push(TREES / meta["id"], fork, meta["branch"])
                 url = gh.create_pr(repo, f"{gh.ACCOUNT}:{meta['branch']}", meta["base"], result["title"], body)
             else:
                 url = gh.create_issue(repo, result["title"], body)

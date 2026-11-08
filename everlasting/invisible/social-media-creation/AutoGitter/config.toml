@@ -1,5 +1,8 @@
 # 提交用的 GitHub 账号（gh 已登录）
 account = "assass1nlike"
+# 访问 GitHub 用的代理（git、gh、worker 都走它）；留空则直连
+proxy = "http://127.0.0.1:7890"
+
 # commit 用的身份
 git_name = "assass1nlike"
 git_email = "326038984+assass1nlike@users.noreply.github.com"
