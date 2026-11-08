@@ -271,7 +271,7 @@ class Perf:
         i_end = len(t) - 1
         f1m = np.mean(np.asarray(F1, float), 0)
         trav = f1m - np.mean(np.asarray(F0, float), 0); trav[2] = 0
-        if np.linalg.norm(trav) > 0.3:
+        if land_back is not None and np.linalg.norm(trav) > 0.3:
             trav = unit(trav)
             n_ax = unit(np.cross([0, 0, 1.0], trav))
             wfix = np.interp(t, [t_off + 0.5 * T, t_land, t_land + absorb, t_b], [0, 1, 0.6, 0])

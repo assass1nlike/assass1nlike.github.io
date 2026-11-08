@@ -77,6 +77,44 @@ def cam_A5(ctx, ts, tm):
 A5_RAMP = Ramp([(B(33), B(33)), (B(33) + 0.14, B(33) + 0.14), (B(34) - 0.32, demo.KAI_TAKEOFF + 0.98),
                 (B(34), demo.KAI_TAKEOFF + demo.KAI_AIR)])
 
+def cam_A6(ctx, ts, tm):
+    """邻楼屋面上贴地迎面：double cork 落地的冲击，接着他从镜头旁冲过去。"""
+    c = ctx.com(tm)
+    dx, dy = shake(ts, [(B(34), 1.6)], amp=0.06)
+    loc = V(1.3, -18.6, -1.25) + hand(ts, 0.03, 7, 1.5) + V(dx, 0, dy)
+    return loc, c + V(0, 0, 0.1), 18, -4
+
+
+def cam_A7(ctx, ts, tm):
+    """侧面广角：冲向机房外墙、蹬墙后空翻。"""
+    c = ctx.com(tm)
+    dx, dy = shake(ts, [(B(34, 3), 0.6)], amp=0.03)
+    loc = V(5.8, -18.4, -1.0) + hand(ts, 0.03, 8, 1.2) + V(dx, 0, dy)
+    return loc, c + V(0, -0.5, 0.2), 20, 3
+
+
+def cam_A8(ctx, ts, tm):
+    """平行跟拍：他转身向西冲刺，前空翻转体越过空调外机，镜头在南侧和他同速平移。"""
+    c = ctx.com(tm)
+    lag = ctx.com(tm - 0.12)
+    loc = V(lag[0] - 0.6, lag[1] - 3.6, R2Z + 0.55) + hand(ts, 0.04, 9, 1.6)
+    return loc, c + V(-0.4, 0, 0.1), 22, 0
+
+
+def cam_A9(ctx, ts, tm):
+    """抽空的一小节：身后跟拍他冲向楼边，起跳后镜头停在楼边，俯看他慢放中跃入城市深渊。"""
+    c = ctx.com(tm)
+    x = max(c[0] + 3.0, demo.CY.R2_X[0] + 1.6)
+    u = ease((ts - B(36, 2.5)) / 0.8)
+    loc = V(x, c[1] + lerp(0.9, 0.3, u), lerp(-0.6, 0.9, u)) + hand(ts, 0.04, 10, 1.0)
+    return loc, c + V(-0.3, 0, lerp(0.3, -0.4, u)), lerp(20, 26, u), lerp(0, -6, u)
+
+
+A9_RAMP = Ramp([(B(36), B(36) - demo.KAI_SHIFT), (B(36, 2.5), B(36, 2.5) - demo.KAI_SHIFT),
+                (B(36, 2.5) + 0.2, B(36, 2.5) - demo.KAI_SHIFT + 0.15), (B(37), B(36, 2.5) - demo.KAI_SHIFT + 0.5)])
+R2Z = demo.R2_Z
+SH = demo.KAI_SHIFT
+
 SHOTS = {
     "A1": dict(scene="rooftop", char="kai", t=(B(30), B(31, 2)), cam=cam_A1),
     "A2": dict(scene="rooftop", char="kai", t=(B(31, 2), B(32)), cam=cam_A2),
@@ -84,4 +122,60 @@ SHOTS = {
     "A4a": dict(scene="rooftop", char="kai", t=(B(32, 2), B(32, 3)), cam=cam_A4a),
     "A4b": dict(scene="rooftop", char="kai", t=(B(32, 3), B(33)), cam=cam_A4b),
     "A5": dict(scene="rooftop", char="kai", t=(B(33), B(34)), cam=cam_A5, ramp=A5_RAMP),
+    "A6": dict(scene="rooftop", char="kai", t=(B(34), B(34, 2)), cam=cam_A6, shift=SH),
+    "A7": dict(scene="rooftop", char="kai", t=(B(34, 2), B(35)), cam=cam_A7, shift=SH),
+    "A8": dict(scene="rooftop", char="kai", t=(B(35), B(36)), cam=cam_A8, shift=SH),
+    "A9": dict(scene="rooftop", char="kai", t=(B(36), B(37)), cam=cam_A9, ramp=A9_RAMP),
 }
+
+
+# ---------------- Milo 峡谷 ----------------
+def cam_B1a(ctx, ts, tm):
+    """低机位：Milo 从天而降砸在台地上，相机在落点前方贴地，落地瞬间震动。"""
+    c = ctx.com(tm)
+    dx, dy = shake(ts, [(demo.MILO_LAND0, 1.4)], amp=0.05)
+    loc = V(1.6, 9.2, 0.35) + hand(ts, 0.03, 11, 1.2) + V(dx, 0, dy)
+    return loc, c + V(0, 0, 0.2), 20, 3
+
+
+def cam_B1b(ctx, ts, tm):
+    """身后低空跟拍他冲向崖边，前方露出峡谷、石柱和落日。"""
+    c = ctx.com(tm)
+    loc = V(c[0] + 0.9, c[1] + 3.0, 1.1) + hand(ts, 0.04, 12, 1.8)
+    return loc, V(0, -12, -1.5), 18, -5
+
+
+def cam_B2(ctx, ts, tm):
+    """侧面航拍：在峡谷上空、略低于崖边，看他慢放中 cork 飞到石柱顶，随后推近。"""
+    c = ctx.com(tm)
+    u = ease((ts - B(38)) / (B(39) - B(38)))
+    loc = lerp(V(19, 1.0, -2.2), V(9.5, -3.5, 0.6), u) + hand(ts, 0.06, 13, 0.6)
+    return loc, c + V(0, -0.3, -0.2), lerp(30, 38, u), 0
+
+
+def cam_B3(ctx, ts, tm):
+    """对面台地低处仰拍：逆着落日，他从石柱上后空翻两周朝镜头落下，落地后相机慢慢推近。"""
+    c = ctx.com(tm)
+    land = demo.MILO_END
+    dx, dy = shake(ts, [(land, 1.6)], amp=0.06)
+    u = ease((ts - land) / 1.8)
+    loc = lerp(V(2.6, -16.5, -3.55), V(1.5, -14.6, -3.3), u) + hand(ts, 0.03, 14, 0.8) + V(dx, 0, dy)
+    tgt = lerp(V(0, -9, -1.0), ctx.com(tm) + V(0, 0, 0.1), ease((ts - B(39, 2)) / 1.5))
+    return loc, tgt, lerp(18, 28, u), 0
+
+
+B2_RAMP = Ramp([(B(38), demo.MILO_CORK), (B(38) + 0.12, demo.MILO_CORK + 0.12),
+                (demo.MILO_CORK_SCREEN_LAND - 0.18, demo.MILO_CORK + demo.MILO_CORK_AIR - 0.12),
+                (demo.MILO_CORK_SCREEN_LAND, demo.MILO_CORK + demo.MILO_CORK_AIR),
+                (B(39), B(39) - demo.MILO_SHIFT1)])
+B3_RAMP = Ramp([(B(39), demo.MILO_DB_SIM), (B(39) + 0.12, demo.MILO_DB_SIM + 0.12),
+                (demo.MILO_END - 0.22, demo.MILO_DB_SIM + demo.MILO_DB_AIR - 0.2),
+                (demo.MILO_END, demo.MILO_DB_SIM + demo.MILO_DB_AIR),
+                (demo.MILO_END + 2.0, demo.MILO_DB_SIM + demo.MILO_DB_AIR + 2.0)])
+
+SHOTS.update({
+    "B1a": dict(scene="canyon", char="milo", t=(B(37), B(37, 2)), cam=cam_B1a),
+    "B1b": dict(scene="canyon", char="milo", t=(B(37, 2), B(38)), cam=cam_B1b),
+    "B2": dict(scene="canyon", char="milo", t=(B(38), B(39)), cam=cam_B2, ramp=B2_RAMP),
+    "B3": dict(scene="canyon", char="milo", t=(B(39), B(40) + 1.9), cam=cam_B3, ramp=B3_RAMP),
+})

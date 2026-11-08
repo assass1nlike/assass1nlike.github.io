@@ -139,6 +139,39 @@ def box(name, loc, size, mat, bevel=0.0, coll=None):
     return o
 
 
+class Batch:
+    """大量方块合并成每种材质一个网格：比逐个 bpy.ops 创建快几个数量级，渲染也更省。"""
+
+    _F = [(0, 1, 2, 3), (4, 7, 6, 5), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)]
+
+    def __init__(self, name):
+        self.name = name
+        self.parts = {}
+
+    def box(self, loc, size, mat):
+        """loc 是底面中心。"""
+        x, y, z = loc
+        sx, sy, sz = size[0] / 2, size[1] / 2, size[2]
+        v, f = self.parts.setdefault(mat.name, ([], []))
+        n = len(v)
+        v += [(x - sx, y - sy, z), (x + sx, y - sy, z), (x + sx, y + sy, z), (x - sx, y + sy, z),
+              (x - sx, y - sy, z + sz), (x + sx, y - sy, z + sz), (x + sx, y + sy, z + sz), (x - sx, y + sy, z + sz)]
+        f += [tuple(n + i for i in q) for q in self._F]
+
+    def flush(self):
+        out = []
+        for mname, (v, f) in self.parts.items():
+            me = bpy.data.meshes.new(f"{self.name}_{mname}")
+            me.from_pydata(v, [], f)
+            me.update()
+            o = bpy.data.objects.new(me.name, me)
+            bpy.context.scene.collection.objects.link(o)
+            o.data.materials.append(bpy.data.materials[mname])
+            out.append(o)
+        self.parts = {}
+        return out
+
+
 def cyl(name, loc, r, h, mat, verts=24, rot=(0, 0, 0)):
     bpy.ops.mesh.primitive_cylinder_add(vertices=verts, radius=r, depth=h, location=loc, rotation=rot)
     o = bpy.context.object; o.name = name
@@ -210,7 +243,7 @@ def load_char(name, loc=(0, 0, 0)):
     return rig
 
 
-def char_lights(rig, key=(1.0, 0.92, 0.85), key_power=250, rim1=(0.2, 0.75, 1.0), rim2=(1.0, 0.25, 0.6), rim_power=400,
+def char_lights(rig, key=(1.0, 0.9, 0.82), key_power=450, rim1=(0.2, 0.75, 1.0), rim2=(1.0, 0.25, 0.6), rim_power=1400,
                 key_dir=(-0.6, -1.0, 0.7)):
     """跟随角色的三点光：主光从镜头一侧斜上方照脸和身体正面，两盏彩色轮廓光从身后两侧勾边。
     灯挂在 Hips 骨骼的位置上但不跟着旋转（翻转时光的方向保持在世界坐标里）。"""
@@ -226,6 +259,7 @@ def char_lights(rig, key=(1.0, 0.92, 0.85), key_power=250, rim1=(0.2, 0.75, 1.0)
         bpy.ops.object.light_add(type="AREA", location=v)
         L = bpy.context.object; L.name = "char_" + nm
         L.data.size = sz; L.data.color = col; L.data.energy = pw
+        L.data.volume_factor = 0.0          # 跟随角色的补光不照亮雾，免得在空中散成光团
         L.parent = anchor
         L.rotation_euler = (-v).to_track_quat("-Z", "Y").to_euler()
         out.append(L)

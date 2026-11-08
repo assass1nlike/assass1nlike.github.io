@@ -22,7 +22,7 @@ from perf import HZ  # noqa: E402
 from quat import slerp  # noqa: E402
 from camera import FPS, look_at  # noqa: E402
 
-PERFS = {"kai": demo.kai}
+PERFS = {"kai": demo.kai, "milo": demo.milo}
 W_RES, H_RES = 1920, 804          # 2.39:1
 
 
@@ -81,18 +81,21 @@ def main():
     ap.add_argument("--stills", default="")
     ap.add_argument("--samples", type=int, default=64)
     ap.add_argument("--pct", type=int, default=100)
+    ap.add_argument("--tag", default="", help="静帧存到 build/stills/<tag>/")
     a = ap.parse_args(sys.argv[sys.argv.index("--") + 1:])
     S = shots.SHOTS[a.shot]
     W.clear()
     sc = bpy.context.scene
     W.render_settings(sc, w=W_RES, h=H_RES, samples=a.samples)
     sc.render.resolution_percentage = a.pct
-    __import__(S["scene"]).build()
-    rig = W.load_char(S["char"])
-    W.char_lights(rig)
     sk = Skel(S["char"])
     P = PERFS[S["char"]](sk)
-    ctx = Ctx(sk, *P.solve())
+    solved = getattr(P, "solved", None) or P.solve()
+    scene_mod = __import__(S["scene"])
+    scene_mod.build(**({"marks": P.marks} if hasattr(P, "marks") else {}))
+    rig = W.load_char(S["char"])
+    W.char_lights(rig, **getattr(scene_mod, "LIGHTS", {}))
+    ctx = Ctx(sk, *solved)
     ramp = S.get("ramp")
     to_sim = (lambda ts: float(ramp(ts))) if ramp else (lambda ts: ts - S.get("shift", 0.0))
     t0, t1 = S["t"]
@@ -130,7 +133,7 @@ def main():
         for s in a.stills.split(","):
             f = int(round(float(s) * FPS))
             sc.frame_set(f)
-            sc.render.filepath = os.path.join(ROOT, "build", "stills", f"{a.shot}_{f}.png")
+            sc.render.filepath = os.path.join(ROOT, "build", "stills", a.tag, f"{a.shot}_{f}.png")
             bpy.ops.render.render(write_still=True)
     else:
         sc.frame_start, sc.frame_end = f0, f1 - 1
