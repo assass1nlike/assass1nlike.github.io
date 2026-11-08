@@ -1,6 +1,6 @@
 import argparse
 
-from . import pipeline
+from . import pipeline, schedule
 from .common import CANDIDATES, read_json, write_json
 
 
@@ -19,8 +19,11 @@ def main():
     sub.add_parser("followup", help="查看已提交 PR/issue 的新动静")
     sub.add_parser("status", help="列出所有任务")
     sub.add_parser("clean", help="删除已结束任务的 worktree")
-    r = sub.add_parser("run", help="discover + triage + work + submit 一条龙")
-    r.add_argument("-n", type=int, default=1, help="凑够几个过审的再提交")
+    r = sub.add_parser("run", help="提交排队的，然后 discover + triage + work + hunt，新增 n 个过审后再提交")
+    r.add_argument("-n", type=int, default=1, help="本轮要新增几个过审")
+    sub.add_parser("cron", help="给任务计划程序用：run 一轮再 followup，输出写进 data/logs/")
+    sc = sub.add_parser("schedule", help="管理 Windows 定时任务")
+    sc.add_argument("action", choices=["install", "uninstall", "status"])
     args = ap.parse_args()
 
     if args.cmd == "discover":
@@ -54,6 +57,10 @@ def main():
         pipeline.clean()
     elif args.cmd == "run":
         pipeline.run(args.n)
+    elif args.cmd == "cron":
+        pipeline.cron()
+    elif args.cmd == "schedule":
+        getattr(schedule, args.action)()
 
 
 if __name__ == "__main__":

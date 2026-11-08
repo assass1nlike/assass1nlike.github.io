@@ -8,7 +8,9 @@ import hashlib
 import random
 import re
 import shutil
+import sys
 import time
+import traceback
 from datetime import datetime, timedelta
 
 from . import agent, gh
@@ -406,12 +408,35 @@ def clean():
             print(f"已删除 {tree}")
 
 
+def _hunt_targets():
+    """轮流 hunt：最久没 hunt 过的 repo 优先；已有我方 open PR 达到上限的 pr_repo 先跳过（找到了也提交不了）。"""
+    last = {}
+    for t in all_tasks():
+        if t["kind"] == "hunt":
+            last[t["repo"]] = max(last.get(t["repo"], ""), t["created_at"])
+    repos = []
+    for repo in CONFIG["pr_repos"] + CONFIG["issue_repos"]:
+        if repo in CONFIG["pr_repos"] and len(gh.my_open_prs(repo)) >= CONFIG["max_open_prs_per_repo"]:
+            continue
+        repos.append(repo)
+    return sorted(repos, key=lambda r: last.get(r, ""))
+
+
+def _n_ready():
+    return sum(1 for t in all_tasks() if t["status"] == "ready")
+
+
 def run(n):
-    """发现 → 筛选 → 依次修复，直到有 n 个过审 → 提交。"""
+    """先提交排队的；待提交的还不够多时，修筛选出的 issue，再轮流 hunt，直到新增 n 个过审；最后再提交一次。"""
+    submit()
+    if _n_ready() >= CONFIG["max_ready_backlog"]:
+        print(f"已有 {_n_ready()} 个过审待提交，本次不再干活")
+        return
     discover()
     triage()
     pool = read_json(CANDIDATES, {})
-    picks = sorted((c for c in pool.values() if c["status"] == "picked"), key=lambda c: -c["score"])
+    picks = sorted((c for c in pool.values() if c["status"] == "picked" and c["score"] >= CONFIG["min_pick_score"]),
+                   key=lambda c: -c["score"])
     ready = 0
     for c in picks:
         if ready >= n:
@@ -421,4 +446,23 @@ def run(n):
         write_json(CANDIDATES, pool)
         if tid and work(tid) == "ready":
             ready += 1
+    for repo in _hunt_targets()[:CONFIG["hunts_per_run"]]:
+        if ready >= n:
+            break
+        tid = new_task(repo)
+        if tid and work(tid) == "ready":
+            ready += 1
     submit()
+
+
+def cron():
+    """给任务计划程序调用：输出写进 data/logs/cron-<日期>.log，再跑一轮 run。"""
+    log = DATA / "logs" / f"cron-{datetime.now():%Y%m%d}.log"
+    log.parent.mkdir(parents=True, exist_ok=True)
+    sys.stdout = sys.stderr = open(log, "a", encoding="utf-8", buffering=1)
+    print(f"===== {now()} =====")
+    try:
+        run(1)
+        followup()
+    except Exception:
+        traceback.print_exc()

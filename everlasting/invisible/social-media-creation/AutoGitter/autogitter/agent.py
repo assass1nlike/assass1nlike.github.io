@@ -7,7 +7,7 @@ import sys
 import threading
 from pathlib import Path
 
-from .common import CONFIG, DOTENV
+from .common import CONFIG, DOTENV, NO_WINDOW
 
 CLAUDE = shutil.which("claude")
 
@@ -60,11 +60,12 @@ def run(text, cwd, schema, log, *, add_dirs=(), read_only=False, tools=None, res
     result = None
     with open(log, "a", encoding="utf-8") as f:
         p = subprocess.Popen(cmd, cwd=cwd, env=_env(), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace")
+                             stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace",
+                             creationflags=NO_WINDOW)
         p.stdin.write(text)
         p.stdin.close()
         timer = threading.Timer(timeout, lambda: subprocess.run(
-            ["taskkill", "/T", "/F", "/PID", str(p.pid)], capture_output=True))
+            ["taskkill", "/T", "/F", "/PID", str(p.pid)], capture_output=True, creationflags=NO_WINDOW))
         timer.start()
         try:
             for line in p.stdout:

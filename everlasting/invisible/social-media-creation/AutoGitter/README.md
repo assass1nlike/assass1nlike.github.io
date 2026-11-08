@@ -8,8 +8,16 @@
 
 ```bash
 conda activate autogitter
-python -m autogitter run -n 1          # 发现 → 筛选 → 修复直到 1 个过审 → 提交
+python -m autogitter run -n 1          # 先提交排队的，再发现 → 筛选 → 修复 → hunt，新增 1 个过审后提交
 ```
+
+定时自动运行（Windows 任务计划程序，任务名 `AutoGitter`，每 `schedule_hours` 小时一轮，用 pythonw 在后台跑，不弹窗口，日志在 `data/logs/cron-<日期>.log`）：
+
+```bash
+python -m autogitter schedule install     # 注册；status 查看，uninstall 删除
+```
+
+每轮先提交排队的；过审待提交的已有 `max_ready_backlog` 个时只提交不干活。否则修筛选分不低于 `min_pick_score` 的 issue，再轮流 hunt `hunts_per_run` 个 repo（最久没 hunt 过的优先，已有我方 open PR 的 repo 跳过），最后 followup。上一轮没跑完时下一轮跳过。只在你登录 Windows 时运行，因为要用 gh 的 keyring 登录态。
 
 分步执行：
 
@@ -30,7 +38,7 @@ python -m autogitter clean             # 删除已结束任务的 worktree
 
 worker 交付后，reviewer 会话（只读）自己重跑复现和测试，检查根因、改动范围、项目惯例、重复和文本质量，给出 submit / revise / reject 和 1-10 分。revise 时把意见交回 worker 的同一会话修改，最多 `max_revisions` 轮。最终 verdict 为 submit 且分数不低于 `min_review_score` 的进入 ready，由 pipeline 以你的 git 身份 commit（repo 要求 DCO 时自动 `-s`）。
 
-提交前再确认一次 issue 仍开着、没人认领、没有新的关联 PR；然后 fork、push、建 PR，按 `disclose_ai` 在末尾附上 AI 声明（repo 规定必须披露时总会附上）。
+提交受跨运行的节奏控制：最近 24 小时最多 `max_submissions_per_day` 个，每次提交后在 `submit_interval` 内随机取一段时间不再提交，时间没到就留给下一轮。提交前再确认一次 issue 仍开着、没人认领、没有新的关联 PR（open PR 正文里引用了它也算）；然后 fork、push、建 PR，按 `disclose_ai` 在末尾附上 AI 声明（repo 规定必须披露时总会附上）。
 
 目标 repo 分两类，都在 `config.toml` 里。`pr_repos` 是贡献规范里没有反 agent 条款的 repo：凡是禁止全自动 agent、要求真人逐行审过或手写描述、要求先拿到维护者批准或 assign 的（transformers、trl、peft、diffusers、scikit-learn、langchain 等）都没收。`issue_repos` 不收外部 PR，只走 hunt、只提 issue。规范可能会变，所以 worker 每次都会重读 repo 当前的规范，发现上述条款就放弃。
 

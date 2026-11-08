@@ -33,7 +33,8 @@ if (ROOT / ".env").exists():
             DOTENV[k.strip()] = v.strip()
 
 # Windows 控制台默认 GBK，打印 issue 标题里的字符会报错
-sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if sys.stdout:  # pythonw 下没有 stdout
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 
 def read_json(path, default=None):
@@ -51,10 +52,14 @@ def now():
     return datetime.now().astimezone().isoformat(timespec="seconds")
 
 
+# 任务计划程序用 pythonw 启动，没有控制台；子进程不加这个标志会各自弹出一个黑窗口
+NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
+
 def sh(*args, cwd=None, input=None, check=True, env=None):
     """跑命令，返回 stdout。"""
     p = subprocess.run(args, cwd=cwd, input=input, capture_output=True, text=True,
-                       encoding="utf-8", errors="replace", env=env)
+                       encoding="utf-8", errors="replace", env=env, creationflags=NO_WINDOW)
     if check and p.returncode != 0:
         raise RuntimeError(f"{' '.join(map(str, args))} 失败：\n{p.stderr.strip() or p.stdout.strip()}")
     return p.stdout

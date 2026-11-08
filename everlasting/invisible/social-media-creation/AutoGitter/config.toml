@@ -28,6 +28,13 @@ max_submissions_per_day = 2
 max_open_prs_per_repo = 1
 submit_interval = [1800, 5400]
 
+# 定时运行（python -m autogitter schedule）：每隔几小时跑一轮；
+# 过审待提交的已有这么多时，本轮只提交不干活；筛选分低于此值的 issue 不修；每轮最多 hunt 几个 repo
+schedule_hours = 3
+max_ready_backlog = 2
+min_pick_score = 5
+hunts_per_run = 1
+
 # 在 PR/issue 末尾声明由 AI agent 完成（repo 规定必须披露时，无论此项都会披露）
 disclose_ai = false
 disclosure = """
