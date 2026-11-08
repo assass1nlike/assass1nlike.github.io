@@ -1,0 +1,5 @@
+base-music.mp3
+build/
+out/
+vendor/
+__pycache__/
