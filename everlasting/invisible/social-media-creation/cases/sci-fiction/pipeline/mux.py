@@ -1,11 +1,13 @@
-"""声音 + 画面 → 成片 out/duibiao.mp4。
+"""声音 + 画面 → 成片 out/<视频目录名>.mp4。
 
-用法：python pipeline/mux.py
+用法：python pipeline/mux.py <视频目录>
 读 build/narration.wav、build/silent.mp4、build/sfx.json。配乐和音效都在这里用代码合成：
-配乐是缓慢变化的合成器铺底（D 小调，Dm–B♭–F–C 循环），按场景调整强弱；旁白说话时自动压低。
+配乐是缓慢变化的合成器铺底（D 小调，Dm–B♭–F–C 循环），强弱取 script.json 里每个场景的 "music"（0~1，默认 0.5）；
+旁白说话时自动压低。音效种类见 sfx_sound。
 """
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 import imageio_ffmpeg
@@ -14,7 +16,6 @@ from scipy.signal import lfilter
 
 SR = 48000
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
-ROOT = Path(__file__).resolve().parent.parent
 rng = np.random.default_rng(0)
 
 
@@ -148,8 +149,8 @@ def sfx_sound(kind):
     raise ValueError(kind)
 
 
-def main():
-    build = ROOT / "build"
+def main(root):
+    build = root / "build"
     tl = json.loads((build / "timeline.json").read_text(encoding="utf-8"))
     total = tl["duration"]
     raw = subprocess.run([FFMPEG, "-v", "error", "-i", str(build / "narration.wav"), "-f", "s16le", "-ac", "1",
@@ -159,7 +160,8 @@ def main():
     voice = np.pad(voice, (0, max(0, n - len(voice))))[:n]
 
     # 场景的配乐强弱
-    LEVEL = {"signal": 0.25, "depart": 0.45, "starbow": 0.7, "flyby": 0.85, "arrive": 0.6, "return": 0.7, "reunion": 0.8}
+    script = json.loads((root / "script.json").read_text(encoding="utf-8"))
+    LEVEL = {sc["id"]: sc.get("music", 0.5) for sc in script["scenes"]}
     scenes = tl["scenes"]
 
     def level(t):
@@ -194,9 +196,9 @@ def main():
     wav = build / "mix.wav"
     subprocess.run([FFMPEG, "-v", "error", "-y", "-f", "s16le", "-ac", "1", "-ar", str(SR), "-i", "-", str(wav)],
                    input=pcm.tobytes(), check=True)
-    out_dir = ROOT / "out"
+    out_dir = root / "out"
     out_dir.mkdir(exist_ok=True)
-    out = out_dir / "duibiao.mp4"
+    out = out_dir / f"{root.name}.mp4"
     subprocess.run([FFMPEG, "-v", "error", "-y", "-i", str(build / "silent.mp4"), "-i", str(wav),
                     "-af", "loudnorm=I=-16:TP=-1.5:LRA=11", "-ar", str(SR), "-ac", "2",
                     "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", str(out)],
@@ -205,4 +207,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(Path(sys.argv[1]).resolve())

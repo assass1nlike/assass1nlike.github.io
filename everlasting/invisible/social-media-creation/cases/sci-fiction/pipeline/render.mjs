@@ -1,5 +1,5 @@
 // 逐帧渲染画面。
-// 用法：node pipeline/render.mjs [--fps 30] [--stills 3.5,20,41] [--from 60 --to 90]
+// 用法：node pipeline/render.mjs <视频目录> [--fps 30] [--stills 3.5,20,41] [--from 60 --to 90]
 //   默认输出 build/silent.mp4 和 build/sfx.json；--stills 只截指定时刻到 build/stills/；--from/--to 只渲染一段到 build/part.mp4
 import { chromium } from 'playwright-core';
 import { spawn, execFileSync } from 'node:child_process';
@@ -8,8 +8,8 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(here, '..');
 const args = process.argv.slice(2);
+const root = path.resolve(args[0]);
 const opt = (name, dflt) => { const i = args.indexOf(`--${name}`); return i >= 0 ? args[i + 1] : dflt; };
 const fps = Number(opt('fps', 30));
 const stills = opt('stills', null);
@@ -19,8 +19,10 @@ const FFMPEG = execFileSync(PY, ['-c', 'import imageio_ffmpeg;print(imageio_ffmp
 
 const build = path.join(root, 'build');
 const TL = JSON.parse(fs.readFileSync(path.join(build, 'timeline.json'), 'utf8'));
-const DATA = {};
-for (const f of fs.readdirSync(path.join(root, 'data')).filter(f => f.endsWith('.json'))) {
+// 视频目录 data/ 下的 json 和共用的黑体颜色表，都以 DATA.<文件名> 注入画面
+const DATA = { blackbody: JSON.parse(fs.readFileSync(path.join(here, 'blackbody.json'), 'utf8')) };
+const dataDir = path.join(root, 'data');
+for (const f of fs.existsSync(dataDir) ? fs.readdirSync(dataDir).filter(f => f.endsWith('.json')) : []) {
   DATA[f.replace(/\.json$/, '')] = JSON.parse(fs.readFileSync(path.join(root, 'data', f), 'utf8'));
 }
 

@@ -1,12 +1,12 @@
 """用阿里云百炼（通义万相）生成 AI 画面。提示词在 assets/prompts.json。
 
 用法：
-  python pipeline/gen.py img [名字 ...] [--n 3]    生成候选静帧到 build/candidates/<名字>/，不写名字就生成 assets/ 里还没有的全部
-  python pipeline/gen.py pick <名字> <序号>        选定一张候选，存为 assets/<名字>.jpg
-  python pipeline/gen.py clip <名字 ...>           用选定的静帧生成动态镜头 assets/<名字>.mp4（提示词里要有 clip）
-  python pipeline/gen.py sheet [名字 ...]          把候选拼成 build/candidates/sheet.jpg 方便挑选
+  python pipeline/gen.py <视频目录> img [名字 ...] [--n 3]    生成候选静帧到 build/candidates/<名字>/，不写名字就生成 assets/ 里还没有的全部
+  python pipeline/gen.py <视频目录> pick <名字> <序号>        选定一张候选，存为 assets/<名字>.jpg
+  python pipeline/gen.py <视频目录> clip <名字 ...>           用选定的静帧生成动态镜头 assets/<名字>.mp4（提示词里要有 clip）
+  python pipeline/gen.py <视频目录> sheet [名字 ...]          把候选拼成 build/candidates/sheet.jpg 方便挑选
 
-API key 放在环境变量 DASHSCOPE_API_KEY，或本目录下不进 git 的 dashscope.key 文件里。
+API key 放在环境变量 DASHSCOPE_API_KEY，或sci-fiction/ 下不进 git 的 dashscope.key 文件里。
 提示词里的 {_xxx} 会替换成 prompts.json 里 _xxx 的内容；写了 "ref": [名字] 的条目会把那些已选定的静帧作为参考图传入，
 用来保持夸父号、望舒人等在不同镜头里的样子一致。
 """
@@ -22,17 +22,17 @@ from pathlib import Path
 import requests
 from PIL import Image, ImageDraw, ImageFont
 
-ROOT = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parent.parent   # API key 放在这里，各部片子共用
+ROOT = None                                     # 当前视频目录，由命令行第一个参数给出
 HOST = "https://dashscope.aliyuncs.com/api/v1"
 IMG_MODEL = "wan2.7-image-pro"
 VIDEO_MODEL = "wan2.6-i2v-flash"
 SIZE = "2560*1072"          # 2.39:1
-CAND = ROOT / "build" / "candidates"
 
 
 def key():
     k = os.environ.get("DASHSCOPE_API_KEY")
-    f = ROOT / "dashscope.key"
+    f = HERE / "dashscope.key"
     if not k and f.exists():
         k = f.read_text().strip()
     if not k:
@@ -110,7 +110,7 @@ def gen_images(names, n):
                 print(f"{name} 失败：{str(err)[:300]}")
         else:
             continue
-        out = CAND / name
+        out = ROOT / "build" / "candidates" / name
         out.mkdir(parents=True, exist_ok=True)
         start = len(list(out.glob("*.png")))
         urls = [c["image"] for ch in j["output"]["choices"] for c in ch["message"]["content"] if c.get("image")]
@@ -120,7 +120,7 @@ def gen_images(names, n):
 
 
 def pick(name, i):
-    src = CAND / name / f"{i}.png"
+    src = ROOT / "build" / "candidates" / name / f"{i}.png"
     Image.open(src).convert("RGB").save(ROOT / "assets" / f"{name}.jpg", quality=93)
     print(f"{src} → assets/{name}.jpg")
 
@@ -140,8 +140,8 @@ def gen_clips(names):
 
 
 def sheet(names):
-    names = names or sorted(d.name for d in CAND.iterdir() if d.is_dir())
-    rows = [(n, sorted((CAND / n).glob("*.png"), key=lambda f: int(f.stem))) for n in names]
+    names = names or sorted(d.name for d in (ROOT / "build" / "candidates").iterdir() if d.is_dir())
+    rows = [(n, sorted((ROOT / "build" / "candidates" / n).glob("*.png"), key=lambda f: int(f.stem))) for n in names]
     cols = max(len(r[1]) for r in rows)
     tw, th = 960, 402
     im = Image.new("RGB", (cols * tw, len(rows) * th), "black")
@@ -151,12 +151,13 @@ def sheet(names):
         for x, f in enumerate(fs):
             im.paste(Image.open(f).convert("RGB").resize((tw, th)), (x * tw, y * th))
             dr.text((x * tw + 10, y * th + 6), f"{n} {f.stem}", fill="yellow", font=ft)
-    im.save(CAND / "sheet.jpg", quality=85)
-    print(CAND / "sheet.jpg")
+    im.save(ROOT / "build" / "candidates" / "sheet.jpg", quality=85)
+    print(ROOT / "build" / "candidates" / "sheet.jpg")
 
 
 if __name__ == "__main__":
-    a = sys.argv[1:]
+    ROOT = Path(sys.argv[1]).resolve()
+    a = sys.argv[2:]
     n = 3
     if "--n" in a:
         i = a.index("--n"); n = int(a[i + 1]); del a[i:i + 2]

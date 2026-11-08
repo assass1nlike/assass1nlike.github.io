@@ -1,6 +1,6 @@
 """黑体的可见光亮度和颜色表，供星空的多普勒着色使用。
 
-用法：python pipeline/blackbody.py   写出 data/blackbody.json
+用法：python pipeline/blackbody.py   写出 pipeline/blackbody.json
 表按 log10(T) 等间隔取样：lum 是 400~720 nm 内按人眼视见函数加权的辐亮度（任意单位），rgb 是归一化到最大分量为 1 的 sRGB 颜色。
 CIE 1931 配色函数用 Wyman, Sloan & Shirley (2013) 的多高斯近似。
 """
@@ -38,7 +38,7 @@ lum = np.array(lum)
 out = {"logT0": float(logT[0]), "dlogT": float(logT[1] - logT[0]),
        "loglum": np.log10(np.maximum(lum, 1e-300) / lum[np.searchsorted(logT, np.log10(5800))]).round(4).tolist(),
        "rgb": rgb}
-Path(__file__).resolve().parent.parent.joinpath("data", "blackbody.json").write_text(json.dumps(out), encoding="utf-8")
+Path(__file__).resolve().with_name("blackbody.json").write_text(json.dumps(out), encoding="utf-8")
 for T in (1330, 3000, 5800, 1e4, 3e4, 1e6):
     i = int(round((np.log10(T) - logT[0]) / (logT[1] - logT[0])))
     print(f"T={T:>9.0f}K  log10 L/L(5800K)={out['loglum'][i]:7.2f}  rgb={out['rgb'][i]}")

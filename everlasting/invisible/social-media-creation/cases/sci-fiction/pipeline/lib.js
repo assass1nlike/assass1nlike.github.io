@@ -1,5 +1,5 @@
-// 全片共用的绘图工具。scene.js 定义 SCENES[场景id](ctx, t, s)，可选 setup()。
-// 渲染器注入 TL（时间轴）、DATA（data/ 下的 json）、ASSETS（assets/ 下的图片与视频帧目录）。
+// 各部片子共用的绘图工具。scene.js 定义 SCENES[场景id](ctx, t, s)，可选 setup()、drawOverlay()、SFX。
+// 渲染器注入 TL（时间轴）、DATA（视频目录 data/ 下的 json 和黑体颜色表）、ASSETS（assets/ 下的图片与视频帧目录）。
 const W = 1920, H = 1080;
 const BAR = 139;                                  // 2.39:1 遮幅的上下黑边
 const FRAME = { x: 0, y: BAR, w: W, h: H - 2 * BAR };
@@ -244,38 +244,6 @@ function drawSky(ctx, { beta = 0, yaw = 0, pitch = 0, fov = 75, exposure = 1, re
       ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
     }
   }
-  ctx.restore();
-}
-
-// ---------- 航行仪表 ----------
-// leg: 'out' 去程 / 'back' 回程；tau: 该程已过的船时
-function legState(tau, leg = 'out') {
-  const P = DATA.physics, L = P.leg;
-  const k = clamp(tau / P.tau_leg) * (L.tau.length - 1), i = Math.min(L.tau.length - 2, Math.floor(k)), f = k - i;
-  const t = lerp(L.t[i], L.t[i + 1], f), v = lerp(L.v[i], L.v[i + 1], f), x = lerp(L.x[i], L.x[i + 1], f);
-  // x 是离出发点的距离；news 是此刻收到的地球信号的发出年份
-  const year = (leg === 'out' ? P.t_depart : P.t_leave) + t;
-  const news = year - (leg === 'out' ? x : P.d - x);
-  return { tau, year, x, v, news, gamma: 1 / Math.sqrt(1 - v * v) };
-}
-function hud(ctx, { shipYears, year, v, accel = 1, alpha = 1 }) {
-  if (alpha <= 0) return;
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  const x0 = 1180, y0 = 60;
-  const cells = [
-    ['船时', `${shipYears.toFixed(2)} 年`],
-    ['地球纪年', `${year.toFixed(1)}`],
-    ['v / c', v > 0.9999 ? v.toFixed(7) : v.toFixed(4)],
-    ['加速度', `${accel.toFixed(2)} g`],
-  ];
-  cells.forEach(([k, val], i) => {
-    const x = x0 + i * 180;
-    text(ctx, k, x, y0, { size: 20, family: 'Hud', color: 'rgba(255,196,120,0.65)', align: 'left', spacing: 2 });
-    text(ctx, val, x, y0 + 36, { size: 30, family: 'Hud', color: '#ffd9a0', align: 'left' });
-  });
-  ctx.fillStyle = 'rgba(255,196,120,0.35)';
-  ctx.fillRect(x0, y0 + 52, 700, 1.5);
   ctx.restore();
 }
 
