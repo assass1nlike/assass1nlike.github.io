@@ -146,6 +146,35 @@ def sfx_sound(kind):
         y = tone(36.7, m, ((1, 1), (2, 0.4))) * np.exp(-np.arange(m) / SR / 1.8) * 0.8
         y += tone(midi(74), m, ((1, 1), (2.76, 0.3), (5.4, 0.1))) * np.exp(-np.arange(m) / SR / 2.2) * 0.25
         return y
+    if kind == "launch":        # 火箭升空：持续的低频轰鸣，逐渐远去
+        m = int(9 * SR)
+        k = np.linspace(0, 1, m)
+        y = lowpass(rng.normal(0, 1, m), 90 + 300 * (1 - k)) * 4
+        y += lowpass(rng.normal(0, 1, m), 900) * 0.6 * (1 - k)
+        y += tone(32, m, ((1, 1), (2, 0.5))) * 0.7
+        return y * np.minimum(1, k * 6) * (1 - k) ** 1.5
+    if kind == "entry":         # 进入大气层：越来越响的气流嘶吼和舱体抖动
+        m = int(30 * SR)
+        k = np.linspace(0, 1, m)
+        roar = lowpass(rng.normal(0, 1, m), 150 + 1500 * np.sin(np.pi * np.minimum(1, k * 1.6)) ** 2)
+        rattle = rng.normal(0, 1, m) * (np.sin(2 * np.pi * 9 * np.arange(m) / SR) > 0.6) * 0.15
+        return (roar * 2 + rattle) * np.minimum(1, k * 8)
+    if kind == "thud":          # 落地：一记闷响
+        m = int(2.5 * SR)
+        return tone(48, m, ((1, 1), (2, 0.3))) * np.exp(-np.arange(m) / SR / 0.5) +             lowpass(rng.normal(0, 1, m), 400) * np.exp(-np.arange(m) / SR / 0.25)
+    if kind == "wind":          # 火星的风：稀薄、高处的呼呼声
+        m = int(9 * SR)
+        k = np.linspace(0, 1, m)
+        return lowpass(rng.normal(0, 1, m), 500 + 600 * np.sin(np.pi * k * 3) ** 2) * np.sin(np.pi * k) ** 2
+    if kind == "static":        # 无线电噪声
+        m = int(12 * SR)
+        y = lowpass(rng.normal(0, 1, m), 4000) - lowpass(rng.normal(0, 1, m), 300)
+        return y * (0.6 + 0.4 * (rng.random(m) > 0.0005).astype(float))
+    if kind == "msg":           # 收到消息的提示音
+        m = int(0.4 * SR)
+        y = tone(midi(88), m, ((1, 1),)) * np.exp(-np.arange(m) / SR / 0.08)
+        place(y, 0.07, tone(midi(93), m, ((1, 1),)) * np.exp(-np.arange(m) / SR / 0.1))
+        return y
     raise ValueError(kind)
 
 

@@ -88,13 +88,20 @@ function clipFrame(name, localT) {
 }
 
 // 把图片铺满 rect，zoom≥1，(fx, fy) ∈ [-1, 1] 是画面中心的偏移（推拉摇移用）
+function coverBox(sw, sh, { rect = FRAME, zoom = 1, fx = 0, fy = 0 } = {}) {
+  const s = Math.max(rect.w / sw, rect.h / sh) * zoom;
+  const dw = sw * s, dh = sh * s;
+  return { x: rect.x + (rect.w - dw) / 2 - fx * (dw - rect.w) / 2, y: rect.y + (rect.h - dh) / 2 - fy * (dh - rect.h) / 2, dw, dh };
+}
+// 图片上相对位置 (u, v) ∈ [0, 1] 的点，按 cover 的同样参数画出来后在屏幕上的位置（给叠加在画面上的元素跟随推拉用）
+function coverPoint(name, u, v, opts = {}) {
+  const im = IMG[name], b = coverBox(im ? im.width : 16, im ? im.height : 9, opts);
+  return { x: b.x + u * b.dw, y: b.y + v * b.dh, scale: b.dw / W };
+}
 function cover(ctx, src, { rect = FRAME, zoom = 1, fx = 0, fy = 0, alpha = 1, filter = null } = {}) {
   if (alpha <= 0) return;
   const sw = src.videoWidth || src.width, sh = src.videoHeight || src.height;
-  const s = Math.max(rect.w / sw, rect.h / sh) * zoom;
-  const dw = sw * s, dh = sh * s;
-  const x = rect.x + (rect.w - dw) / 2 - fx * (dw - rect.w) / 2;
-  const y = rect.y + (rect.h - dh) / 2 - fy * (dh - rect.h) / 2;
+  const { x, y, dw, dh } = coverBox(sw, sh, { rect, zoom, fx, fy });
   ctx.save();
   ctx.beginPath(); ctx.rect(rect.x, rect.y, rect.w, rect.h); ctx.clip();
   ctx.globalAlpha *= alpha;
