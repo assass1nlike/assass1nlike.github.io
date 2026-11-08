@@ -142,6 +142,66 @@ class Perf:
         self._add(s)
         return s
 
+    def clip(self, c, t0, cs=0.0, ce=None, speed=1.0, heading=0.0, at=None, anchors=(), ground=0.0, name=None):
+        """播放动捕片段 c（clips.Clip）的 [cs, ce] 段，从 sim 时间 t0 开始，播放速度 speed。
+
+        朝向：把片段在这段时间里的水平前进方向转到 heading。
+        位置：at 给定时把 cs 时刻的骨盆水平位置放到 at；否则接着上一片段的骨盆位置。片段的地面放到高度 ground。
+        anchors：[(片段时间, 世界坐标 xy 或 xyz)]，要求骨盆在这些时刻经过这些位置。修正量只在双脚离地的帧里累积，
+        所以落脚点不会滑动；修正只改变腾空段的距离和高度。
+        """
+        ce = c.T if ce is None else ce
+        ct = np.arange(cs, ce, speed / HZ)
+        t = t0 + (ct - cs) / speed
+        k = np.clip(ct * HZ, 0, len(c.root) - 1.001)
+        i = k.astype(int); a = (k - i)
+        r = c.root[i] * (1 - a[:, None]) + c.root[i + 1] * a[:, None]
+        qq = slerp(c.q[i], c.q[i + 1], a[:, None])
+        fwd = c.heading_dir(cs, ce)
+        clip_yaw = np.degrees(np.arctan2(fwd[0], -fwd[1]))     # 相对 -Y 的偏航（逆时针为正：-Y 转向 +X 为正）
+        Y = yaw(heading - clip_yaw)
+        k0 = int(np.clip(cs * HZ, 0, len(c.root) - 1))
+        r = qrot(Y, r - np.array([c.root[k0, 0], c.root[k0, 1], c.ground]))
+        if at is not None:
+            start = np.array([at[0], at[1], ground])
+        elif self.segs:
+            prev = self.segs[-1]
+            j = min(np.searchsorted(prev.t, t0), len(prev.t) - 1)
+            pr = prev.C[j] - self.com_rel(prev.Q[j:j + 1], prev.B[j:j + 1])[0]
+            start = np.array([pr[0], pr[1], ground])
+        else:
+            start = np.array([0, 0, ground])
+        r += start
+        # 锚点修正
+        if anchors:
+            air = np.ones(len(ct))
+            for sd in c.contacts:
+                for a0, a1 in c.contacts[sd]:
+                    air[(ct >= a0) & (ct <= a1)] = 0
+            pts = [(ct[0], np.zeros(3))]
+            for at_t, pos in anchors:
+                j = int(np.clip((at_t - cs) / speed * HZ, 0, len(ct) - 1))
+                pos = np.asarray(pos, float)
+                tgt = np.array([pos[0], pos[1], r[j, 2] if len(pos) < 3 else pos[2]])
+                pts.append((ct[j], tgt - r[j]))
+            off = np.zeros((len(ct), 3))
+            for (ta, oa), (tb, ob) in zip(pts[:-1], pts[1:]):
+                m = (ct >= ta) & (ct <= tb)
+                w = np.cumsum(air[m]); w = w / w[-1] if w[-1] > 0 else np.linspace(0, 1, m.sum())
+                off[m] = oa + (ob - oa) * w[:, None]
+                off[ct > tb] = ob
+            r += off
+        s = Seg(t)
+        s.Q = qq.copy()
+        s.B = qmul(Y, qq[:, self.sk.i("Hips")])
+        W, P, T = self.sk.fk(r, self._with_hips(qq, s.B))
+        s.C = self.sk.com(P, T)
+        self._add(s)
+        if name:
+            self.events[name] = dict(t0=t0, t1=t[-1], speed=speed, cs=cs, clip=c,
+                                     to_sim=lambda x, _t0=t0, _cs=cs, _sp=speed: _t0 + (x - _cs) / _sp)
+        return t[-1]
+
     def _with_hips(self, Q, B):
         q = Q.copy(); q[:, self.sk.i("Hips")] = B
         return q

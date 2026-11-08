@@ -19,7 +19,7 @@ CHARS = {
                  "cortu_cargo_pants/cortu_cargo_pants.mhclo",
                  "punkduck_running_shoes_01/punkduck_running_shoes_01.mhclo"],
         colors=[(1.0, 0.33, 0.05), (0.06, 0.06, 0.08), (0.92, 0.92, 0.95)],
-        skin=(0.80, 0.58, 0.45), hair_color=(0.03, 0.025, 0.02)),
+        skin="young_asian_male/young_asian_male.mhmat", hair_color=(0.03, 0.025, 0.02)),
     "rin": dict(
         phenotype=dict(gender=0.0, age=0.42, muscle=0.7, weight=0.38, proportions=0.9, height=0.45,
                        cupsize=0.4, race=dict(asian=0.5, caucasian=0.4, african=0.1)),
@@ -28,7 +28,7 @@ CHARS = {
                  "toigo_harem_pants/toigo_harem_pants.mhclo",
                  "punkduck_tennis_shoes/punkduck_tennis_shoes.mhclo"],
         colors=[(0.0, 0.75, 0.70), (0.10, 0.04, 0.22), (0.95, 0.95, 0.95)],
-        skin=(0.86, 0.66, 0.54), hair_color=(0.30, 0.03, 0.06)),
+        skin="young_asian_female/young_asian_female.mhmat", hair_color=(0.30, 0.03, 0.06)),
     "milo": dict(
         phenotype=dict(gender=1.0, age=0.4, muscle=0.85, weight=0.5, proportions=0.8, height=0.65,
                        race=dict(asian=0.1, caucasian=0.2, african=0.7)),
@@ -37,7 +37,7 @@ CHARS = {
                  "mindfront_male_trousers_1/mindfront_male_trousers_1.mhclo",
                  "culturalibre_sneakers/culturalibre_sneakers.mhclo"],
         colors=[(1.0, 0.82, 0.05), (0.16, 0.22, 0.42), (0.9, 0.2, 0.15)],
-        skin=(0.42, 0.26, 0.17), hair_color=(0.02, 0.015, 0.012)),
+        skin="young_african_male/young_african_male.mhmat", hair_color=(0.02, 0.015, 0.012)),
 }
 
 
@@ -52,7 +52,7 @@ def build(name):
     info.update(name=name, rig="cmu_mb", hair=c["hair"], clothes=list(c["clothes"]),
                 eyes="high-poly/high-poly.mhclo", eyebrows="eyebrow001/eyebrow001.mhclo",
                 eyelashes="eyelashes01/eyelashes01.mhclo",
-                skin_mhmat="", skin_material_type="NONE", eyes_material_type="MAKESKIN")
+                skin_mhmat=c["skin"], skin_material_type="ENHANCED_SSS", eyes_material_type="PROCEDURAL_EYES")
     settings = HumanService.get_default_deserialization_settings()
     settings["subdiv_levels"] = 1
     body = HumanService.deserialize_from_dict(info, settings)
