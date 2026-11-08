@@ -94,3 +94,16 @@ def all_tasks():
 
 def slug(repo):
     return repo.replace("/", "__")
+
+
+def pid_alive(pid):
+    """Windows 上判断进程是否还在（os.kill(pid, 0) 在 Windows 上会直接杀掉进程，不能用）。"""
+    import ctypes
+    k32 = ctypes.windll.kernel32
+    h = k32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return False
+    code = ctypes.c_ulong()
+    k32.GetExitCodeProcess(h, ctypes.byref(code))
+    k32.CloseHandle(h)
+    return code.value == 259  # STILL_ACTIVE

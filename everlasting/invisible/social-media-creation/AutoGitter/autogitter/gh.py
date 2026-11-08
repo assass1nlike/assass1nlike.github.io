@@ -135,6 +135,12 @@ def fork(repo):
 
 
 def create_pr(repo, head, base, title, body):
+    """已有同一分支的 PR（上一轮建好后没来得及记下就被打断）时直接返回它，不重复建。"""
+    branch = head.split(":", 1)[1]
+    existing = json.loads(gh("pr", "list", "--repo", repo, "--head", branch, "--author", ACCOUNT,
+                             "--state", "all", "--json", "url"))
+    if existing:
+        return existing[0]["url"]
     return gh("pr", "create", "--repo", repo, "--head", head, "--base", base,
               "--title", title, "--body-file", "-", input=body).strip()
 

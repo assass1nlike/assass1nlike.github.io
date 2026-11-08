@@ -23,7 +23,7 @@ def main():
     r.add_argument("-n", type=int, default=1, help="本轮要新增几个过审")
     sub.add_parser("cron", help="给任务计划程序用：run 一轮再 followup，输出写进 data/logs/")
     sc = sub.add_parser("schedule", help="管理 Windows 定时任务")
-    sc.add_argument("action", choices=["install", "uninstall", "status"])
+    sc.add_argument("action", choices=["install", "uninstall", "status", "pause", "resume", "start", "stop"])
     args = ap.parse_args()
 
     if args.cmd == "discover":
@@ -53,6 +53,7 @@ def main():
         pipeline.followup()
     elif args.cmd == "status":
         pipeline.status()
+        schedule.status()
     elif args.cmd == "clean":
         pipeline.clean()
     elif args.cmd == "run":

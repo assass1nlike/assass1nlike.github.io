@@ -40,3 +40,29 @@ if (-not $t) {{ '未注册' }} else {{
   $i = $t | Get-ScheduledTaskInfo
   "状态：$($t.State)  上次运行：$($i.LastRunTime)  结果：$($i.LastTaskResult)  下次运行：$($i.NextRunTime)"
 }}""").strip())
+
+
+def pause():
+    _ps(f"Disable-ScheduledTask -TaskName '{NAME}' | Out-Null")
+    print("已暂停：不再按时启动新的一轮（正在跑的一轮不受影响，要中断用 stop）")
+
+
+def resume():
+    _ps(f"Enable-ScheduledTask -TaskName '{NAME}' | Out-Null")
+    print("已恢复定时运行")
+    status()
+
+
+def start():
+    _ps(f"Start-ScheduledTask -TaskName '{NAME}'")
+    print("已立即启动一轮（若上一轮还在跑则忽略）")
+
+
+def stop():
+    """中断正在跑的一轮，连同它启动的 claude 等子进程。被中断的任务在下一轮开始时标为 failed。"""
+    _ps(f"""
+Get-CimInstance Win32_Process -Filter "Name='pythonw.exe'" |
+  Where-Object {{ $_.CommandLine -match 'autogitter cron' }} |
+  ForEach-Object {{ taskkill /T /F /PID $_.ProcessId | Out-Null }}
+Stop-ScheduledTask -TaskName '{NAME}' -ErrorAction SilentlyContinue""")
+    print("已中断正在运行的一轮")

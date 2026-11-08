@@ -5,6 +5,7 @@
 提交前发现已过时（issue 关了、别人提了 PR）为 stale。
 """
 import hashlib
+import os
 import random
 import re
 import shutil
@@ -15,7 +16,7 @@ from datetime import datetime, timedelta
 
 from . import agent, gh
 from .common import (CANDIDATES, CONFIG, DATA, SCHEDULE, ENVS, REPOS, TREES, all_tasks, load_meta, now, prompt,
-                     read_json, save_meta, sh, slug, task_dir, write_json)
+                     pid_alive, read_json, save_meta, sh, slug, task_dir, write_json)
 
 WORK_SCHEMA = {
     "type": "object",
@@ -181,13 +182,14 @@ def new_task(repo, number=None):
         print(f"{tid} 已存在（{load_meta(tid)['status']}），跳过")
         return None
     meta = {"id": tid, "repo": repo, "number": number, "kind": "issue" if number else "hunt",
-            "branch": branch, "status": "working", "created_at": now(), "cost": 0}
+            "branch": branch, "status": "working", "created_at": now(), "cost": 0, "pid": os.getpid()}
     save_meta(tid, meta)
     return tid
 
 
 def work(tid):
     meta = load_meta(tid)
+    meta["pid"] = os.getpid()
     d = task_dir(tid)
     (d / "scratch").mkdir(parents=True, exist_ok=True)
     print(f"任务 {tid}")
@@ -426,8 +428,23 @@ def _n_ready():
     return sum(1 for t in all_tasks() if t["status"] == "ready")
 
 
+def recover():
+    """进程被打断（睡眠后出错、重启、手动停止）留下的 working 任务标为 failed，对应 issue 放回候选，下一轮可重试。"""
+    pool = read_json(CANDIDATES, {})
+    for t in all_tasks():
+        if t["status"] == "working" and t.get("pid") and not pid_alive(t["pid"]):
+            t.update(status="failed", reason="运行被打断（睡眠、重启或手动停止）")
+            save_meta(t["id"], t)
+            key = f"{t['repo']}#{t['number']}"
+            if t["kind"] == "issue" and pool.get(key, {}).get("status") == "tasked":
+                pool[key]["status"] = "picked"
+            print(f"{t['id']}：上次运行被打断，已标为 failed")
+    write_json(CANDIDATES, pool)
+
+
 def run(n):
     """先提交排队的；待提交的还不够多时，修筛选出的 issue，再轮流 hunt，直到新增 n 个过审；最后再提交一次。"""
+    recover()
     submit()
     if _n_ready() >= CONFIG["max_ready_backlog"]:
         print(f"已有 {_n_ready()} 个过审待提交，本次不再干活")
