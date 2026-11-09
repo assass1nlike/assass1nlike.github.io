@@ -42,7 +42,7 @@ class S4bDimIntro(NSc):
         self.wait(0.8)
 
         # ---------------- 三个例子
-        self.play(FadeOut(ruler), FadeOut(eps), run_time=0.5)
+        self.play(FadeOut(ruler), FadeOut(eps), FadeOut(formula), run_time=0.5)
 
         # 线段
         seg = Line([-5.6, 1.3, 0], [-3.9, 1.3, 0], stroke_color=INK, stroke_width=7)
@@ -79,7 +79,7 @@ class S4bDimIntro(NSc):
         self.wait(1.0)
 
         # ---------------- 关键：这不要求集合是「实心」的
-        self.play(*[FadeOut(m) for m in [seg, seg_l, sq, sq_l, cant, cant_l, formula, head]],
+        self.play(*[FadeOut(m) for m in [seg, seg_l, sq, sq_l, cant, cant_l, head]],
                   run_time=0.9)
         self.clear_sub(0.2)
 

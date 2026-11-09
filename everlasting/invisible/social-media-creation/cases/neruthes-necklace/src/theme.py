@@ -11,7 +11,7 @@ GOLD  = "#F5C451"   # 第二强调：硬币、结论
 ROSE  = "#F97B72"   # 反例、失效、警示
 GREEN = "#7BD88F"   # 成立、等价
 
-FONT = "Noto Sans SC"
+FONT = "Noto Serif SC"
 
 config.background_color = BG
 config.frame_rate = 30

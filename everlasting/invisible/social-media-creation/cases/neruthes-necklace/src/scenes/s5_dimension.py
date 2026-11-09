@@ -108,7 +108,7 @@ class S5Dimension(NSc):
         self.say("每一块缩小 2 的 −j 次方，维数 d 要让总面积刚好守恒。", hold=3.0)
 
         e2 = eq(r"\lambda_k^{\,k} = \lambda_k^{\,k-1} + \cdots + \lambda_k + 1, \qquad d_k = \log_2 \lambda_k",
-                32, BLUE).move_to([0, 0.45, 0])
+                32, BLUE).move_to([0, 0.62, 0])
         self.play(FadeIn(e2, shift=0.1 * UP), run_time=0.8)
         self.say("等价地：λ 是那个 k 步递推的特征根。k=2，就是黄金比例。", hold=3.4)
 

@@ -61,13 +61,13 @@ class S4Countable(NSc):
         self.wait(1.0)
 
         # ---------------- 对比：limsup 是全测度
-        self.play(FadeOut(cnt), run_time=0.8)
+        self.play(FadeOut(cnt), FadeOut(head), run_time=0.8)
         self.clear_sub(0.2)
 
         cmp_ = VGroup(
             VGroup(eq(r"\limsup", 34, GOLD), cn("全测度：几乎所有点", 26, SOFT)).arrange(RIGHT, buff=0.3),
             VGroup(eq(r"\liminf", 34, BLUE), cn("至多可数：一个零测的例外", 26, SOFT)).arrange(RIGHT, buff=0.3),
-        ).arrange(DOWN, buff=0.55).move_to([0, 1.0, 0])
+        ).arrange(DOWN, buff=0.55).move_to([0, 0.9, 0])
         self.play(FadeIn(cmp_[0], shift=0.1 * UP), run_time=0.7)
         self.wait(1.8)
         self.play(FadeIn(cmp_[1], shift=0.1 * UP), run_time=0.7)

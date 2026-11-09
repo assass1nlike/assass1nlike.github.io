@@ -5,8 +5,8 @@
   python tools/assemble.py                   # 只拼接与配乐
   python tools/assemble.py --quality l       # 用低清片段快速试拼
 
-音乐沿用 cases/abstract-video/base-music.mp3（Syuenn《big song (self insert)》），
-压低到 -22 dB 作为背景，首尾各 2 秒淡入淡出。
+音乐用 Kevin MacLeod 的《Ambiment》（CC BY 4.0，incompetech.com），
+压低到 -22 dB 作为背景，首尾各 2~3 秒淡入淡出。
 """
 import argparse
 import glob
@@ -20,7 +20,7 @@ import imageio_ffmpeg
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA = os.path.join(ROOT, "build", "tmp", "media", "videos")
 OUT = os.path.join(ROOT, "out")
-MUSIC = os.path.normpath(os.path.join(ROOT, "..", "abstract-video", "base-music.mp3"))
+MUSIC = os.path.join(ROOT, "build", "music", "bgm.mp3")
 
 ORDER = [
     ("s0_hook", "S0Hook"),
@@ -111,7 +111,7 @@ def main():
             "-i", silent,
             "-i", MUSIC,
             "-filter_complex",
-            f"[1:a]volume=-22dB,atrim=0:{total:.3f},asetpts=PTS-STARTPTS,"
+            f"[1:a]volume=-8dB,atrim=0:{total:.3f},asetpts=PTS-STARTPTS,"
             f"afade=t=in:st=0:d=2,afade=t=out:st={fade_out:.3f}:d=3[a]",
             "-map", "0:v", "-map", "[a]",
             "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest",

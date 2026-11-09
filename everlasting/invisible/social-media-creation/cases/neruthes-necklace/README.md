@@ -41,7 +41,7 @@
 
 ## 制作
 
-环境用本机 base conda（Python 3.13，manim 0.22.1，LaTeX 走 TeX Live 2026，ffmpeg 用 imageio-ffmpeg 自带的）。中文字体 Noto Sans SC。视觉语言在 `src/theme.py`：暗底、暖白格、三种强调色，字幕固定在底部。
+环境用本机 base conda（Python 3.13，manim 0.22.1，LaTeX 走 TeX Live 2026，ffmpeg 用 imageio-ffmpeg 自带的）。中文字体 Noto Serif SC（思源宋体），与公式里的 Computer Modern 同为衬线风格。视觉语言在 `src/theme.py`：暗底、暖白格、三种强调色，字幕固定在底部。
 
 ```bash
 python -m manim -ql --media_dir build/tmp/media src/scenes/s5_dimension.py S5Dimension
@@ -49,7 +49,7 @@ python tools/assemble.py --render          # 1080p 渲染全部场景并拼接�
 python tools/assemble.py --quality l       # 用已有的低清片段快速试拼
 ```
 
-配乐是 `../abstract-video/base-music.mp3`，压到 −22 dB，首尾淡入淡出。`build/` 是中间产物，可删；`src/paper.typ`、`src/note.typ` 保留原始材料。
+配乐是 Kevin MacLeod 的《Ambiment》（incompetech.com，CC BY 4.0），放在 `build/music/bgm.mp3`，压到 −22 dB，首尾淡入淡出；片尾卡与本节都保留了署名。`build/` 是中间产物，可删；`src/paper.typ`、`src/note.typ` 保留原始材料。
 
 ## 已知的简化
 
