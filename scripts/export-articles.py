@@ -138,6 +138,6 @@ def export_articles(site):
 
 if __name__ == '__main__':
     articles = export_articles(Path(__file__).resolve().parents[1])
-    for category, label in [('invisible', 'Learning notes'), ('minors', 'Beyond AI/ML/CS'), ('tech', 'Tech notes')]:
+    for category, label in [('invisible', 'Learning notes'), ('minors', 'Beyond AI/ML/CS'), ('tech', 'Tech notes'), ('experience', 'Experience')]:
         print(f'{label}: {sum(doc["category"] == category for doc in articles)} articles')
     print('Updated assets/articles/catalog.js (local only; nothing committed or pushed).')
