@@ -52,6 +52,17 @@ class Ctx:
         return self.root[i] * (1 - a) + self.root[i + 1] * a, slerp(self.q[i], self.q[i + 1], a)
 
 
+def optimize(sc):
+    """渲染提速：只有太阳、角色的三盏补光和名字以 key_ 开头的灯投影；体积雾只算到 300 米，降低体积采样。"""
+    for o in bpy.data.objects:
+        if o.type == "LIGHT" and o.data.type != "SUN" and not o.name.startswith(("char_", "key_")):
+            o.data.use_shadow = False
+    e = sc.eevee
+    e.volumetric_end = 300
+    e.volumetric_samples = 32
+    e.shadow_resolution_scale = 0.5
+
+
 def compositor(sc):
     ng = bpy.data.node_groups.new("post", "CompositorNodeTree")
     ng.interface.new_socket("Image", in_out="OUTPUT", socket_type="NodeSocketColor")
@@ -125,6 +136,7 @@ def main():
         cam.data.keyframe_insert("lens", frame=f)
         cam.data.dof.keyframe_insert("focus_distance", frame=f)
     compositor(sc)
+    optimize(sc)
     out = os.path.join(ROOT, "build", "frames", a.shot)
     os.makedirs(out, exist_ok=True)
     sc.render.image_settings.file_format = "PNG"

@@ -22,7 +22,7 @@ class ArticleCatalogTests(unittest.TestCase):
         config = json.loads(json.dumps(self.config))
         config['categories']['invisible']['sources'][0].pop('files')
         self.write('scripts/articles.json', json.dumps(config, ensure_ascii=False))
-        for directory in ['AI-Theoretical-Proofs', 'others/annual', 'tech']:
+        for directory in ['learning/math-theoretical', 'others/annual', 'tech']:
             (self.site / 'everlasting/invisible' / directory).mkdir(parents=True)
         self.write('everlasting/invisible/preliminaries.md', '# opinions')
 
@@ -37,17 +37,17 @@ class ArticleCatalogTests(unittest.TestCase):
 
     def test_public_scope_all_categories_and_drafts(self):
         files = {
-            'everlasting/invisible/AI-Theoretical-Proofs/math/note.md': '# Learning title',
+            'everlasting/invisible/learning/math-theoretical/math/note.md': '# Learning title',
             'everlasting/invisible/others/annual/2025.md': '# Internal section',
-            'everlasting/invisible/tech/std/tool.md': '# Tool title',
+            'everlasting/invisible/tech/tool.md': '# Tool title',
             'everlasting/invisible/minors/cybergym/determined.md': '# Unfinished',
             'everlasting/invisible/minors/4dim-bench/determined.md': '# Private draft',
             'everlasting/research/private.md': '# Private research',
-            'everlasting/invisible/AI-Theoretical-Proofs/.drafts/hidden.md': '# Hidden',
+            'everlasting/invisible/learning/math-theoretical/.drafts/hidden.md': '# Hidden',
             'everlasting/invisible/tech/tmp/scratch.md': '# Scratch',
             'everlasting/invisible/others/annual/AGENTS.md': '# Instructions',
-            'everlasting/invisible/AI-Theoretical-Proofs/README.md': '# Directory help',
-            'everlasting/invisible/AI-Theoretical-Proofs/figure.png': 'image',
+            'everlasting/invisible/learning/math-theoretical/README.md': '# Directory help',
+            'everlasting/invisible/learning/math-theoretical/figure.png': 'image',
         }
         for path, text in files.items():
             self.write(path, text)
@@ -65,13 +65,13 @@ class ArticleCatalogTests(unittest.TestCase):
         markdown = '---\n# YAML comment\ntitle: Meta\n---\n```md\n# Code\n```\n~~~\n# Also code\n~~~\n## Subheading\n# Real title ##\n'
         self.assertEqual(exporter.first_heading(markdown), 'Real title')
         self.assertEqual(exporter.first_heading('# C#'), 'C#')
-        self.write('everlasting/invisible/AI-Theoretical-Proofs/no-heading.md', 'Plain text')
+        self.write('everlasting/invisible/learning/math-theoretical/no-heading.md', 'Plain text')
         self.assertEqual(next(doc for doc in self.export() if doc.get('publicId') == 'no-heading')['title'], 'no-heading')
 
     @patch('publication_dates.today', return_value='2026-10-05')
     def test_publication_date_order(self, _today):
         for name in ['closeness-generalization', 'newton-residual-gradient', 'a-new-note']:
-            self.write(f'everlasting/invisible/AI-Theoretical-Proofs/{name}.md', f'# {name}')
+            self.write(f'everlasting/invisible/learning/math-theoretical/{name}.md', f'# {name}')
         for year in [2023, 2024, 2025, 2026]:
             self.write(f'everlasting/invisible/others/annual/{year}.md', f'# {year} 年终总结')
         docs = self.export()
@@ -98,23 +98,23 @@ class ArticleCatalogTests(unittest.TestCase):
 
     def test_gitignored_notes_never_enter_catalog_even_if_tracked(self):
         subprocess.run(['git', 'init', '-q', str(self.site)], check=True, capture_output=True)
-        path = 'everlasting/invisible/AI-Theoretical-Proofs/private.md'
+        path = 'everlasting/invisible/learning/math-theoretical/private.md'
         self.write(path, '# Private')
         subprocess.run(['git', '-C', str(self.site), 'add', path], check=True, capture_output=True)
-        self.write('.gitignore', '/everlasting/invisible/AI-Theoretical-Proofs/private.md\n')
+        self.write('.gitignore', '/everlasting/invisible/learning/math-theoretical/private.md\n')
         self.assertFalse(any(doc['path'] == path for doc in self.export()))
 
     def test_failure_keeps_previous_catalog(self):
         self.export()
         output = self.site / 'assets/articles/catalog.js'
         before = output.read_bytes()
-        (self.site / 'everlasting/invisible/AI-Theoretical-Proofs').rmdir()
+        (self.site / 'everlasting/invisible/learning/math-theoretical').rmdir()
         with self.assertRaises(FileNotFoundError):
             self.export()
         self.assertEqual(output.read_bytes(), before)
 
     def test_publication_dates_survive_edits_and_allow_explicit_correction(self):
-        path = 'everlasting/invisible/AI-Theoretical-Proofs/dated.md'
+        path = 'everlasting/invisible/learning/math-theoretical/dated.md'
         self.write(path, '# First title')
         with patch.object(exporter, 'first_file_date', return_value='2024-06-01'):
             docs = self.export()
@@ -138,7 +138,7 @@ class ArticleCatalogTests(unittest.TestCase):
 
     def test_new_articles_keep_first_export_date(self):
         from publication_dates import today
-        self.write('everlasting/invisible/AI-Theoretical-Proofs/new-note.md', '# New note')
+        self.write('everlasting/invisible/learning/math-theoretical/new-note.md', '# New note')
         docs = self.export()
         self.assertEqual(next(doc for doc in docs if doc.get('publicId') == 'new-note')['publishedAt'], today())
         with patch('publication_dates.today', return_value='2099-01-01'):
@@ -159,7 +159,7 @@ class ArticleCatalogTests(unittest.TestCase):
 
     def test_symlink_cannot_publish_outside_files(self):
         private = self.write('everlasting/research/private.md', '# Private')
-        link = self.site / 'everlasting/invisible/AI-Theoretical-Proofs/link.md'
+        link = self.site / 'everlasting/invisible/learning/math-theoretical/link.md'
         try:
             link.symlink_to(private)
         except OSError:

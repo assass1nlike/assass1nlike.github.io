@@ -2,18 +2,30 @@
   "categories": {
     "invisible": {
       "sources": [
-        { "path": "everlasting/invisible/AI-Theoretical-Proofs", "publicIds": true,
-          "files": ["certified-removal.md", "closeness-generalization.md", "closeness-gradient-similarity.md", "least-squares-existence.md", "least-squares-gd.md", "newton-output-distribution.md", "newton-residual-gradient.md", "nexus-implicit-bias.md", "positive-gram-sgd.md", "smooth-strongly-convex-sgd.md", "two-task-convergence.md", "unlearning-akg.md"] },
-        { "path": "everlasting/invisible/preliminaries.md" }
+        {
+          "path": "everlasting/invisible/learning/math-theoretical",
+          "publicIds": true,
+          "files": ["certified-removal.md", "closeness-generalization.md", "closeness-gradient-similarity.md", "least-squares-existence.md", "least-squares-gd.md", "newton-output-distribution.md", "newton-residual-gradient.md", "nexus-implicit-bias.md", "positive-gram-sgd.md", "smooth-strongly-convex-sgd.md", "two-task-convergence.md", "unlearning-akg.md"]
+        },
+        {
+          "path": "everlasting/invisible/preliminaries.md"
+        }
       ]
     },
     "minors": {
       "sources": [
-        { "path": "everlasting/invisible/others/annual", "collection": "annual" }
+        {
+          "path": "everlasting/invisible/others/annual",
+          "collection": "annual"
+        }
       ]
     },
     "tech": {
-      "sources": [{ "path": "everlasting/invisible/tech" }]
+      "sources": [
+        {
+          "path": "everlasting/invisible/tech"
+        }
+      ]
     }
   },
   "overrides": {
@@ -23,33 +35,59 @@
       "publishedAt": "2026-07-15",
       "outlinePreview": true
     },
-    "everlasting/invisible/others/annual/2023.md": { "title": "2023 年终总结", "publishedAt": "2024-02-11" },
-    "everlasting/invisible/others/annual/2024.md": { "title": "2024 年终总结", "publishedAt": "2025-01-30" },
-    "everlasting/invisible/others/annual/2025.md": { "title": "2025 年终总结", "publishedAt": "2026-02-18" },
-    "everlasting/invisible/AI-Theoretical-Proofs/newton-residual-gradient.md": { "publishedAt": "2026-08-20" },
-    "everlasting/invisible/AI-Theoretical-Proofs/closeness-generalization.md": { "publishedAt": "2026-08-22" },
-    "everlasting/invisible/AI-Theoretical-Proofs/newton-output-distribution.md": { "publishedAt": "2026-08-24" },
-    "everlasting/invisible/AI-Theoretical-Proofs/closeness-gradient-similarity.md": { "publishedAt": "2026-08-26" },
-    "everlasting/invisible/AI-Theoretical-Proofs/nexus-implicit-bias.md": { "publishedAt": "2026-08-28" },
-    "everlasting/invisible/AI-Theoretical-Proofs/certified-removal.md": { "publishedAt": "2026-08-30" },
-    "everlasting/invisible/AI-Theoretical-Proofs/unlearning-akg.md": { "publishedAt": "2026-08-31" },
-    "everlasting/invisible/AI-Theoretical-Proofs/least-squares-gd.md": { "publishedAt": "2026-09-02" },
-    "everlasting/invisible/AI-Theoretical-Proofs/least-squares-existence.md": { "publishedAt": "2026-09-04" },
-    "everlasting/invisible/AI-Theoretical-Proofs/positive-gram-sgd.md": { "publishedAt": "2026-09-06" },
-    "everlasting/invisible/AI-Theoretical-Proofs/smooth-strongly-convex-sgd.md": { "publishedAt": "2026-09-08" },
-    "everlasting/invisible/AI-Theoretical-Proofs/two-task-convergence.md": { "publishedAt": "2026-09-10" },
-    "everlasting/invisible/tech/tech.md": { "title": "技术随记" },
-    "everlasting/invisible/tech/std/claude_web_tool_issues.md": {
-      "aliases": ["claude_web_tool_issues", "claude_web_tool_issues.md", "Claude 网页端工具调用问题总结", "everlasting/tech/std/claude_web_tool_issues.md"]
+    "everlasting/invisible/others/annual/2023.md": {
+      "title": "2023 年终总结",
+      "publishedAt": "2024-02-11"
     },
-    "everlasting/invisible/tech/std/deepseed_jailbreak.md": {
-      "aliases": ["deepseed_jailbreak", "deepseed_jailbreak.md", "deepseek jailbreak", "deepseed jailbreak", "everlasting/tech/std/deepseed_jailbreak.md"]
+    "everlasting/invisible/others/annual/2024.md": {
+      "title": "2024 年终总结",
+      "publishedAt": "2025-01-30"
     },
-    "everlasting/invisible/tech/na/osu-auto-download-import/osu-auto-download-import.md": {
-      "aliases": ["osu-auto-download-import", "osu auto download import", "everlasting/tech/osu-auto-download-import/osu-auto-download-import.md", "everlasting/tech/na/osu-auto-download-import/osu-auto-download-import.md"]
+    "everlasting/invisible/others/annual/2025.md": {
+      "title": "2025 年终总结",
+      "publishedAt": "2026-02-18"
     },
-    "everlasting/invisible/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md": {
-      "aliases": ["osu-get-poetry-difficulties", "osu get poetry difficulties", "everlasting/tech/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md", "everlasting/tech/na/osu-get-poetry-difficulties/osu-get-poetry-difficulties.md"]
+    "everlasting/invisible/learning/math-theoretical/newton-residual-gradient.md": {
+      "publishedAt": "2026-08-20"
+    },
+    "everlasting/invisible/learning/math-theoretical/closeness-generalization.md": {
+      "publishedAt": "2026-08-22"
+    },
+    "everlasting/invisible/learning/math-theoretical/newton-output-distribution.md": {
+      "publishedAt": "2026-08-24"
+    },
+    "everlasting/invisible/learning/math-theoretical/closeness-gradient-similarity.md": {
+      "publishedAt": "2026-08-26"
+    },
+    "everlasting/invisible/learning/math-theoretical/nexus-implicit-bias.md": {
+      "publishedAt": "2026-08-28"
+    },
+    "everlasting/invisible/learning/math-theoretical/certified-removal.md": {
+      "publishedAt": "2026-08-30"
+    },
+    "everlasting/invisible/learning/math-theoretical/unlearning-akg.md": {
+      "publishedAt": "2026-08-31"
+    },
+    "everlasting/invisible/learning/math-theoretical/least-squares-gd.md": {
+      "publishedAt": "2026-09-02"
+    },
+    "everlasting/invisible/learning/math-theoretical/least-squares-existence.md": {
+      "publishedAt": "2026-09-04"
+    },
+    "everlasting/invisible/learning/math-theoretical/positive-gram-sgd.md": {
+      "publishedAt": "2026-09-06"
+    },
+    "everlasting/invisible/learning/math-theoretical/smooth-strongly-convex-sgd.md": {
+      "publishedAt": "2026-09-08"
+    },
+    "everlasting/invisible/learning/math-theoretical/two-task-convergence.md": {
+      "publishedAt": "2026-09-10"
+    },
+    "everlasting/invisible/tech/claude_web_tool_issues.md": {
+      "aliases": ["claude_web_tool_issues", "claude_web_tool_issues.md", "Claude 网页端工具调用问题总结", "everlasting/tech/std/claude_web_tool_issues.md", "everlasting/invisible/tech/std/claude_web_tool_issues.md"]
+    },
+    "everlasting/invisible/tech/deepseed_jailbreak.md": {
+      "aliases": ["deepseed_jailbreak", "deepseed_jailbreak.md", "deepseek jailbreak", "deepseed jailbreak", "everlasting/tech/std/deepseed_jailbreak.md", "everlasting/invisible/tech/std/deepseed_jailbreak.md"]
     }
   }
 }

@@ -62,11 +62,11 @@ python scripts/export-articles.py
 
 | 栏目 | 发布目录（相对仓库根目录） |
 | --- | --- |
-| 学习积累 | `everlasting/invisible/AI-Theoretical-Proofs/` 中 `files` 列出的文件 |
+| 学习积累 | `everlasting/invisible/learning/math-theoretical/` 中 `files` 列出的文件 |
 | 技术杂记 | `everlasting/invisible/tech/` |
 | AI/ML/CS 之外（目前只有年终总结） | `everlasting/invisible/others/annual/` |
 
-写好后把 Markdown 和图片放入对应发布目录，可创建子文件夹，文件名不限。学习积累栏目的 `AI-Theoretical-Proofs/` 里还有未公开的笔记，所以只发布 `scripts/articles.json` 中该来源 `files` 列出的文件，新增一篇需要把文件名加进列表；列表中的文件缺失时导出会报错。AI/ML/CS 之外目前只有年终总结。文章首个 `# 一级标题` 用作列表标题；没有一级标题时使用文件名。标题提取跳过 YAML 元数据与代码块。图片使用相对路径，例如 `![说明](./images/figure.png)`，发布时连同图片一起提交。
+写好后把 Markdown 和图片放入对应发布目录，可创建子文件夹，文件名不限。学习积累栏目的 `learning/math-theoretical/` 里还有未公开的笔记，所以只发布 `scripts/articles.json` 中该来源 `files` 列出的文件，新增一篇需要把文件名加进列表；列表中的文件缺失时导出会报错。AI/ML/CS 之外目前只有年终总结。文章首个 `# 一级标题` 用作列表标题；没有一级标题时使用文件名。标题提取跳过 YAML 元数据与代码块。图片使用相对路径，例如 `![说明](./images/figure.png)`，发布时连同图片一起提交。
 
 新增、改名、删除文章或修改标题后运行命令，刷新本地页面即可检查。仅修改正文或图片时可直接刷新，重新运行脚本也无妨。预览可运行 `python -m http.server 8000`，打开 `http://localhost:8000/`。脚本生成 `assets/articles/catalog.js`，不修改文章、不暂存、不提交、不推送；正式发布时只提交准备公开的 Markdown、图片及生成的目录文件，再 push。首页预览、分类列表和阅读页共用此目录，无需再编辑 `script.js`。
 

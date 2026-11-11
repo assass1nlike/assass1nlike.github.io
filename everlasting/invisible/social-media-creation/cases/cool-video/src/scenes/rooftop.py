@@ -103,7 +103,7 @@ def dress_r1():
     metal = W.pbr("rusty_metal_02", scale=0.5, tint=(0.4, 0.42, 0.45), metal=0.6)
     W.box("bb_post1", (-6, 15.2, 0), (0.25, 0.25, 8), metal)
     W.box("bb_post2", (2, 15.2, 0), (0.25, 0.25, 8), metal)
-    city.ad_screen("bb_screen", (-2, 15.1, 5.6), 180, (9, 4.4), seed=4, strength=4.5)
+    city.ad_screen("bb_screen", (-2, 15.1, 5.6), 180, (9, 4.4), seed=4, strength=1.6)
     W.area("bb_glow", (-2, 13.2, 5.6), (math.radians(90), 0, 0), 8, MAGENTA, 1200)
     # 女儿墙上的霓虹灯条（标出起跳口两侧）
     W.tube("edge_l", [(-9, -5.85, 1.02), (-4, -5.85, 1.02)], 0.025, CYAN, 60)
@@ -160,8 +160,8 @@ def neighbors(rng):
     city.neon_sign("sign_e", "夜行", (22.8, -8, 10), 90, 9, MAGENTA, strength=30)
     city.neon_sign("sign_e2", "24H拉面", (22.8, 6, 2), 90, 2.2, AMBER, strength=25, vertical=False)
     city.neon_sign("sign_w", "极速", (-38.8, 0, 14), -90, 8, CYAN, strength=30)
-    city.ad_screen("ad_s", (4, -64.8, 30), 0, (24, 13), seed=1, strength=5)
-    city.ad_screen("ad_e", (22.9, -24, 26), 90, (14, 20), seed=2, strength=4)
+    city.ad_screen("ad_s", (4, -64.8, 30), 0, (24, 13), seed=1, strength=2)
+    city.ad_screen("ad_e", (22.9, -24, 26), 90, (14, 20), seed=2, strength=1.8)
 
 
 def build(seed=3, marks=None):

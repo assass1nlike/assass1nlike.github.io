@@ -57,6 +57,10 @@ ICLR2027 总结：https://yzc-666.github.io/iclr2027-explorer
 
 看自己的邮箱密码是不是泄露了：https://haveibeenpwned.com/
 
+
+
+使用 [`musistudio/claude-code-router`](https://github.com/musistudio/claude-code-router) 可以使用各种模型来驱动 claude code. 
+
 # information retrieval
 
 ## preprint

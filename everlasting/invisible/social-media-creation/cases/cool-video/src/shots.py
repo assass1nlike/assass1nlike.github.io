@@ -30,9 +30,9 @@ def cam_A1(ctx, ts, tm):
     """大全景：从城市上空斜后方降下来，落到 Kai 身后低处，越过他的肩膀看向楼间缺口和城市。"""
     u = ease((ts - B(30)) / (B(31, 2) - B(30)))
     k = ctx.at("Head", tm)
-    loc = lerp(V(9, 26, 16), V(1.1, 13.4, 4.15), u ** 0.8) + hand(ts, 0.05, 1)
-    tgt = lerp(k + V(-1, -3, -1.5), k + V(-0.4, -6, -0.9), u)
-    return loc, tgt, lerp(20, 30, u), lerp(-8, 2, u)
+    loc = lerp(V(-9, -9, 8.5), V(1.3, 13.3, 4.4), u) + hand(ts, 0.05, 1)
+    tgt = lerp(k + V(0, 0, -0.3), k + V(-0.3, -6, -0.8), u ** 2)
+    return loc, tgt, lerp(32, 26, u), lerp(-6, 2, u)
 
 
 def cam_A2(ctx, ts, tm):
@@ -46,8 +46,8 @@ def cam_A3(ctx, ts, tm):
     """侧面广角跟摇：前空翻跳下楼梯间。"""
     c = ctx.com(tm)
     dx, dy = shake(ts, [(demo.B(32) + 0.95, 1.0)], amp=0.03)
-    loc = V(7.5, 4.0, 1.0) + V(0, (c[1] - 5) * 0.25, 0) + hand(ts, 0.04, 3, 1.0) + V(dx, 0, dy)
-    return loc, c + V(0, -0.4, 0.1), 22, -3
+    loc = V(4.2, 3.6, 1.1) + V(0, (c[1] - 5) * 0.3, 0) + hand(ts, 0.04, 3, 1.0) + V(dx, 0, dy)
+    return loc, c + V(0, -0.3, 0.1), 20, -3
 
 
 def cam_A4a(ctx, ts, tm):
@@ -81,7 +81,7 @@ def cam_A6(ctx, ts, tm):
     """邻楼屋面上贴地迎面：double cork 落地的冲击，接着他从镜头旁冲过去。"""
     c = ctx.com(tm)
     dx, dy = shake(ts, [(B(34), 1.6)], amp=0.06)
-    loc = V(1.3, -18.6, -1.25) + hand(ts, 0.03, 7, 1.5) + V(dx, 0, dy)
+    loc = V(1.1, -15.4, -1.25) + hand(ts, 0.03, 7, 1.5) + V(dx, 0, dy)
     return loc, c + V(0, 0, 0.1), 18, -4
 
 
@@ -149,8 +149,8 @@ def cam_B2(ctx, ts, tm):
     """侧面航拍：在峡谷上空、略低于崖边，看他慢放中 cork 飞到石柱顶，随后推近。"""
     c = ctx.com(tm)
     u = ease((ts - B(38)) / (B(39) - B(38)))
-    loc = lerp(V(19, 1.0, -2.2), V(9.5, -3.5, 0.6), u) + hand(ts, 0.06, 13, 0.6)
-    return loc, c + V(0, -0.3, -0.2), lerp(30, 38, u), 0
+    loc = lerp(V(9.5, -0.5, -1.4), V(5.5, -4.5, 0.9), u) + hand(ts, 0.05, 13, 0.6)
+    return loc, c + V(0, -0.3, -0.1), lerp(26, 34, u), 0
 
 
 def cam_B3(ctx, ts, tm):

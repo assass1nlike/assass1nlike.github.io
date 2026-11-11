@@ -120,18 +120,6 @@ const CATEGORY_DEFINITIONS = {
 const DOC_DEFINITIONS = [
   ...(window.ArticleCatalog || []),
   {
-    path: 'everlasting/invisible/minors/cybergym/determined.md',
-    title: 'cybergym',
-    aliases: ['cybergym', 'cybergym/determined.md'],
-    category: 'minors',
-  },
-  {
-    path: 'everlasting/invisible/minors/recurrent_MoE/determined.md',
-    title: 'recurrent MoE',
-    aliases: ['recurrent moe', 'recurrent_MoE', 'recurrent MoE'],
-    category: 'minors',
-  },
-  {
     path: 'everlasting/invisible/desire.md',
     title: 'desire',
     aliases: ['desire', 'desire.md'],
