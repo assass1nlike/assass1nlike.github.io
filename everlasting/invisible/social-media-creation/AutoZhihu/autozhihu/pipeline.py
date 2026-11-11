@@ -33,26 +33,27 @@ def write(n, qids=None):
         print("选中：", *[pool[i]["title"] for i in qids], sep="\n  ")
 
     done = []
-    with open_browser() as ctx:
-        for qid in qids:
-            if len(done) >= n:
-                break
-            if load_meta(qid).get("status") in ("written", "published"):
-                continue
+    for qid in qids:
+        if len(done) >= n:
+            break
+        if load_meta(qid).get("status") in ("written", "published"):
+            continue
+        # 只在抓详情时开浏览器，写作期间不占着
+        with open_browser() as ctx:
             q = zhihu.fetch_question(ctx, qid)
-            q.pop("raw_question")
-            if (q.get("followers") or 0) < CONFIG["min_followers"]:
-                print(f"跳过（关注 {q.get('followers')}）：{q['title']}")
-                _set_status(qid, "skipped")
-                continue
-            print(f"写作：{q['title']}")
-            try:
-                writer.write(q)
-                _set_status(qid, "written")
-                done.append(qid)
-            except Exception as e:
-                print(f"  失败：{e}")
-                _set_status(qid, "failed")
+        q.pop("raw_question")
+        if (q.get("followers") or 0) < CONFIG["min_followers"]:
+            print(f"跳过（关注 {q.get('followers')}）：{q['title']}")
+            _set_status(qid, "skipped")
+            continue
+        print(f"写作：{q['title']}")
+        try:
+            writer.write(q)
+            _set_status(qid, "written")
+            done.append(qid)
+        except Exception as e:
+            print(f"  失败：{e}")
+            _set_status(qid, "failed")
     return done
 
 

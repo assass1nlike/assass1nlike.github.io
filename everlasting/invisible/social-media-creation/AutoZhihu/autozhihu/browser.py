@@ -7,13 +7,28 @@ from playwright.sync_api import sync_playwright
 from .common import PROFILE
 
 
+# 无头模式下 Chrome 的 UA 带 "HeadlessChrome"，换成普通 Chrome 的 UA，避免被知乎识别
+_UA = None
+
+
+def _user_agent(p):
+    global _UA
+    if _UA is None:
+        b = p.chromium.launch(channel="chrome", headless=True)
+        _UA = b.new_page().evaluate("navigator.userAgent").replace("HeadlessChrome", "Chrome")
+        b.close()
+    return _UA
+
+
 @contextmanager
-def open_browser(headless=False):
+def open_browser(headless=True):
+    """默认无头运行，不弹窗口；只有登录时需要显示窗口。"""
     with sync_playwright() as p:
         ctx = p.chromium.launch_persistent_context(
             str(PROFILE),
             channel="chrome",
             headless=headless,
+            user_agent=_user_agent(p) if headless else None,
             viewport={"width": 1280, "height": 900},
             locale="zh-CN",
             ignore_default_args=["--enable-automation"],
@@ -31,7 +46,7 @@ def logged_in(ctx):
 
 def login(timeout=600):
     """打开知乎登录页，等用户扫码/输入，检测到登录 cookie 后退出。"""
-    with open_browser() as ctx:
+    with open_browser(headless=False) as ctx:
         if logged_in(ctx):
             print("已登录")
             return True
