@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import tomllib
 from pathlib import Path
 
@@ -38,3 +39,25 @@ def load_meta(qid):
 
 def save_meta(qid, meta):
     write_json(answer_dir(qid) / "meta.json", meta)
+
+
+class _Tee:
+    def __init__(self, *streams):
+        self.streams = [s for s in streams if s is not None]
+
+    def write(self, s):
+        for st in self.streams:
+            st.write(s)
+            st.flush()
+
+    def flush(self):
+        for st in self.streams:
+            st.flush()
+
+
+def log_to(path):
+    """把 stdout/stderr 同时写入日志文件。pythonw 下没有控制台，只写文件。"""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    f = open(path, "a", encoding="utf-8")
+    sys.stdout = _Tee(sys.stdout, f)
+    sys.stderr = _Tee(sys.stderr, f)
