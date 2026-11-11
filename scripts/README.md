@@ -41,10 +41,10 @@ python scripts/sync-onedrive.py --apply
 
 # 一键发布
 
-在仓库根目录运行 `python scripts/publish.py`，依次更新学习／博客／技术实践、论文积累、录用信息（含 `--deep`），然后自动提交并推送到 `origin/main`。
+在仓库根目录运行 `python scripts/publish.py`，依次更新学习积累／AI/ML/CS 之外／技术杂记、论文阅读、录用信息（含 `--deep`），然后自动提交并推送到 `origin/main`。
 
-- 只发布学习、博客、技术实践：`python scripts/publish.py --only articles`
-- 只发布论文积累及录用信息：`python scripts/publish.py --only papers`
+- 只发布学习积累、AI/ML/CS 之外、技术杂记：`python scripts/publish.py --only articles`
+- 只发布论文阅读及录用信息：`python scripts/publish.py --only papers`
 
 论文库默认是 `D:\papers`，可用 `--source` 指定；`-m "提交说明"` 可自定义提交信息。命令提交配置的文章发布目录（包含图片）、生成的目录和论文数据／配置；跳过 Git 忽略项、隐藏文件、临时目录、说明文件和符号链接，不收录发布目录之外的草稿。网站代码改动仍单独提交。请在 `main` 分支、暂存区为空时运行；更新或提交失败会停止，推送失败保留本地提交，不强制覆盖远程。录用来源暂时不可用时保留已有记录，未确认情况记录在检查清单中。
 
@@ -54,7 +54,7 @@ python scripts/sync-onedrive.py --apply
 
 全站语言按钮由 `site-i18n.js` 管理，默认中文，并在当前浏览器记住选择。它只翻译明确列出的网站界面区域；文章标题、摘要、正文、章节目录、论文文件夹名及用户留言保持原文。动态插入的界面文字也会更新，切换不会重载页面或重置筛选。新增界面文案时补充该文件的 `phrases` / 数量表达规则；正文旁的独立界面提示可标记 `data-site-ui`，不要给 Markdown 正文添加这个标记。
 
-学习、博客、技术实践使用同一个更新命令。在仓库根目录运行：
+学习积累、AI/ML/CS 之外、技术杂记使用同一个更新命令。在仓库根目录运行：
 
 ```powershell
 python scripts/export-articles.py
@@ -62,29 +62,29 @@ python scripts/export-articles.py
 
 | 栏目 | 发布目录（相对仓库根目录） |
 | --- | --- |
-| 学习 | `everlasting/invisible/AI-Theoretical-Proofs/` 中 `files` 列出的文件 |
-| 技术实践 | `everlasting/invisible/tech/` |
-| 博客中的年终总结 | `everlasting/invisible/others/annual/` |
+| 学习积累 | `everlasting/invisible/AI-Theoretical-Proofs/` 中 `files` 列出的文件 |
+| 技术杂记 | `everlasting/invisible/tech/` |
+| AI/ML/CS 之外（目前只有年终总结） | `everlasting/invisible/others/annual/` |
 
-写好后把 Markdown 和图片放入对应发布目录，可创建子文件夹，文件名不限。学习栏目的 `AI-Theoretical-Proofs/` 里还有未公开的笔记，所以只发布 `scripts/articles.json` 中该来源 `files` 列出的文件，新增一篇需要把文件名加进列表；列表中的文件缺失时导出会报错。博客目前只有年终总结。文章首个 `# 一级标题` 用作列表标题；没有一级标题时使用文件名。标题提取跳过 YAML 元数据与代码块。图片使用相对路径，例如 `![说明](./images/figure.png)`，发布时连同图片一起提交。
+写好后把 Markdown 和图片放入对应发布目录，可创建子文件夹，文件名不限。学习积累栏目的 `AI-Theoretical-Proofs/` 里还有未公开的笔记，所以只发布 `scripts/articles.json` 中该来源 `files` 列出的文件，新增一篇需要把文件名加进列表；列表中的文件缺失时导出会报错。AI/ML/CS 之外目前只有年终总结。文章首个 `# 一级标题` 用作列表标题；没有一级标题时使用文件名。标题提取跳过 YAML 元数据与代码块。图片使用相对路径，例如 `![说明](./images/figure.png)`，发布时连同图片一起提交。
 
 新增、改名、删除文章或修改标题后运行命令，刷新本地页面即可检查。仅修改正文或图片时可直接刷新，重新运行脚本也无妨。预览可运行 `python -m http.server 8000`，打开 `http://localhost:8000/`。脚本生成 `assets/articles/catalog.js`，不修改文章、不暂存、不提交、不推送；正式发布时只提交准备公开的 Markdown、图片及生成的目录文件，再 push。首页预览、分类列表和阅读页共用此目录，无需再编辑 `script.js`。
 
-除学习栏目外，发布目录中所有 Markdown 都会被收录；草稿请放在这些目录之外。脚本跳过 `.gitignore` 排除的文件、隐藏文件与目录、`tmp`、`__pycache__`、`node_modules`、符号链接／目录联接，以及 `AGENTS.md`、`CLAUDE.md`、`README.md`。不扫描 `research/`、`minors/` 等其它目录。未被目录收录不等于私密：已提交到公开仓库的文件仍可被直接访问。
+除学习积累栏目外，发布目录中所有 Markdown 都会被收录；草稿请放在这些目录之外。脚本跳过 `.gitignore` 排除的文件、隐藏文件与目录、`tmp`、`__pycache__`、`node_modules`、符号链接／目录联接，以及 `AGENTS.md`、`CLAUDE.md`、`README.md`。不扫描 `research/`、`minors/` 等其它目录。未被目录收录不等于私密：已提交到公开仓库的文件仍可被直接访问。
 
-特殊设置在 `scripts/articles.json`：`sources` 指定扫描目录，`overrides` 可指定显示标题、发布日期或旧链接别名。除学习笔记外，新增文章通常不需要修改该文件。学习、博客和技术实践按发布日期从晚到早排列，同日文章保留扫描顺序。`preliminaries.md` 显示“补一些非常basic的知识”，日期为 `2026-07-15`，现有阅读链接与年终总结筛选保留。
+特殊设置在 `scripts/articles.json`：`sources` 指定扫描目录，`overrides` 可指定显示标题、发布日期或旧链接别名。除学习积累笔记外，新增文章通常不需要修改该文件。学习积累、AI/ML/CS 之外和技术杂记按发布日期从晚到早排列，同日文章保留扫描顺序。`preliminaries.md` 显示“补一些非常basic的知识”，日期为 `2026-07-15`，现有阅读链接与年终总结筛选保留。
 
 列表与阅读页显示首次发布日期 `publishedAt`，格式为 `YYYY-MM-DD`，按上海时区记录。已有文章用当前 Git 历史中该文件首次加入的日期补齐（跟随已提交的改名记录），不是文件修改时间或年终总结的年份；更早的实际发表日期如已无法从历史恢复，可在 `scripts/articles.json` 的 `overrides` 中为对应路径设置 `"publishedAt": "2023-12-31"`。新文章没有提交记录时，首次生成目录的当天作为默认发布日期，保存在生成目录中；预览与实际发布间隔较长时可用同样方式指定日期。以后修改正文或重新生成目录都会保留日期。提交时保留生成目录，换电脑后也不会重置。
 
-页面只显示日期数字。现有三篇年终总结的日期指定为次年正月初二；12 篇导入学习笔记按原下载文件的日期、编号升序分配在 `2026-08-20` 至 `2026-09-10`，属于人工补定日期，已写入 `overrides`，不会被 Git 日期覆盖。
+页面只显示日期数字。现有三篇年终总结的日期指定为次年正月初二；12 篇导入的学习笔记按原下载文件的日期、编号升序分配在 `2026-08-20` 至 `2026-09-10`，属于人工补定日期，已写入 `overrides`，不会被 Git 日期覆盖。
 
 验证更新脚本：`python -B -m unittest discover -s scripts -p "test_export_articles.py"`。
 
-博客、学习、技术实践和开源仓库共用 `article-library.js` 和 `article-library.css`，从 Markdown 提取摘要、搜索正文。独立分类页每页 6 项，首页预览每页 3 项，只有一页时隐藏分页。年终总结属于博客列表，右侧排序下方、分隔线下的“只看子集：各年年终总结”可切换筛选。博客、学习、技术实践不显示主题和状态；子集、搜索、排序及页码保留在分类页 URL 中，阅读页的返回链接会带回原来的列表状态。“技术实践”沿用 `cat=tech` 和原文章目录。
+AI/ML/CS 之外、学习积累、技术杂记和开源社区共用 `article-library.js` 和 `article-library.css`，从 Markdown 提取摘要、搜索正文。独立分类页每页 6 项，首页预览每页 3 项，只有一页时隐藏分页。年终总结属于AI/ML/CS 之外列表，右侧排序下方、分隔线下的“只看子集：各年年终总结”可切换筛选。AI/ML/CS 之外、学习积累、技术杂记不显示主题和状态；子集、搜索、排序及页码保留在分类页 URL 中，阅读页的返回链接会带回原来的列表状态。“技术杂记”沿用 `cat=tech` 和原文章目录。
 
-文章默认按发布日期从晚到早显示；开源仓库将可阅读内容放在待补充和加载失败的条目前。列表显示字数（中文字符数加英文单词数，排除公式与网址）。桌面阅读页将目录置于侧栏，移动端默认折叠，目录高亮随当前章节更新。上一篇/下一篇按同栏目目录顺序生成。
+文章默认按发布日期从晚到早显示；开源社区将可阅读内容放在待补充和加载失败的条目前。列表显示字数（中文字符数加英文单词数，排除公式与网址）。桌面阅读页将目录置于侧栏，移动端默认折叠，目录高亮随当前章节更新。上一篇/下一篇按同栏目目录顺序生成。
 
-# 论文积累
+# 论文阅读
 
 在仓库根目录运行：
 
@@ -104,7 +104,7 @@ python scripts/export-paper-tree.py --source D:\papers
 - 再次导出会移除已经撤下条目对应的旧 JSON 讲解，仅操作本工具先前登记的文件。
 - 当前导出的是全部收录条目的讲解，部署前可在本地检查。页面没有嵌入原 PDF；Markdown 中的本地图片附件暂不导出。
 
-用现有的静态服务打开 `/category.html?cat=papers`；主页的论文积累预览使用同一份目录。
+用现有的静态服务打开 `/category.html?cat=papers`；主页的论文阅读预览使用同一份目录。
 
 会议与期刊标签在导出目录后单独更新：
 
@@ -150,7 +150,7 @@ python scripts/update-paper-publications.py --deep
 
 验证导出逻辑：`python -B -m unittest discover -s scripts -p "test_*.py"`
 
-# 开源仓库
+# 开源社区
 
 ```powershell
 python scripts/export-projects.py
@@ -158,8 +158,8 @@ python scripts/export-projects.py
 
 项目名单在 `scripts/projects.json`。脚本相对自身找到本仓库，再从本仓库的 `../<项目名>/README.md` 读取原文，导出到 `assets/projects/index.json`。目前只选取 `synthesis-osu-play` 和 `MarkdownBridge`，不读取其他项目或整个目录的内容，也不修改项目源文件。
 
-开源仓库和论文积累不添加日期。
+开源社区和论文阅读不添加日期。
 
-首页预览、开源仓库分类和项目阅读页共用这份导出内容。列表提供摘要、README 全文搜索、排序和分页，点击项目进入带侧栏目录的完整 README；GitHub 链接独立显示。更新 README 后重新执行命令，随网站部署 JSON 即可；换电脑只需保持项目与本站仓库为同级目录。项目缺失时命令报错，保留上一份导出。
+首页预览、开源社区分类和项目阅读页共用这份导出内容。列表提供摘要、README 全文搜索、排序和分页，点击项目进入带侧栏目录的完整 README；GitHub 链接独立显示。更新 README 后重新执行命令，随网站部署 JSON 即可；换电脑只需保持项目与本站仓库为同级目录。项目缺失时命令报错，保留上一份导出。
 
 GitHub 地址从项目的 origin 读取，README 中的相对文档链接指向对应 GitHub 文件，相对图片使用 raw 地址（默认分支来自 origin/HEAD，缺省为 main）；原文保留不变。本地尚未发布的图片或链接目标需要在对应项目发布后才能在线访问。

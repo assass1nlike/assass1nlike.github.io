@@ -28,6 +28,15 @@ const FRIEND_SITES = [
 ];
 
 const CATEGORY_DEFINITIONS = {
+  experiments: {
+    id: 'experiments',
+    title: '实验记录',
+    titleEn: 'Experiment Logs',
+    heading: '实验记录',
+    description: '',
+    docs: [],
+    entries: [],
+  },
   experience: {
     id: 'experience',
     title: '项目经历',
@@ -67,42 +76,42 @@ const CATEGORY_DEFINITIONS = {
   },
   permanence: {
     id: 'permanence',
-    title: '开源仓库',
-    titleEn: 'Repositories',
-    heading: '开源仓库',
+    title: '开源社区',
+    titleEn: 'Open Source',
+    heading: '开源社区',
     description: '各种实用或有趣的项目',
     docs: [],
   },
   invisible: {
     id: 'invisible',
-    title: '学习',
-    titleEn: 'Learning',
-    heading: '学习',
+    title: '学习积累',
+    titleEn: 'Learning Notes',
+    heading: '学习积累',
     description: '为科研进行的学习，涉及大量数学推导。大多为手搓，以及经过多轮 review 与迭代的 AI 总结',
     docs: [],
   },
   minors: {
     id: 'minors',
-    title: '博客',
-    titleEn: 'Blog',
-    heading: '博客',
+    title: 'AI/ML/CS 之外',
+    titleEn: 'Beyond AI/ML/CS',
+    heading: 'AI/ML/CS 之外',
     collectionFilter: { id: 'annual', title: '各年年终总结', label: '只看子集：各年年终总结' },
     description: '笔下的文字，有关技术或思考',
     docs: [],
   },
   papers: {
     id: 'papers',
-    title: '论文积累',
-    titleEn: 'Paper Library',
-    heading: '论文积累',
+    title: '论文阅读',
+    titleEn: 'Paper Reading',
+    heading: '论文阅读',
     description: '读过的所有论文。部分配有AI给出的讲解',
     docs: [],
   },
   tech: {
     id: 'tech',
-    title: '技术实践',
-    titleEn: 'Engineering Notes',
-    heading: '技术实践',
+    title: '技术杂记',
+    titleEn: 'Tech Notes',
+    heading: '技术杂记',
     description: '一些经过试错，值得总结的工具使用和问题研究等。不具有创新性，且大多为纯 AI 总结',
     docs: [],
   },
@@ -170,7 +179,7 @@ for (const doc of DOC_DEFINITIONS) {
   }
 }
 
-const CATEGORY_ORDER = ['experience', 'invisible', 'papers', 'minors', 'permanence', 'tech'];
+const CATEGORY_ORDER = ['experience', 'papers', 'experiments', 'invisible', 'permanence', 'tech', 'minors'];
 
 let quoteCandidatesPromise = null;
 let quotePoolPromise = null;
@@ -276,7 +285,8 @@ async function initHomePage() {
 }
 
 async function loadHomeCategoryPreviews(host) {
-  const categories = CATEGORY_ORDER.filter((id) => id !== 'tech').map((id) => CATEGORY_DEFINITIONS[id]);
+  const categories = CATEGORY_ORDER.map((id) => CATEGORY_DEFINITIONS[id])
+    .filter((category) => category.id !== 'tech' && !(category.entries && !category.entries.length));
   const english = document.documentElement.lang === 'en';
   host.innerHTML = categories.map((category) => `
     <section class="home-section home-category-preview" aria-labelledby="home-category-${category.id}">
@@ -1074,7 +1084,7 @@ function renderExperience(entries) {
 }
 
 async function loadCategoryInto(host, category) {
-  if (category.id === 'experience') {
+  if (['experience', 'experiments'].includes(category.id)) {
     const compact = host.classList.contains('home-category-viewport');
     host.innerHTML = `${compact ? '' : `<header class="category-intro library-hero"><h1 class="category-intro-title">${escapeHtml(category.title)}</h1></header>`}${renderExperience(category.entries)}`;
     host.classList.add('article-library');
@@ -1473,14 +1483,14 @@ async function loadProjectViewer(id) {
     if (!project) throw new Error('未找到这个项目。');
     document.title = `${project.title} | assassinlike`;
     title.textContent = project.title;
-    subtitle.textContent = '开源仓库';
+    subtitle.textContent = '开源社区';
     const html = renderProjectReadme(project);
     let returnUrl = categoryHref('permanence');
     try {
       const from = new URL(new URL(location.href).searchParams.get('from') || returnUrl, location.origin);
       if (from.origin === location.origin && from.pathname === '/category.html' && from.searchParams.get('cat') === 'permanence') returnUrl = from.pathname + from.search;
     } catch { /* Keep the default list URL. */ }
-    host.innerHTML = `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回开源仓库列表</a></div>${renderDocumentOutline(html)}${html}`;
+    host.innerHTML = `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回开源社区列表</a></div>${renderDocumentOutline(html)}${html}`;
     window.ArticleLibrary.enhanceReader(host, { path: project.id, title: project.title }, returnUrl, projectCategory(projects));
     if (project.repository) host.querySelector('.library-reader-head').insertAdjacentHTML('beforeend', `<a class="library-repository more-link is-external" href="${escapeAttr(project.repository)}" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>`);
     enhanceMarkdownHost(host);

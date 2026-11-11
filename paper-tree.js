@@ -172,7 +172,7 @@ window.PaperTree = (() => {
 
       host.innerHTML = `<div class="paper-explorer">
         <header class="paper-explorer-head">
-          <h1>论文积累</h1><p>${escapeHtml(description)}</p><div class="paper-stats">${stats}</div>
+          <h1>论文阅读</h1><p>${escapeHtml(description)}</p><div class="paper-stats">${stats}</div>
         </header>
         <div class="paper-workspace">
           <nav class="paper-taxonomy" aria-label="论文分类">

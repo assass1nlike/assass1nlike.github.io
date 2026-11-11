@@ -2,7 +2,7 @@
 window.SiteI18n = (() => {
   const key = 'assassinlike.language';
   const phrases = {
-    '博客': 'Blog', '学习': 'Learning', '论文积累': 'Paper Library', '开源仓库': 'Repositories', '技术实践': 'Engineering Notes', '项目经历': 'Experience', '还没有内容。': 'Nothing here yet.', '报告 PDF': 'Report (PDF)',
+    'AI/ML/CS 之外': 'Beyond AI/ML/CS', '学习积累': 'Learning Notes', '论文阅读': 'Paper Reading', '开源社区': 'Open Source', '技术杂记': 'Tech Notes', '项目经历': 'Experience', '实验记录': 'Experiment Logs', '还没有内容。': 'Nothing here yet.', '报告 PDF': 'Report (PDF)',
     '各年年终总结': 'Annual Reviews', '只看子集：各年年终总结': 'Subset: Annual reviews only',
     '在观察自身行为和自我思考后得到的结论。': 'Reflections on my experiences, actions, and thinking.',
     '各年年终总结': 'Annual Reviews', '文章与笔记': 'Articles and notes',
@@ -113,7 +113,7 @@ window.SiteI18n = (() => {
         [/^第 (\d+) 页$/, (_, n) => `Page ${n}`],
         [/^查看全部 (\d+) (篇文章|个项目|篇论文)$/, (_, n, unit) => `View all ${n} ${{ 篇文章: 'articles', 个项目: 'projects', 篇论文: 'papers' }[unit]}`],
         [/^← 返回(.+)列表$/, (_, name) => `← Back to ${phrases[name] || name}`],
-        [/^搜索(博客|学习|技术实践|各年年终总结|开源仓库)(文章|项目)?$/, (_, name) => `Search ${phrases[name]}`],
+        [/^搜索(AI\/ML\/CS 之外|学习积累|技术杂记|各年年终总结|开源社区)(文章|项目)?$/, (_, name) => `Search ${phrases[name]}`],
         [/^(\d+) 篇论文 · (\d+) 份讲解$/, (_, n, notes) => `${n} papers · ${notes} with notes`],
         [/^(.+) · (\d+) 篇$/, (_, folder, n) => `${folder === '全部论文' ? 'All papers' : folder} · ${n} papers`],
         [/^已加载 (\d+) 条公开留言。$/, (_, n) => `Loaded ${n} public messages.`],
