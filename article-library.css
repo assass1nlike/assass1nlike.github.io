@@ -15,7 +15,7 @@
 .library-reader-head .library-repository { display: inline-block; margin-top: 18px; }
 .library-reader-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; color: var(--muted); font-size: .8rem; }
 .article-published { white-space: nowrap; font-variant-numeric: tabular-nums; }
-.article-library .library-hero { gap: 10px; padding: 0 0 28px; margin-bottom: 28px; }
+.article-library .library-hero { gap: 8px; padding: 0 0 22px; margin-bottom: 22px; }
 .library-eyebrow { color: var(--library-accent, var(--accent)); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
 .markdown-body.article-library .library-hero h1 { font-size: clamp(1.6rem, 3.4vw, 2.1rem); font-weight: 500; line-height: 1.3; }
 .article-library .category-intro-copy { max-width: 44rem; color: var(--muted); }
@@ -86,7 +86,7 @@
 .markdown-body.library-reader .library-reader-head h1 { margin: 14px 0 12px; font-size: clamp(1.7rem, 3.6vw, 2.3rem); font-weight: 500; max-width: 30ch; line-height: 1.35; overflow-wrap: anywhere; }
 .library-reader .library-reader-head p { margin: 0; color: var(--faint); font-size: .8rem; }
 .library-reader-workspace { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 42px; align-items: start; }
-.library-reader-workspace.without-outline { grid-template-columns: minmax(0, 760px); justify-content: center; }
+.library-reader-workspace.without-outline { grid-template-columns: minmax(0, 760px); justify-content: start; }
 .library-reader-aside { position: sticky; top: 24px; min-width: 0; }
 .library-reader .document-outline { padding: 0 14px 0 0; border: 0; border-right: 1px solid var(--line-soft); border-radius: 0; background: none; font-size: .78rem; }
 .library-reader .document-outline nav { max-height: calc(100vh - 130px); scrollbar-gutter: stable; padding-right: 6px; }

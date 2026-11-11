@@ -44,35 +44,7 @@ const CATEGORY_DEFINITIONS = {
     heading: '项目经历',
     description: '',
     docs: [],
-    // Newest first. Text is given in both languages because it is site content, not UI.
-    entries: [
-      {
-        date: '2026.10',
-        org: { zh: '方寸跃迁', en: 'Fangcun AI' },
-        title: { zh: 'DeepSeek V4.1 Flash-1017 全面安全评测', en: 'Safety evaluation of DeepSeek V4.1 Flash-1017' },
-        summary: {
-          zh: '方寸跃迁评测团队的首份公开第三方安全评测报告，评估模型的失控与有害操纵风险，并与 DeepSeek 其它版本及 GPT、Gemini 模型对比。',
-          en: 'The first public third-party safety evaluation from the Fangcun AI Evaluation Team, assessing loss-of-control and harmful-manipulation risks against other DeepSeek versions and GPT and Gemini models.',
-        },
-        links: [
-          { label: '报告 PDF', href: 'https://fangcunleap.com/public/reports/fangcun_eval_deepseek_v4_1_flash_1017.pdf' },
-          { label: 'X', href: 'https://x.com/FangcunLeap/status/2114719692137136245' },
-        ],
-      },
-      {
-        date: '2026.08',
-        org: { zh: '方寸跃迁', en: 'Fangcun AI' },
-        title: { zh: 'FangcunCyber：CyberGym Level 1 成功率 91.3%', en: 'FangcunCyber: 91.3% on CyberGym Level 1' },
-        summary: {
-          zh: '基于 DeepSeek V4 Flash 的多智能体漏洞复现 agent，在 1507 个真实漏洞中复现 1376 个；Binary Only 设置下排名第 1，所有公开结果中并列第 5。',
-          en: 'A multi-agent vulnerability reproduction agent built on DeepSeek V4 Flash. It reproduced 1,376 of 1,507 real-world vulnerabilities, ranking first in the Binary Only setting and tied for fifth across all public results.',
-        },
-        links: [
-          { label: 'GitHub', href: 'https://github.com/Fangcun-AI/FangcunCyber' },
-          { label: 'X', href: 'https://x.com/FangcunLeap/status/2095532240889614559' },
-        ],
-      },
-    ],
+    minimal: true,
   },
   permanence: {
     id: 'permanence',
@@ -152,7 +124,7 @@ const DOC_DEFINITIONS = [
 ];
 
 // Rebuild the shared publication list with: python scripts/export-articles.py
-for (const id of ['invisible', 'minors', 'tech']) {
+for (const id of ['invisible', 'minors', 'tech', 'experience']) {
   CATEGORY_DEFINITIONS[id].docs = (window.ArticleCatalog || [])
     .filter((doc) => doc.category === id).map((doc) => doc.path);
 }
@@ -274,7 +246,7 @@ async function initHomePage() {
 
 async function loadHomeCategoryPreviews(host) {
   const categories = CATEGORY_ORDER.map((id) => CATEGORY_DEFINITIONS[id])
-    .filter((category) => category.id !== 'tech' && !(category.entries && !category.entries.length));
+    .filter((category) => category.id !== 'tech');
   const english = document.documentElement.lang === 'en';
   host.innerHTML = categories.map((category) => `
     <section class="home-section home-category-preview" aria-labelledby="home-category-${category.id}">
@@ -993,12 +965,12 @@ async function initViewerPage() {
     document.title = `${resolved.title} | assassinlike`;
   }
   // Collection articles get their own reader header, so only plain documents use this title.
-  const plainDocument = !['minors', 'invisible', 'tech'].includes(resolved?.category);
+  const plainDocument = !['minors', 'invisible', 'tech', 'experience'].includes(resolved?.category);
   if (titleHost && plainDocument) {
     titleHost.textContent = resolved?.title || displayNameFromPath(docInput);
   }
   if (subtitleHost && plainDocument) {
-    subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(resolved?.category) ? CATEGORY_DEFINITIONS[resolved.category].title : resolved?.path || docInput;
+    subtitleHost.textContent = ['minors', 'invisible', 'tech', 'experience'].includes(resolved?.category) ? CATEGORY_DEFINITIONS[resolved.category].title : resolved?.path || docInput;
   }
   if (host) {
     if (String(docInput).replace(/^[./]+/, '').toLowerCase().startsWith('everlasting/research/')) {
@@ -1017,7 +989,7 @@ async function initViewerPage() {
         }
       } catch { /* Use the category's default URL. */ }
       host.insertAdjacentHTML('afterbegin', `<div class="article-return"><a href="${escapeAttr(returnUrl)}">← 返回${escapeHtml(CATEGORY_DEFINITIONS[resolved.category].title)}列表</a></div>`);
-      if (['minors', 'invisible', 'tech'].includes(resolved.category)) {
+      if (['minors', 'invisible', 'tech', 'experience'].includes(resolved.category)) {
         window.ArticleLibrary.enhanceReader(host, resolved, returnUrl, CATEGORY_DEFINITIONS[resolved.category]);
       }
       scrollToDocumentHash(host);
@@ -1050,7 +1022,7 @@ async function initCategoryPage() {
     titleHost.textContent = category.title;
   }
   if (subtitleHost) {
-    subtitleHost.textContent = ['minors', 'invisible', 'tech'].includes(category.id) ? '文章与笔记' : category.description;
+    subtitleHost.textContent = ['minors', 'invisible', 'tech', 'experience'].includes(category.id) ? '文章与笔记' : category.description;
   }
   if (!host) {
     return;
@@ -1059,27 +1031,9 @@ async function initCategoryPage() {
   await loadCategoryInto(host, category);
 }
 
-function renderExperience(entries) {
-  const english = document.documentElement.lang === 'en';
-  const bilingual = (tag, className, text) => `<${tag} class="${className}" data-language-label-zh="${escapeAttr(text.zh)}" data-language-label-en="${escapeAttr(text.en)}">${escapeHtml(english ? text.en : text.zh)}</${tag}>`;
-  if (!entries.length) return '<div class="library-empty" data-site-ui>还没有内容。</div>';
-  return `<div class="experience-list">${entries.map((entry) => `<article class="experience-entry">
-      <div class="experience-meta"><time>${escapeHtml(entry.date)}</time>${bilingual('span', 'experience-org', entry.org)}</div>
-      ${bilingual('h2', 'experience-title', entry.title)}
-      ${bilingual('p', 'experience-summary', entry.summary)}
-      <div class="experience-links" data-site-ui>${entry.links.map((link) => `<a class="more-link is-external" href="${escapeAttr(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`).join('')}</div>
-    </article>`).join('')}</div>`;
-}
-
 async function loadCategoryInto(host, category) {
-  if (['experience', 'experiments'].includes(category.id)) {
-    const compact = host.classList.contains('home-category-viewport');
-    host.innerHTML = `${compact ? '' : `<header class="category-intro library-hero"><h1 class="category-intro-title">${escapeHtml(category.title)}</h1></header>`}${renderExperience(category.entries)}`;
-    host.classList.add('article-library');
-    if (!compact) host.closest('.page-shell')?.classList.add('library-page-shell');
-    return;
-  }
-  if (['minors', 'invisible', 'tech'].includes(category.id)) {
+  // 实验记录目前没有内容，列表由文章系统统一渲染。
+  if (['minors', 'invisible', 'tech', 'experience'].includes(category.id)) {
     await window.ArticleLibrary.mount(host, category);
     return;
   }

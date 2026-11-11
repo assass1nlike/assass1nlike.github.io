@@ -2,7 +2,7 @@
 window.ArticleLibrary = (() => {
   const cache = new Map();
   const mathPattern = /(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|(?<![\\$])\$(?!\$)(?:\\.|[^$\n])+?\$)/g;
-  const isSimpleCollection = (category) => ['minors', 'invisible', 'tech'].includes(category.id);
+  const isSimpleCollection = (category) => ['minors', 'invisible', 'tech', 'experience'].includes(category.id);
 
   function publicationTime(doc) {
     return /^\d{4}-\d{2}-\d{2}$/.test(doc.publishedAt || '')
@@ -82,12 +82,14 @@ window.ArticleLibrary = (() => {
   async function mount(host, category, preparedDocs) {
     const projects = category.id === 'permanence';
     const simple = isSimpleCollection(category);
+    const minimal = Boolean(category.minimal);
     const collectionFilter = category.collectionFilter;
     const noun = projects ? '项目' : '文章';
     const unit = projects ? '个项目' : '篇文章';
     const compact = host.classList.contains('home-category-viewport');
     host.classList.add('article-library');
     host.classList.toggle('library-simple', simple);
+    host.classList.toggle('library-minimal', minimal);
     if (!compact) host.closest('.page-shell')?.classList.add('library-page-shell');
     host.dataset.collection = category.id;
     host.innerHTML = '<div class="loading-state">正在整理文章列表…</div>';
@@ -186,7 +188,7 @@ window.ArticleLibrary = (() => {
         }
         return `<article class="library-entry ${doc.empty && !simple ? 'is-draft' : ''}">
           <span class="library-entry-number" aria-hidden="true">${String(start + index + 1).padStart(2, '0')}</span><div class="library-entry-content">
-          <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${publicationTime(doc)}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : `<span>${doc.wordCount} 字</span>`}</div>
+          <div class="library-entry-meta">${collectionFilter && doc.collection === collectionFilter.id ? `<span>${escapeHtml(collectionFilter.title)}</span>` : ''}${simple ? '' : `<span>${escapeHtml(doc.groupTitle)}</span>`}${publicationTime(doc)}${doc.empty ? (simple ? '' : '<span>待补充</span>') : doc.missing ? '<span>预览暂不可用</span>' : minimal ? '' : `<span>${doc.wordCount} 字</span>`}</div>
           <h2><a href="${escapeAttr(href)}">${highlight(doc.title, words)}</a></h2>
           <p class="library-excerpt" ${doc.empty || doc.missing || !doc.excerpt ? 'data-site-ui' : ''}>${highlight(excerpt, words)}</p>
           <div class="library-entry-actions">${doc.empty && !simple ? '' : `<a class="library-read more-link" href="${escapeAttr(href)}">${projects ? '阅读 README' : '阅读全文'}</a>`}${doc.repository ? `<a class="library-repository more-link is-external" href="${escapeAttr(doc.repository)}" target="_blank" rel="noopener noreferrer">GitHub</a>` : ''}</div>
@@ -286,7 +288,11 @@ window.ArticleLibrary = (() => {
     host.append(header);
     const workspace = document.createElement('div');
     workspace.className = 'library-reader-workspace';
-    if (outline) {
+    if (outline && category.minimal) {
+      outline.remove();
+      workspace.classList.add('without-outline');
+      workspace.append(content);
+    } else if (outline) {
       const aside = document.createElement('aside');
       aside.className = 'library-reader-aside';
       aside.append(outline);

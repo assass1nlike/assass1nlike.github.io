@@ -260,5 +260,21 @@ window.ArticleCatalog = [
     ],
     "hidePath": true,
     "publishedAt": "2026-05-20"
+  },
+  {
+    "path": "everlasting/invisible/abstract/deepseek-v4-1-flash-safety-eval.md",
+    "title": "DeepSeek V4.1 Flash-1017 全面安全评测",
+    "category": "experience",
+    "aliases": [],
+    "hidePath": true,
+    "publishedAt": "2026-10-26"
+  },
+  {
+    "path": "everlasting/invisible/abstract/fangcuncyber-cybergym.md",
+    "title": "FangcunCyber：CyberGym Level 1 成功率 91.3%",
+    "category": "experience",
+    "aliases": [],
+    "hidePath": true,
+    "publishedAt": "2026-09-03"
   }
 ];

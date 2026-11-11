@@ -26,6 +26,13 @@
           "path": "everlasting/invisible/tech"
         }
       ]
+    },
+    "experience": {
+      "sources": [
+        {
+          "path": "everlasting/invisible/abstract"
+        }
+      ]
     }
   },
   "overrides": {
@@ -84,10 +91,29 @@
       "publishedAt": "2026-09-10"
     },
     "everlasting/invisible/tech/claude_web_tool_issues.md": {
-      "aliases": ["claude_web_tool_issues", "claude_web_tool_issues.md", "Claude 网页端工具调用问题总结", "everlasting/tech/std/claude_web_tool_issues.md", "everlasting/invisible/tech/std/claude_web_tool_issues.md"]
+      "aliases": [
+        "claude_web_tool_issues",
+        "claude_web_tool_issues.md",
+        "Claude 网页端工具调用问题总结",
+        "everlasting/tech/std/claude_web_tool_issues.md",
+        "everlasting/invisible/tech/std/claude_web_tool_issues.md"
+      ]
     },
     "everlasting/invisible/tech/deepseed_jailbreak.md": {
-      "aliases": ["deepseed_jailbreak", "deepseed_jailbreak.md", "deepseek jailbreak", "deepseed jailbreak", "everlasting/tech/std/deepseed_jailbreak.md", "everlasting/invisible/tech/std/deepseed_jailbreak.md"]
+      "aliases": [
+        "deepseed_jailbreak",
+        "deepseed_jailbreak.md",
+        "deepseek jailbreak",
+        "deepseed jailbreak",
+        "everlasting/tech/std/deepseed_jailbreak.md",
+        "everlasting/invisible/tech/std/deepseed_jailbreak.md"
+      ]
+    },
+    "everlasting/invisible/abstract/deepseek-v4-1-flash-safety-eval.md": {
+      "publishedAt": "2026-10-26"
+    },
+    "everlasting/invisible/abstract/fangcuncyber-cybergym.md": {
+      "publishedAt": "2026-09-03"
     }
   }
 }
