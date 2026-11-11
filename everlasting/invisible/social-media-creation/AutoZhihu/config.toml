@@ -1,4 +1,6 @@
-# 写作模型（接口地址和 key 在 .env）
+# 写作模型。api 是接口格式："anthropic"（/v1/messages）或 "openai"（/v1/chat/completions），
+# 接口地址和 key 在 .env：anthropic 格式的地址不带 /v1，openai 格式的地址带 /v1
+api = "anthropic"
 model = "claude-opus-5-5"
 
 # 发布时勾选“包含 AI 辅助创作”
@@ -15,3 +17,8 @@ sources = ["hot", "invited", "recommend"]
 
 # 跳过关注数低于此值的问题（太冷门没人看）
 min_followers = 20
+
+# 每日任务（python -m autozhihu daily，由计划任务每天启动）
+daily_count = 3
+publish_window = ["10:00", "23:00"]
+min_gap_minutes = 60
