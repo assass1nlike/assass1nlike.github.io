@@ -47,7 +47,9 @@ python scripts/sync-onedrive.py --apply
 - 只发布论文阅读及录用信息：`python scripts/publish.py --only papers`
 - 只刷新开源社区的 PR 与 issue：`python scripts/publish.py --only community`
 
-开源社区页面的 PR 与 issue 由 `scripts/export-contributions.py` 用本机 `gh` 登录拉取，只收录别人仓库里的记录，自己的仓库在 `--own` 里排除。按仓库分组，仓库按 star 数排序，数据存到 `assets/community/index.json`；想要最新数据时重跑这条命令即可，网页不会实时访问 GitHub。
+开源社区页面分两块。PR 与 issue 由 `scripts/export-contributions.py` 用本机 `gh` 登录拉取，只收录别人仓库里的记录，自己的仓库在 `--own` 里排除。按仓库分组，仓库按 star 数排序，数据存到 `assets/community/index.json`。自己的仓库同理由 `scripts/export-projects.py` 从 GitHub 读取 README。`--only community` 两个都刷新，网页不会实时访问 GitHub。
+
+每天自动同步由 `scripts/daily-community.ps1` 完成：Windows 计划任务 `assassinlike-community-sync` 每天 10:17 运行它，刷新两块数据、提交并推送；日志在 `scripts/.cache/daily-community.log`（不提交）。安装或重装用 `powershell -ExecutionPolicy Bypass -File scripts/install-daily-community.ps1`。
 
 论文库默认是 `D:\papers`，可用 `--source` 指定；`-m "提交说明"` 可自定义提交信息。命令提交配置的文章发布目录（包含图片）、生成的目录和论文数据／配置；跳过 Git 忽略项、隐藏文件、临时目录、说明文件和符号链接，不收录发布目录之外的草稿。网站代码改动仍单独提交。请在 `main` 分支、暂存区为空时运行；更新或提交失败会停止，推送失败保留本地提交，不强制覆盖远程。录用来源暂时不可用时保留已有记录，未确认情况记录在检查清单中。
 
@@ -161,7 +163,7 @@ python scripts/update-paper-publications.py --deep
 python scripts/export-projects.py
 ```
 
-项目名单在 `scripts/projects.json`。脚本相对自身找到本仓库，再从本仓库的 `../<项目名>/README.md` 读取原文，导出到 `assets/projects/index.json`。目前只选取 `synthesis-osu-play` 和 `MarkdownBridge`，不读取其他项目或整个目录的内容，也不修改项目源文件。
+项目名单在 `scripts/projects.json`，目前是 `AnotherMe`、`best-osu-cheater`、`MarkdownBridge`。脚本默认通过 `gh` 从 GitHub 读取每个仓库的 README、描述、star 数和默认分支，导出到 `assets/projects/index.json`，所以主页显示的内容跟仓库一致，不依赖本地的 clone；GitHub 访问失败时才回退到同级的本地 clone（`--offline` 强制走本地）。`python scripts/publish.py --only community` 会同时刷新这里和 PR/issue。
 
 开源社区和论文阅读不添加日期。
 

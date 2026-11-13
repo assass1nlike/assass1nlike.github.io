@@ -77,7 +77,7 @@ def export(site, author, own_repositories):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--author', default='assass1nlike')
-    parser.add_argument('--own', default='synthesis-osu-play,MarkdownBridge,Cybergym-Code,assassinlike.github.io',
+    parser.add_argument('--own', default='AnotherMe,best-osu-cheater,MarkdownBridge,Cybergym-Code,assassinlike.github.io',
                         help='Comma-separated repository names to leave out of the contributions list.')
     args = parser.parse_args()
     site = Path(__file__).resolve().parents[1]
