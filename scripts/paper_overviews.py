@@ -4,7 +4,7 @@ import hashlib
 import json
 import re
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 SKIP = {'tmp', '__pycache__', 'node_modules'}
 HIDDEN_ROOTS = {'.meta', '_archive', 'inbox'}
@@ -23,10 +23,8 @@ def rewrite_links(text, category, index):
         label, href = match.group(1), match.group(2).strip()
         if re.match(r'^[a-z][a-z0-9+.-]*:|^/|^#', href, re.I):
             return match.group(0)
-        target, _, fragment = href.partition('#')
+        target = unquote(href.partition('#')[0])
         path = (category + '/' + target if category else target).replace('\\', '/')
-        while '/./' in path:
-            path = path.replace('/./', '/')
         parts = []
         for part in path.split('/'):
             if part == '..':
@@ -35,13 +33,18 @@ def rewrite_links(text, category, index):
             elif part and part != '.':
                 parts.append(part)
         path = '/'.join(parts)
-        base, ext = (path, '') if not PAPER_SUFFIX.search(path) else (
-            PAPER_SUFFIX.sub('', path), PAPER_SUFFIX.search(path).group(1).lower())
-        if ext and base.casefold() in index['papers']:
+        if path.endswith('/index.md'):
+            path = path[:-len('/index.md')]
+        elif path == 'index.md':
+            path = ''
+        suffix = PAPER_SUFFIX.search(path)
+        base = path[:suffix.start()] if suffix else path
+        if suffix and base.casefold() in index['papers']:
             return f'[{label}](/category.html?cat=papers&paper={quote(index["papers"][base.casefold()])})'
-        overview = base if not ext else ''
-        if overview.strip('/').casefold() in index['overviews']:
-            url = '/category.html?cat=papers&overview=' + quote(overview.strip('/'))
+        # An empty overview key is the library root; never fall back to it for an unmatched link.
+        overview = path.strip('/')
+        if overview.casefold() in index['overviews']:
+            url = '/category.html?cat=papers&overview=' + quote(overview)
             return f'[{label}]({url})'
         return match.group(0)
 

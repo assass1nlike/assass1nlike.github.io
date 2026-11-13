@@ -1685,21 +1685,21 @@ function parseInline(text, options = {}) {
     const cleanSrc = src.trim();
     const resolvedSrc = resolveMarkdownAssetSrc(cleanSrc, options.basePath);
     const altText = alt.trim();
-    return `<figure class="md-image"><img src="${escapeAttr(resolvedSrc)}" alt="${escapeAttr(altText)}" loading="lazy" decoding="async" onerror="this.parentElement.remove()"></figure>`;
+    return `<figure class="md-image"><img src="${escapeAttr(resolvedSrc)}" alt="${altText}" loading="lazy" decoding="async" onerror="this.parentElement.remove()"></figure>`;
   });
 
   working = working.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
-    // The line was HTML-escaped above, so an ampersand in the URL arrives as &amp;.
+    // The line was HTML-escaped above, so the label is already safe and an ampersand in the URL is &amp;.
     const target = href.trim().replace(/&amp;/g, '&');
     const resolved = target.startsWith('#') && options.headingPrefix
       ? '#' + options.headingPrefix + target.slice(1)
       : options.linkBase && !/^(?:[a-z][a-z0-9+.-]*:|#|\/\/)/i.test(target)
         ? new URL(target, options.linkBase).href : resolveLinkHref(target);
-    if (!/^(?:https?:|mailto:|tel:|\/|#)/i.test(resolved) && /^[a-z][a-z0-9+.-]*:/i.test(resolved)) return escapeHtml(label.trim());
+    if (!/^(?:https?:|mailto:|tel:|\/|#)/i.test(resolved) && /^[a-z][a-z0-9+.-]*:/i.test(resolved)) return label.trim();
     const external = isExternalUrl(resolved);
     const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
     const className = resolved.includes('category.html') || resolved.includes('viewer.html') ? 'doc-link' : '';
-    return `<a class="${className}" href="${escapeAttr(resolved)}"${attrs}>${escapeHtml(label.trim())}</a>`;
+    return `<a class="${className}" href="${escapeAttr(resolved)}"${attrs}>${label.trim()}</a>`;
   });
 
   working = working.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');

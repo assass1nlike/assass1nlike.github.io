@@ -294,9 +294,14 @@ window.PaperTree = (() => {
         // Links already point inside the site; route them through the tree instead of reloading.
         body.querySelectorAll('a[href]').forEach((anchor) => {
           const url = new URL(anchor.href, window.location.href);
-          if (url.origin !== window.location.origin || url.pathname !== '/category.html') {
+          if (url.origin !== window.location.origin) {
             anchor.setAttribute('target', '_blank');
             anchor.setAttribute('rel', 'noopener noreferrer');
+            return;
+          }
+          if (url.pathname !== '/category.html') {
+            // Archive and .meta paths are not published; the words stay, the dead link goes.
+            anchor.replaceWith(document.createTextNode(anchor.textContent));
             return;
           }
           const target = url.searchParams.get('paper');
@@ -304,14 +309,15 @@ window.PaperTree = (() => {
           if (target && byId.has(target)) {
             anchor.dataset.paper = target;
             anchor.removeAttribute('href');
-          } else if (targetOverview !== null && hasOverview(targetOverview)) {
+          } else if (targetOverview && hasOverview(targetOverview)) {
             anchor.dataset.overview = targetOverview;
             anchor.removeAttribute('href');
-          } else if (!target) {
+          } else if (targetOverview === '') {
             anchor.dataset.overview = '';
             anchor.removeAttribute('href');
           } else {
-            anchor.removeAttribute('href');
+            // Archive paths are not published, so the link has no destination here; keep the words as text.
+            anchor.replaceWith(document.createTextNode(anchor.textContent));
           }
         });
         enhanceMarkdownHost(body);
@@ -335,7 +341,9 @@ window.PaperTree = (() => {
         reader.hidden = false;
         meta.textContent = paper.category.split('/').join(' / ');
         window.MathJax?.typesetClear?.([reader]);
-        reader.innerHTML = `<button class="paper-back" type="button" data-back>← 返回列表</button>
+        const fromOverview = new URL(window.location.href).searchParams.get('overview');
+        const backLabel = fromOverview !== null && hasOverview(fromOverview) ? '← 返回总览' : '← 返回列表';
+        reader.innerHTML = `<button class="paper-back" type="button" data-back>${backLabel}</button>
           <div class="paper-title-row paper-reader-heading"><h2 class="paper-reader-title" tabindex="-1">${escapeHtml(paper.title)}</h2>${publicationHtml(paper)}</div>
           <div class="paper-reader-actions">
             ${paper.hasNote ? `<div class="paper-modes" role="group" aria-label="阅读内容">
@@ -431,9 +439,16 @@ window.PaperTree = (() => {
           reader.querySelector('.paper-reader-title').focus({ preventScroll: true });
           reader.scrollIntoView({ block: 'start' });
         } else if (button.hasAttribute('data-back')) {
-          showList();
-          search.focus({ preventScroll: true });
-          filters.scrollIntoView({ block: 'start' });
+          // Opened from an overview: return there rather than to the flat list.
+          const from = new URL(window.location.href).searchParams.get('overview');
+          if (from !== null && hasOverview(from)) {
+            showOverview(from);
+            reader.scrollIntoView({ block: 'start' });
+          } else {
+            showList();
+            search.focus({ preventScroll: true });
+            filters.scrollIntoView({ block: 'start' });
+          }
         } else if (current) {
           showPaper(current, button.dataset.mode);
         }
