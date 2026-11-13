@@ -1,7 +1,7 @@
 const SITE_TIME_ZONE = 'Asia/Shanghai';
 const QUOTE_START_DATE_KEY = '2026-05-11';
 const DEFAULT_DOCUMENT_PATH = 'everlasting/invisible/preliminaries.md';
-const QUOTE_CSV_PATH = '/everlasting/invisible/tech/na/osu-get-poetry-difficulties/poetic_diffs.csv';
+const QUOTE_CSV_PATH = '/assets/quotes/poetic_diffs.csv';
 const GUESTBOOK_CACHE_KEY = 'assassinlike.guestbook.profile.v1';
 const GUESTBOOK_REMOTE_POLL_MS = 15000;
 
