@@ -1,0 +1,276 @@
+{
+  "generatedAt": "2026-11-13T13:22:03Z",
+  "author": "assass1nlike",
+  "repositories": [
+    {
+      "name": "gradio-app/gradio",
+      "stars": 44044,
+      "entries": [
+        {
+          "kind": "issue",
+          "repository": "gradio-app/gradio",
+          "number": 14061,
+          "title": "Event handlers with a component-typed parameter (e.g. `tb: gr.Textbox`) raise `AttributeError: 'str' object has no attribute 'get'` when called through `/gradio_api/call` or `gradio_client`",
+          "url": "https://github.com/gradio-app/gradio/issues/14061",
+          "state": "open",
+          "createdAt": "2026-11-11"
+        }
+      ]
+    },
+    {
+      "name": "Lightning-AI/pytorch-lightning",
+      "stars": 31449,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "Lightning-AI/pytorch-lightning",
+          "number": 22132,
+          "title": "Fix Fabric `consolidate_checkpoint` script not saving to fsspec URLs",
+          "url": "https://github.com/Lightning-AI/pytorch-lightning/pull/22132",
+          "state": "open",
+          "createdAt": "2026-11-08"
+        }
+      ]
+    },
+    {
+      "name": "huggingface/datasets",
+      "stars": 22136,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "huggingface/datasets",
+          "number": 8977,
+          "title": "Fix IterableDataset.rename_columns with arrow, pandas and polars formats",
+          "url": "https://github.com/huggingface/datasets/pull/8977",
+          "state": "merged",
+          "createdAt": "2026-11-08"
+        }
+      ]
+    },
+    {
+      "name": "pydantic/pydantic-ai",
+      "stars": 21189,
+      "entries": [
+        {
+          "kind": "issue",
+          "repository": "pydantic/pydantic-ai",
+          "number": 13351,
+          "title": "`Dataset.to_file()` saves an evaluator's `init=False` dataclass fields, so `Dataset.from_file()` can't load the file",
+          "url": "https://github.com/pydantic/pydantic-ai/issues/13351",
+          "state": "open",
+          "createdAt": "2026-11-13"
+        }
+      ]
+    },
+    {
+      "name": "huggingface/sentence-transformers",
+      "stars": 19282,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "huggingface/sentence-transformers",
+          "number": 4369,
+          "title": "[fix] Accept pathlib.Path as model_name_or_path in the other model classes",
+          "url": "https://github.com/huggingface/sentence-transformers/pull/4369",
+          "state": "merged",
+          "createdAt": "2026-11-13"
+        }
+      ]
+    },
+    {
+      "name": "EleutherAI/lm-evaluation-harness",
+      "stars": 14464,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "EleutherAI/lm-evaluation-harness",
+          "number": 4580,
+          "title": "fix(cli): split a string `plugins` value from `--config`",
+          "url": "https://github.com/EleutherAI/lm-evaluation-harness/pull/4580",
+          "state": "open",
+          "createdAt": "2026-11-10"
+        }
+      ]
+    },
+    {
+      "name": "mlfoundations/open_clip",
+      "stars": 14263,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "mlfoundations/open_clip",
+          "number": 1247,
+          "title": "Freeze stem BatchNorm stats in ModifiedResNet.lock",
+          "url": "https://github.com/mlfoundations/open_clip/pull/1247",
+          "state": "open",
+          "createdAt": "2026-11-11"
+        }
+      ]
+    },
+    {
+      "name": "huggingface/accelerate",
+      "stars": 9942,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "huggingface/accelerate",
+          "number": 4516,
+          "title": "Refuse merging FSDP weights into a checkpoint dir that gets removed",
+          "url": "https://github.com/huggingface/accelerate/pull/4516",
+          "state": "open",
+          "createdAt": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "name": "HKUDS/AI-Researcher",
+      "stars": 5883,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "HKUDS/AI-Researcher",
+          "number": 101,
+          "title": "Add durable request checkpoints for idea generation",
+          "url": "https://github.com/HKUDS/AI-Researcher/pull/101",
+          "state": "open",
+          "createdAt": "2026-10-27"
+        }
+      ]
+    },
+    {
+      "name": "huggingface/huggingface_hub",
+      "stars": 4046,
+      "entries": [
+        {
+          "kind": "issue",
+          "repository": "huggingface/huggingface_hub",
+          "number": 5327,
+          "title": "Inference Endpoints: token passed to `HfApi` is dropped by `list_inference_endpoints(namespace=\"*\")` and by returned `InferenceEndpoint` objects",
+          "url": "https://github.com/huggingface/huggingface_hub/issues/5327",
+          "state": "open",
+          "createdAt": "2026-11-10"
+        }
+      ]
+    },
+    {
+      "name": "Lightning-AI/torchmetrics",
+      "stars": 2483,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "Lightning-AI/torchmetrics",
+          "number": 3632,
+          "title": "Fix functional fairness metrics raising on missing group IDs",
+          "url": "https://github.com/Lightning-AI/torchmetrics/pull/3632",
+          "state": "open",
+          "createdAt": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "name": "jiarui-liu/IdeaScientist",
+      "stars": 357,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "jiarui-liu/IdeaScientist",
+          "number": 3,
+          "title": "Add durable checkpoint and resume for ideation runs",
+          "url": "https://github.com/jiarui-liu/IdeaScientist/pull/3",
+          "state": "open",
+          "createdAt": "2026-10-14"
+        }
+      ]
+    },
+    {
+      "name": "KrisTHL181/Break-This-Repo",
+      "stars": 288,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "KrisTHL181/Break-This-Repo",
+          "number": 938,
+          "title": "Update with critical AI interaction guidelines",
+          "url": "https://github.com/KrisTHL181/Break-This-Repo/pull/938",
+          "state": "open",
+          "createdAt": "2026-10-20"
+        },
+        {
+          "kind": "pr",
+          "repository": "KrisTHL181/Break-This-Repo",
+          "number": 937,
+          "title": "Update CLAUDE.md with AI interaction policies",
+          "url": "https://github.com/KrisTHL181/Break-This-Repo/pull/937",
+          "state": "merged",
+          "createdAt": "2026-10-20"
+        },
+        {
+          "kind": "pr",
+          "repository": "KrisTHL181/Break-This-Repo",
+          "number": 936,
+          "title": "Clarify language requirements for user interactions",
+          "url": "https://github.com/KrisTHL181/Break-This-Repo/pull/936",
+          "state": "merged",
+          "createdAt": "2026-10-20"
+        },
+        {
+          "kind": "pr",
+          "repository": "KrisTHL181/Break-This-Repo",
+          "number": 916,
+          "title": "Add guidelines for user interaction and phrasing",
+          "url": "https://github.com/KrisTHL181/Break-This-Repo/pull/916",
+          "state": "merged",
+          "createdAt": "2026-10-17"
+        },
+        {
+          "kind": "pr",
+          "repository": "KrisTHL181/Break-This-Repo",
+          "number": 915,
+          "title": "Update AGENTS.md with critical interaction guidelines",
+          "url": "https://github.com/KrisTHL181/Break-This-Repo/pull/915",
+          "state": "merged",
+          "createdAt": "2026-10-17"
+        }
+      ]
+    },
+    {
+      "name": "declare-lab/IDEAgent",
+      "stars": 23,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "declare-lab/IDEAgent",
+          "number": 3,
+          "title": "Add durable request checkpoints and resume for ideation search",
+          "url": "https://github.com/declare-lab/IDEAgent/pull/3",
+          "state": "merged",
+          "createdAt": "2026-10-27"
+        }
+      ]
+    },
+    {
+      "name": "ZonglinY/MOOSE-Chem2",
+      "stars": 5,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "ZonglinY/MOOSE-Chem2",
+          "number": 2,
+          "title": "Raise a clear error when structured extraction exhausts retries",
+          "url": "https://github.com/ZonglinY/MOOSE-Chem2/pull/2",
+          "state": "open",
+          "createdAt": "2026-10-30"
+        },
+        {
+          "kind": "pr",
+          "repository": "ZonglinY/MOOSE-Chem2",
+          "number": 1,
+          "title": "Add durable request checkpoint and resume for hierarchical search",
+          "url": "https://github.com/ZonglinY/MOOSE-Chem2/pull/1",
+          "state": "open",
+          "createdAt": "2026-10-27"
+        }
+      ]
+    }
+  ]
+}

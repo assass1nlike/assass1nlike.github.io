@@ -22,7 +22,7 @@ class ArticleCatalogTests(unittest.TestCase):
         config = json.loads(json.dumps(self.config))
         config['categories']['invisible']['sources'][0].pop('files')
         self.write('scripts/articles.json', json.dumps(config, ensure_ascii=False))
-        for directory in ['learning/math-theoretical', 'others/annual', 'tech']:
+        for directory in ['learning/math-theoretical', 'others/annual', 'tech', 'abstract']:
             (self.site / 'everlasting/invisible' / directory).mkdir(parents=True)
         self.write('everlasting/invisible/preliminaries.md', '# opinions')
 

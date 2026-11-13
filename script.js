@@ -51,7 +51,7 @@ const CATEGORY_DEFINITIONS = {
     title: '开源社区',
     titleEn: 'Open Source',
     heading: '开源社区',
-    description: '各种实用或有趣的项目',
+    description: '自己的开源仓库，以及给其它仓库提的 PR 和 issue',
     docs: [],
   },
   invisible: {
@@ -1406,6 +1406,55 @@ async function loadProjectsInto(host) {
   } catch (error) {
     host.innerHTML = `<div class="error-state">${escapeHtml(error.message)}</div>`;
   }
+  await appendContributions(host);
+}
+
+let contributionsPromise;
+function loadContributions() {
+  if (!contributionsPromise) {
+    contributionsPromise = fetch('/assets/community/index.json', { cache: 'no-cache' })
+      .then((response) => (response.ok ? response.json() : { repositories: [] }))
+      .catch(() => ({ repositories: [] }));
+  }
+  return contributionsPromise;
+}
+
+function formatStars(count) {
+  return count >= 1000 ? `${(count / 1000).toFixed(count >= 10000 ? 0 : 1)}k` : String(count);
+}
+
+// Pull requests and issues in other people's repositories, grouped by repository.
+async function appendContributions(host) {
+  const data = await loadContributions();
+  if (!data.repositories.length) return;
+  const compact = host.classList.contains('home-category-viewport');
+  const repositories = compact ? data.repositories.slice(0, 6) : data.repositories;
+  const stateLabel = { merged: '已合并', open: '进行中', closed: '已关闭' };
+  const total = data.repositories.reduce((sum, repository) => sum + repository.entries.length, 0);
+  const section = document.createElement('section');
+  section.className = 'contributions';
+  section.setAttribute('data-site-ui', '');
+  section.innerHTML = `
+    <div class="contributions-head">
+      <h2 class="contributions-title">PR 与 issue</h2>
+      <span class="contributions-count">${data.repositories.length} 个仓库 · ${total} 条</span>
+    </div>
+    <div class="contribution-list">${repositories.map((repository) => `
+      <article class="contribution-repo">
+        <div class="contribution-repo-head">
+          <a class="contribution-repo-name" href="https://github.com/${escapeAttr(repository.name)}" target="_blank" rel="noopener noreferrer" data-site-content>${escapeHtml(repository.name)}</a>
+          ${repository.stars ? `<span class="contribution-stars" title="GitHub stars">★ ${formatStars(repository.stars)}</span>` : ''}
+        </div>
+        <ul class="contribution-entries">${repository.entries.map((entry) => `
+          <li>
+            <span class="contribution-state is-${escapeAttr(entry.state)}" data-site-ui>${escapeHtml(entry.kind === 'pr' ? 'PR' : 'issue')} · ${escapeHtml(stateLabel[entry.state] || entry.state)}</span>
+            <a href="${escapeAttr(entry.url)}" target="_blank" rel="noopener noreferrer" data-site-content>${escapeHtml(entry.title)}</a>
+          </li>`).join('')}
+        </ul>
+      </article>`).join('')}
+    </div>
+    ${compact && data.repositories.length > repositories.length ? `<a class="more-link library-preview-more" href="${categoryHref('permanence')}">查看全部 ${data.repositories.length} 个仓库</a>` : ''}`;
+  host.append(section);
 }
 
 function projectCategory(projects) {

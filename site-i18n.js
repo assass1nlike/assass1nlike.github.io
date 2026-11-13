@@ -2,7 +2,8 @@
 window.SiteI18n = (() => {
   const key = 'assassinlike.language';
   const phrases = {
-    'AI/ML/CS 之外': 'Beyond AI/ML/CS', '学习积累': 'Learning Notes', '论文阅读': 'Paper Reading', '开源社区': 'Open Source', '技术杂记': 'Tech Notes', '项目经历': 'Experience', '实验记录': 'Experiment Logs', '还没有内容。': 'Nothing here yet.', '报告 PDF': 'Report (PDF)',
+    'AI/ML/CS 之外': 'Beyond AI/ML/CS', '学习积累': 'Learning Notes', '论文阅读': 'Paper Reading', '开源社区': 'Open Source', '技术杂记': 'Tech Notes', '项目经历': 'Experience', '实验记录': 'Experiment Logs', '还没有内容。': 'Nothing here yet.', 'PR 与 issue': 'Pull requests and issues', '已合并': 'merged', '进行中': 'open', '已关闭': 'closed',
+    '自己的开源仓库，以及给其它仓库提的 PR 和 issue': 'My own repositories, plus pull requests and issues in other projects.', '报告 PDF': 'Report (PDF)',
     '各年年终总结': 'Annual Reviews', '只看子集：各年年终总结': 'Subset: Annual reviews only',
     '在观察自身行为和自我思考后得到的结论。': 'Reflections on my experiences, actions, and thinking.',
     '各年年终总结': 'Annual Reviews', '文章与笔记': 'Articles and notes',
@@ -111,6 +112,9 @@ window.SiteI18n = (() => {
         [/^(\d+) 字$/, (_, n) => `${n} words`],
         [/^(\d+) (篇文章|个项目)(?: · 显示 (\d+)–(\d+))?$/, (_, n, unit, first, last) => `${n} ${unit === '篇文章' ? 'article' : 'project'}${n === '1' ? '' : 's'}${first ? ` · Showing ${first}–${last}` : ''}`],
         [/^第 (\d+) 页$/, (_, n) => `Page ${n}`],
+        [/^(\d+) 个仓库 · (\d+) 条$/, (_, repos, n) => `${repos} repositories · ${n} items`],
+        [/^查看全部 (\d+) 个仓库$/, (_, n) => `View all ${n} repositories`],
+        [/^(PR|issue) · (已合并|进行中|已关闭)$/, (_, kind, state) => `${kind} · ${{ 已合并: 'merged', 进行中: 'open', 已关闭: 'closed' }[state]}`],
         [/^查看全部 (\d+) (篇文章|个项目|篇论文)$/, (_, n, unit) => `View all ${n} ${{ 篇文章: 'articles', 个项目: 'projects', 篇论文: 'papers' }[unit]}`],
         [/^← 返回(.+)列表$/, (_, name) => `← Back to ${phrases[name] || name}`],
         [/^搜索(AI\/ML\/CS 之外|学习积累|技术杂记|各年年终总结|开源社区)(文章|项目)?$/, (_, name) => `Search ${phrases[name]}`],

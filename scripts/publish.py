@@ -23,6 +23,8 @@ def publication_paths(root, only):
         config = json.loads((root / 'scripts/articles.json').read_text(encoding='utf-8-sig'))
         scopes += [s['path'] for c in config['categories'].values() for s in c['sources']]
         scopes += ['scripts/articles.json', 'assets/articles/catalog.js']
+    if only in ('all', 'community'):
+        scopes += ['scripts/export-contributions.py', 'assets/community']
     if only in ('all', 'papers'):
         scopes += ['assets/papers', 'scripts/paper-exclude.json', 'scripts/paper-links.json', 'scripts/paper-identities.json',
                    'scripts/paper-publications.json', 'scripts/paper-publications-cache.json',
@@ -59,6 +61,8 @@ def publish(root=ROOT, *, only='all', source=Path(r'D:\papers'), message='Update
         raise RuntimeError('The staging area already contains changes. Commit or unstage them before publishing.')
     if only in ('all', 'articles'):
         run(root, sys.executable, '-B', 'scripts/export-articles.py')
+    if only in ('all', 'community'):
+        run(root, sys.executable, '-B', 'scripts/export-contributions.py')
     if only in ('all', 'papers'):
         run(root, sys.executable, '-B', 'scripts/export-paper-tree.py', '--source', str(source))
         run(root, sys.executable, '-B', 'scripts/update-paper-publications.py', '--deep', '--source', str(source))
@@ -76,7 +80,7 @@ def publish(root=ROOT, *, only='all', source=Path(r'D:\papers'), message='Update
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--only', choices=['articles', 'papers'], default='all')
+    parser.add_argument('--only', choices=['articles', 'papers', 'community'], default='all')
     parser.add_argument('--source', type=Path, default=Path(r'D:\papers'))
     parser.add_argument('-m', '--message', default='Update published content')
     args = parser.parse_args()

@@ -1593,3 +1593,127 @@ a.contact-value {
 .library-minimal .library-entry:first-child {
   padding-top: 4px;
 }
+
+/* Contributions to other people's repositories, grouped by repository. */
+.contributions {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.home-category-viewport .contributions {
+  margin-top: 24px;
+  padding-top: 20px;
+}
+
+.contributions-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body .contributions-title {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.contributions-count {
+  color: var(--faint);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.contribution-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.contribution-repo {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.contribution-repo-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.markdown-body .contribution-repo-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.markdown-body .contribution-repo-name:hover {
+  color: var(--accent-strong);
+}
+
+.contribution-stars {
+  flex: 0 0 auto;
+  color: var(--faint);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.markdown-body .contribution-entries {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.markdown-body .contribution-entries li {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+
+.markdown-body .contribution-entries a {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.markdown-body .contribution-entries a:hover {
+  color: var(--accent-strong);
+}
+
+.contribution-state {
+  color: var(--faint);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+
+.contribution-state.is-merged {
+  color: var(--accent);
+}
+
+.contribution-state.is-open {
+  color: var(--accent-2);
+}
+
+@media (max-width: 840px) {
+  .contribution-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

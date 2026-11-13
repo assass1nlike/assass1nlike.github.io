@@ -41,10 +41,13 @@ python scripts/sync-onedrive.py --apply
 
 # 一键发布
 
-在仓库根目录运行 `python scripts/publish.py`，依次更新学习积累／AI/ML/CS 之外／技术杂记、论文阅读、录用信息（含 `--deep`），然后自动提交并推送到 `origin/main`。
+在仓库根目录运行 `python scripts/publish.py`，依次更新学习积累／AI/ML/CS 之外／技术杂记、开源社区里的 PR 与 issue、论文阅读、录用信息（含 `--deep`），然后自动提交并推送到 `origin/main`。
 
 - 只发布学习积累、AI/ML/CS 之外、技术杂记：`python scripts/publish.py --only articles`
 - 只发布论文阅读及录用信息：`python scripts/publish.py --only papers`
+- 只刷新开源社区的 PR 与 issue：`python scripts/publish.py --only community`
+
+开源社区页面的 PR 与 issue 由 `scripts/export-contributions.py` 用本机 `gh` 登录拉取，只收录别人仓库里的记录，自己的仓库在 `--own` 里排除。按仓库分组，仓库按 star 数排序，数据存到 `assets/community/index.json`；想要最新数据时重跑这条命令即可，网页不会实时访问 GitHub。
 
 论文库默认是 `D:\papers`，可用 `--source` 指定；`-m "提交说明"` 可自定义提交信息。命令提交配置的文章发布目录（包含图片）、生成的目录和论文数据／配置；跳过 Git 忽略项、隐藏文件、临时目录、说明文件和符号链接，不收录发布目录之外的草稿。网站代码改动仍单独提交。请在 `main` 分支、暂存区为空时运行；更新或提交失败会停止，推送失败保留本地提交，不强制覆盖远程。录用来源暂时不可用时保留已有记录，未确认情况记录在检查清单中。
 
