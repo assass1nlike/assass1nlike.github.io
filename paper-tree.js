@@ -1,10 +1,34 @@
 /* Local exports supply the taxonomy; both the homepage and reader use it. */
 window.PaperTree = (() => {
   let catalogPromise;
+  let overviewPromise;
+  const overviewPages = new Map();
   const notes = new Map();
   const themeKey = 'assassinlike.paper-theme';
   let htmlTheme = 'dark';
   try { if (localStorage.getItem(themeKey) === 'light') htmlTheme = 'light'; } catch (_) {}
+
+  function overviewManifest() {
+    if (!overviewPromise) {
+      overviewPromise = fetch('/assets/papers/overviews.json', { cache: 'no-cache' })
+        .then((response) => (response.ok ? response.json() : {}))
+        .catch(() => ({}));
+    }
+    return overviewPromise;
+  }
+
+  function overviewPage(category) {
+    const key = String(category).toLocaleLowerCase();
+    if (!overviewPages.has(key)) {
+      const entry = (window.__paperOverviews || {})[key];
+      overviewPages.set(key, entry
+        ? fetch(`/assets/papers/overviews/${encodeURIComponent(entry.file)}.json`)
+          .then((response) => (response.ok ? response.json() : null))
+          .catch(() => null)
+        : Promise.resolve(null));
+    }
+    return overviewPages.get(key);
+  }
 
   function catalog() {
     if (!catalogPromise) {
@@ -128,14 +152,14 @@ window.PaperTree = (() => {
     }).join('');
   }
 
-  function branchHtml(node, byId, compact) {
+  function branchHtml(node, byId, compact, hasOverview) {
     return `<li><details class="paper-branch">
       <summary>${compact
         ? `<span>${escapeHtml(node.name)}</span>`
-        : `<button type="button" class="paper-folder" data-folder="${escapeAttr(node.id)}">${escapeHtml(node.name)}</button>`}
+        : `<button type="button" class="paper-folder" data-folder="${escapeAttr(node.id)}">${escapeHtml(node.name)}</button>${hasOverview(node.id) ? `<button type="button" class="paper-overview-link" data-overview="${escapeAttr(node.id)}">总览</button>` : ''}`}
         <small>${node.count}</small>
       </summary>
-      <ul>${node.children.map((child) => branchHtml(child, byId, compact)).join('')}${leavesHtml(node.papers, byId, compact)}</ul>
+      <ul>${node.children.map((child) => branchHtml(child, byId, compact, hasOverview)).join('')}${leavesHtml(node.papers, byId, compact)}</ul>
       ${node.count ? '' : '<p class="paper-empty">暂无论文</p>'}
     </details></li>`;
   }
@@ -159,13 +183,15 @@ window.PaperTree = (() => {
   async function mount(host, { compact = false, description = '' } = {}) {
     host.innerHTML = '<p class="paper-empty">正在加载论文…</p>';
     try {
-      const data = await catalog();
+      const [data, manifests] = await Promise.all([catalog(), overviewManifest()]);
+      window.__paperOverviews = manifests;
+      const hasOverview = (id) => Object.prototype.hasOwnProperty.call(manifests, String(id).toLocaleLowerCase());
       const byId = new Map(data.papers.map((paper) => [paper.id, paper]));
       const stats = `${data.tree.count} 篇论文 · ${data.tree.annotated} 份讲解`;
       host.classList.add('paper-tree-host');
       if (compact) {
         host.innerHTML = `<div class="paper-preview-intro"><span>${escapeHtml(description)}</span><span>${stats}</span></div>
-          <ul class="paper-tree-list paper-tree-compact">${data.tree.children.map((node) => branchHtml(node, byId, true)).join('')}${leavesHtml(data.tree.papers, byId, true)}</ul>
+          <ul class="paper-tree-list paper-tree-compact">${data.tree.children.map((node) => branchHtml(node, byId, true, hasOverview)).join('')}${leavesHtml(data.tree.papers, byId, true)}</ul>
           <a class="more-link library-preview-more" href="/category.html?cat=papers" data-site-ui>查看全部 ${data.tree.count} 篇论文</a>`;
         return;
       }
@@ -177,7 +203,8 @@ window.PaperTree = (() => {
         <div class="paper-workspace">
           <nav class="paper-taxonomy" aria-label="论文分类">
             <button class="paper-folder paper-all" type="button" data-folder="">全部论文 <small>${data.tree.count}</small></button>
-            <ul class="paper-tree-list">${data.tree.children.map((node) => branchHtml(node, byId, false)).join('')}${leavesHtml(data.tree.papers, byId, false)}</ul>
+            ${hasOverview('') ? '<button type="button" class="paper-overview-link paper-overview-root" data-overview="">论文库总图</button>' : ''}
+            <ul class="paper-tree-list">${data.tree.children.map((node) => branchHtml(node, byId, false, hasOverview)).join('')}${leavesHtml(data.tree.papers, byId, false)}</ul>
           </nav>
           <div class="paper-main">
             <form class="paper-filters" role="search">
@@ -242,6 +269,57 @@ window.PaperTree = (() => {
         const url = new URL(window.location.href);
         url.searchParams.delete('paper');
         window.history.replaceState(null, '', url);
+      }
+
+      async function showOverview(category) {
+        htmlRequest?.abort();
+        request += 1;
+        current = null;
+        list.hidden = true;
+        filters.hidden = true;
+        reader.hidden = false;
+        window.MathJax?.typesetClear?.([reader]);
+        // The overview's own # heading names the folder, so the breadcrumb only marks the view.
+        meta.textContent = '论文总览';
+        reader.innerHTML = '<p class="paper-empty" role="status">正在加载总览…</p>';
+        const page = await overviewPage(category);
+        if (!page) {
+          reader.innerHTML = '<p class="paper-empty">这个分类暂时没有总览。</p>';
+          return;
+        }
+        reader.innerHTML = `<button class="paper-back" type="button" data-back>← 返回列表</button>
+          <div class="paper-reader-body markdown-body"></div>`;
+        const body = reader.querySelector('.paper-reader-body');
+        body.innerHTML = renderNote(page.markdown);
+        // Links already point inside the site; route them through the tree instead of reloading.
+        body.querySelectorAll('a[href]').forEach((anchor) => {
+          const url = new URL(anchor.href, window.location.href);
+          if (url.origin !== window.location.origin || url.pathname !== '/category.html') {
+            anchor.setAttribute('target', '_blank');
+            anchor.setAttribute('rel', 'noopener noreferrer');
+            return;
+          }
+          const target = url.searchParams.get('paper');
+          const targetOverview = url.searchParams.get('overview');
+          if (target && byId.has(target)) {
+            anchor.dataset.paper = target;
+            anchor.removeAttribute('href');
+          } else if (targetOverview !== null && hasOverview(targetOverview)) {
+            anchor.dataset.overview = targetOverview;
+            anchor.removeAttribute('href');
+          } else if (!target) {
+            anchor.dataset.overview = '';
+            anchor.removeAttribute('href');
+          } else {
+            anchor.removeAttribute('href');
+          }
+        });
+        enhanceMarkdownHost(body);
+        const url = new URL(window.location.href);
+        url.searchParams.delete('paper');
+        url.searchParams.set('overview', category);
+        window.history.replaceState(null, '', url);
+        host.querySelectorAll('[data-folder], [data-paper]').forEach((element) => element.removeAttribute('aria-current'));
       }
 
       async function showPaper(id, mode) {
@@ -332,11 +410,14 @@ window.PaperTree = (() => {
       search.addEventListener('input', showList);
       annotated.addEventListener('change', showList);
       host.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-folder], [data-paper], [data-mode], [data-back], [data-paper-theme]');
+        const button = event.target.closest('[data-folder], [data-paper], [data-mode], [data-back], [data-overview], [data-paper-theme]');
         if (!button || !host.contains(button)) return;
         if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
-        if (button.hasAttribute('data-paper-theme')) {
+        if (button.hasAttribute('data-overview')) {
+          showOverview(button.dataset.overview);
+          reader.scrollIntoView({ block: 'start' });
+        } else if (button.hasAttribute('data-paper-theme')) {
           htmlTheme = button.dataset.paperTheme;
           try { localStorage.setItem(themeKey, htmlTheme); } catch (_) {}
           applyHtmlTheme();
@@ -357,8 +438,11 @@ window.PaperTree = (() => {
           showPaper(current, button.dataset.mode);
         }
       });
-      const initial = new URL(window.location.href).searchParams.get('paper');
+      const params = new URL(window.location.href).searchParams;
+      const initial = params.get('paper');
+      const initialOverview = params.get('overview');
       if (byId.has(initial)) await showPaper(initial);
+      else if (initialOverview !== null && hasOverview(initialOverview)) await showOverview(initialOverview);
       else showList();
     } catch (error) {
       host.innerHTML = `<p class="paper-empty">${escapeHtml(error.message)}</p>`;

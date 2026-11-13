@@ -1,0 +1,187 @@
+{
+  "agents": {
+    "category": "agents",
+    "title": "agents",
+    "file": "155cf25212b4e9a6ff16"
+  },
+  "cv": {
+    "category": "CV",
+    "title": "CV",
+    "file": "82d663887338a0fa6ce9"
+  },
+  "diffusion": {
+    "category": "diffusion",
+    "title": "diffusion",
+    "file": "48493bc156da835475d3"
+  },
+  "evaluation": {
+    "category": "evaluation",
+    "title": "evaluation",
+    "file": "df9cb231db17b3ddd5dd"
+  },
+  "": {
+    "category": "",
+    "title": "论文库总图",
+    "file": "4de66f7448f1df4e0e58"
+  },
+  "interpretability": {
+    "category": "interpretability",
+    "title": "interpretability",
+    "file": "044cdc6e266fa591c457"
+  },
+  "math": {
+    "category": "math",
+    "title": "ICLR 2027：代数几何、交换代数与拓扑",
+    "file": "035033e52c323fd69b69"
+  },
+  "optimization/dynamics": {
+    "category": "optimization/dynamics",
+    "title": "optimization/dynamics",
+    "file": "ffe486ce7fa93b224063"
+  },
+  "optimization/hp transfer": {
+    "category": "optimization/hp transfer",
+    "title": "hp transfer",
+    "file": "b0614c8af2a20b290a97"
+  },
+  "optimization/hyperparams": {
+    "category": "optimization/hyperparams",
+    "title": "optimization/hyperparams",
+    "file": "f89dbd7f1ed02756310a"
+  },
+  "optimization": {
+    "category": "optimization",
+    "title": "optimization",
+    "file": "9b6625a35a8fab9d1db4"
+  },
+  "optimization/optimizer": {
+    "category": "optimization/optimizer",
+    "title": "optimization/optimizer",
+    "file": "92301753d05ab728e86e"
+  },
+  "optimization/schedule": {
+    "category": "optimization/schedule",
+    "title": "optimization/schedule",
+    "file": "aa7432904d828a62d178"
+  },
+  "optimization/stability": {
+    "category": "optimization/stability",
+    "title": "optimization/stability",
+    "file": "8ef4cbdd26bad969bdf2"
+  },
+  "others": {
+    "category": "others",
+    "title": "others",
+    "file": "c3ed827a99fca1a463fb"
+  },
+  "post-train": {
+    "category": "post-train",
+    "title": "post-train",
+    "file": "5e18b748e5dca571fdbc"
+  },
+  "post-train/preference": {
+    "category": "post-train/preference",
+    "title": "preference",
+    "file": "f269c5c820eb6f0e288d"
+  },
+  "post-train/reasoning": {
+    "category": "post-train/reasoning",
+    "title": "reasoning",
+    "file": "32d113c8c6204ed16140"
+  },
+  "post-train/reward model": {
+    "category": "post-train/reward model",
+    "title": "reward model",
+    "file": "97b740fe235eecb9a5b8"
+  },
+  "post-train/rl": {
+    "category": "post-train/RL",
+    "title": "post-train/RL",
+    "file": "1777470bb36cd95ac52a"
+  },
+  "post-train/sft": {
+    "category": "post-train/SFT",
+    "title": "post-train/SFT",
+    "file": "650e91e921b4f67cfa90"
+  },
+  "pretrain/data curation": {
+    "category": "pretrain/data curation",
+    "title": "data curation",
+    "file": "f8d31eb568109149d82c"
+  },
+  "pretrain/data mixing": {
+    "category": "pretrain/data mixing",
+    "title": "data mixing",
+    "file": "cbd0851e323798fb0118"
+  },
+  "pretrain/data pruning": {
+    "category": "pretrain/data pruning",
+    "title": "数据剪枝",
+    "file": "9d0408968a4ca378dd94"
+  },
+  "pretrain/data selection": {
+    "category": "pretrain/data selection",
+    "title": "预训练数据选择",
+    "file": "9ce0802a1f69ceb7dabd"
+  },
+  "pretrain/data-constrained": {
+    "category": "pretrain/data-constrained",
+    "title": "pretrain/data-constrained",
+    "file": "b4c35e73c03997f552e1"
+  },
+  "pretrain": {
+    "category": "pretrain",
+    "title": "pretrain",
+    "file": "d94fe6ad505e20610fe8"
+  },
+  "pretrain/scaling law": {
+    "category": "pretrain/scaling law",
+    "title": "pretrain/scaling law",
+    "file": "45e77362e153d7fc25be"
+  },
+  "pretrain/synthetic data": {
+    "category": "pretrain/synthetic data",
+    "title": "pretrain/synthetic data",
+    "file": "a279fedcd70cf8d340d4"
+  },
+  "reports": {
+    "category": "reports",
+    "title": "reports",
+    "file": "7b4b2b47afa0dbdbc6bb"
+  },
+  "rl/deep-rl": {
+    "category": "rl/deep-rl",
+    "title": "deep-rl",
+    "file": "d38487416e2b8f237169"
+  },
+  "rl": {
+    "category": "rl",
+    "title": "rl",
+    "file": "0d2f64accc3ac7e4862e"
+  },
+  "rl/theory": {
+    "category": "rl/theory",
+    "title": "rl/theory",
+    "file": "b836e4b34d8719c11f18"
+  },
+  "safety": {
+    "category": "safety",
+    "title": "safety",
+    "file": "b78ec6fbabdec912a761"
+  },
+  "structure": {
+    "category": "structure",
+    "title": "structure",
+    "file": "d3d2872179d346ea631d"
+  },
+  "systems": {
+    "category": "systems",
+    "title": "systems",
+    "file": "110e92d77f8c5cd7549f"
+  },
+  "unlearning": {
+    "category": "unlearning",
+    "title": "机器遗忘",
+    "file": "080cfbcd35524fb2cab5"
+  }
+}

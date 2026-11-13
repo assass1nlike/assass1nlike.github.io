@@ -14,10 +14,11 @@
             "children": [],
             "papers": [
               "65445d89cebb97265a0f",
+              "f36a289c4e744a21ad6d",
               "2c20c7ca494ba9c63f22",
               "d4dbb2981f22323196e1"
             ],
-            "count": 3,
+            "count": 4,
             "annotated": 1
           },
           {
@@ -39,11 +40,12 @@
         ],
         "papers": [
           "8fa87c28e05b069dc909",
+          "89b0083a9ac51b108d30",
           "a044dbf6658ba96f6be0",
           "e4889579743af4017bb6",
           "4fba975743699774eb35"
         ],
-        "count": 14,
+        "count": 16,
         "annotated": 8
       },
       {
@@ -55,14 +57,16 @@
             "name": "3D",
             "children": [],
             "papers": [
-              "e8c42185bf1a5ea3c94a"
+              "e8c42185bf1a5ea3c94a",
+              "f79deb19bfb67a5dc4ef",
+              "6747d03377b48ec91410"
             ],
-            "count": 1,
+            "count": 3,
             "annotated": 0
           }
         ],
         "papers": [],
-        "count": 1,
+        "count": 3,
         "annotated": 0
       },
       {
@@ -72,9 +76,10 @@
         "papers": [
           "e9634982c0edee074e18",
           "cd390f063c6cd66f7a37",
-          "fee6b89cb3e629bce19c"
+          "fee6b89cb3e629bce19c",
+          "197416874703ddf26c18"
         ],
-        "count": 3,
+        "count": 4,
         "annotated": 0
       },
       {
@@ -101,10 +106,9 @@
               "14023c9b70134ce76094",
               "e31d49cf30211792b04d",
               "31211fd41ee05340b04f",
-              "71c70dcad559f96338ac",
               "9e612393eb91fbe6e1b3"
             ],
-            "count": 7,
+            "count": 6,
             "annotated": 2
           },
           {
@@ -115,6 +119,7 @@
               "c4579936319bf9be9334",
               "4faffbc39fe44510426c",
               "01a014ad64e0b1736301",
+              "0c2f4328e7cf63fec842",
               "c40198c83242108d592d",
               "c9c0c17dfa8f6e04c8b2",
               "6dbfaeea53c715576450",
@@ -122,10 +127,23 @@
               "607cc8c4716afc85a921",
               "161d590444404ea0b74a",
               "4e3e5822cc50ea5608d8",
+              "b8a371d3044707caa4fd",
               "b17c2bb05038fc38661a"
             ],
-            "count": 11,
+            "count": 13,
             "annotated": 4
+          },
+          {
+            "id": "evaluation/contamination",
+            "name": "contamination",
+            "children": [],
+            "papers": [
+              "5f578a51cbb0e7353904",
+              "ea6faab6cf4101e25055",
+              "2a81be4037e91162f0fb"
+            ],
+            "count": 3,
+            "annotated": 2
           },
           {
             "id": "evaluation/meta-bench",
@@ -139,14 +157,11 @@
           }
         ],
         "papers": [
-          "b1cce0990a1d8c56a304",
           "2a95cefcb61f376acc11",
-          "e2ce6afb1c984b0c3d63",
-          "2133d51b659fe932b13f",
           "711b93141b4ab72bae5c",
           "50b00a3afa526a745e80"
         ],
-        "count": 25,
+        "count": 26,
         "annotated": 9
       },
       {
@@ -158,25 +173,35 @@
             "name": "data influence",
             "children": [],
             "papers": [
+              "a41c23744daa02201354",
               "ffb66019e65684c0ea86",
               "bc2601fdff6999cb2572",
+              "f0e0e2fa905e6fc5bfc6",
               "32d39694b79c6cea4e8b",
               "962a73efb33343cd1daf"
             ],
-            "count": 4,
+            "count": 6,
+            "annotated": 2
+          },
+          {
+            "id": "interpretability/features",
+            "name": "features",
+            "children": [],
+            "papers": [
+              "295924bbd00015752d58",
+              "cd1cbb9ed42fcd460f2f",
+              "e53a39a3db933e03aacc",
+              "232b23358fe5e81e0522",
+              "ec6a93ce3c77e53607b1"
+            ],
+            "count": 5,
             "annotated": 2
           }
         ],
         "papers": [
-          "fff94acba77fa7609aea",
-          "b016df2e3da03cb4c3b9",
-          "b7fbc89fc13a09f0c068",
-          "f2c2135244cfd1bddf4c",
-          "127039002c4d6ac5dab8",
-          "5486275cd316fd1a69d9",
-          "9d510439585f664133b1"
+          "f2c2135244cfd1bddf4c"
         ],
-        "count": 11,
+        "count": 12,
         "annotated": 5
       },
       {
@@ -349,6 +374,21 @@
         "name": "optimization",
         "children": [
           {
+            "id": "optimization/dynamics",
+            "name": "dynamics",
+            "children": [],
+            "papers": [
+              "1330c0025cad8540f33e",
+              "fdcb2297341499662688",
+              "1601e52bb7f8f3d6891d",
+              "91a27998f21dfae94b1e",
+              "4a828a745f15e56fe951",
+              "08abdcc8a5881f392ca8"
+            ],
+            "count": 6,
+            "annotated": 0
+          },
+          {
             "id": "optimization/hp transfer",
             "name": "hp transfer",
             "children": [],
@@ -380,13 +420,41 @@
               "01738f5d13e30565f7f8",
               "79374168411d01cc4e72",
               "42a3f4de21c07d1e90a3",
+              "4dfbd4060b2974e09bac",
+              "d88091863407f37b0b77",
               "88ba9a969b7c1a496dc0",
               "b8a5bf5804b992f88412",
               "0c0ebdcb9d099a34b027",
               "dc0dd4f362986f1a6f92"
             ],
-            "count": 7,
+            "count": 9,
             "annotated": 3
+          },
+          {
+            "id": "optimization/landscape",
+            "name": "landscape",
+            "children": [],
+            "papers": [
+              "7b85ebed34c799aec455",
+              "9424322e459891d14b4c",
+              "38828c4b93448db866b0",
+              "4b595b6e211808a6498e",
+              "0cb8dafb9ba3beffadfa",
+              "9e424e2e28ee4cee4aae"
+            ],
+            "count": 6,
+            "annotated": 1
+          },
+          {
+            "id": "optimization/machine teaching",
+            "name": "machine teaching",
+            "children": [],
+            "papers": [
+              "d4d02e9b4b4b204df891",
+              "fc7a33c8862746871524"
+            ],
+            "count": 2,
+            "annotated": 1
           },
           {
             "id": "optimization/optimizer",
@@ -414,17 +482,6 @@
             "annotated": 5
           },
           {
-            "id": "optimization/path",
-            "name": "path",
-            "children": [],
-            "papers": [
-              "130f047ae0687107f627",
-              "2e9284cbf35d0a10528f"
-            ],
-            "count": 2,
-            "annotated": 1
-          },
-          {
             "id": "optimization/schedule",
             "name": "schedule",
             "children": [],
@@ -434,9 +491,10 @@
               "d883c22da67766cb9eb9",
               "32ed9a0ff5cdda310cb1",
               "ae59af1b5573e3c47156",
+              "512fe7a655ab365ab582",
               "f0ee7543106b266350c4"
             ],
-            "count": 6,
+            "count": 7,
             "annotated": 5
           },
           {
@@ -455,18 +513,8 @@
             "annotated": 2
           }
         ],
-        "papers": [
-          "25a36289f9968987414a",
-          "1111e03ab742cfe593e7",
-          "8387b0f899a4be160188",
-          "fc3e5f26768ce33b4441",
-          "ebca4cd3c43dc955ca4f",
-          "d26526788c9ee57a9afc",
-          "f6a45d26408b937c5a13",
-          "3fadf769369ef7428239",
-          "758f9c612a8bf6f5e107"
-        ],
-        "count": 61,
+        "papers": [],
+        "count": 67,
         "annotated": 25
       },
       {
@@ -673,15 +721,18 @@
                 "name": "data selection",
                 "children": [],
                 "papers": [
+                  "c77a8b08a0d062efefe7",
                   "10a8779f43ce2b067ecd",
                   "bfc71e8c3ec52767da3b",
+                  "55d45442d45fe5a79ad9",
                   "35ed3f985e47c918f4e6",
+                  "76e15e2bdbae29f9178b",
                   "24eaf6b17746d3c2d077",
                   "83087f1f32243cdfc406",
                   "676916cd1f20613ff80b",
                   "f06c4d6d3564ad851863"
                 ],
-                "count": 7,
+                "count": 10,
                 "annotated": 0
               },
               {
@@ -691,6 +742,8 @@
                 "papers": [
                   "29e245c8385bd83730b2",
                   "4bc6082daab21bbb4197",
+                  "51cb56feba82aa368336",
+                  "702a19b30bf39b80a79c",
                   "67d0a6467750ad78d35b",
                   "0efe273f704cdae3958c",
                   "e4e6ff8e72c0745dedb9",
@@ -706,31 +759,30 @@
                   "c690294ef4fa001fd615",
                   "15f15295d44cbb4cc580"
                 ],
-                "count": 16,
+                "count": 18,
                 "annotated": 7
               }
             ],
             "papers": [
               "9372f97e98a64ba13bed",
               "64ca999fadf9ffc693a9",
-              "835b03738b10402dfdd1",
               "88ed4cca442e8f18d0d8",
               "c1f851e7d4748cea6232",
               "22536ac8b0ae9fa14611",
               "3835af29bc1255c3d12a",
-              "73a363f53f67388a472c"
+              "73a363f53f67388a472c",
+              "07ecf4fc937c7150e840"
             ],
-            "count": 31,
+            "count": 36,
             "annotated": 7
           }
         ],
         "papers": [
           "22d8a6fec1400b4453a8",
           "1953ccfa25bb9007678f",
-          "098e27cf863d1eca38fd",
-          "da53ecbdae1e09d22473"
+          "098e27cf863d1eca38fd"
         ],
-        "count": 133,
+        "count": 137,
         "annotated": 45
       },
       {
@@ -748,9 +800,10 @@
               "9c43a5a10005f1b50fc7",
               "b12148ac988af0597bf5",
               "abe0cbebeea6e35fa68e",
-              "9f7a4eb11e0916c1a731"
+              "9f7a4eb11e0916c1a731",
+              "d6da530c3789ff6ef956"
             ],
-            "count": 7,
+            "count": 8,
             "annotated": 5
           },
           {
@@ -778,12 +831,29 @@
             "annotated": 7
           },
           {
+            "id": "pretrain/data pruning",
+            "name": "data pruning",
+            "children": [],
+            "papers": [
+              "e3511bf59d3f24b3081d",
+              "37a9601643c0145d13f5",
+              "48b9fc633ca98c125446"
+            ],
+            "count": 3,
+            "annotated": 0
+          },
+          {
             "id": "pretrain/data selection",
             "name": "data selection",
             "children": [],
             "papers": [
+              "87419b407384b7662b30",
               "fc9c9085fa29034f1fbb",
+              "d68123936a56d742aaa9",
+              "b665c67d9751ea47dc0f",
+              "e96c369f506af51740e0",
               "f9fe453f60b1a94334e6",
+              "d288dea3ac3f2040affa",
               "4f7dcde8b00cd13d5d91",
               "83afced61001a9353d12",
               "fbeb5efc7167d612db65",
@@ -792,9 +862,10 @@
               "a7c72c25e9dcf1127dc4",
               "b66b7607a954710a4053",
               "d07a6c6293bef4846af8",
+              "3d66176355c4c6ca7374",
               "618663766d0088dddf10"
             ],
-            "count": 11,
+            "count": 17,
             "annotated": 7
           },
           {
@@ -863,9 +934,10 @@
               "fb6c1c7eda39e042a874",
               "8523311de88e8fb0e591",
               "a12a9dcf3a1b24967f2d",
-              "67032f4ee0639bb2ab92"
+              "67032f4ee0639bb2ab92",
+              "8bcd81e26f30a3b5065a"
             ],
-            "count": 17,
+            "count": 18,
             "annotated": 7
           },
           {
@@ -895,7 +967,7 @@
           }
         ],
         "papers": [],
-        "count": 84,
+        "count": 95,
         "annotated": 39
       },
       {
@@ -969,6 +1041,7 @@
             "children": [],
             "papers": [
               "1af5af79a76c1ef0ec43",
+              "429838c8916443be2f10",
               "e98e4c79f65e8de25f1d",
               "dfb26f5fa25e79e3ac5d",
               "4eba1d8a85a7961115c6",
@@ -1007,7 +1080,7 @@
               "973f286be7ec88a2fb0a",
               "172db241b0d890efc20b"
             ],
-            "count": 38,
+            "count": 39,
             "annotated": 22
           },
           {
@@ -1047,13 +1120,24 @@
           }
         ],
         "papers": [],
-        "count": 64,
+        "count": 65,
         "annotated": 35
       },
       {
         "id": "safety",
         "name": "safety",
         "children": [
+          {
+            "id": "safety/CoT monitoring",
+            "name": "CoT monitoring",
+            "children": [],
+            "papers": [
+              "b89fd25a8216bdd81be6",
+              "2749b4f05a89bf400a66"
+            ],
+            "count": 2,
+            "annotated": 2
+          },
           {
             "id": "safety/EMA",
             "name": "EMA",
@@ -1074,10 +1158,23 @@
             "children": [],
             "papers": [
               "1c0bedefefc561efeb95",
+              "3a01aec2c29a9abcd83b",
               "40b70a980b2253a445fc",
-              "ebd10e5de8e1c4bcdc80"
+              "ebd10e5de8e1c4bcdc80",
+              "513671ce5797089bc677"
             ],
-            "count": 3,
+            "count": 5,
+            "annotated": 1
+          },
+          {
+            "id": "safety/position",
+            "name": "position",
+            "children": [],
+            "papers": [
+              "962623545214185fa6e7",
+              "45f88f849fa26b3eb840"
+            ],
+            "count": 2,
             "annotated": 1
           },
           {
@@ -1095,16 +1192,13 @@
           }
         ],
         "papers": [
-          "977ec68fb35c20dc8d2e",
           "3688a75ff2fd9b195401",
           "7a2e5c4124e6718f2fe1",
-          "ddcd9affa9f3f65d8287",
-          "487bd5a53818a9ffa173",
-          "7d67c9f2ab921a8a86d4",
-          "339f0997b5480bb32723",
-          "01636a2853591b02c2ee"
+          "471f3355badff83361c3",
+          "f314f624875db3c8db0b",
+          "59b8694dcf40056fc5e0"
         ],
-        "count": 20,
+        "count": 23,
         "annotated": 10
       },
       {
@@ -1116,8 +1210,6 @@
             "name": "attn",
             "children": [],
             "papers": [
-              "895331e6a1be60a2be6f",
-              "e6a1295513a2256495f9",
               "474ad305e5eebc58b742",
               "1e8666e155c235e7ee56",
               "110c097fd00ad15df987",
@@ -1125,8 +1217,8 @@
               "ccca84745915b77de202",
               "801af38da68654adf3f2"
             ],
-            "count": 8,
-            "annotated": 5
+            "count": 6,
+            "annotated": 4
           },
           {
             "id": "structure/decoding",
@@ -1143,12 +1235,13 @@
             "name": "linear-hybrid",
             "children": [],
             "papers": [
+              "8f7c4ffa4767a42d717e",
               "528ecb6c611b68410481",
               "7363fdb583fef15b78c0",
               "8ab009d6159039569953",
               "98191cce7406668be107"
             ],
-            "count": 4,
+            "count": 5,
             "annotated": 3
           },
           {
@@ -1194,11 +1287,21 @@
             ],
             "count": 2,
             "annotated": 2
+          },
+          {
+            "id": "structure/residual",
+            "name": "residual",
+            "children": [],
+            "papers": [
+              "91135e7de104e9e36d83",
+              "7d29abf37ffa7e708bd3",
+              "bd700584c3866aab336f"
+            ],
+            "count": 3,
+            "annotated": 1
           }
         ],
         "papers": [
-          "68f185457747be846606",
-          "383b234e2df2c4587cad",
           "2eaa9539e5722efd6cc2"
         ],
         "count": 33,
@@ -1246,15 +1349,19 @@
             "children": [],
             "papers": [
               "f21939af344fbbb41208",
+              "f9905b75f047af26e977",
+              "50134b559d46b40c71c6",
               "c1cd1ad23ff7d46ecff7",
               "12e7cfb1202e0e2c21d2",
               "f80c47bddbd5a99582d9",
               "d7c29e438d0298d0c908",
+              "e96b3e0282bef9dac83f",
+              "50386c677bf4189f056b",
               "c0d3a12b3810e6383de2",
               "109c4905cecb268deddc"
             ],
-            "count": 7,
-            "annotated": 0
+            "count": 11,
+            "annotated": 1
           },
           {
             "id": "unlearning/benchmarks",
@@ -1279,22 +1386,37 @@
                 "children": [],
                 "papers": [
                   "cb66371d6a0a826da747",
+                  "cd26614086b8d1f950f1",
+                  "5af29a897df97fa203f0",
                   "35da5b2bd0b1eb8b627f",
                   "fd2b48c78c36666dfab6"
                 ],
-                "count": 3,
+                "count": 5,
                 "annotated": 0
               }
             ],
             "papers": [],
-            "count": 7,
+            "count": 9,
             "annotated": 2
+          },
+          {
+            "id": "unlearning/classification",
+            "name": "classification",
+            "children": [],
+            "papers": [
+              "7a05035cfd725f01db2c",
+              "bb38b146a1bee653e3de",
+              "5894df6c71439ca30910"
+            ],
+            "count": 3,
+            "annotated": 1
           },
           {
             "id": "unlearning/CV",
             "name": "CV",
             "children": [],
             "papers": [
+              "9924a925a978a849375b",
               "36b22e7b64dd68a00525",
               "5cdcf80366f50f5f560f",
               "d39712840f9072567d43",
@@ -1307,10 +1429,11 @@
               "1d284dd3209283d6b25e",
               "fdf185fc6870b461261e",
               "c5ed7947695a3e60f94d",
+              "55887da5810b281ab7e8",
               "c8b05dd5b13610725811"
             ],
-            "count": 13,
-            "annotated": 2
+            "count": 15,
+            "annotated": 3
           },
           {
             "id": "unlearning/directions",
@@ -1319,10 +1442,13 @@
             "papers": [
               "0b10fbab8010f3d08c5e",
               "4c2b13fc810f88aabdc4",
-              "dc3e9a72db73416580bd"
+              "dc3e9a72db73416580bd",
+              "880cd0d58915ab8b53f4",
+              "587c548b8f5e97672d22",
+              "8b7ff65060f692e9d2b7"
             ],
-            "count": 3,
-            "annotated": 2
+            "count": 6,
+            "annotated": 3
           },
           {
             "id": "unlearning/MUdefinition",
@@ -1332,10 +1458,11 @@
               "896bca7fbcd24b2fd488",
               "c93e08093df709866965",
               "487799d045123ded61c7",
-              "63a7453e9a82b1ff3d96"
+              "63a7453e9a82b1ff3d96",
+              "b3de18ce092e62a6dd24"
             ],
-            "count": 4,
-            "annotated": 2
+            "count": 5,
+            "annotated": 3
           },
           {
             "id": "unlearning/paraphrase",
@@ -1356,11 +1483,12 @@
               "3109fae42b0e17b04239",
               "242675ecef6e5df13445",
               "7cdf19552031e80a7bcf",
+              "14f6a9f7d170bad4bcae",
               "a458942f76b8b4cd02ad",
               "bfcd960a971aaf234f75",
               "6da11626f200fdbfdcf2"
             ],
-            "count": 6,
+            "count": 7,
             "annotated": 3
           },
           {
@@ -1369,10 +1497,11 @@
             "children": [],
             "papers": [
               "dee890158a93f3a8173f",
+              "2a2b907788ff9d86b238",
               "9ba9a9a60e621b841089",
               "686039b5c06268a28748"
             ],
-            "count": 3,
+            "count": 4,
             "annotated": 2
           },
           {
@@ -1380,11 +1509,12 @@
             "name": "selective",
             "children": [],
             "papers": [
+              "bba4aa0b8fb5a61caa43",
               "ca9052ed289c1fddb8fe",
               "bba172e0cb33efbbc54a",
               "00bff85f077ee3207fb9"
             ],
-            "count": 3,
+            "count": 4,
             "annotated": 0
           },
           {
@@ -1393,41 +1523,23 @@
             "children": [],
             "papers": [
               "cf99b3232bd06cbcdf68",
-              "7b98382553c77de3f12b"
+              "7b98382553c77de3f12b",
+              "c735a3c4aee0ae491e2d"
             ],
-            "count": 2,
-            "annotated": 2
+            "count": 3,
+            "annotated": 3
           }
         ],
         "papers": [
-          "03efad274a14166ee197",
-          "f32f36b887aa80e86b18",
           "85e3935b6736f954a5e3",
-          "62d0ce4041ca40eee043",
-          "9fea6b6a82c23f46a63a",
-          "c212794bec0a5c1e06c1",
-          "51cac74d8a453f77b4c2",
-          "f5ad48cd3b753f4b0241",
-          "da091026cd866e928517",
-          "fa3beaf76fa0e9e02618",
-          "9c8207b1f2bcfe759d68",
-          "546df7c12849297d6883",
-          "f8706c5316d751f1d815",
-          "22e2c810f2d21da1039e",
-          "699af9f985a67145f137",
-          "62f00cf16405eb94a866",
-          "51e9793f65b42f914f70",
-          "15a3d70efaf2870762f0",
-          "aaba3cf962cd33a854b6",
-          "a43763943cbe95306848",
-          "fdaab3fa2c1ebeb03f59"
+          "9c8207b1f2bcfe759d68"
         ],
         "count": 71,
         "annotated": 24
       }
     ],
     "papers": [],
-    "count": 637,
+    "count": 669,
     "annotated": 244
   },
   "papers": [
@@ -1440,6 +1552,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2605.20025"
+    },
+    {
+      "id": "f36a289c4e744a21ad6d",
+      "title": "ClaimNov",
+      "category": "agents/frameworks",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2610.36511"
     },
     {
       "id": "2c20c7ca494ba9c63f22",
@@ -1542,6 +1664,16 @@
       "arxivUrl": "https://arxiv.org/abs/2604.18292"
     },
     {
+      "id": "89b0083a9ac51b108d30",
+      "title": "Context Language Models",
+      "category": "agents",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
       "id": "a044dbf6658ba96f6be0",
       "title": "GLEAN",
       "category": "agents",
@@ -1582,6 +1714,26 @@
       "arxivUrl": "https://arxiv.org/abs/2409.13430"
     },
     {
+      "id": "f79deb19bfb67a5dc4ef",
+      "title": "SU2 Rotation Estimators",
+      "category": "CV/3D",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "6747d03377b48ec91410",
+      "title": "TamperTok",
+      "category": "CV/3D",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
       "id": "e9634982c0edee074e18",
       "title": "14626 - The Null Is the Hard Part",
       "category": "diffusion",
@@ -1610,6 +1762,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2511.13720"
+    },
+    {
+      "id": "197416874703ddf26c18",
+      "title": "Scaling In-the-Wild Training",
+      "category": "diffusion",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
     },
     {
       "id": "c6eb58f819f1cd4d2acd",
@@ -1662,16 +1824,6 @@
       "arxivUrl": "https://arxiv.org/abs/2606.06462"
     },
     {
-      "id": "71c70dcad559f96338ac",
-      "title": "EvalScientist",
-      "category": "evaluation/benchmaker",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": ""
-    },
-    {
       "id": "9e612393eb91fbe6e1b3",
       "title": "OKBench",
       "category": "evaluation/benchmaker",
@@ -1710,6 +1862,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2510.22954"
+    },
+    {
+      "id": "0c2f4328e7cf63fec842",
+      "title": "autumnbench",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2510.19788"
     },
     {
       "id": "c40198c83242108d592d",
@@ -1782,6 +1944,16 @@
       "arxivUrl": "https://arxiv.org/abs/2404.07972"
     },
     {
+      "id": "b8a371d3044707caa4fd",
+      "title": "PostTrainBench",
+      "category": "evaluation/benchmark",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2603.08640"
+    },
+    {
       "id": "b17c2bb05038fc38661a",
       "title": "Time Horizon",
       "category": "evaluation/benchmark",
@@ -1790,6 +1962,36 @@
       "hasSummary": true,
       "excerpt": "把“模型能做什么”换算成“人类需要多久才能做完”，就让 GPT-2 到 o3 这六年的进展落在同一条直线上：50% 时间跨度从 2 秒到将近 2 小时，大约每 7 个月翻一倍。还有一个耐人寻味的发现：同一个真实 issue，熟悉代码库的维护者 5 分钟就能做完，外部专业人士要花 1 个多小时，而模型的表现对应的是后者。",
       "arxivUrl": "https://arxiv.org/abs/2503.14499"
+    },
+    {
+      "id": "5f578a51cbb0e7353904",
+      "title": "Emperor’s New Clothes",
+      "category": "evaluation/contamination",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "让污染模型的分数恢复正常还不够：它可能只是换了一批会做的题。真正有效的基准更新，要同时让原题记忆失效、让原来的能力测量继续成立。",
+      "arxivUrl": "https://arxiv.org/abs/2503.16402"
+    },
+    {
+      "id": "ea6faab6cf4101e25055",
+      "title": "Forgetting Contamination",
+      "category": "evaluation/contamination",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "整个基准数据集在训练数据里重复出现 12 次、甚至单题重复 144 次，只要之后再用足够多的新数据训练，模型在这些题上的表现就和从没见过一样。另一个值得记住的点是：仅凭学习率调度和权重衰减系数这两个公开的超参数，就能粗略判断一个大模型已经“忘掉”了训练前多少比例的数据。",
+      "arxivUrl": "https://arxiv.org/abs/2410.03249"
+    },
+    {
+      "id": "2a81be4037e91162f0fb",
+      "title": "LRM_Conta_Detection_Arena",
+      "category": "evaluation/contamination",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2510.02386"
     },
     {
       "id": "0e2e33f9daa3dce16743",
@@ -1802,16 +2004,6 @@
       "arxivUrl": "https://arxiv.org/abs/2603.20807"
     },
     {
-      "id": "b1cce0990a1d8c56a304",
-      "title": "Emperor’s New Clothes",
-      "category": "evaluation",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "让污染模型的分数恢复正常还不够：它可能只是换了一批会做的题。真正有效的基准更新，要同时让原题记忆失效、让原来的能力测量继续成立。",
-      "arxivUrl": "https://arxiv.org/abs/2503.16402"
-    },
-    {
       "id": "2a95cefcb61f376acc11",
       "title": "English(US) bias in LLM",
       "category": "evaluation",
@@ -1820,26 +2012,6 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": ""
-    },
-    {
-      "id": "e2ce6afb1c984b0c3d63",
-      "title": "Forgetting Contamination",
-      "category": "evaluation",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "整个基准数据集在训练数据里重复出现 12 次、甚至单题重复 144 次，只要之后再用足够多的新数据训练，模型在这些题上的表现就和从没见过一样。另一个值得记住的点是：仅凭学习率调度和权重衰减系数这两个公开的超参数，就能粗略判断一个大模型已经“忘掉”了训练前多少比例的数据。",
-      "arxivUrl": "https://arxiv.org/abs/2410.03249"
-    },
-    {
-      "id": "2133d51b659fe932b13f",
-      "title": "LRM_Conta_Detection_Arena",
-      "category": "evaluation",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2510.02386"
     },
     {
       "id": "711b93141b4ab72bae5c",
@@ -1862,6 +2034,16 @@
       "arxivUrl": "https://arxiv.org/abs/2602.13576"
     },
     {
+      "id": "a41c23744daa02201354",
+      "title": "data shapley",
+      "category": "interpretability/data influence",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.11011"
+    },
+    {
       "id": "ffb66019e65684c0ea86",
       "title": "datamodel",
       "category": "interpretability/data influence",
@@ -1880,6 +2062,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/1812.05159"
+    },
+    {
+      "id": "f0e0e2fa905e6fc5bfc6",
+      "title": "MDA",
+      "category": "interpretability/data influence",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2601.21996"
     },
     {
       "id": "32d39694b79c6cea4e8b",
@@ -1902,9 +2094,9 @@
       "arxivUrl": "https://arxiv.org/abs/2410.17413"
     },
     {
-      "id": "fff94acba77fa7609aea",
+      "id": "295924bbd00015752d58",
       "title": "AxBench",
-      "category": "interpretability",
+      "category": "interpretability/features",
       "hasPdf": true,
       "hasNote": true,
       "hasSummary": true,
@@ -1912,24 +2104,44 @@
       "arxivUrl": "https://arxiv.org/abs/2501.17148"
     },
     {
-      "id": "b016df2e3da03cb4c3b9",
-      "title": "data shapley",
-      "category": "interpretability",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2406.11011"
-    },
-    {
-      "id": "b7fbc89fc13a09f0c068",
+      "id": "cd1cbb9ed42fcd460f2f",
       "title": "Emotion Circuits",
-      "category": "interpretability",
+      "category": "interpretability/features",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2510.11328"
+    },
+    {
+      "id": "e53a39a3db933e03aacc",
+      "title": "Entity Knowledge Awareness",
+      "category": "interpretability/features",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "232b23358fe5e81e0522",
+      "title": "SAE",
+      "category": "interpretability/features",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2309.08600"
+    },
+    {
+      "id": "ec6a93ce3c77e53607b1",
+      "title": "tell-tale",
+      "category": "interpretability/features",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "已有推理控制方法通常从输出文字或输出概率判断哪里需要思考，难以看到生成一个 token 之前的逐层计算；SAE 虽然能把隐藏表示拆成较可解释的特征，却需要针对模型和层额外训练。本文先用 SAE 比较同一道题的“逐步推理回答”和“直接作答回答”，找出前者平均激活更强的特征，发现这些推理相关特征主要在最后约四分之一层增强。隐藏状态的 $\\ell2$ 范数，也就是…",
+      "arxivUrl": "https://arxiv.org/abs/2606.06188"
     },
     {
       "id": "f2c2135244cfd1bddf4c",
@@ -1940,36 +2152,6 @@
       "hasSummary": true,
       "excerpt": "已有工作常用“能否从提示生成训练文本”定义记忆，但生成可能来自泛化：会按规则算出答案，不等于背过那道题。本文因此把记忆定义成模型为样本节省的描述长度。若 $\\theta$ 代表真实数据规律、$\\hat\\theta$ 是训练模型，那么单样本非预期记忆是",
       "arxivUrl": "https://arxiv.org/abs/2505.24832"
-    },
-    {
-      "id": "127039002c4d6ac5dab8",
-      "title": "MDA",
-      "category": "interpretability",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2601.21996"
-    },
-    {
-      "id": "5486275cd316fd1a69d9",
-      "title": "SAE",
-      "category": "interpretability",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2309.08600"
-    },
-    {
-      "id": "9d510439585f664133b1",
-      "title": "tell-tale",
-      "category": "interpretability",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "已有推理控制方法通常从输出文字或输出概率判断哪里需要思考，难以看到生成一个 token 之前的逐层计算；SAE 虽然能把隐藏表示拆成较可解释的特征，却需要针对模型和层额外训练。本文先用 SAE 比较同一道题的“逐步推理回答”和“直接作答回答”，找出前者平均激活更强的特征，发现这些推理相关特征主要在最后约四分之一层增强。隐藏状态的 $\\ell2$ 范数，也就是…",
-      "arxivUrl": "https://arxiv.org/abs/2606.06188"
     },
     {
       "id": "b8d7f022e523a135bf8d",
@@ -2812,6 +2994,66 @@
       "arxivUrl": "https://arxiv.org/abs/2408.05486"
     },
     {
+      "id": "1330c0025cad8540f33e",
+      "title": "gradient starvation",
+      "category": "optimization/dynamics",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2011.09468"
+    },
+    {
+      "id": "fdcb2297341499662688",
+      "title": "nonlinear dynamics exact solutions",
+      "category": "optimization/dynamics",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/1312.6120"
+    },
+    {
+      "id": "1601e52bb7f8f3d6891d",
+      "title": "Parameter Norm Growth",
+      "category": "optimization/dynamics",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2010.09697"
+    },
+    {
+      "id": "91a27998f21dfae94b1e",
+      "title": "Training Trajectories Across Scales",
+      "category": "optimization/dynamics",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2212.09803"
+    },
+    {
+      "id": "4a828a745f15e56fe951",
+      "title": "Trajectory Directionality",
+      "category": "optimization/dynamics",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "08abdcc8a5881f392ca8",
+      "title": "Two-Stage Training Dynamics",
+      "category": "optimization/dynamics",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2510.06954"
+    },
+    {
       "id": "c95a3eccbcee0e1f1547",
       "title": "Complete-d-P",
       "category": "optimization/hp transfer",
@@ -2992,6 +3234,26 @@
       "arxivUrl": "https://arxiv.org/abs/2410.21676"
     },
     {
+      "id": "4dfbd4060b2974e09bac",
+      "title": "Large-Batch Empirical Model",
+      "category": "optimization/hyperparams",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/1812.06162"
+    },
+    {
+      "id": "d88091863407f37b0b77",
+      "title": "Large-Batch Extrapolation",
+      "category": "optimization/hyperparams",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2006.05720"
+    },
+    {
       "id": "88ba9a969b7c1a496dc0",
       "title": "Power Lines",
       "category": "optimization/hyperparams",
@@ -3030,6 +3292,86 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2506.02285"
+    },
+    {
+      "id": "7b85ebed34c799aec455",
+      "title": "BAR",
+      "category": "optimization/landscape",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.14802"
+    },
+    {
+      "id": "9424322e459891d14b4c",
+      "title": "basin-like loss landscape",
+      "category": "optimization/landscape",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最有意思的发现是：大语言模型的能力景观在大多数参数方向上真的像一个“盆地”，而不是通常想象的光滑二次曲面；模型可以在盆地内改变生成细节却保持任务答案不变，一旦越过边界则能力突然崩溃。这个几何事实把正常微调、灾难性遗忘、对抗性微调和输入越狱统一到了同一个参数空间图景中，并进一步说明扩大随机扰动下的盆地，可能是同时提升可微调性和安全鲁棒性的直接途径。",
+      "arxivUrl": "https://arxiv.org/abs/2505.17646"
+    },
+    {
+      "id": "38828c4b93448db866b0",
+      "title": "calibration benefits of SAM",
+      "category": "optimization/landscape",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2505.23866"
+    },
+    {
+      "id": "4b595b6e211808a6498e",
+      "title": "flatness",
+      "category": "optimization/landscape",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2210.14199"
+    },
+    {
+      "id": "0cb8dafb9ba3beffadfa",
+      "title": "Knowledge is a Region in Weight Space for Finetuned Language Models",
+      "category": "optimization/landscape",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
+      "id": "9e424e2e28ee4cee4aae",
+      "title": "SAM",
+      "category": "optimization/landscape",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2010.01412"
+    },
+    {
+      "id": "d4d02e9b4b4b204df891",
+      "title": "An Optimal Control Approach to Sequential Machine Teaching",
+      "category": "optimization/machine teaching",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "顺序机器教学要为一个已知学习器设计样本序列，用尽可能少的更新把参数从 $w0$ 送到目标 $w^\\star$。已有贪心策略每一步都让参数尽量靠近目标，但它忽略了当前落点会怎样影响后面的移动能力。最小二乘梯度下降的更新为",
+      "arxivUrl": "https://arxiv.org/abs/1810.06175"
+    },
+    {
+      "id": "fc7a33c8862746871524",
+      "title": "Iterative Machine Teaching",
+      "category": "optimization/machine teaching",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/1705.10470"
     },
     {
       "id": "fce3461677a93e8daa4a",
@@ -3192,26 +3534,6 @@
       "arxivUrl": "https://arxiv.org/abs/2601.08393"
     },
     {
-      "id": "130f047ae0687107f627",
-      "title": "An Optimal Control Approach to Sequential Machine Teaching",
-      "category": "optimization/path",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "顺序机器教学要为一个已知学习器设计样本序列，用尽可能少的更新把参数从 $w0$ 送到目标 $w^\\star$。已有贪心策略每一步都让参数尽量靠近目标，但它忽略了当前落点会怎样影响后面的移动能力。最小二乘梯度下降的更新为",
-      "arxivUrl": "https://arxiv.org/abs/1810.06175"
-    },
-    {
-      "id": "2e9284cbf35d0a10528f",
-      "title": "Iterative Machine Teaching",
-      "category": "optimization/path",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/1705.10470"
-    },
-    {
       "id": "804a5b8cc8e31bf9e8dc",
       "title": "Beyond-Fixed-Durations",
       "category": "optimization/schedule",
@@ -3260,6 +3582,16 @@
       "hasSummary": true,
       "excerpt": "一个线性衰减到零的调度，在过度训练时能把 10× cosine 的算力省掉一大半，而这个领域多年来一直默认“衰减到 10%”。另外，把 AdamW 的权重看成历史更新的凸组合，就把“学习率调度”变成了“对历次更新怎么加权”的问题，WSD 并非与训练长度无关、高学习率模型会过拟合最后的训练数据，都可以从这个视角直接看出来。",
       "arxivUrl": "https://arxiv.org/abs/2502.15938"
+    },
+    {
+      "id": "512fe7a655ab365ab582",
+      "title": "WSD-S",
+      "category": "optimization/schedule",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2410.05192"
     },
     {
       "id": "f0ee7543106b266350c4",
@@ -3330,96 +3662,6 @@
       "hasSummary": true,
       "excerpt": "原始 Transformer 论文里那个几乎被所有现代实现删掉的\"embedding 乘以 \\(\\sqrt{d}\\)\"，在这篇论文的分析里成了防止 LLM 预训练 loss spike 的关键：只要残差流相对于子层权重足够\"大\"，LN 对梯度的放大就被压住了，一行代码就让 13B 模型在原本会发散的学习率下稳定训练。",
       "arxivUrl": "https://arxiv.org/abs/2312.16903"
-    },
-    {
-      "id": "25a36289f9968987414a",
-      "title": "BAR",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2410.14802"
-    },
-    {
-      "id": "1111e03ab742cfe593e7",
-      "title": "basin-like loss landscape",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "最有意思的发现是：大语言模型的能力景观在大多数参数方向上真的像一个“盆地”，而不是通常想象的光滑二次曲面；模型可以在盆地内改变生成细节却保持任务答案不变，一旦越过边界则能力突然崩溃。这个几何事实把正常微调、灾难性遗忘、对抗性微调和输入越狱统一到了同一个参数空间图景中，并进一步说明扩大随机扰动下的盆地，可能是同时提升可微调性和安全鲁棒性的直接途径。",
-      "arxivUrl": "https://arxiv.org/abs/2505.17646"
-    },
-    {
-      "id": "8387b0f899a4be160188",
-      "title": "calibration benefits of SAM",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2505.23866"
-    },
-    {
-      "id": "fc3e5f26768ce33b4441",
-      "title": "flatness",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2210.14199"
-    },
-    {
-      "id": "ebca4cd3c43dc955ca4f",
-      "title": "gradient starvation",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2011.09468"
-    },
-    {
-      "id": "d26526788c9ee57a9afc",
-      "title": "Knowledge is a Region in Weight Space for Finetuned Language Models",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": ""
-    },
-    {
-      "id": "f6a45d26408b937c5a13",
-      "title": "nonlinear dynamics exact solutions",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/1312.6120"
-    },
-    {
-      "id": "3fadf769369ef7428239",
-      "title": "SAM",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2010.01412"
-    },
-    {
-      "id": "758f9c612a8bf6f5e107",
-      "title": "WSD-S",
-      "category": "optimization",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2410.05192"
     },
     {
       "id": "9aab86af0be51c29dd79",
@@ -4432,6 +4674,16 @@
       "arxivUrl": "https://arxiv.org/abs/2506.08989"
     },
     {
+      "id": "c77a8b08a0d062efefe7",
+      "title": "ClusterUCB",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2506.10288"
+    },
+    {
       "id": "10a8779f43ce2b067ecd",
       "title": "CoLM",
       "category": "post-train/SFT/data selection",
@@ -4449,7 +4701,17 @@
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2502.11062"
+      "arxivUrl": ""
+    },
+    {
+      "id": "55d45442d45fe5a79ad9",
+      "title": "Gradient Trajectory Pursuit",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
     },
     {
       "id": "35ed3f985e47c918f4e6",
@@ -4460,6 +4722,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": ""
+    },
+    {
+      "id": "76e15e2bdbae29f9178b",
+      "title": "label-effienct-SFT",
+      "category": "post-train/SFT/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2401.06692"
     },
     {
       "id": "24eaf6b17746d3c2d077",
@@ -4520,6 +4792,26 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": ""
+    },
+    {
+      "id": "51cb56feba82aa368336",
+      "title": "Dataset Distillation Survey",
+      "category": "post-train/SFT/data synthesis",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2301.05603"
+    },
+    {
+      "id": "702a19b30bf39b80a79c",
+      "title": "DiLM",
+      "category": "post-train/SFT/data synthesis",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2404.00264"
     },
     {
       "id": "67d0a6467750ad78d35b",
@@ -4682,16 +4974,6 @@
       "arxivUrl": "https://arxiv.org/abs/2012.13255"
     },
     {
-      "id": "835b03738b10402dfdd1",
-      "title": "label-effienct-SFT",
-      "category": "post-train/SFT",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2401.06692"
-    },
-    {
       "id": "88ed4cca442e8f18d0d8",
       "title": "Learning Dynamics of LLM Finetuning",
       "category": "post-train/SFT",
@@ -4742,6 +5024,16 @@
       "arxivUrl": "https://arxiv.org/abs/2309.12288"
     },
     {
+      "id": "07ecf4fc937c7150e840",
+      "title": "URIAL",
+      "category": "post-train/SFT",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2312.01552"
+    },
+    {
       "id": "22d8a6fec1400b4453a8",
       "title": "Catastrophic Overtraining",
       "category": "post-train",
@@ -4770,16 +5062,6 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2605.02105"
-    },
-    {
-      "id": "da53ecbdae1e09d22473",
-      "title": "URIAL",
-      "category": "post-train",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2312.01552"
     },
     {
       "id": "bc444444fa082e112d69",
@@ -4850,6 +5132,16 @@
       "hasSummary": true,
       "excerpt": "一个几乎没在学习的代理模型反而是更好的数据裁判：把代理模型的学习率降到标准值的十分之一到百分之一，这样的学习率用于正式训练会慢到毫无实用价值，但它给出的数据集排名却与充分调参的大模型高度一致；而用\"正常\"学习率训练的代理，排名在很多指标上接近随机。",
       "arxivUrl": "https://arxiv.org/abs/2512.24503"
+    },
+    {
+      "id": "d6da530c3789ff6ef956",
+      "title": "SemDeDup",
+      "category": "pretrain/data curation",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
     },
     {
       "id": "da9693bc9840a0fc1bb5",
@@ -5002,6 +5294,46 @@
       "arxivUrl": "https://arxiv.org/abs/2502.10341"
     },
     {
+      "id": "e3511bf59d3f24b3081d",
+      "title": "Grad-MATCH",
+      "category": "pretrain/data pruning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2103.00123"
+    },
+    {
+      "id": "37a9601643c0145d13f5",
+      "title": "InfoBatch",
+      "category": "pretrain/data pruning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2303.04947"
+    },
+    {
+      "id": "48b9fc633ca98c125446",
+      "title": "Selection via Proxy",
+      "category": "pretrain/data pruning",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/1906.11829"
+    },
+    {
+      "id": "87419b407384b7662b30",
+      "title": "AttentionInfluence",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2505.07293"
+    },
+    {
       "id": "fc9c9085fa29034f1fbb",
       "title": "BETR",
       "category": "pretrain/data selection",
@@ -5012,6 +5344,36 @@
       "arxivUrl": "https://arxiv.org/abs/2507.12466"
     },
     {
+      "id": "d68123936a56d742aaa9",
+      "title": "Data Selection Survey",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2402.16827"
+    },
+    {
+      "id": "b665c67d9751ea47dc0f",
+      "title": "DSDM",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2401.12926"
+    },
+    {
+      "id": "e96c369f506af51740e0",
+      "title": "DSIR",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
+    },
+    {
       "id": "f9fe453f60b1a94334e6",
       "title": "Group-MATES",
       "category": "pretrain/data selection",
@@ -5020,6 +5382,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2502.14709"
+    },
+    {
+      "id": "d288dea3ac3f2040affa",
+      "title": "Harnessing Diversity",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2409.16986"
     },
     {
       "id": "4f7dcde8b00cd13d5d91",
@@ -5100,6 +5472,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2206.07137"
+    },
+    {
+      "id": "3d66176355c4c6ca7374",
+      "title": "ScalingFilter",
+      "category": "pretrain/data selection",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2408.08310"
     },
     {
       "id": "618663766d0088dddf10",
@@ -5460,6 +5842,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2604.01411"
+    },
+    {
+      "id": "8bcd81e26f30a3b5065a",
+      "title": "Vocabulary Scaling Law",
+      "category": "pretrain/scaling law",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
     },
     {
       "id": "5fcb03130ba8083ec133",
@@ -5880,6 +6272,16 @@
       "hasSummary": true,
       "excerpt": "在同一个 RL 算法上只把网络从 4 层加到 1024 层，Humanoid 就从“把自己扔向目标”变成了能翻墙的策略，而且这种能力是在某个临界深度突然出现的，和大语言模型里的“涌现”很像；而让这一切成立的关键之一，是把 RL 换成一个本质上是分类问题的自监督目标。",
       "arxivUrl": "https://arxiv.org/abs/2503.14858"
+    },
+    {
+      "id": "429838c8916443be2f10",
+      "title": "Bootstrapped Meta-Learning",
+      "category": "rl/deep-rl",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": ""
     },
     {
       "id": "e98e4c79f65e8de25f1d",
@@ -6512,6 +6914,26 @@
       "arxivUrl": "https://arxiv.org/abs/2405.21046"
     },
     {
+      "id": "b89fd25a8216bdd81be6",
+      "title": "CoT monitor",
+      "category": "safety/CoT monitoring",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最出人意料的是，模型学会了“有选择地算错”：把监控者盯着的完整中间结果破坏掉，却保留足以恢复答案的信息。必须把计算写出来，并不意味着必须写出监控者预期的那种计算。",
+      "arxivUrl": "https://arxiv.org/abs/2507.05246"
+    },
+    {
+      "id": "2749b4f05a89bf400a66",
+      "title": "CoT obfuscation",
+      "category": "safety/CoT monitoring",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "直接训练模型\"不许在 CoT 里想作弊\"，并不会让它不作弊，而是让它学会一边写着看似正常的思考、一边作弊，并且监控器对这种作弊的召回从接近 1 掉到接近 0。过程监督历来被视为\"构造上安全\"，在这里却会反过来摧毁我们唯一能读懂模型意图的窗口。与之相对，一个编程能力远逊的 GPT-4o 只靠读 CoT 就能抓住最强推理模型 95% 的系统性作弊，而只看动作只能…",
+      "arxivUrl": "https://arxiv.org/abs/2503.11926"
+    },
+    {
       "id": "c1273c35e3e216d55c4a",
       "title": "EMA",
       "category": "safety/EMA",
@@ -6572,6 +6994,16 @@
       "arxivUrl": "https://arxiv.org/abs/2307.15043"
     },
     {
+      "id": "3a01aec2c29a9abcd83b",
+      "title": "LLM-VA",
+      "category": "safety/jailbreak",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2601.19487"
+    },
+    {
       "id": "40b70a980b2253a445fc",
       "title": "PAIR",
       "category": "safety/jailbreak",
@@ -6590,6 +7022,36 @@
       "hasSummary": true,
       "excerpt": "当前的安全对齐只有几个 token 深：只要强制未对齐的基座模型以 \"I cannot fulfill\" 开头，它就和精心对齐过的模型差不多安全；反过来，只要让对齐模型以几个有害 token 开头，它就和基座模型一样会把有害内容写完。几种原本互不相关的越狱攻击（预填充、对抗后缀、解码参数、微调）由此被统一成同一个弱点，而防御思路也只需反过来做：把“回到拒绝”…",
       "arxivUrl": "https://arxiv.org/abs/2406.05946"
+    },
+    {
+      "id": "513671ce5797089bc677",
+      "title": "X-boundary",
+      "category": "safety/jailbreak",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.09990"
+    },
+    {
+      "id": "962623545214185fa6e7",
+      "title": "AI Safety Should Prioritize the Future of Work",
+      "category": "safety/position",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2504.13959"
+    },
+    {
+      "id": "45f88f849fa26b3eb840",
+      "title": "CensorsToolkit",
+      "category": "safety/position",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "作者的核心主张不是“alignment 有害”，也不是要求停止安全研究，而是指出一个常被忽略的双用途关系：使模型更稳定地服从某组价值、偏好和规则的技术，同样可以使模型更稳定地服从审查者、政府或企业所有者的政治目标。技术本身不能判断被写入的是“拒绝炸弹制造说明”还是“拒绝某段历史事实”；决定结果的是谁定义了模型应服从的 intentions and value…",
+      "arxivUrl": ""
     },
     {
       "id": "b1a8bec58794bac72b42",
@@ -6632,16 +7094,6 @@
       "arxivUrl": "https://arxiv.org/abs/2604.16968"
     },
     {
-      "id": "977ec68fb35c20dc8d2e",
-      "title": "AI Safety Should Prioritize the Future of Work",
-      "category": "safety",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2504.13959"
-    },
-    {
       "id": "3688a75ff2fd9b195401",
       "title": "ai-wellbeing",
       "category": "safety",
@@ -6662,74 +7114,34 @@
       "arxivUrl": "https://arxiv.org/abs/2412.14093"
     },
     {
-      "id": "ddcd9affa9f3f65d8287",
-      "title": "CensorsToolkit",
-      "category": "safety",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": false,
-      "excerpt": "作者的核心主张不是“alignment 有害”，也不是要求停止安全研究，而是指出一个常被忽略的双用途关系：使模型更稳定地服从某组价值、偏好和规则的技术，同样可以使模型更稳定地服从审查者、政府或企业所有者的政治目标。技术本身不能判断被写入的是“拒绝炸弹制造说明”还是“拒绝某段历史事实”；决定结果的是谁定义了模型应服从的 intentions and value…",
-      "arxivUrl": "https://arxiv.org/abs/2608.12346"
-    },
-    {
-      "id": "487bd5a53818a9ffa173",
-      "title": "CoT monitor",
-      "category": "safety",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "最出人意料的是，模型学会了“有选择地算错”：把监控者盯着的完整中间结果破坏掉，却保留足以恢复答案的信息。必须把计算写出来，并不意味着必须写出监控者预期的那种计算。",
-      "arxivUrl": "https://arxiv.org/abs/2507.05246"
-    },
-    {
-      "id": "7d67c9f2ab921a8a86d4",
-      "title": "CoT obfuscation",
-      "category": "safety",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "直接训练模型\"不许在 CoT 里想作弊\"，并不会让它不作弊，而是让它学会一边写着看似正常的思考、一边作弊，并且监控器对这种作弊的召回从接近 1 掉到接近 0。过程监督历来被视为\"构造上安全\"，在这里却会反过来摧毁我们唯一能读懂模型意图的窗口。与之相对，一个编程能力远逊的 GPT-4o 只靠读 CoT 就能抓住最强推理模型 95% 的系统性作弊，而只看动作只能…",
-      "arxivUrl": "https://arxiv.org/abs/2503.11926"
-    },
-    {
-      "id": "339f0997b5480bb32723",
-      "title": "LLM-VA",
+      "id": "471f3355badff83361c3",
+      "title": "Automated Alignment",
       "category": "safety",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2601.19487"
+      "arxivUrl": "https://arxiv.org/abs/2605.06390"
     },
     {
-      "id": "01636a2853591b02c2ee",
-      "title": "X-boundary",
+      "id": "f314f624875db3c8db0b",
+      "title": "LLM Brain Rot",
       "category": "safety",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2502.09990"
+      "arxivUrl": "https://arxiv.org/abs/2510.13928"
     },
     {
-      "id": "895331e6a1be60a2be6f",
-      "title": "AttnRes",
-      "category": "structure/attn",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "把“残差连接”重新理解为沿深度的线性注意力，然后像 Transformer 取代 RNN 那样把它换成 softmax 注意力，代价只是每层一个零初始化的 $d$ 维向量；而让它在大规模训练里可用的关键，是这个查询不依赖输入，从而一整块层的深度注意力可以像解码时复用 KV cache 一样批量算完。",
-      "arxivUrl": "https://arxiv.org/abs/2603.15031"
-    },
-    {
-      "id": "e6a1295513a2256495f9",
-      "title": "depth-attention",
-      "category": "structure/attn",
+      "id": "59b8694dcf40056fc5e0",
+      "title": "Safety Pretraining",
+      "category": "safety",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2606.05014"
+      "arxivUrl": "https://arxiv.org/abs/2504.16980"
     },
     {
       "id": "474ad305e5eebc58b742",
@@ -6800,6 +7212,16 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2607.05147"
+    },
+    {
+      "id": "8f7c4ffa4767a42d717e",
+      "title": "delta-mem",
+      "category": "structure/linear-hybrid",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2605.12357"
     },
     {
       "id": "528ecb6c611b68410481",
@@ -7012,19 +7434,29 @@
       "arxivUrl": "https://arxiv.org/abs/2609.35751"
     },
     {
-      "id": "68f185457747be846606",
-      "title": "delta-mem",
-      "category": "structure",
+      "id": "91135e7de104e9e36d83",
+      "title": "AttnRes",
+      "category": "structure/residual",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "把“残差连接”重新理解为沿深度的线性注意力，然后像 Transformer 取代 RNN 那样把它换成 softmax 注意力，代价只是每层一个零初始化的 $d$ 维向量；而让它在大规模训练里可用的关键，是这个查询不依赖输入，从而一整块层的深度注意力可以像解码时复用 KV cache 一样批量算完。",
+      "arxivUrl": "https://arxiv.org/abs/2603.15031"
+    },
+    {
+      "id": "7d29abf37ffa7e708bd3",
+      "title": "depth-attention",
+      "category": "structure/residual",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
       "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2605.12357"
+      "arxivUrl": "https://arxiv.org/abs/2606.05014"
     },
     {
-      "id": "383b234e2df2c4587cad",
+      "id": "bd700584c3866aab336f",
       "title": "mHC",
-      "category": "structure",
+      "category": "structure/residual",
       "hasPdf": true,
       "hasNote": false,
       "hasSummary": false,
@@ -7102,6 +7534,26 @@
       "arxivUrl": "https://arxiv.org/abs/2409.13474"
     },
     {
+      "id": "f9905b75f047af26e977",
+      "title": "delta-unlearning",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2404.11045"
+    },
+    {
+      "id": "50134b559d46b40c71c6",
+      "title": "ME&AP",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型可能从互联网训练语料中记住未经授权的隐私或受版权保护的内容。用户依据“被遗忘权”要求删除这些内容时，最彻底的办法是从训练数据中清除相关样本并重新训练模型，但大模型从头训练的成本通常不可接受，而且现实中往往连哪些训练文本包含目标信息都无法完整定位。因此，研究者转而采用机器遗忘：用一个指定的遗忘集对已有模型做一次额外的参数优化，得到遗忘后的模型。",
+      "arxivUrl": "https://arxiv.org/abs/2410.08109"
+    },
+    {
       "id": "c1cd1ad23ff7d46ecff7",
       "title": "NPO",
       "category": "unlearning/algorithms",
@@ -7140,6 +7592,26 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2410.07163"
+    },
+    {
+      "id": "e96b3e0282bef9dac83f",
+      "title": "SSU",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.10952"
+    },
+    {
+      "id": "50386c677bf4189f056b",
+      "title": "ULD",
+      "category": "unlearning/algorithms",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2406.08607"
     },
     {
       "id": "c0d3a12b3810e6383de2",
@@ -7212,6 +7684,26 @@
       "arxivUrl": ""
     },
     {
+      "id": "cd26614086b8d1f950f1",
+      "title": "open-unlearning",
+      "category": "unlearning/benchmarks/LM",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2506.12618"
+    },
+    {
+      "id": "5af29a897df97fa203f0",
+      "title": "RETURN",
+      "category": "unlearning/benchmarks/LM",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2407.10058"
+    },
+    {
       "id": "35da5b2bd0b1eb8b627f",
       "title": "TOFU",
       "category": "unlearning/benchmarks/LM",
@@ -7230,6 +7722,46 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2403.03218"
+    },
+    {
+      "id": "7a05035cfd725f01db2c",
+      "title": "MU under RF entanglement",
+      "category": "unlearning/classification",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2603.26569"
+    },
+    {
+      "id": "bb38b146a1bee653e3de",
+      "title": "OrthoGrad",
+      "category": "unlearning/classification",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2503.02312"
+    },
+    {
+      "id": "5894df6c71439ca30910",
+      "title": "SSD",
+      "category": "unlearning/classification",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "机器遗忘要解决的是：模型已经用某些样本训练过，但现在需要消除这些样本对模型的影响，同时尽量不损害模型从其余数据中学到的能力。最直接的“金标准”是删掉待遗忘样本后从头训练一个新模型；这个模型从未见过待遗忘数据，因此它的行为可以作为遗忘目标。然而，从头训练耗时、耗算力，在大模型上尤其难以承受。",
+      "arxivUrl": "https://arxiv.org/abs/2308.07707"
+    },
+    {
+      "id": "9924a925a978a849375b",
+      "title": "Concept Entanglement",
+      "category": "unlearning/CV",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "最有意思的是：间接提示能把被删概念找回来，与强力删除误伤邻近概念，可能是同一份共享表示的两面。留下它会泄漏，压制它会连带伤害。",
+      "arxivUrl": "https://arxiv.org/abs/2609.34137"
     },
     {
       "id": "36b22e7b64dd68a00525",
@@ -7352,6 +7884,16 @@
       "arxivUrl": "https://arxiv.org/abs/2308.14761"
     },
     {
+      "id": "55887da5810b281ab7e8",
+      "title": "Unlearning in Diffusion Models",
+      "category": "unlearning/CV",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2605.30825"
+    },
+    {
       "id": "c8b05dd5b13610725811",
       "title": "When Are Concepts Erased",
       "category": "unlearning/CV",
@@ -7392,6 +7934,36 @@
       "arxivUrl": "https://arxiv.org/abs/2410.22086"
     },
     {
+      "id": "880cd0d58915ab8b53f4",
+      "title": "SAGO",
+      "category": "unlearning/directions",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2604.14808"
+    },
+    {
+      "id": "587c548b8f5e97672d22",
+      "title": "SSNS",
+      "category": "unlearning/directions",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2502.11441"
+    },
+    {
+      "id": "8b7ff65060f692e9d2b7",
+      "title": "WAGLE",
+      "category": "unlearning/directions",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": false,
+      "excerpt": "大语言模型可能保存并生成隐私、版权、有害或非法内容，因此模型发布后常需要消除某些数据的影响或相应能力。分类模型中的机器遗忘通常有一个明确目标，例如删除若干样本或整个类别；如果模型不大，还可以删掉目标数据后从头训练，把所得模型作为“精确遗忘”的金标准。对大语言模型，这条路线既因训练成本而不可行，也常因无法追溯某项知识究竟来自哪些预训练样本而无法实施。实际的 L…",
+      "arxivUrl": "https://arxiv.org/abs/2410.17509"
+    },
+    {
       "id": "896bca7fbcd24b2fd488",
       "title": "FADE-metric",
       "category": "unlearning/MUdefinition",
@@ -7430,6 +8002,16 @@
       "hasSummary": true,
       "excerpt": "真正的遗忘可能要求模型失去一项有用能力；正确遗忘后的模型也可能继续回答所谓“遗忘问题”。判断标准不是它忘得多不多，而是它是否接近从未用过那批数据训练的模型。",
       "arxivUrl": "https://arxiv.org/abs/2606.27379"
+    },
+    {
+      "id": "b3de18ce092e62a6dd24",
+      "title": "UWC",
+      "category": "unlearning/MUdefinition",
+      "hasPdf": true,
+      "hasNote": true,
+      "hasSummary": true,
+      "excerpt": "一场把模型几乎“删坏”的遗忘训练，仍可能留下有用的更新方向：不必重新训练，只需与原模型做参数插值，就能恢复普通能力，同时保留一部分针对目标知识的删除效果。",
+      "arxivUrl": "https://arxiv.org/abs/2406.09179"
     },
     {
       "id": "250c409e33f0e0887082",
@@ -7482,6 +8064,16 @@
       "arxivUrl": "https://arxiv.org/abs/2601.18650"
     },
     {
+      "id": "14f6a9f7d170bad4bcae",
+      "title": "Mamushi",
+      "category": "unlearning/questions",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2609.38929"
+    },
+    {
       "id": "a458942f76b8b4cd02ad",
       "title": "meta-unlearning",
       "category": "unlearning/questions",
@@ -7522,6 +8114,16 @@
       "arxivUrl": "https://arxiv.org/abs/2406.07933"
     },
     {
+      "id": "2a2b907788ff9d86b238",
+      "title": "LEACE",
+      "category": "unlearning/representation",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2306.03819"
+    },
+    {
       "id": "9ba9a9a60e621b841089",
       "title": "LUNAR",
       "category": "unlearning/representation",
@@ -7540,6 +8142,16 @@
       "hasSummary": false,
       "excerpt": "大语言模型会把训练和微调数据中的信息编码进参数，其中可能包括姓名、电话号码、电子邮件地址和临床记录等私人内容。已有研究甚至能从模型中抽取出具体人物的家庭成员、工作地址和电话号码。与此同时，欧盟 GDPR 和美国 CCPA 所规定的“被遗忘权”要求系统在用户提出请求后删除其生成的内容。因此，仅从数据库中删掉原始记录是不够的：如果模型仍能复现或利用这条记录，删除…",
       "arxivUrl": "https://arxiv.org/abs/2310.20150"
+    },
+    {
+      "id": "bba4aa0b8fb5a61caa43",
+      "title": "ATWU",
+      "category": "unlearning/selective",
+      "hasPdf": true,
+      "hasNote": false,
+      "hasSummary": false,
+      "excerpt": "",
+      "arxivUrl": "https://arxiv.org/abs/2606.06320"
     },
     {
       "id": "ca9052ed289c1fddb8fe",
@@ -7592,24 +8204,14 @@
       "arxivUrl": "https://arxiv.org/abs/2405.07406"
     },
     {
-      "id": "03efad274a14166ee197",
-      "title": "ATWU",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2606.06320"
-    },
-    {
-      "id": "f32f36b887aa80e86b18",
-      "title": "Concept Entanglement",
-      "category": "unlearning",
+      "id": "c735a3c4aee0ae491e2d",
+      "title": "rethinking MU for LLMs",
+      "category": "unlearning/survey",
       "hasPdf": true,
       "hasNote": true,
       "hasSummary": true,
-      "excerpt": "最有意思的是：间接提示能把被删概念找回来，与强力删除误伤邻近概念，可能是同一份共享表示的两面——留下它会泄漏，压制它会连带伤害。",
-      "arxivUrl": "https://arxiv.org/abs/2609.34137"
+      "excerpt": "真正值得检验的，不是模型有没有停止回答几个问题，而是目标信息在改写、跨语言、再训练甚至权重量化后还能不能回来，以及与它紧密相邻的正常能力是否仍然完好。",
+      "arxivUrl": "https://arxiv.org/abs/2402.08787"
     },
     {
       "id": "85e3935b6736f954a5e3",
@@ -7622,76 +8224,6 @@
       "arxivUrl": "https://arxiv.org/abs/2508.06601"
     },
     {
-      "id": "62d0ce4041ca40eee043",
-      "title": "delta-unlearning",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2404.11045"
-    },
-    {
-      "id": "9fea6b6a82c23f46a63a",
-      "title": "LEACE",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2306.03819"
-    },
-    {
-      "id": "c212794bec0a5c1e06c1",
-      "title": "Mamushi",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2609.38929"
-    },
-    {
-      "id": "51cac74d8a453f77b4c2",
-      "title": "ME&AP",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": false,
-      "excerpt": "大语言模型可能从互联网训练语料中记住未经授权的隐私或受版权保护的内容。用户依据“被遗忘权”要求删除这些内容时，最彻底的办法是从训练数据中清除相关样本并重新训练模型，但大模型从头训练的成本通常不可接受，而且现实中往往连哪些训练文本包含目标信息都无法完整定位。因此，研究者转而采用机器遗忘：用一个指定的遗忘集对已有模型做一次额外的参数优化，得到遗忘后的模型。",
-      "arxivUrl": "https://arxiv.org/abs/2410.08109"
-    },
-    {
-      "id": "f5ad48cd3b753f4b0241",
-      "title": "MU under RF entanglement",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2603.26569"
-    },
-    {
-      "id": "da091026cd866e928517",
-      "title": "open-unlearning",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2506.12618"
-    },
-    {
-      "id": "fa3beaf76fa0e9e02618",
-      "title": "OrthoGrad",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2503.02312"
-    },
-    {
       "id": "9c8207b1f2bcfe759d68",
       "title": "resilient2relearn__SAM",
       "category": "unlearning",
@@ -7700,106 +8232,6 @@
       "hasSummary": false,
       "excerpt": "",
       "arxivUrl": "https://arxiv.org/abs/2502.05374"
-    },
-    {
-      "id": "546df7c12849297d6883",
-      "title": "rethinking MU for LLMs",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "真正值得检验的，不是模型有没有停止回答几个问题，而是目标信息在改写、跨语言、再训练甚至权重量化后还能不能回来，以及与它紧密相邻的正常能力是否仍然完好。",
-      "arxivUrl": "https://arxiv.org/abs/2402.08787"
-    },
-    {
-      "id": "f8706c5316d751f1d815",
-      "title": "RETURN",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2407.10058"
-    },
-    {
-      "id": "22e2c810f2d21da1039e",
-      "title": "SAGO",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2604.14808"
-    },
-    {
-      "id": "699af9f985a67145f137",
-      "title": "SSD",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": false,
-      "excerpt": "机器遗忘要解决的是：模型已经用某些样本训练过，但现在需要消除这些样本对模型的影响，同时尽量不损害模型从其余数据中学到的能力。最直接的“金标准”是删掉待遗忘样本后从头训练一个新模型；这个模型从未见过待遗忘数据，因此它的行为可以作为遗忘目标。然而，从头训练耗时、耗算力，在大模型上尤其难以承受。",
-      "arxivUrl": "https://arxiv.org/abs/2308.07707"
-    },
-    {
-      "id": "62f00cf16405eb94a866",
-      "title": "SSNS",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2502.11441"
-    },
-    {
-      "id": "51e9793f65b42f914f70",
-      "title": "SSU",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2406.10952"
-    },
-    {
-      "id": "15a3d70efaf2870762f0",
-      "title": "ULD",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2406.08607"
-    },
-    {
-      "id": "aaba3cf962cd33a854b6",
-      "title": "Unlearning in Diffusion Models",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": false,
-      "hasSummary": false,
-      "excerpt": "",
-      "arxivUrl": "https://arxiv.org/abs/2605.30825"
-    },
-    {
-      "id": "a43763943cbe95306848",
-      "title": "UWC",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": true,
-      "excerpt": "一场把模型几乎“删坏”的遗忘训练，仍可能留下有用的更新方向：不必重新训练，只需与原模型做参数插值，就能恢复普通能力，同时保留一部分针对目标知识的删除效果。",
-      "arxivUrl": "https://arxiv.org/abs/2406.09179"
-    },
-    {
-      "id": "fdaab3fa2c1ebeb03f59",
-      "title": "WAGLE",
-      "category": "unlearning",
-      "hasPdf": true,
-      "hasNote": true,
-      "hasSummary": false,
-      "excerpt": "大语言模型可能保存并生成隐私、版权、有害或非法内容，因此模型发布后常需要消除某些数据的影响或相应能力。分类模型中的机器遗忘通常有一个明确目标，例如删除若干样本或整个类别；如果模型不大，还可以删掉目标数据后从头训练，把所得模型作为“精确遗忘”的金标准。对大语言模型，这条路线既因训练成本而不可行，也常因无法追溯某项知识究竟来自哪些预训练样本而无法实施。实际的 L…",
-      "arxivUrl": "https://arxiv.org/abs/2410.17509"
     }
   ]
 }

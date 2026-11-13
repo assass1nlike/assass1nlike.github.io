@@ -9,6 +9,8 @@ from pathlib import Path
 
 import fitz
 
+from paper_overviews import export_overviews
+
 
 # Paths (relative to the library root) that stay off the site; see paper-exclude.json.
 EXCLUDE_FILE = Path(__file__).with_name('paper-exclude.json')
@@ -151,4 +153,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     target = Path(__file__).resolve().parents[1] / 'assets' / 'papers'
     catalog = export_tree(args.source, target)
-    print(f"Exported {catalog['tree']['count']} papers, {catalog['tree']['annotated']} notes to {target}")
+    overviews = export_overviews(args.source, target, catalog)
+    print(f"Exported {catalog['tree']['count']} papers, {catalog['tree']['annotated']} notes, "
+          f"{len(overviews)} overview pages to {target}")

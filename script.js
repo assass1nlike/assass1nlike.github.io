@@ -1689,7 +1689,8 @@ function parseInline(text, options = {}) {
   });
 
   working = working.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
-    const target = href.trim();
+    // The line was HTML-escaped above, so an ampersand in the URL arrives as &amp;.
+    const target = href.trim().replace(/&amp;/g, '&');
     const resolved = target.startsWith('#') && options.headingPrefix
       ? '#' + options.headingPrefix + target.slice(1)
       : options.linkBase && !/^(?:[a-z][a-z0-9+.-]*:|#|\/\/)/i.test(target)
