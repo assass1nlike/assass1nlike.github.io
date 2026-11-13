@@ -14,12 +14,12 @@ function Write-Log($text) {
 
 Set-Location $root
 try {
-    $branch = (git rev-parse --abbrev-ref HEAD).Trim()
+    $branch = "$(git rev-parse --abbrev-ref HEAD)".Trim()
     if ($branch -ne 'main') {
         Write-Log "skipped: current branch is $branch, not main"
         exit 0
     }
-    $staged = (git diff --cached --name-only).Trim()
+    $staged = "$(git diff --cached --name-only)".Trim()
     if ($staged) {
         Write-Log 'skipped: staging area already has changes'
         exit 0
@@ -31,7 +31,7 @@ try {
     Write-Log ($output -join ' | ')
     if ($LASTEXITCODE -ne 0) { throw 'export-projects.py failed' }
     git add -- scripts/export-contributions.py scripts/export-projects.py scripts/projects.json assets/community assets/projects
-    $changed = (git diff --cached --name-only).Trim()
+    $changed = "$(git diff --cached --name-only)".Trim()
     if (-not $changed) {
         Write-Log 'no changes'
         exit 0
