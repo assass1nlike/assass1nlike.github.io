@@ -1,4 +1,4 @@
-我们希望理解这样一种现象：LLM 沿许多随机参数方向移动时，原有能力可以保持不变；但沿某些 fine-tuning 方向移动很短的距离，就可能明显遗忘。论文把前一种稳定区域称为 basin，并尝试从随机扰动下的稳定性，推出任意方向上的性能保证。这里真正连接两者的工具是 randomized smoothing：我们不直接约束原始 benchmark 的变化，而是约束参数加上 Gaussian noise 后的平均 benchmark 分数。
+我们希望理解这样一种现象：LLM 沿许多随机参数方向移动时，原有能力可以保持不变；但沿某些 fine-tuning 方向移动很短的距离，就可能明显遗忘。论文把前一种稳定区域称为 basin，并尝试从随机扰动下的稳定性，推出任意方向上的性能保证；这里 fine-tuning 方向就是微调前后参数的差 $\theta_{sft}-\theta_0$. 连接两者的工具是 randomized smoothing：它原本用于输入空间的 certified robustness，做法是把模型替换成它在 Gaussian 噪声下的平均，这个平均函数关于输入是 Lipschitz 的，从而可以在输入周围认证一个半径。论文的 conceptual shift 是把同一套论证搬到参数空间：不直接约束原始 benchmark 的变化，而是约束参数加上 Gaussian noise 后的平均 benchmark 分数。
 
 设语言模型为 $f_\theta$，参数向量为 $\theta\in\mathbb R^d$，$d$ 是参数个数。固定一个非空 benchmark 数据集 $D$，用判断器 $O$ 给模型输出打分：回答正确或安全时为 $1$，否则为 $0$. 判断时需要的题目、参考答案和安全标准都视为评测规则的一部分。模型分数为
 
@@ -31,27 +31,25 @@ S_{f,D}(\theta)
 \leq\tau,
 $$
 
-我们就说 $f_\theta$ 在该 benchmark 上具有 $\sigma$-basin. 这里 $\epsilon\in\mathbb R^d$ 是参数噪声，每个坐标独立服从均值为 $0$、方差为 $\sigma^2$ 的 Gaussian distribution. 这个定义的实际含义是：随机扰动参数以后，模型的平均能力损失不超过 $\tau$.
+我们就说 $f_\theta$ 在该 benchmark 上具有 $\sigma$-basin. 这里 $\epsilon\in\mathbb R^d$ 是参数噪声，每个坐标独立服从均值为 $0$、方差为 $\sigma^2$ 的 Gaussian distribution；$\tau$ 是允许的平均分数下降，可以取 $0$. 注意，这是一个关于期望的条件，不是对单个 $\epsilon$ 的逐点条件。如果一些方向使分数上升，另一些方向使分数下降，两者可以在期望中抵消。因此，单凭这个定义不能断言所有方向都稳定，也不能断言参数空间中存在一个同样大小、内部处处稳定的球。论文把 basin 画成 landscape 上的一段平台，而定义只要求平台的平均高度与原参数处接近。
 
-注意，这个条件只限制平均下降，不是绝对差，也不是对每个扰动的逐点保证。如果一些方向使分数上升，另一些方向使分数下降，两者可以在期望中抵消。因此，单凭这个定义不能断言所有方向都稳定，也不能断言参数空间中存在一个同样大小、内部处处稳定的球。
-
-@-原文把 $\tau\to0$ 与严格不下降的 basin 联系起来。要让这一步成立，我们需要更明确的条件：加噪后分数几乎处处不超过原分数，即
+原文把 $\tau\to0$ 与严格不下降的 basin 联系起来，并注明这一步依赖“加噪后性能不上升”的假设，即
 
 $$
 S_{f,D}(\theta+\epsilon)\leq S_{f,D}(\theta)
 \quad\text{几乎必然成立}.
 $$
 
-在此条件下，分数下降是非负随机变量。若 $\tau=0$，它的期望为 $0$，因此它几乎必然等于 $0$. 具体地，对任意 $a>0$，Markov 不等式给出
+有了这个假设，分数下降 $S_{f,D}(\theta)-S_{f,D}(\theta+\epsilon)$ 是非负随机变量，它的期望不超过 $\tau$. 取 $\tau=0$ 时期望为 $0$，而非负随机变量期望为零就几乎必然为零，于是 $S_{f,D}(\theta+\epsilon)=S_{f,D}(\theta)$ 几乎必然成立。若只想得到概率上的表述，Markov 不等式给出对任意 $a>0$
 
 $$
 \mathbb P\left(
 S_{f,D}(\theta)-S_{f,D}(\theta+\epsilon)\geq a
 \right)
-\leq\frac{\tau}{a}.
+\leq\frac{\tau}{a},
 $$
 
-当 $\tau=0$ 时，对 $a=1,1/2,1/3,\ldots$ 分别应用此式，再取可数并，就得到分数下降严格为正的概率是 $0$. 当 $\tau>0$ 很小时，它只保证任意固定幅度的下降很少发生，不能直接推出“分数恰好不变”的概率很大。$\square$
+当 $\tau>0$ 很小时，它只保证任意固定幅度的下降很少发生，不能推出“分数恰好不变”的概率很大；这一点在实验设计上意味着 soft basin 与 strict basin 是两个不同的统计对象。$\square$
 
 如果绘图时的最大分数正好是 $S_{f,D}(\theta)$，分数保持不变才等价于 $T\circ S_{f,D}(\theta+\epsilon)=0$. 原文使用的严格 basin 统计量是在给定尺度 $\alpha$ 下的
 
@@ -70,7 +68,7 @@ $$
 =d\sigma^2.
 $$
 
-这里 $\epsilon_j$ 是第 $j$ 个噪声坐标，$\|\cdot\|_2$ 是 Euclidean norm. 因而 Gaussian 噪声的典型总长度约为 $\sigma\sqrt d$；后面的最坏方向保证却取决于参数移动距离除以 $\sigma$. 这两个尺度不能混用。-@
+这里 $\epsilon_j$ 是第 $j$ 个噪声坐标，$\|\cdot\|_2$ 是 Euclidean norm. 因而 Gaussian 噪声的典型总长度约为 $\sigma\sqrt d$；后面的最坏方向保证却取决于参数移动距离除以 $\sigma$. 这两个尺度不能混用。
 
 ## Theorem 4.2
 
@@ -86,7 +84,7 @@ $$
 \leq\frac{\|\theta_{sft}-\theta_0\|_2}{\sqrt{2\pi}\sigma}.
 $$
 
-这里 $\theta_0$ 和 $\theta_{sft}$ 分别是 fine-tuning 前后的参数。所谓 $C$-Lipschitz，就是函数值之差的绝对值不超过输入距离的 $C$ 倍。因此，原文关心的性能下界为
+这里 $\theta_0$ 和 $\theta_{sft}$ 分别是 fine-tuning 前后的参数。所谓 $C$-Lipschitz，就是对定义域内任意两点 $u,v$，都有 $|g(u)-g(v)|\leq C\|u-v\|_2$. 因此，原文关心的性能下界为
 
 $$
 \mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}
@@ -108,7 +106,7 @@ q_\sigma(z)
 \qquad z\in\mathbb R^d.
 $$
 
-对任意单位向量 $v\in\mathbb R^d$，即 $\|v\|_2=1$，有@-
+对任意单位向量 $v\in\mathbb R^d$，即 $\|v\|_2=1$，有
 
 $$
 \begin{aligned}
@@ -125,21 +123,40 @@ v^\top\nabla_\theta
 \end{aligned}
 $$
 
--@-“这里的第二、三个等号再解释一下”这里 $u$ 是积分变量，$Z$ 是标准 Gaussian 向量，$\nabla_\theta$ 表示对参数求梯度。@-积分与求导可以交换：$S_{f,D}$ 有界，而 Gaussian 密度的一阶导数是一次多项式乘 Gaussian 密度；在 $\theta$ 的任意有界邻域内，都能用一个可积函数统一控制差商。这也说明，即使原分数不可微，平滑后的分数仍可微。-@-“从最原始的可交换条件出发来说明为什么可行”
-
-令 $V=v^\top Z$，由 $\|v\|_2=1$ 可知 $V\sim\mathcal N(0,1)$. 要使最后一个期望尽量大，我们应该只保留 $V>0$ 的贡献。由于 $0\leq S_{f,D}\leq1$，
+这里 $u$ 是积分变量，$Z$ 是标准 Gaussian 向量，$\nabla_\theta$ 表示对参数求梯度。第二个等号来自对 Gaussian 密度求导：$q_\sigma$ 只通过 $u-\theta$ 依赖 $\theta$，而
 
 $$
-\begin{aligned}
+\nabla_z q_\sigma(z)
+=-\frac{z}{\sigma^2}q_\sigma(z),
+$$
+
+取 $z=u-\theta$，对 $\theta$ 求方向导数时符号翻转一次，于是出现 $v^\top(u-\theta)/\sigma^2$. 第三个等号是换元 $u=\theta+\sigma Z$：此时 $q_\sigma(\sigma Z)\sigma^d$ 恰好是 $Z\sim\mathcal N(0,I)$ 的密度，且 $v^\top(u-\theta)/\sigma^2=v^\top Z/\sigma$. 积分与求导可以交换，理由是：对每个固定的 $u$，差商当 $h\to0$ 时逐点收敛到 $v^\top\nabla_\theta q_\sigma(u-\theta)$；把 $\theta$ 限制在固定点 $\theta_*$ 的邻域 $\|\theta-\theta_*\|_2\leq t_0$ 内，中值定理给出
+
+$$
+\frac{|q_\sigma(u-\theta-hv)-q_\sigma(u-\theta)|}{h}
+\leq C(t_0)\left(1+\|u-\theta_*\|_2\right)
+q_{\sqrt2\sigma}(u-\theta_*),
+$$
+
+这里 $C(t_0)$ 只依赖 $t_0$、$\sigma$ 和 $d$. 不等号来自两件事：一是 $\nabla q_\sigma$ 的每个分量都能被一个常数乘 $q_{\sqrt2\sigma}$ 统一控制，因为 $q_\sigma$ 的梯度是一阶多项式乘 $q_\sigma$；二是把积分点从 $u-\theta$ 平移到固定参考点 $u-\theta_*$ 时，指数上的平方差可以用 $\|u-\theta\|_2^2\geq\frac12\|u-\theta_*\|_2^2-t_0^2$ 控制，只多出一个只依赖 $t_0$ 和 $\sigma$ 的因子。右边在全空间上可积，所以控制收敛定理（dominated convergence theorem）允许交换。这个论证还说明，即使 $S_{f,D}$ 本身不可微，平滑后的分数也是可微的，而这正是 randomized smoothing 能处理 $0$–$1$ 型不连续 benchmark 的原因。
+
+令 $V=v^\top Z$，由 $\|v\|_2=1$ 可知 $V\sim\mathcal N(0,1)$. 这里 $V$ 是这个标量投影，不是后面 Theorem 4.5 中的词表大小。使 $S_{f,D}(\theta+\sigma Z)V$ 的期望尽量大的极端情形，是所有正向的 $V$ 都取 $S_{f,D}=1$、所有负向的 $V$ 都取 $S_{f,D}=0$. 由于 $0\leq S_{f,D}\leq1$，对每个样本都有
+
+$$
+S_{f,D}(\theta+\sigma Z)V\leq V\mathbb I\{V>0\},
+$$
+
+取期望并用标准 Gaussian 的一阶矩得到
+
+$$
 \mathbb E\left[S_{f,D}(\theta+\sigma Z)V\right]
-&\leq\mathbb E\left[V\mathbb I\{V>0\}\right]\\
-&=\frac{1}{\sqrt{2\pi}}
+\leq\mathbb E\left[V\mathbb I\{V>0\}\right]
+=\frac{1}{\sqrt{2\pi}}
 \int\limits_0^{+\infty}t\exp\left(-\frac{t^2}{2}\right)\,dt
 =\frac{1}{\sqrt{2\pi}}.
-\end{aligned}
 $$
 
-把 $v$ 换成 $-v$，得到方向导数的同样大小的下界。因此所有单位方向的方向导数绝对值都不超过 $1/(\sqrt{2\pi}\sigma)$，梯度范数也不超过这个数。
+把 $v$ 换成 $-v$，方向导数换号而绝对值不变，因此所有单位方向的方向导数绝对值都不超过 $1/(\sqrt{2\pi}\sigma)$，梯度范数也不超过这个数。
 
 最后沿连接 $\theta_0$ 和 $\theta_{sft}$ 的线段积分。以 $t\in[0,1]$ 参数化这条线段，再用 Cauchy–Schwarz 不等式，得到
 
@@ -152,7 +169,7 @@ $$
 &=\left|\int\limits_0^1
 (\theta_{sft}-\theta_0)^\top
 \nabla_\theta\mathbb E_\epsilon\left[S_{f,D}(\theta+\epsilon)\right]
-\bigg|_{\theta=\theta_0+t(\theta_{sft}-\theta_0)}\,dt\right|\\
+\Big|_{\theta=\theta_0+t(\theta_{sft}-\theta_0)}\,dt\right|\\
 &\leq\int\limits_0^1
 \|\theta_{sft}-\theta_0\|_2\frac{1}{\sqrt{2\pi}\sigma}\,dt
 =\frac{\|\theta_{sft}-\theta_0\|_2}{\sqrt{2\pi}\sigma}.
@@ -194,7 +211,7 @@ $$
 \right).
 $$
 
-我们先考虑起点的平滑分数位于 $(0,1)$ 的情形。原文证明所用的 Lemma E.1 说明：对任意可测函数 $f:\mathbb R^d\to[0,1]$，只要平滑期望不取端点，函数
+我们先考虑起点的平滑分数位于 $(0,1)$ 的情形。原文证明所用的 Lemma E.1 说明：对任意可测函数 $f:\mathbb R^d\to[0,1]$，如果 $f$ 既非几乎处处为 $0$ 也非几乎处处为 $1$，那么平滑期望处处落在 $(0,1)$ 内，且函数
 
 $$
 x\longmapsto
@@ -205,19 +222,19 @@ $$
 
 就是 $1$-Lipschitz. 这里 $f$ 是一般的有界函数，并非前面返回文本的语言模型。我们将在 Lemma E.1 中完整证明这个事实；它的含义是，平滑分数经过 Gaussian 分位数变换后，任意方向上的变化速度都不超过 $1$.
 
-现在固定 $\sigma$，把这个引理应用于函数 $u\mapsto S_D(\sigma u)$. 通过变量缩放，
+现在固定 $\sigma$，把这个引理应用于函数 $u\mapsto S_{f,D}(\sigma u)$. 通过变量缩放，
 
 $$
 \begin{aligned}
 \Phi^{-1}\left(
-\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}[S_D(\theta+\epsilon)]
+\mathbb E_{\epsilon\sim\mathcal N(0,\sigma^2I)}[S_{f,D}(\theta+\epsilon)]
 \right)
 &=\Phi^{-1}\left(
-\mathbb E_{\epsilon\sim\mathcal N(0,I)}[S_D(\theta+\sigma\epsilon)]
+\mathbb E_{\epsilon\sim\mathcal N(0,I)}[S_{f,D}(\theta+\sigma\epsilon)]
 \right)\\
 &=\Phi^{-1}\left(
 \mathbb E_{\epsilon\sim\mathcal N(0,I)}
-\left[S_D\left(\sigma\left(\frac{\theta}{\sigma}+\epsilon\right)\right)\right]
+\left[S_{f,D}\left(\sigma\left(\frac{\theta}{\sigma}+\epsilon\right)\right)\right]
 \right).
 \end{aligned}
 $$
@@ -303,7 +320,7 @@ S_{f,D}(\theta_0)
 \end{aligned}
 $$
 
-第一项是起点对 Gaussian noise 的敏感性，由 basin 条件控制；第二项是平滑模型在 fine-tuning 中的变化，由定理控制。因此
+第一项是起点对 Gaussian noise 的敏感性，即未加噪分数与加噪后平均分数之差，由 basin 条件控制；第二项是两个平滑分数之差，即平滑模型在 fine-tuning 中的变化，由定理控制。因此
 
 $$
 S_{f,D}(\theta_0)
@@ -318,7 +335,7 @@ $$
 
 ## Theorem 4.4
 
-设 $\theta\in\mathbb R^d$ 固定，$\epsilon\sim\mathcal N(0,\sigma^2I)$，$\sigma>0$，失败概率 $\delta\in(0,1)$. 额外假设原始 benchmark 函数 $S_{f,D}$ 关于参数全局 $L$-Lipschitz，其中 $L\geq0$，即
+设 $\theta\in\mathbb R^d$ 固定，$\epsilon\sim\mathcal N(0,\sigma^2I)$，$\sigma>0$，失败概率 $\delta\in(0,1)$. 注意，这里的 $\delta$ 是概率，与前面作图时表示随机方向的 $\delta$ 不是同一个量。额外假设原始 benchmark 函数 $S_{f,D}$ 关于参数全局 $L$-Lipschitz，其中 $L\geq0$，即
 
 $$
 |S_{f,D}(u)-S_{f,D}(v)|\leq L\|u-v\|_2,
@@ -333,7 +350,7 @@ S_{f,D}(\theta+\epsilon)
 -L\sigma\sqrt{2\log\frac1\delta}.
 $$
 
-这里 $\log$ 是自然对数。注意，本定理的 $L$ 是原始分数的 Lipschitz 常数，不能代入 Theorem 4.2 给出的平滑分数的常数。由 greedy decoding 和 $0$–$1$ 判断构造的分数可能发生跳变，未必存在有限的 $L$；此时前两个定理仍适用，但本定理不能直接用于保证单次加噪模型的表现。
+这里 $\log$ 是自然对数。注意，本定理的 $L$ 是原始分数的 Lipschitz 常数，不能代入 Theorem 4.2 给出的平滑分数的常数。另外，原文陈述中这一项的系数只写了 $L$，但噪声尺度是 $\sigma$，实际出现的应该是 $L\sigma$；下面的推导会看出这一因子的来源。由 greedy decoding 和 $0$–$1$ 判断构造的分数可能发生跳变，未必存在有限的 $L$；此时前两个定理仍适用，但本定理不能直接用于保证单次加噪模型的表现。
 
 证明采用 Gaussian concentration. 我们先说明其中使用的工具及其来源，避免把“集中在均值附近”当作未经解释的跳步。若 $Z\sim\mathcal N(0,I)$，$h:\mathbb R^d\to\mathbb R$ 是光滑有界函数，Gaussian log-Sobolev inequality 的一个形式是
 
@@ -585,7 +602,7 @@ $$
 
 ## Clopper–Pearson bound
 
-应用这些定理之前，我们还需要知道起点的平滑分数究竟有多高。论文附录用 Clopper–Pearson bound 对 basin 做统计检验。它虽然没有单独编号，但提供了将实验采样结果接到理论保证上的一步。
+应用这些定理之前，我们还需要知道起点的平滑分数究竟有多高。论文附录用 Clopper–Pearson bound 对 basin 做统计检验，把有限次采样变成对期望分数的置信下界。
 
 设我们进行了 $n$ 次相互独立、成功概率同为 $p\in[0,1]$ 的 Bernoulli 试验，每次结果只取 $0$ 或 $1$. 用 $X$ 表示成功总数，则 $X\sim\operatorname{Binomial}(n,p)$；观察到的成功数记为 $x\in\{0,\ldots,n\}$. 对给定的总错误概率 $\gamma\in(0,1)$，构造区间 $[p_{lower},p_{upper}]$，使
 
@@ -652,9 +669,9 @@ $$
 =\frac{(x-1)!(n-x)!}{n!}.
 $$
 
-两者在 $p=0$ 都为 $0$，所以 $\mathbb P_p(X\geq x)=I_{x,n-x+1}(p)$. 同理，$\mathbb P_p(X\leq x)=1-I_{x+1,n-x}(p)$. 代入尾概率方程即得端点表达式。
+两者在 $p=0$ 都为 $0$，所以 $\mathbb P_p(X\geq x)=I_{x,n-x+1}(p)$. 同理，由 Beta 分布的基本恒等式 $I_{a,b}(z)+I_{b,a}(1-z)=1$ 可得 $\mathbb P_p(X\leq x)=1-I_{x+1,n-x}(p)$. 代入尾概率方程即得端点表达式。
 
-接着证明覆盖率。固定真实参数 $p$；上尾概率随 $p$ 增大而增大，因此若观测值 $x$ 导致 $p_{lower}(x)>p$，必有 $\mathbb P_p(X\geq x)<\gamma/2$. 所有这样的 $x$ 组成一个右尾集合，记其中最小的整数为 $x_*$，则
+接着证明覆盖率。固定真实参数 $p$；上尾概率随 $p$ 增大而增大，因此若某个 $x$ 满足 $p_{lower}(x)>p$，代入定义就有 $\mathbb P_p(X\geq x)<\gamma/2$. 由于 $\mathbb P_p(X\geq x)$ 关于 $x$ 递减，满足这一条件的 $x$ 组成一个右尾集合，记其中最小的整数为 $x_*$，则
 
 $$
 \mathbb P_p\left(p_{lower}(X)>p\right)
@@ -671,7 +688,7 @@ $$
 
 因此，若观测得到 $S_{f,D}(\theta)-p_{lower}\leq\tau$，就能以不超过 $\gamma$ 的错误概率认证该 soft basin 条件。对严格 basin，一次试验则是独立采样 $\delta\sim\mathcal N(0,I)$，记录固定尺度下事件 $T\circ S_{f,D}(\theta+\alpha\delta)=0$ 是否成立；相应的 $p_{lower}$ 估计的是这一事件的概率。
 
-注意，完整 benchmark 的平均分数通常不取 $0$ 或 $1$，不能直接当作 Bernoulli 观测；同一次参数噪声下的许多题目也可能因共享模型而相关，不能未经论证就算成独立试验。这是应用 Clopper–Pearson bound 必须落实的采样条件。
+注意，独立性的关键在于每次试验都重抽一对相互独立的 $(\epsilon,x)$. 若为了节省算力，固定一个 $\epsilon$ 然后在 $D$ 上跑完整 benchmark，得到的 $S_{f,D}(\theta+\epsilon)$ 一般不是 $0$ 或 $1$，不能当作单次 Bernoulli 观测；而且同一 $\epsilon$ 下各题共享模型，彼此相关，题目级别的逐题 0–1 结果也不是独立试验。这两点是应用 Clopper–Pearson bound 必须落实的采样条件。
 
 ## Lemma E.1
 
@@ -688,7 +705,9 @@ $$
 
 注意，原文把值域写成了 $\mathbb R$，这遗漏了必要条件：例如 $f\equiv2$ 时，$\Phi^{-1}(\mathbb E[f])$ 根本没有实数意义。因此这里明确补上 $[0,1]$ 的值域，以及使逆函数取有限值的非退化条件。端点常数情形已经在 Theorem 4.3 中单独处理。
 
-证明沿用 Theorem 4.2 中对 Gaussian 密度求导的方法，但这一次保留当前函数值的信息。固定 $x\in\mathbb R^d$ 和单位方向 $v\in\mathbb R^d$，令 $Z\sim\mathcal N(0,I)$、$V=v^\top Z\sim\mathcal N(0,1)$. 已知
+证明沿用 Theorem 4.2 中对 Gaussian 密度求导的方法，但这一次保留当前函数值的信息。先说明平滑期望落在 $(0,1)$ 内：若某点处 $\mathbb E_Z[f(x+Z)]=0$，由 $f\geq0$ 可知 $f(x+Z)=0$ 几乎必然成立，而 $x+Z$ 在 $\mathbb R^d$ 上有处处为正的密度，这就推出 $f=0$ 几乎处处成立，与假设矛盾；平滑期望为 $1$ 时对 $1-f$ 用同一论证即可。于是下面的 $\Phi^{-1}$ 总有定义。
+
+固定 $x\in\mathbb R^d$ 和单位方向 $v\in\mathbb R^d$，令 $Z\sim\mathcal N(0,I)$、$V=v^\top Z\sim\mathcal N(0,1)$. 已知
 
 $$
 v^\top\nabla_x\mathbb E_Z[f(x+Z)]

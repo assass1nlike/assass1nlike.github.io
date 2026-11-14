@@ -1,12 +1,10 @@
-> 内容取自 https://arxiv.org/abs/2609.34137
-
-我们希望从 text-to-image diffusion model 中移除一个目标概念，同时保留其他概念。例如，删除 horse 后，模型既不能被 jockey、saddle 等间接描述重新诱导出马，也应当继续正常生成 donkey. 论文尝试用内部 activation 的重叠解释这两个目标之间的冲突：如果目标概念与其他概念占用相近的表示区域，覆盖整个目标区域的修改，就可能同时影响其他概念。
+我们希望从 text-to-image diffusion model 中移除一个目标概念，同时保留其他概念。例如，删除 horse 后，模型既不能被 jockey、saddle 等间接描述重新诱导出马，也应当继续正常生成 donkey. 论文用内部 activation 的重叠来解释这两个目标之间的冲突：如果目标概念与其他概念占用相近的表示区域，覆盖整个目标区域的修改，就可能同时影响其他概念。
 
 这套论证的核心是 Theorem 4.6 及其 Corollary 4.8。不过，原证明有几处无法仅靠补齐计算步骤消除的缺口。我们先保留原命题并说明问题，再给出明确增加假设后能够成立的证明。
 
 ## 概念区域与 unlearning 的两个目标
 
-设预训练模型为 $\mathcal{D}_{\theta}$，编辑后的模型为 $\mathcal{D}_{\hat{\theta}}$，其中 $\theta$ 与 $\hat{\theta}$ 分别表示编辑前后的模型状态。这里也允许把 inference-time intervention 纳入编辑后的模型，而不要求一定修改权重。文本 prompt 的空间为 $\mathcal{P}$，图像空间为 $\mathcal{X}$，考察的有限概念集合为 $\mathcal{C}$，要删除的概念为 $c_u\in\mathcal{C}$，且 $\left|\mathcal{C}\right|\geq 2$.
+设预训练模型为 $\mathcal{D}_{\theta}$，预训练 U-Net 的噪声预测器为 $\epsilon_{\theta}$，编辑后的模型为 $\mathcal{D}_{\hat{\theta}}$，其中 $\theta$ 与 $\hat{\theta}$ 分别表示编辑前后的模型状态。这里也允许把 inference-time intervention 纳入编辑后的模型，而不要求一定修改权重。文本 prompt 的空间为 $\mathcal{P}$，图像空间为 $\mathcal{X}$，考察的有限概念集合为 $\mathcal{C}$，要删除的概念为 $c_u\in\mathcal{C}$，且 $\left|\mathcal{C}\right|\geq 2$.
 
 模型根据 prompt $p\in\mathcal{P}$ 生成图像的条件分布记为 $p_{\theta}\left(\cdot\mid p\right)$. 给定图像 $x\in\mathcal{X}$ 和概念 $c\in\mathcal{C}$，oracle $\mathbb{O}_{\mathcal{X}}\left(x,c\right)\in\{0,1\}$ 判断图像是否包含该概念。我们把概念的生成概率写为
 
@@ -17,10 +15,10 @@ g_c\left(\theta',p\right)
 \qquad \theta'\in\left\{\theta,\hat{\theta}\right\}.
 $$
 
-Diffusion model 从噪声开始逐步 denoise，并通过 cross-attention 让文本信息参与图像生成。按照正文及 Definition A.1，我们固定一个 cross-attention 层 $\ell^*$ 和 denoising timestep $t^*$。此时，该层在图像 latent 的每个空间位置都输出一个向量，向量的各个分量称为 channel。我们对所有空间位置的向量逐分量取平均，这就是 spatial mean-pooling；它将整张 latent 的空间信息汇总为一个向量，同时保留各个 channel。对 prompt $p$，得到的向量记为
+Diffusion model 从噪声开始逐步 denoise，并通过 cross-attention 让文本信息参与图像生成。按照正文及 Definition A.1，我们固定一个 cross-attention 层 $\ell^*$ 和 denoising timestep $t^*$。在这一层，cross-attention 的输出是一个张量：prompt 的每个 token 对应一个 feature 向量，每个 feature 向量的各个分量称为 channel；同时这一层还对图像 latent 的每个空间位置给出输出。我们对空间维度和 token 维度同时取平均（附录 D 的记法为 mean-pooled across spatial and token dimensions），最终对每个 prompt 得到一条长度为 $d_{\ell^*}$ 的向量。这就是 spatial mean-pooling 的实际作用：把整张 latent 在各个空间位置、各个 token 上的响应汇总成单个向量，同时保留各个 channel. 对 prompt $p$，得到的向量记为
 
 $$
-\mathbf{\Phi}_{\theta,\ell^*,t^*}\left(p\right)
+\Phi_{\theta,\ell^*,t^*}\left(p\right)
 =A_{\theta}\left(\mathbf{e}_p,\ell^*,t^*\right)
 \in\mathcal{H},
 \qquad
@@ -29,14 +27,14 @@ $$
 \mathcal{H}=\mathbb{R}^{d_{\ell^*}}.
 $$
 
-这里 $f_{\psi}$ 是参数为 $\psi$ 的 text encoder，$\mathbf{e}_p$ 是 prompt 的文本表示。$A_{\theta}$ 表示在模型生成过程中，取出指定层、指定 timestep 的 cross-attention 输出并做上述平均的操作。$d_{\ell^*}$ 是该层的 channel 数，也就是平均后向量的维数；$\mathcal{H}$ 是这些向量所在的空间。依照原文，后续省略固定的层和 timestep，将这个向量简写为 $\mathbf{\Phi}_{\theta}\left(p\right)$；对编辑后的模型做相同操作，得到 $\mathbf{\Phi}_{\hat{\theta}}\left(p\right)$. 我们比较的是两个模型在同一层、同一步的内部表示，而不是整条生成轨迹。
+这里 $f_{\psi}$ 是参数为 $\psi$ 的 text encoder，$\mathbf{e}_p$ 是 prompt 的文本表示。$A_{\theta}$ 表示在模型生成过程中，取出指定层、指定 timestep 的 cross-attention 输出并做上述平均的操作。$d_{\ell^*}$ 是该层的 channel 数，也就是平均后向量的维数；$\mathcal{H}$ 是这些向量所在的空间，$\mathcal{H}:=\mathbb{R}^{d_{\ell^*}}$. 依照原文，后续省略固定的层和 timestep，将这个向量简写为 $\Phi_{\theta}\left(p\right)$；对编辑后的模型 $\mathcal{D}_{\hat{\theta}}$ 做相同操作，得到 $\Phi_{\hat{\theta}}\left(p\right)$. 我们比较的是两个模型在同一层、同一步的内部表示，而不是整条生成轨迹。
 
 Definition A.1 将概念 $c$ 的 activation region 定义为
 
 $$
 \mathcal{R}_c
 =\left\{
-\mathbf{\Phi}_{\theta}\left(p\right)
+\Phi_{\theta}\left(p\right)
 \;\middle|\;
 p\in\mathcal{P},
 \mathbb{O}_{\mathcal{X}}\left(x_{\theta}\left(p\right),c\right)=1
@@ -47,7 +45,7 @@ $$
 
 这里 $x_{\theta}\left(p\right)$ 是一次生成的图像。因此，$\mathcal{R}_c$ 收集的是生成结果包含 $c$ 时对应的内部表示；它不要求 prompt 必须直接出现概念名称。
 
-注意，原定义没有交代生成随机性如何进入 $\mathbf{\Phi}_{\theta}$，而筛选区域时又使用了一次随机生成的结果。我们不能因此把区域成员资格直接理解成 $g_c\left(\theta,p\right)=1$. 在后面的条件化命题中，我们会明确要求 activation 提取规则固定，并单独声明所需的生成概率条件。
+注意，原定义没有交代生成随机性如何进入 $\Phi_{\theta}$，而筛选区域时又使用了一次随机生成的结果。我们不能因此把区域成员资格直接理解成 $g_c\left(\theta,p\right)=1$. 在后面的补充假设下，我们会明确要求 activation 提取时的随机性事先固定，并单独声明所需的生成概率条件。
 
 对于半径 $\rho>0$，定义区域的闭 $\rho$-neighborhood：
 
@@ -78,7 +76,7 @@ $$
 }.
 $$
 
-这里 $c'$ 遍历非目标概念，$\operatorname{vol}$ 是 $\mathcal{H}$ 中的 $d_{\ell^*}$ 维 Lebesgue volume，即通常的长度、面积、体积在任意维空间中的推广。其定义从矩形盒子的体积开始：对第 $j$ 个盒子
+这里 $c'$ 遍历非目标概念，$\operatorname{vol}$ 是 $\mathcal{H}$ 中的 $d_{\ell^*}$ 维 Lebesgue volume，即通常的长度、面积、体积在任意维空间中的推广。原文在这一处把它写成“$\mathbb{R}^n$ 中子集的 $n$ 维体积”，其中 $n$ 就是 ambient 空间的维数，在我们的记号下为 $d_{\ell^*}$，不要把它与样本数混淆。$\operatorname{vol}$ 的定义从矩形盒子的体积开始：对第 $j$ 个盒子
 
 $$
 Q_j=\prod\limits_{i=1}^{d_{\ell^*}}\left(a_{ji},b_{ji}\right),
@@ -119,7 +117,7 @@ g_{c_u}\left(\hat{\theta},p\right)\leq\varepsilon,
 \qquad 0\leq\varepsilon\leq 1.
 $$
 
-这里 $\varepsilon$ 是允许残留的目标生成概率上界。条件覆盖所有 prompt，所以既包括直接说 horse 的 prompt，也包括只提供相关情境的间接 prompt.$\varepsilon=0$ 表示任何 prompt 都不能再生成目标概念。
+这里 $\varepsilon$ 是允许残留的目标生成概率上界。条件覆盖所有 prompt，所以既包括直接说 horse 的 prompt，也包括只提供相关情境的间接 prompt. 注意，当 $\varepsilon=0$ 时，对每个 prompt，“生成结果包含目标”这件事的概率都为零；此后我们用它表示“任何 prompt 都不能再生成目标概念”。
 
 **Definition 4.3（$\gamma$-concept preservation）** 使用非目标 prompt 分布
 
@@ -130,7 +128,7 @@ $$
 \mathcal{P}_{c'}.
 $$
 
-这里 $\mathcal{P}_{c'}$ 表示为概念 $c'$ 选定的 prompt 概率分布。原文同时把它写成 prompt 集合；要让混合分布和期望成立，我们必须明确每个集合上的抽样分布。$\mathcal{P}_{-u}$ 的抽样方式是先均匀选一个非目标概念，再按其分布选 prompt，并不意味着 activation 空间中的点均匀分布。
+这里 $\mathcal{P}_{c'}$ 表示为概念 $c'$ 选定的 prompt 概率分布。原文在 Definition 4.3 里把它写成 prompt 集合 $\mathcal{P}_{c'}\subseteq\mathcal{P}$，然后直接使用均匀混合 $\mathcal{P}_{-u}$ 和期望；要让混合分布和期望成立，我们必须明确每个集合上的抽样分布。$\mathcal{P}_{-u}$ 的抽样方式是先均匀选一个非目标概念，再按其分布选 prompt，并不意味着 activation 空间中的点均匀分布。
 
 Preservation 的要求为
 
@@ -138,13 +136,13 @@ $$
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
 \left\|
-\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)
+\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)
 \right\|_2
 \right]<\gamma.
 $$
 
-这里 $\gamma$ 是非目标 prompt 上平均 activation 位移的上界。因此，本文的形式化 preservation 衡量的是内部表示的稳定性；它没有直接要求编辑前后图像相同，也没有直接定义生成质量损失。
+这里 $\gamma$ 是非目标 prompt 上平均 activation 位移的严格上界。因此，本文的形式化 preservation 衡量的是内部表示的稳定性，它要求平均位移严格小于 $\gamma$；它没有直接要求编辑前后图像相同，也没有直接定义生成质量损失。
 
 **Assumption 4.4（Lipschitz continuity of generation）** 假设对每个概念 $c$，存在有限常数 $L>0$，使所有 $p,p'\in\mathcal{P}$ 和 $\theta',\theta''\in\{\theta,\hat{\theta}\}$ 都满足
 
@@ -152,39 +150,39 @@ $$
 \left|g_c\left(\theta',p\right)-g_c\left(\theta'',p'\right)\right|
 \leq
 L\left\|
-\mathbf{\Phi}_{\theta'}\left(p\right)
--\mathbf{\Phi}_{\theta''}\left(p'\right)
+\Phi_{\theta'}\left(p\right)
+-\Phi_{\theta''}\left(p'\right)
 \right\|_2.
 $$
 
-Lipschitz 条件表示生成概率变化不能超过 activation 距离的 $L$ 倍。我们后面使用的是目标概念 $c_u$ 对应的常数，并保持原记号 $L$. 证明的想法是反过来使用这个上界：如果必须让生成概率下降一大截，那么 activation 就必须移动足够远。
+Lipschitz 条件表示生成概率变化不能超过 activation 距离的 $L$ 倍。这里 $L$ 可以随概念 $c$ 变化，这是原文的写法；我们后面使用的是目标概念 $c_u$ 对应的常数，并保持原记号 $L$. 证明的想法是反过来使用这个上界：如果必须让生成概率下降一大截，那么 activation 就必须移动足够远。
 
-注意，这比通常所说的“网络是光滑的”更强。若两个 prompt 或两种模型状态有完全相同的 probe activation，上式就要求它们生成 $c$ 的概率相同。其他层或 skip connections 的变化，并不能自动被一个有限的 $L$ 吸收。论文在同一未编辑模型上改变 prompt 得到的经验结果，也不能单独验证编辑前后模型之间所需的这个条件。
+注意，这比通常所说的“网络是光滑的”更强。若两个 prompt 或两种模型状态有完全相同的 probe activation，上式就要求它们生成 $c$ 的概率相同。论文把 $L$ 解释为吸收其他层、skip connections 等变化的有效常数，但这仍然是一个假设。尤其重要的是，论文在同一未编辑模型上改变 prompt 得到的经验结果，只能验证同一模型状态下的情形，不能单独验证编辑前后模型之间所需的这个条件。
 
 **Assumption 4.5（minimum displacement for erasure）** 假设存在 $\Delta>0$，使实现 $\varepsilon$-robust unlearning 的编辑满足
 
 $$
 \forall p\in\mathcal{P}\text{ with }
-\mathbf{\Phi}_{\theta}\left(p\right)\in\mathcal{R}_{c_u},
+\Phi_{\theta}\left(p\right)\in\mathcal{R}_{c_u},
 \qquad
 \left\|
-\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)
+\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)
 \right\|_2\geq\Delta.
 $$
 
-这里 $\Delta$ 是目标区域上逐个 prompt 都成立的位移下界。它不是平均位移，也不是只在若干测量样本上成立的下界。这个假设还没有对 $\mathcal{R}_{c_u}^{(\rho)}\setminus\mathcal{R}_{c_u}$ 中的 activation 作出要求。
+这里 $\Delta$ 是对所有映射到 $\mathcal{R}_{c_u}$ 的 prompt 都成立的位移下界。论文把它作为对任何实现 $c_u$ 的 $\varepsilon$-robust unlearning 的编辑 $\theta\to\hat{\theta}$ 的要求提出来，它不是平均位移，也不是只在若干测量样本上成立的下界。这个假设还没有对 $\mathcal{R}_{c_u}^{(\rho)}\setminus\mathcal{R}_{c_u}$ 中的 activation 作出要求。
 
 ## Theorem 4.6
 
-原命题声称：在 Assumptions 4.4 和 4.5 下，如果 $\mathcal{D}_{\hat{\theta}}$ 实现 $\varepsilon$-robust unlearning，则
+原命题为：设 Assumptions 4.4 和 4.5 以常数 $L$ 和 $\Delta$ 成立，$\rho>0$ 为 Definition 4.1 中的 fattening radius，且 $\mathcal{D}_{\hat{\theta}}$ 实现 $c_u$ 的 $\varepsilon$-robust unlearning（Definition 4.2）。则
 
 $$
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
 \left\|
-\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)
+\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)
 \right\|_2
 \right]
 \geq\kappa\left(c_u,\rho\right)\Delta.
@@ -206,7 +204,9 @@ $$
 
 ### 原证明中的缺口
 
-首先，原证明把 $\mathbb{O}_{\mathcal{X}}\left(x_{\theta}\left(p\right),c_u\right)=1$ 当成 $g_{c_u}\left(\theta,p\right)=1$. 前者只说一次图像生成成功，后者说每次生成几乎必然成功。二者不同。仅由 robustness 和 Lipschitz 条件，我们能直接得到的是
+原证明在附录 G 中给出，原文另外在 Appendix D、E 中分别验证 Assumptions 4.5 和 4.4. 我们逐项检查后，发现下列问题。先说明一处与数学内容无关的原文编辑问题：论文开头的 contributions 把不可能性结论写成 Theorem 4.8，而第 4.3 节的标题与正文一致地写成 Corollary 4.8. 我们按 Corollary 4.8 处理。
+
+首先，原证明把 $\mathbb{O}_{\mathcal{X}}\left(x_{\theta}\left(p\right),c_u\right)=1$ 当成 $g_{c_u}\left(\theta,p\right)=1$. 前者只说一次图像生成成功，后者说每次生成几乎必然成功。二者不同。附录 G 的 Step 1 正是从这里开始：它声称“由 $\mathcal{R}_{c_u}$ 的构造，每个 $h\in\mathcal{R}_{c_u}$ 都对应一个编辑前生成本身包含 $c_u$ 的 prompt，即 $g_{c_u}\left(\theta,p\right)=1$”，但 Definition A.1 只用一次抽样 $x_{\theta}\left(p\right)$ 判定，这句话并不由定义直接推出。仅由 robustness 和 Lipschitz 条件，我们能直接得到的是
 
 $$
 \begin{aligned}
@@ -214,14 +214,14 @@ g_{c_u}\left(\theta,p\right)-\varepsilon
 &\leq g_{c_u}\left(\theta,p\right)-g_{c_u}\left(\hat{\theta},p\right)\\
 &\leq\left|g_{c_u}\left(\theta,p\right)-g_{c_u}\left(\hat{\theta},p\right)\right|\\
 &\leq L\left\|
-\mathbf{\Phi}_{\hat{\theta}}\left(p\right)-\mathbf{\Phi}_{\theta}\left(p\right)
+\Phi_{\hat{\theta}}\left(p\right)-\Phi_{\theta}\left(p\right)
 \right\|_2.
 \end{aligned}
 $$
 
 要把第一项写成 $1-\varepsilon$，需要另加原模型在相关 prompt 上以概率 $1$ 生成目标的条件。
 
-其次，原证明从“每个位移都至少为 $\Delta$，也至少为 $(1-\varepsilon)/L$”推出 $\Delta\geq(1-\varepsilon)/L$. 这并不成立：同一个数的两个下界之间没有这种大小关系。正确做法是分别保留两个下界，或者明确把 $\Delta$ 定义为所有相关位移的下确界；原 Assumption 4.5 并没有作后一种定义。
+其次，原证明从“每个位移都至少为 $\Delta$，也至少为 $(1-\varepsilon)/L$”推出 $\Delta\geq(1-\varepsilon)/L$. 这并不成立：同一位移同时满足两个下界，并不能推出这两个下界之间有大小关系。正确做法是分别保留两个下界，或者明确把 $\Delta$ 定义为所有相关位移的下确界；原 Assumption 4.5 并没有作后一种定义。
 
 接着，依照附录 G，令重叠区域为
 
@@ -231,21 +231,23 @@ O:=\mathcal{R}_{c_u}^{(\rho)}
 \mathcal{R}_{c'}^{(\rho)}.
 $$
 
-由 $\mathbf{\Phi}_{\theta}\left(p\right)\in O$，只能知道它属于扩张区域 $\mathcal{R}_{c_u}^{(\rho)}$，不能知道它属于 $\mathcal{R}_{c_u}$. 原证明试图用“位移随 activation 连续变化”来说明：目标区域中的位移都至少为 $\Delta$，那么扩张区域中的位移也都至少为 $\Delta$. 但连续性只保证相近位置的位移接近，允许位移在离开目标区域后逐渐降到 $\Delta$ 以下，并不保证同一个下界保持不变。
+由 $\Phi_{\theta}\left(p\right)\in O$，只能知道它属于扩张区域 $\mathcal{R}_{c_u}^{(\rho)}$，不能知道它属于 $\mathcal{R}_{c_u}$. 原证明试图用“位移随 activation 连续变化”来说明：目标区域中的位移都至少为 $\Delta$，那么扩张区域中的位移也都至少为 $\Delta$. 但连续性只保证相近位置的位移接近，允许位移在离开目标区域后逐渐降到 $\Delta$ 以下，并不保证同一个下界保持不变。
 
 只有当一个点能被目标区域内的点任意逼近时，我们才能取极限，把这些点上的 $\Delta$ 下界传到该点。这些点构成目标区域的闭包。闭 $\rho$-neighborhood 则还包含与目标区域相隔正距离的点，无法通过上述取极限得到下界；这里的“闭”只表示邻域包含自身的边界，不表示它等于目标区域的闭包。
 
 此外，“位移随原 activation 连续变化”首先要求位移能够由原 activation 唯一确定。若两个 prompt 的原 activation 相同，编辑后的 activation 却不同，它们的位移大小就可能不同，此时我们连“这个 activation 对应多大位移”都不能唯一指定，更不能直接把位移视为 activation 空间上的连续函数。
 
+还有一处同样没有依据的过渡。附录 G 的 Step 2 在定义 $O$ 之后写道：由 Definition 4.3，非目标 prompt 分布 $\mathcal{P}_{-u}$ 的 support 落在 $\bigcup_{c'\ne c_u}\mathcal{R}_{c'}^{(\rho)}$ 上。但 Definition 4.3 只规定了怎样从各 $\mathcal{P}_{c'}$ 抽取 prompt，并没有说非目标概念的 activation 必然落在这些概念的 $\rho$-扩张区域内；prompt 的 activation 与“生成结果被判定包含该概念”本来就是两回事，前者更不会自动落进后者的邻域。这一步决定了后面所有非目标 prompt 都能享受到位移下界，但它和 mass-volume regularity 一样没有被列为条件。
+
 最后，原证明需要
 
 $$
 \Pr_{p\sim\mathcal{P}_{-u}}
-\left[\mathbf{\Phi}_{\theta}\left(p\right)\in O\right]
+\left[\Phi_{\theta}\left(p\right)\in O\right]
 \geq\kappa\left(c_u,\rho\right).
 $$
 
-附录 G 把它额外称为 mass-volume regularity，但主定理的条件没有列出。我们必须把它当作一个独立假设。这里所谓 push-forward measure，就是先按 $\mathcal{P}_{-u}$ 抽取 prompt，再把它映射成 $\mathbf{\Phi}_{\theta}\left(p\right)$，从而在 activation 空间得到的概率分布。上式要求这个分布落在 $O$ 中的概率，至少等于以目标体积为分母的几何重叠比例。
+附录 G 把它额外称为 mass-volume regularity，并写明“我们明确引入这个正则性假设”，但 Theorem 4.6 的条件里没有列出它。我们必须把它当作一个独立假设。这里所谓 push-forward measure，就是先按 $\mathcal{P}_{-u}$ 抽取 prompt，再把它映射成 $\Phi_{\theta}\left(p\right)$，从而在 activation 空间得到的概率分布。上式要求这个分布落在 $O$ 中的概率，至少等于以目标体积为分母的几何重叠比例。
 
 即使非目标 activation 均匀分布，这个条件也不会自动成立。例如目标扩张区域为 $[0,1]$，唯一非目标扩张区域为 $[0,100]$，那么 $O=[0,1]$ 且 $\kappa=1$；但在后一个区域均匀抽样，落入 $O$ 的概率只有 $1/100$. 均匀性不能消除两个比例分母的差异。
 
@@ -253,15 +255,15 @@ $$
 
 ### 补充假设下的命题与证明
 
-我们固定非空目标区域 $\mathcal{R}_{c_u}$、半径 $\rho>0$ 和前述重叠区域 $O$，要求集合与 activation 映射可测，且 $0<\operatorname{vol}\left(\mathcal{R}_{c_u}^{(\rho)}\right)<\infty$. 区域筛选使用的生成样本以及 activation 提取时的随机性事先固定，使 $\mathbf{\Phi}_{\theta}$ 与 $\mathbf{\Phi}_{\hat{\theta}}$ 是确定的 prompt 映射；生成概率 $g_c$ 仍对生成图像的随机性取概率。
+我们固定非空目标区域 $\mathcal{R}_{c_u}$、半径 $\rho>0$ 和前述重叠区域 $O$，要求集合与 activation 映射可测，且 $0<\operatorname{vol}\left(\mathcal{R}_{c_u}^{(\rho)}\right)<\infty$. 区域筛选使用的生成样本以及 activation 提取时的随机性事先固定，使 $\Phi_{\theta}$ 与 $\Phi_{\hat{\theta}}$ 是确定的 prompt 映射；生成概率 $g_c$ 仍对生成图像的随机性取概率。
 
-除 $\varepsilon$-robust unlearning、Assumption 4.4 和 Assumption 4.5 外，我们明确增加以下三个条件。这些是条件化论证所需的假设，不是论文已经证明或通过实验完整验证的性质。
+除 $\varepsilon$-robust unlearning、Assumption 4.4 和 Assumption 4.5 外，我们明确增加以下三个条件。这些是条件化论证所需的假设，不是论文已经证明或通过实验完整验证的性质。条件 1 和条件 3 分别对应前面指出的两处缺口（区域成员资格与生成概率的混淆、mass-volume regularity），条件 2 则把位移下界从 $\mathcal{R}_{c_u}$ 延伸到 $O$，替代原证明中依赖连续性和 support 断言的那一步。
 
 1. 原模型在所有映射到目标区域的 prompt 上都必然生成目标：
 
    $$
    \forall q\in\mathcal{P}\text{ with }
-   \mathbf{\Phi}_{\theta}\left(q\right)\in\mathcal{R}_{c_u},
+   \Phi_{\theta}\left(q\right)\in\mathcal{R}_{c_u},
    \qquad g_{c_u}\left(\theta,q\right)=1.
    $$
 
@@ -271,28 +273,28 @@ $$
 
    $$
    \forall p\in\mathcal{P}\text{ with }
-   \mathbf{\Phi}_{\theta}\left(p\right)\in O,
+   \Phi_{\theta}\left(p\right)\in O,
    \qquad
    \left\|
-   \mathbf{\Phi}_{\hat{\theta}}\left(p\right)
-   -\mathbf{\Phi}_{\theta}\left(p\right)
+   \Phi_{\hat{\theta}}\left(p\right)
+   -\Phi_{\theta}\left(p\right)
    \right\|_2
    \geq
    \inf_{\substack{q\in\mathcal{P}\\
-   \mathbf{\Phi}_{\theta}\left(q\right)\in\mathcal{R}_{c_u}}}
+   \Phi_{\theta}\left(q\right)\in\mathcal{R}_{c_u}}}
    \left\|
-   \mathbf{\Phi}_{\hat{\theta}}\left(q\right)
-   -\mathbf{\Phi}_{\theta}\left(q\right)
+   \Phi_{\hat{\theta}}\left(q\right)
+   -\Phi_{\theta}\left(q\right)
    \right\|_2.
    $$
 
-   这个条件明确要求：编辑对目标区域施加的最小位移，也延伸到了涉及非目标概念的重叠区域。它是实质性的编辑行为约束，不能由区域距离或连续性单独推出。我们直接对 prompt 的位移作要求，因此不需要额外假定编辑后 activation 只由编辑前 activation 决定。
+   这个条件明确要求：编辑对目标区域施加的最小位移，也延伸到了涉及非目标概念的重叠区域。它是实质性的编辑行为约束，不能由区域距离或连续性单独推出。我们直接对 prompt 的位移作要求，因此不需要额外假定编辑后 activation 只由编辑前 activation 决定。这个下确界在 Assumption 4.5 下不小于 $\Delta$，而在条件 1 和 Lipschitz 条件下又不小于 $(1-\varepsilon)/L$，所以条件 2 同时继承了这两个下界。
 
 3. 非目标 prompt 在重叠区域中具有足够的概率质量：
 
    $$
    \Pr_{p\sim\mathcal{P}_{-u}}
-   \left[\mathbf{\Phi}_{\theta}\left(p\right)\in O\right]
+   \left[\Phi_{\theta}\left(p\right)\in O\right]
    \geq\kappa\left(c_u,\rho\right).
    $$
 
@@ -304,8 +306,8 @@ $$
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
 \left\|
-\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)
+\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)
 \right\|_2
 \right]
 \geq
@@ -313,7 +315,7 @@ $$
 \max\left\{\Delta,\frac{1-\varepsilon}{L}\right\}.
 $$
 
-**证明。** 我们先在目标区域取得逐点下界，再对非目标 prompt 求平均。对任何满足 $\mathbf{\Phi}_{\theta}\left(q\right)\in\mathcal{R}_{c_u}$ 的 prompt $q$，条件 1、robustness 和 Lipschitz 条件给出
+**证明。** 我们先在目标区域取得逐点下界，再对非目标 prompt 求平均。对任何满足 $\Phi_{\theta}\left(q\right)\in\mathcal{R}_{c_u}$ 的 prompt $q$，条件 1、robustness 和 Lipschitz 条件给出
 
 $$
 \begin{aligned}
@@ -321,8 +323,8 @@ $$
 &\leq g_{c_u}\left(\theta,q\right)-g_{c_u}\left(\hat{\theta},q\right)\\
 &=\left|g_{c_u}\left(\theta,q\right)-g_{c_u}\left(\hat{\theta},q\right)\right|\\
 &\leq L\left\|
-\mathbf{\Phi}_{\hat{\theta}}\left(q\right)
--\mathbf{\Phi}_{\theta}\left(q\right)
+\Phi_{\hat{\theta}}\left(q\right)
+-\Phi_{\theta}\left(q\right)
 \right\|_2.
 \end{aligned}
 $$
@@ -331,18 +333,18 @@ $$
 
 $$
 \left\|
-\mathbf{\Phi}_{\hat{\theta}}\left(q\right)
--\mathbf{\Phi}_{\theta}\left(q\right)
+\Phi_{\hat{\theta}}\left(q\right)
+-\Phi_{\theta}\left(q\right)
 \right\|_2
 \geq\max\left\{\Delta,\frac{1-\varepsilon}{L}\right\}.
 $$
 
-右侧不依赖 $q$，所以对所有目标区域 prompt 的位移取下确界后，这个下界依然成立。条件 2 进而保证，对于每个满足 $\mathbf{\Phi}_{\theta}\left(p\right)\in O$ 的 prompt $p$，同样有
+右侧不依赖 $q$，所以对所有目标区域 prompt 的位移取下确界后，这个下界依然成立。条件 2 进而保证，对于每个满足 $\Phi_{\theta}\left(p\right)\in O$ 的 prompt $p$，同样有
 
 $$
 \left\|
-\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)
+\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)
 \right\|_2
 \geq\max\left\{\Delta,\frac{1-\varepsilon}{L}\right\}.
 $$
@@ -353,25 +355,25 @@ $$
 \begin{aligned}
 &\mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
-\left\|\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)\right\|_2
+\left\|\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)\right\|_2
 \right]\\
 &\quad\geq
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
-\mathbf{1}\left\{\mathbf{\Phi}_{\theta}\left(p\right)\in O\right\}
-\left\|\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)\right\|_2
+\mathbf{1}\left\{\Phi_{\theta}\left(p\right)\in O\right\}
+\left\|\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)\right\|_2
 \right]\\
 &\quad\geq
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
-\mathbf{1}\left\{\mathbf{\Phi}_{\theta}\left(p\right)\in O\right\}
+\mathbf{1}\left\{\Phi_{\theta}\left(p\right)\in O\right\}
 \right]
 \max\left\{\Delta,\frac{1-\varepsilon}{L}\right\}\\
 &\quad=
 \Pr_{p\sim\mathcal{P}_{-u}}
-\left[\mathbf{\Phi}_{\theta}\left(p\right)\in O\right]
+\left[\Phi_{\theta}\left(p\right)\in O\right]
 \max\left\{\Delta,\frac{1-\varepsilon}{L}\right\}\\
 &\quad\geq
 \kappa\left(c_u,\rho\right)
@@ -387,15 +389,15 @@ $$
 \gamma>
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
-\left\|\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)\right\|_2
+\left\|\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)\right\|_2
 \right]
 \geq\kappa\left(c_u,\rho\right)\frac{1-\varepsilon}{L}.
 $$
 
 因而也得到原文较弱的非严格不等式 $\gamma\geq\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$. 当 $\kappa\left(c_u,\rho\right)>0$ 时，将其乘以 $L/\kappa\left(c_u,\rho\right)$ 并移项，就得到 $\varepsilon\geq1-L\gamma/\kappa\left(c_u,\rho\right)$. $\square$
 
-这个证明使用的是一个简单而常见的平均值下界：按 $\mathcal{P}_{-u}$ 抽取 prompt 时，至少有 $\kappa\left(c_u,\rho\right)$ 的概率落入重叠区域，而这些 prompt 的 activation 位移都至少为 $(1-\varepsilon)/L$. 即使其余 prompt 完全不移动，总体平均位移也至少为 $\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$. 三个补充条件分别保证：目标区域需要这么大的位移，这个位移下界同样适用于重叠区域，以及非目标 prompt 落入重叠区域的概率足够大。
+这里还可以看清证明的骨架：$\kappa\left(c_u,\rho\right)$ 决定有多少比例的 prompt 被迫移动，$\Delta$（或概率降幅除以 $L$）决定每个被迫移动的 prompt 至少移动多远，平均只是把这两部分乘起来。三项条件各自封住一个环节。条件 1 和 Lipschitz 条件保证目标区域内的位移不小于 $(1-\varepsilon)/L$，Assumption 4.5 保证它不小于 $\Delta$，条件 2 把这个下界原封不动地运到重叠区域，条件 3 保证重叠区域在 $\mathcal{P}_{-u}$ 下占有足够概率质量。缺任何一项，这个乘积式的下界都无法得到：缺条件 3，我们只知道 $\Pr\left[\Phi_{\theta}\left(p\right)\in O\right]$ 是某个未知的非负数，不能用 $\kappa\left(c_u,\rho\right)$ 替换它；缺条件 2，$O$ 中的 prompt 可能只移动了小于 $(1-\varepsilon)/L$ 的距离；缺条件 1，$1-\varepsilon$ 要换成 $g_{c_u}\left(\theta,q\right)-\varepsilon$，其大小取决于原模型在目标区域上生成目标的概率。反过来，这也说明原论文的直觉没有错：只要把“目标区域整体受抑制”这句话翻译成对 $O$ 和 $\mathcal{P}_{-u}$ 的明确要求，重叠比例确实以乘积的形式进入下界。
 
 ## Remark 4.7
 
@@ -405,15 +407,15 @@ $$
 
 ## Corollary 4.8
 
-原推论声称：若 $\kappa\left(c_u,\rho\right)>0$，就不可能同时实现 $\varepsilon=0$ 的 perfect erasure 和 $\gamma=0$ 的 perfect preservation.
+原推论为：若 $\kappa\left(c_u,\rho\right)>0$，就不可能同时实现 $\varepsilon=0$ 的 perfect erasure 和 $\gamma=0$ 的 perfect preservation.
 
-注意，Definition 4.3 使用严格不等式“平均位移 $<\gamma$”，所以把 $\gamma=0$ 直接代入，即使完全不修改模型也无法满足。为了表达原推论实际要讨论的性质，我们把 perfect preservation 明确写为
+注意，Definition 4.3 使用严格不等式“平均位移 $<\gamma$”，所以把 $\gamma=0$ 直接代入，即使完全不修改模型（平均位移为 $0$）也无法满足。原文的 Corollary 4.8 因此依赖这一约定：它把 $\gamma=0$ 理解为“preservation 要求任意严苛”的极限，而不是 Definition 4.3 在 $\gamma=0$ 时的字面可行性。为了把它变成一个关于模型本身、而不是关于参数约定的陈述，我们把 perfect preservation 明确写为“平均位移等于 $0$”：
 
 $$
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
-\left\|\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)\right\|_2
+\left\|\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)\right\|_2
 \right]=0.
 $$
 
@@ -424,8 +426,8 @@ $$
 $$
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
-\left\|\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)\right\|_2
+\left\|\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)\right\|_2
 \right]
 \geq\frac{\kappa\left(c_u,\rho\right)}{L}>0,
 $$
@@ -434,7 +436,7 @@ $$
 
 这个结论排除的是“彻底删除目标，同时所有非目标 prompt 的内部表示在平均意义下完全不动”。它尚未排除“内部表示发生变化，但非目标图像的生成质量保持不变”。Assumption 4.4 给的是概率变化的上界；即使 activation 位移很大，概率变化仍然可以为零。因此，不能把内部位移的正下界直接当作生成质量下降的正下界。
 
-对固定的 $L$、$c_u$ 与 $\rho$，不等式 $\gamma\geq\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$ 给出一个必要的可行性边界：越严格地限制目标残留概率，允许的非目标平均位移上界就不能越过这条边界。注意，下界本身不证明边界上的每个点都能实现，因此不能直接把这条直线认作已经刻画完整的 Pareto frontier.
+对固定的 $L$、$c_u$ 与 $\rho$，不等式 $\gamma\geq\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$ 给出一个必要的可行性边界：越严格地限制目标残留概率，允许的非目标平均位移上界 $\gamma$ 就必须越大，不能低于这条曲线。注意，下界本身不证明边界上的每个点都能实现，因此不能直接把这条曲线认作已经刻画完整的 Pareto frontier.
 
 ## Definition C.1 与经验重叠指标
 
@@ -451,7 +453,7 @@ $$
 这里 $\mathcal{C}_{c_u}^{\mathrm{cand}}$ 包含十个可能相关的候选概念，$\mathcal{C}_{c_u}^{\mathrm{ctrl}}$ 包含三个不相关的 control 概念。对每个概念 $c$，以五十个 prompt $p_i$ 提取 activation 样本
 
 $$
-\mathcal{S}_c=\left\{\mathbf{\Phi}_{\theta}\left(p_i\right)\right\}_{i=1}^{50},
+\mathcal{S}_c=\left\{\Phi_{\theta}\left(p_i\right)\right\}_{i=1}^{50},
 \qquad
 \bar{\mathbf{a}}_c
 =\frac{1}{\left|\mathcal{S}_c\right|}
@@ -466,7 +468,7 @@ d_{\cos}\left(\mathbf{a},\mathbf{b}\right)
 {\left\|\mathbf{a}\right\|_2\left\|\mathbf{b}\right\|_2}.
 $$
 
-这里 $\left\langle\mathbf{a},\mathbf{b}\right\rangle$ 是 Euclidean inner product. 这个距离比较向量的方向，不比较其长度。
+这里 $\left\langle\mathbf{a},\mathbf{b}\right\rangle$ 是 Euclidean inner product. 这个距离比较向量的方向，不比较其长度；它只在 $\mathbf{a},\mathbf{b}$ 都非零时有定义。
 
 令 $\delta_{c_u}$ 为 $\mathcal{C}_{c_u}$ 内所有不同概念对的 centroid cosine distance 的第 $25$ 百分位数，Definition C.1 将 semantic neighborhood 定义为
 
@@ -480,7 +482,9 @@ d_{\cos}\left(\bar{\mathbf{a}}_{c_u},\bar{\mathbf{a}}_c\right)
 \right\}.
 $$
 
-Control 概念用于比较编辑对不相关概念的影响，论文要求 $\mathcal{C}_{c_u}^{\mathrm{ctrl}}\cap\mathcal{N}\left(c_u\right)=\varnothing$. 从上面的定义看，neighbor 只从候选集合 $\mathcal{C}_{c_u}^{\mathrm{cand}}$ 中选取，因此只要 control 与候选集合分开，这个要求就自动满足。它本身不保证 control 在 activation 空间中距离目标较远。Centroid 只用于筛选接下来考察哪些概念，重叠比例则通过逐个样本计算：
+Control 概念用于比较编辑对不相关概念的影响，论文要求 $\mathcal{C}_{c_u}^{\mathrm{ctrl}}\cap\mathcal{N}\left(c_u\right)=\varnothing$. 从上面的定义看，neighbor 只从候选集合 $\mathcal{C}_{c_u}^{\mathrm{cand}}$ 中选取，因此只要 control 与候选集合分开，这个要求就自动满足。它本身不保证 control 在 activation 空间中距离目标较远。
+
+注意，$\delta_{c_u}$ 与 $\mathcal{N}\left(c_u\right)$ 是估计侧的量：它们只出现在下面的 $\hat{\kappa}$ 中，在 Theorem 4.6 的理论表述里不出现。这一点决定了后面能证明什么。Centroid 只用于筛选接下来考察哪些概念，重叠比例则通过逐个样本计算：
 
 $$
 \hat{\kappa}\left(c_u\right)
@@ -541,27 +545,27 @@ $$
 \end{aligned}
 $$
 
-因此，在单位球面上，cosine distance 不超过 $\rho$ 与 Euclidean distance 不超过 $\sqrt{2\rho}$ 等价。$\square$ 注意，这个恒等式的前提是两个向量都已经归一化。把原 activation 除以自身长度，会将同方向、不同长度的向量压到同一个点，丢掉长度信息；它并不是单纯更换距离的写法。因此，原空间中两个区域各有多大、重叠比例是多少，不能由归一化后的距离判定直接恢复。
+因此，在单位球面上，cosine distance 不超过 $\rho$ 与 Euclidean distance 不超过 $\sqrt{2\rho}$ 等价。注意，这个恒等式的前提是两个向量都已经归一化。原文的 metric compatibility 讨论正是基于它：集合层面的内容（扩张区域之间的体积重叠）在两种距离下只差一个对半径 $\rho$ 的单调重参数化，因此可以把 $\hat{\kappa}$ 当作 $\kappa$ 的估计来用；而 $L$ 始终只与 $\ell_2$ 形式绑定。验证 $L$ 在归一化后的距离下是否仍成立，并不是原论文要给出的结论。
 
-归一化还把所有非零向量放到了单位球面上。这个球面虽然有表面积，但在 $d_{\ell^*}$ 维空间中没有厚度，$d_{\ell^*}$ 维 Lebesgue volume 为零。所以，若要比较球面上的区域大小，就需要改用球面上的 $(d_{\ell^*}-1)$ 维面积，即 surface measure；用面积算出的重叠比例，与原来用空间体积算出的 $\kappa$ 是不同的定义，不能直接视为相等。
+不过，归一化并不是单纯更换距离的写法。把原 activation 除以自身长度，会将同方向、不同长度的向量压到同一个点，丢掉长度信息。因此，原空间中两个区域各有多大、重叠比例是多少，不能由归一化后的距离判定直接恢复。
 
-同样，Assumption 4.4 中的 $L$ 约束的是原始 activation 距离与生成概率变化的关系。归一化可能把原来不同的 activation 变成同一个向量，却不改变它们对应的生成概率。因此，原来的 Lipschitz 不等式不能直接沿用到归一化后的距离上，需要另外验证。
+归一化还把所有非零向量放到了单位球面上。这个球面虽然有表面积，但在 $d_{\ell^*}$ 维空间中没有厚度，$d_{\ell^*}$ 维 Lebesgue volume 为零。所以，若要在球面上按体积谈论“扩张区域”，就需要改用球面上的 $(d_{\ell^*}-1)$ 维面积（surface measure）；用面积算出的重叠比例，与原来用空间体积算出的 $\kappa$ 是不同的定义，不能直接视为相等。此外，实验中的 activation 是否都恰好落在单位球面上，论文也没有说明。
 
-所以，实验中的 $\hat{\kappa}$ 可以描述样本的 neighbor 覆盖程度，但要把它直接代入 Theorem 4.6 的定量下界，还缺少从样本分布、归一化空间到理论体积测度的联系。
+所以，实验中的 $\hat{\kappa}$ 可以描述样本的 neighbor 覆盖程度，并且确实是对 $\kappa$ 的一个单调相关的估计；但要把它直接代入 Theorem 4.6 的定量下界，还缺少从归一化的样本统计量到原始 $\ell_2$ 体积测度的定量转换。
 
 ## Remark F.1
 
-原文认为：当重叠区域占目标扩张区域的 $\kappa\left(c_u,\rho\right)$ 比例，并且编辑在目标扩张区域上产生均匀位移时，下界是 tight 的。
+原文认为：当重叠区域恰好占目标扩张区域的 $\kappa\left(c_u,\rho\right)$ 比例，并且编辑在目标扩张区域上产生均匀位移时，下界是 tight 的。
 
-但第一个条件其实已经包含在 $\kappa$ 的定义中，而均匀位移也没有约束非目标 prompt 落入 $O$ 的概率，或者 $O$ 之外的位移。要说明何时取等，我们应当逐项检查证明中丢掉的量。
+但这两句话合起来仍不足以推出取等：第二句的“均匀”没有控制非目标 prompt 落入 $O$ 的概率，也没有控制 $O$ 之外的位移是否为零。要说明何时取等，我们应当逐项检查证明中丢掉的量。
 
 对于下界
 
 $$
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
 \left[
-\left\|\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)\right\|_2
+\left\|\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)\right\|_2
 \right]
 \geq\kappa\left(c_u,\rho\right)\Delta,
 \qquad\Delta>0,
@@ -570,12 +574,12 @@ $$
 在前述条件下，一组充分且必要的取等条件是：非目标 activation 落入 $O$ 的概率恰好为 $\kappa\left(c_u,\rho\right)$，并且对 $\mathcal{P}_{-u}$ 下几乎所有 prompt，
 
 $$
-\left\|\mathbf{\Phi}_{\hat{\theta}}\left(p\right)
--\mathbf{\Phi}_{\theta}\left(p\right)\right\|_2
+\left\|\Phi_{\hat{\theta}}\left(p\right)
+-\Phi_{\theta}\left(p\right)\right\|_2
 =
 \begin{cases}
-\Delta,&\mathbf{\Phi}_{\theta}\left(p\right)\in O,\\
-0,&\mathbf{\Phi}_{\theta}\left(p\right)\notin O.
+\Delta,&\Phi_{\theta}\left(p\right)\in O,\\
+0,&\Phi_{\theta}\left(p\right)\notin O.
 \end{cases}
 $$
 
@@ -585,17 +589,24 @@ $$
 
 反过来，证明中的三个非负贡献分别是：$O$ 外的位移，$O$ 内超过 $\Delta$ 的位移，以及重叠事件概率超过 $\kappa\left(c_u,\rho\right)$ 的部分乘以 $\Delta$. 如果最后取等，它们必须全为零。又因为一个非负随机量的期望为零当且仅当它几乎处处为零，我们便得到上述逐点条件；$\Delta>0$ 则保证重叠事件概率必须恰好等于 $\kappa\left(c_u,\rho\right)$.
 
-我们也可以直接验证刚才使用的概率事实：如果一个非负量在正概率的样本上严格大于零，那么在某个正整数 $n$ 下，它至少为 $1/n$ 的事件必有正概率，否则对这些事件取可数并，仍不可能得到正概率。它的期望于是至少为该正概率乘以 $1/n$，不可能等于零。$\square$
+我们也可以直接验证刚才使用的概率事实：设非负随机量 $r$ 满足 $\mathbb{E}\left[r\right]=0$. 对每个正整数 $n$，记 $A_n=\left\{1/(n+1)<r\leq1/n\right\}$，它们互不相交且 $\left\{r>0\right\}=\bigcup_{n\geq1}A_n$. 对任意 $K$，由 Markov 不等式，
 
-若讨论的是 $\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$ 这个下界，并且 $\varepsilon<1$，则相同分析中应将 $\Delta$ 换成 $(1-\varepsilon)/L$. 这要求重叠事件上的位移恰好达到这个概率降幅对应的下界，而不仅仅是“位移均匀”。这些条件说明何时能够取等，本身并没有构造出满足条件的实际 unlearning 方法。
+$$
+\mathbb{E}\left[r\right]\geq\frac{1}{K+1}\Pr\left[\bigcup_{n=1}^{K}A_n\right]
+=\frac{1}{K+1}\sum_{n=1}^{K}\Pr\left[A_n\right],
+$$
+
+因此部分和 $\sum_{n=1}^{K}\Pr\left[A_n\right]\leq\left(K+1\right)\mathbb{E}\left[r\right]=0$，其极限 $\Pr\left[r>0\right]=\sum_{n\geq1}\Pr\left[A_n\right]$ 也为零。$\square$
+
+此处隐含 $\Delta>0$，否则“位移等于 $\Delta$”与“位移为零”无法区分。若讨论的是 $\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$ 这个下界，并且 $\varepsilon<1$，则相同分析中应将 $\Delta$ 换成 $(1-\varepsilon)/L$. 这要求重叠事件上的位移恰好达到这个概率降幅对应的下界，而不仅仅是“位移均匀”。这些条件说明何时能够取等，本身并没有构造出满足条件的实际 unlearning 方法。
 
 ## Remark F.2
 
-论文用 STEREO 说明为什么强 erasure 可能伴随明显的 neighbor 损伤。其机制解释是：STEREO 学习 adversarial token embeddings $v_1^*,v_2^*$，寻找不易被删除的目标表达，再用 compositional objective 同时压制这些表达及其组合。这里 $v_1^*,v_2^*$ 是在文本 embedding 空间中学习的两个 adversarial 表示，用来覆盖更难压制的目标生成方式。
+论文用 STEREO 说明为什么强 erasure 可能伴随明显的 neighbor 损伤。其机制解释是：STEREO 学习 adversarial token embeddings $v_1^*,v_2^*$，使它们位于目标扩张区域 $\mathcal{R}_{c_u}^{(\rho)}$ 中最难压制的方向附近，再用 compositional objective 压制这些方向张成的整个子空间。这里 $v_1^*,v_2^*$ 是在文本 embedding 空间中学习的两个 adversarial 表示，用来覆盖更难压制的目标生成方式。
 
 论文把这种训练解释为对目标 activation 区域更广泛、更强的抑制，并观察到删除 horse 后 donkey、zebra 的生成也受损。若这种修改确实在目标区域上建立更大的统一位移下界 $\Delta$，又满足 Theorem 4.6 的其余条件，那么 $\kappa\left(c_u,\rho\right)\Delta$ 会给出更大的非目标平均位移下界。
 
-注意，这条 Remark 没有证明 compositional objective 必然压制整个相关子空间，也没有证明每个 neighbor 都必须受损。Theorem 4.6 约束的是非目标分布的总体平均位移，不能仅凭 $\kappa\left(c_u,\rho\right)>0$ 就给每个单独的 neighbor 推出正位移下界。STEREO 的具体生成质量变化仍属于实验观察。
+注意，这条 Remark 没有证明 compositional objective 必然压制整个相关子空间，也没有证明每个 neighbor 都必须受损。论文自己在 Remark F.2 里写的是“directly implies large collateral displacement in $\mathcal{R}_{c'}$ for all neighbors $c'$ with $\kappa\left(c_u,\rho\right)>0$”，这一步只能理解为定性地概括机制；Theorem 4.6 约束的是非目标分布的总体平均位移，不能仅凭 $\kappa\left(c_u,\rho\right)>0$ 就给每个单独的 neighbor 推出正的位移下界。若某个 neighbor 与目标的 overlap 远小于全部非目标概念的并，它在平均值中的权重就相应很小。STEREO 的具体生成质量变化仍属于实验观察。
 
 ## Remark F.3
 
@@ -609,7 +620,7 @@ SAeUron 用 sparse autoencoder 把内部 activation 表示为少数 feature 方�
 
 ## Remark F.4
 
-论文最后把这些方法放到同一个比较中：影响 trade-off 的是编辑在目标及重叠区域上产生了什么位移，而不只是它属于 weight editing 还是 inference-time intervention. 两类方法都可能广泛修改表示，也都可能只修改很少的 feature.
+论文最后把这些方法放到同一个比较中：影响 trade-off 的是编辑在目标区域 $\mathcal{R}_{c_u}$ 上把 activation 推动得多广，而不只是它属于 weight editing 还是 inference-time intervention. 两类方法都可能广泛修改表示，也都可能只修改很少的 feature.
 
 Theorem 4.6 对此提供的是条件性的必要约束：如果编辑必须在目标区域上产生至少 $\Delta$ 的位移，并且这项约束传到了具有足够非目标概率质量的重叠区域，那么非目标平均位移至少为 $\kappa\left(c_u,\rho\right)\Delta$. 它没有给出“增大位移就一定改善 erasure”的充分条件，也没有保证不同概念上的实际损伤随 $\kappa$ 单调增加；不同概念还可能具有不同的 $L$、不同的实际残留概率，以及不同程度的额外位移。
 

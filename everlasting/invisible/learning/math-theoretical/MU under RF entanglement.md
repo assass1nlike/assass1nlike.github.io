@@ -1,6 +1,6 @@
 我们希望让模型忘掉一部分训练样本，同时保留与这些样本高度相关的能力。例如，模型学习的是“鱼”这个 superclass，而我们只想忘掉其中的“观赏鱼” subclass；如果直接降低模型对“鱼”的识别能力，其他鱼类也会受到影响。这就是 retain–forget entanglement：forget set 与一部分 retain set 共享语义或特征，优化两者时可能发生冲突。
 
-设训练集为 $D=\{(x_i,y_i)\}_{i=1}^{N}$，这里 $N$ 是样本数，$\mathcal X$ 是输入空间，$x_i\in\mathcal X$ 是第 $i$ 个输入，$y_i\in\mathcal Y=\{1,\ldots,n\}$ 是其分类标签，$n$ 是模型预测的类别数。在 superclass 分类任务中，$n$ 指 superclass 的数量。模型参数为有限维实向量 $\theta$，原始模型参数为 $\theta_0$. 我们将模型输出 $f_\theta(x)$ 写成类别概率向量，第 $j$ 个分量 $[f_\theta(x)]_j$ 是模型赋给类别 $j$ 的概率，预测规则是选择概率最大的类别。
+设训练集为 $D=\{(x_i,y_i)\}_{i=1}^{N}$，这里 $N$ 是样本数，$\mathcal X$ 是输入空间，$x_i\in\mathcal X$ 是第 $i$ 个输入，$y_i\in\mathcal Y=\{1,\ldots,n\}$ 是其分类标签，$n$ 是模型输出的类别数。在 superclass 分类任务中，$n$ 指 superclass 的数量。模型参数为有限维实向量 $\theta$，原始模型参数为 $\theta_0$. 我们将模型输出 $f_\theta(x)$ 写成类别概率向量，第 $j$ 个分量 $[f_\theta(x)]_j$ 是模型赋给类别 $j$ 的概率，预测规则是选择概率最大的类别。
 
 将待遗忘的样本记为 forget set $D_f\subset D$，其余样本构成 retain set $D_r=D\setminus D_f$. 根据它们与 $D_f$ 的关联程度，进一步划分为
 
@@ -10,7 +10,7 @@ D_r=D_r^{\mathrm{adj}}\cup D_r^{\mathrm{rem}},
 D_r^{\mathrm{adj}}\cap D_r^{\mathrm{rem}}=\varnothing.
 $$
 
-这里 adjacent retain set $D_r^{\mathrm{adj}}$ 是与待遗忘样本高度相关、容易受到误伤的部分，remote retain set $D_r^{\mathrm{rem}}$ 是其余关联较弱的部分。以下各集合均非空，$|\cdot|$ 表示集合的样本数。
+这里 adjacent retain set $D_r^{\mathrm{adj}}$ 是与待遗忘样本高度相关、容易受到误伤的部分，remote retain set $D_r^{\mathrm{rem}}$ 是其余关联较弱的部分。以下各集合均非空；$|\cdot|$ 作用在集合上时表示样本数，作用在实数上时表示绝对值。
 
 我们使用 cross-entropy loss
 
@@ -35,9 +35,9 @@ $$
 \end{aligned}
 $$
 
-这里的 forgetting 目标是降低模型对 $D_f$ 中给定标签的预测准确率。因此，我们希望提高 $\mathcal L_f$，同时维持 retain set 上的表现。注意，这个目标本身不等价于让模型与“删除 $D_f$ 后重新训练”的模型具有相同分布。
+“forgetting” 在不同场景下含义不同。隐私场景要求更新后的模型与“删除 $D_f$ 后重新训练”的模型不可区分；这篇论文处理的是另一类情形，即 $D_f$ 本身含有应当被模型忽略的内容（偏见、冒犯性文本、被撤回的数据），目标是让模型在 $D_f$ 上尽可能失去预测能力。因此具体的目标是提高 $\mathcal L_f$，也就是压低模型在 $D_f$ 上按给定标签预测正确的比例，同时维持 retain set 上的表现。这两件事并不等价：把平均 loss 抬高只是准确率下降的一种可能途径，并不保证准确率真的下降，第二阶段要专门处理的就是这个缺口。
 
-## 两阶段优化与 loss 分布
+## 第一阶段：augmented Lagrangian
 
 第一阶段先处理 forgetting 与 remote retain 的平衡：
 
@@ -48,7 +48,11 @@ $$
 =\mathcal L_r^{\mathrm{rem}}(\theta_0).
 $$
 
-我们暂时不加入 adjacent retain 的优化目标，以免一开始就要求模型同时忘掉目标样本、恢复与它们高度相关的样本。为求解这个约束问题，一个直接的想法是把约束偏离的平方加入目标：
+这里约束取等式，即要求 remote retain loss 保持在原始值，而不只是“不上升”。
+
+我们暂时不加入 adjacent retain 的优化目标。adjacent samples 与 forget samples 高度相关，如果同时要求“忘掉 $D_f$”和“恢复 $D_r^{\mathrm{adj}}$”，两个目标会在同一批特征上互相拉扯，优化过程容易在两者之间振荡；先让 $D_f$ 的 loss 升上去、$D_r^{\mathrm{rem}}$ 保持住，问题会简单得多，adjacent retain 留到第二阶段单独处理。
+
+为求解这个约束问题，一个直接的想法是把约束偏离的平方加入目标：
 
 $$
 -\mathcal L_f(\theta)
@@ -75,7 +79,7 @@ $$
 \quad\Longrightarrow\quad x=\frac1\mu.
 $$
 
-这说明有限的惩罚系数未必能消除约束偏差。虽然增大 $\mu$ 可以缩小偏差，却也会增大惩罚项沿约束法向的曲率，使参数更新需要更小的步长。
+这说明有限的惩罚系数未必能消除约束偏差。虽然增大 $\mu$ 可以缩小偏差，却也会增大惩罚项沿约束法向的曲率，使参数更新需要更小的步长。在标量例子里，偏差和曲率都随 $1/\mu$ 变化：$\mu$ 增大十倍，偏差缩小十倍，而梯度下降的稳定步长上界也缩小十倍，两者始终按同样的速度互相抵消。
 
 我们希望更新最终停在这样的位置：remote retain loss 满足约束，而且在附近所有满足约束的参数中，已经无法进一步降低 $-\mathcal L_f$. 这就是约束内的局部最优点。为了设计能停在这种位置的更新规则，我们先看它需要怎样的梯度平衡，再据此构造目标函数。平方惩罚在约束满足时不再提供梯度，因此我们还需要一个即使此时也能抵消 forgetting 梯度的分量。
 
@@ -90,15 +94,17 @@ $$
 \end{aligned}
 $$
 
-为什么最优点处的两个梯度必须满足第一行？我们先看哪些方向允许参数在保持约束的同时移动。设 $v$ 是参数移动的瞬时方向，remote retain loss 沿这个方向的变化率为
+第一行是等式约束优化的一阶必要条件（KKT 条件里的平稳性条件），第二行就是约束本身。为什么最优点处的两个梯度必须满足第一行？我们先看哪些方向允许参数在保持约束的同时移动。设 $v$ 是参数移动的瞬时方向，remote retain loss 沿这个方向的变化率为
 
 $$
 \left\langle\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta^\star),v\right\rangle.
 $$
 
-这里 $\langle\cdot,\cdot\rangle$ 是 Euclidean 内积。要保持这个 loss 不变，变化率就必须为零，所以允许的方向都垂直于 remote retain 梯度。在前面约束梯度非零的条件下，满足约束的参数在局部形成一个光滑曲面，每个这样的方向都可以作为曲面上一条路径的瞬时方向。我们沿路径移动即可保持约束，不必沿直线走。
+这里 $\langle\cdot,\cdot\rangle$ 是 Euclidean 内积。要保持这个 loss 不变，变化率就必须为零，所以允许的方向都垂直于 remote retain 梯度。
 
-如果 $\theta^\star$ 已经是约束内的局部最优点，那么沿任意这样的路径，目标 $-\mathcal L_f$ 的变化率也必须为零；否则选择路径的一个移动方向，就能在保持约束的同时降低目标，与局部最优矛盾。因此
+这一步用到了一个标准的几何事实：在 $\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta^\star)\neq0$ 处，约束集 $\{\theta:\mathcal L_r^{\mathrm{rem}}(\theta)=\mathcal L_r^{\mathrm{rem}}(\theta_0)\}$ 在局部是一个光滑的超曲面，这一点由隐函数定理保证；这个超曲面在 $\theta^\star$ 处的切空间，恰好就是与 $\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta^\star)$ 正交的整个子空间。因此前面那些允许方向不只是“瞬时速度”：它们都可以延拓成超曲面上的一条曲线，沿曲线移动就能一直保持约束，不必沿直线走。
+
+如果 $\theta^\star$ 已经是约束内的局部最优点，那么沿任意这样的曲线，目标 $-\mathcal L_f$ 的变化率都必须为零。否则设某个允许方向 $v$ 上的变化率非零，那么 $v$ 与 $-v$ 都是允许方向，取使变化率为负的那一个移动，就能在保持约束的同时降低目标，与局部最优矛盾。因此
 
 $$
 \left\langle\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta^\star),v\right\rangle=0
@@ -106,7 +112,7 @@ $$
 \left\langle-\nabla_\theta\mathcal L_f(\theta^\star),v\right\rangle=0.
 $$
 
-这意味着，目标梯度在所有垂直于 remote retain 梯度的方向上都没有分量，只能与它平行。因此，我们可以用某个倍数的 remote retain 梯度抵消目标梯度；把这个倍数记为 $\lambda^\star$，就得到第一行的等式。
+这意味着 $-\nabla_\theta\mathcal L_f(\theta^\star)$ 与所有垂直于 $\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta^\star)$ 的方向都正交。在有限维空间中，一个向量若与某个非零向量的正交补整体正交，它就只能落在该向量的张成空间里，因此 $-\nabla_\theta\mathcal L_f(\theta^\star)$ 只能与 $\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta^\star)$ 平行。把这个倍数记为 $\lambda^\star$，就得到第一行的等式。
 
 这个梯度平衡关系给出了设计目标函数的依据：我们需要一个系数可调的 remote retain 梯度分量。为此，加入线性项 $\lambda\left(\mathcal L_r^{\mathrm{rem}}(\theta)-\mathcal L_r^{\mathrm{rem}}(\theta_0)\right)$. 在约束满足时，这一项的数值为零，但其参数梯度 $\lambda\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta)$ 仍可以非零，因而能够提供平方惩罚此时缺少的平衡作用。它与平方项结合，便得到 augmented Lagrangian：
 
@@ -148,7 +154,7 @@ $$
 \end{aligned}
 $$
 
-这里 $\eta_1>0$ 是第一阶段的学习率，第二行使用第一行更新后的参数。如果 remote retain loss 高于原值，乘子就增大，使下一轮参数更新增加一个降低该 loss 的梯度分量；如果低于原值，乘子就减小，向相反方向纠正。这样，$\lambda$ 累积历次约束偏离，在约束满足时也不会被重置为零，而会保留学到的平衡作用。
+这里 $\eta_1>0$ 是第一阶段的学习率，第二行使用第一行更新后的参数。这是求解约束优化的对偶上升更新：完整的 method of multipliers 会在每一步把参数子问题求解到驻点、再更新乘子，而这里每轮只对参数走一步梯度，所以它是该方法的一次一阶近似。如果 remote retain loss 高于原值，乘子就增大，使下一轮参数更新增加一个降低该 loss 的梯度分量；如果低于原值，乘子就减小，向相反方向纠正。这样，$\lambda$ 累积历次约束偏离，在约束满足时也不会被重置为零，而会保留学到的平衡作用。
 
 从数学上看，乘子更新是梯度上升，因为
 
@@ -162,9 +168,28 @@ $$
 
 将乘子步长取为 $\mu$ 还有一个直接的依据：前面参数梯度中方括号内的系数，恰好就是更新后的乘子。若固定旧乘子后，参数子问题已经优化到梯度为零的位置，那么更新后的乘子就使这一位置满足上面的一阶梯度平衡条件。我们随后继续调整参数与乘子，尝试同时消除约束偏离。注意，论文每轮只对参数做一步梯度下降，并未将子问题求解到驻点，因此这解释的是更新的设计原理，不代表每轮都已满足最优性条件，也不保证非凸训练无条件收敛。
 
-记第一阶段结束时的参数为 $\bar\theta$，并在第二阶段固定它作为参照。
+## 第二阶段：Wasserstein 距离与梯度投影
 
-第二阶段希望减小 $\mathcal L_r^{\mathrm{adj}}$，同时避免破坏第一阶段的 forgetting 效果。一个自然的做法是把 adjacent retain 的梯度中会改变 $\mathcal L_f$ 和 $\mathcal L_r^{\mathrm{rem}}$ 的分量去掉，使后两者在一阶近似下不变。但保持平均 forget loss，并不能阻止一部分 forget 样本的 loss 下降：其他样本的 loss 可以上升，恰好抵消这部分下降。于是平均 loss 几乎不变，模型却重新预测对了一些本该忘掉的样本。
+记第一阶段结束时的参数为 $\bar\theta$，第二阶段以它作为参照，并在整个阶段固定。
+
+第二阶段希望减小 $\mathcal L_r^{\mathrm{adj}}$，同时避免破坏第一阶段的 forgetting 效果。一个自然的做法是把 adjacent retain 的梯度中会改变 $\mathcal L_f$ 和 $\mathcal L_r^{\mathrm{rem}}$ 的分量去掉，使后两者在一阶近似下不变：
+
+$$
+\Delta\theta
+=-\eta\left(
+\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
+-\operatorname{Proj}_{V_0}\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
+\right),
+\qquad
+V_0=\operatorname{span}\left\{
+\nabla_\theta\mathcal L_f(\theta),
+\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta)
+\right\}.
+$$
+
+这里 $\eta>0$ 是第二阶段的学习率，与第一阶段的学习率 $\eta_1$ 不同；$\operatorname{span}\{\cdot\}$ 表示由括号内向量张成的线性子空间，$\operatorname{Proj}_{V_0}$ 是 Euclidean 内积下到 $V_0$ 的正交投影。这个操作来自 multi-task learning 里常见的 gradient surgery：两个任务的梯度方向冲突时，把当前任务的梯度投影到另一个任务梯度的正交补上，使这一步更新不干扰后者。这里要保护的“另一个任务”有两个，所以投影的目标空间取两个梯度的张成。
+
+但保持平均 forget loss，并不能阻止一部分 forget 样本的 loss 下降：其他样本的 loss 可以上升，恰好抵消这部分下降。于是平均 loss 几乎不变，模型却重新预测对了一些本该忘掉的样本。论文的实验正是这样：用上面的经典投影更新跑第二阶段，$D_f$ 上的平均 loss 基本不动，准确率却持续回升。原因是 adjacent samples 与 forget samples 在语义上纠缠，压低 adjacent loss 的过程会顺带压低相似 forget 样本的 loss；而投影又要求包含均值的 $\mathcal L_f$ 一阶不变，模型只能把不相似样本的 loss 推得更高来补偿，loss 分布因此被拉成两极。
 
 为控制这种变化，我们比较整个 forget loss 分布。参数为 $\theta$ 时，其 empirical distribution 为
 
@@ -197,7 +222,9 @@ $$
 
 也就是说，$P_\theta^{\mathrm{forget}}(B)$ 就是 loss 落在 $B$ 中的样本比例。我们从这个分布抽取一个 loss，等价于从 $D_f$ 均匀抽取一个样本，再返回它的 loss；若多个样本的 loss 相同，它们的概率会累加在同一个数值上。
 
-我们用 Wasserstein-2 distance 衡量两个分布之间的距离。对于 $\mathbb R^d$ 上具有有限二阶矩的概率分布 $P,Q$，定义
+我们用 Wasserstein-2 distance 衡量两个分布之间的距离。这里选 $W_2$ 而不是 KL divergence，理由在计算上：KL 需要对分布做密度估计，或者假设分布属于某个参数族（例如假定高斯），两者都会引入近似误差；而两个一维经验分布之间的 $W_2$ 有只靠排序就能算的闭式表达，既不需要密度估计，也不需要任何参数假设。下面先把 $W_2$ 定义出来，再推导这个闭式表达。
+
+对于 $\mathbb R^d$ 上具有有限二阶矩的概率分布 $P,Q$，定义
 
 $$
 W_2(P,Q)
@@ -226,7 +253,9 @@ W_2(P,Q)
 \left(\bar a_i-\bar b_i\right)^2\right)^{1/2}.
 $$
 
-这个排序公式的原因是：平方距离下，交叉配对不会更便宜。具体地，任一 coupling 都可以用非负质量 $\gamma_{ij}$ 表示，$\gamma_{ij}$ 是从 $\bar a_i$ 配到 $\bar b_j$ 的质量，且每行、每列的质量之和均为 $1/N$. 若 $\gamma_{11}<1/N$，则必有 $i,j>1$ 使 $\gamma_{1j}>0$、$\gamma_{i1}>0$. 令 $\delta=\min\{\gamma_{1j},\gamma_{i1}\}$，将这两项各减少 $\delta$，同时将 $\gamma_{11}$、$\gamma_{ij}$ 各增加 $\delta$. 这不改变边缘分布，而修改前后的成本差为
+注意，这里的上划线只表示“排序后的第 $i$ 个值”，与第一阶段终点参数 $\bar\theta$ 的上划线没有关系。
+
+这个排序公式的原因是：平方距离下，交叉配对不会更便宜。具体地，任一 coupling 都可以用非负质量 $\gamma_{ij}$ 表示，$\gamma_{ij}$ 是从 $\bar a_i$ 配到 $\bar b_j$ 的质量；因为两边的边缘分布都是 $N$ 个原子上各带 $1/N$ 质量，所以 $\gamma$ 的每行、每列的质量之和均为 $1/N$. 若 $\gamma_{11}<1/N$，则第一行在 $j>1$ 处仍分有正质量，第一列在 $i>1$ 处仍分有正质量，即存在 $i,j>1$ 使 $\gamma_{1j}>0$、$\gamma_{i1}>0$. 令 $\delta=\min\{\gamma_{1j},\gamma_{i1}\}$，将这两项各减少 $\delta$，同时将 $\gamma_{11}$、$\gamma_{ij}$ 各增加 $\delta$. 这不改变边缘分布，而修改前后的成本差为
 
 $$
 \begin{aligned}
@@ -241,7 +270,17 @@ $$
 \end{aligned}
 $$
 
-每次操作至少消去第一行或第一列中的一个非对角正质量，而且不会在这些位置新增质量，因此有限次操作后就有 $\gamma_{11}=1/N$. 对剩余行列重复这一过程，我们便将任意 coupling 转换为逐项排序配对，且总成本不增加。这证明了排序公式。$\square$
+这里第二个等号用到的展开是
+
+$$
+\begin{aligned}
+&\left(\bar a_1-\bar b_j\right)^2+\left(\bar a_i-\bar b_1\right)^2
+-\left(\bar a_1-\bar b_1\right)^2-\left(\bar a_i-\bar b_j\right)^2\\
+&\quad=2\left(\bar a_i-\bar a_1\right)\left(\bar b_j-\bar b_1\right),
+\end{aligned}
+$$
+
+而它非负是因为 $\bar a_i\geq\bar a_1$、$\bar b_j\geq\bar b_1$. 差为非负意味着修改后的 coupling 不比原来更贵。每次操作至少消去第一行或第一列中的一个非对角正质量，而且不会在这些位置新增质量，因此有限次操作后就有 $\gamma_{11}=1/N$. 对剩余行列重复这一过程，我们便将任意 coupling 转换为逐项排序配对，且总成本不增加。这证明了排序公式。$\square$
 
 有了这个可以直接计算的分布距离，我们定义修改后的 forget loss
 
@@ -253,7 +292,7 @@ P_\theta^{\mathrm{forget}}\right),
 \qquad \alpha\in[0,1].
 $$
 
-这里 $\alpha$ 控制平均 loss 与分布距离的权重。第二阶段不直接最小化这个量，而是在降低 adjacent retain loss 时，尽量保持它不变。接下来的两个命题分别回答：投影更新能否做到这种局部保持，以及保持这个量为什么有助于限制 forget accuracy.
+这里 $\alpha$ 控制平均 loss 与分布距离的权重：$\alpha=0$ 时只剩平均 loss，退化为前面的经典投影；$\alpha=1$ 时完全由分布距离决定。第二阶段不直接最小化这个量，而是在降低 adjacent retain loss 时，尽量保持它不变。接下来的两个命题分别回答：投影更新能否做到这种局部保持，以及保持这个量为什么有助于限制 forget accuracy.
 
 ## Proposition 4.1
 
@@ -266,7 +305,7 @@ V=\operatorname{span}\left\{
 \right\},
 $$
 
-这里 $V$ 是两个约束梯度的线性张成空间，$\operatorname{Proj}_V$ 表示 Euclidean 内积下到 $V$ 的正交投影。使用学习率 $\eta>0$，进行更新
+这里 $V$ 是两个约束梯度的线性张成空间，$\operatorname{Proj}_V$ 表示 Euclidean 内积下到 $V$ 的正交投影，$V^\perp$ 表示 $V$ 在同一内积下的正交补。使用学习率 $\eta>0$，进行更新
 
 $$
 \Delta\theta
@@ -297,9 +336,19 @@ $$
 
 因此，充分小的正学习率会严格降低 adjacent retain loss.
 
-我们可以从方向导数理解这个构造。一个可微 loss 沿更新方向的瞬时变化，是它的梯度与更新方向的内积。如果要求两个约束量的一阶变化都为零，更新方向就必须同时垂直于它们的梯度，也就是属于 $V^\perp$. 正交投影去掉了 adjacent retain 梯度中属于 $V$ 的分量，留下的正是满足这一要求的分量；沿其反方向走，仍能降低 adjacent retain loss，前提是这个分量不为零。
+我们可以从方向导数理解这个构造。一个可微 loss 沿更新方向的瞬时变化，是它的梯度与更新方向的内积。如果要求两个约束量的一阶变化都为零，更新方向就必须同时垂直于它们的梯度，也就是属于 $V^\perp$. 正交投影去掉了 adjacent retain 梯度中属于 $V$ 的分量，留下的正是满足这一要求的分量；沿其反方向走，仍能降低 adjacent retain loss，前提是这个分量不为零。换成 AI 语境的说法：第二阶段的每一步都在降低 adjacent 样本的 loss，同时把“对 forget set 的遗忘效果”和“remote retain 样本的性能”冻结在原地，所以 adjacent 样本的恢复不会以重新记住 forget set 为代价。
 
-**证明。** 正交投影的基本性质是：对任意参数空间向量 $z$，$\operatorname{Proj}_V z\in V$，而 $z-\operatorname{Proj}_V z\in V^\perp$. 因此 $\Delta\theta\in V^\perp$，从而
+**证明。** 记
+
+$$
+r:=\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
+-\operatorname{Proj}_V\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta),
+\qquad c:=\|r\|^2,
+$$
+
+这里 $r$ 是 adjacent retain 梯度中垂直于 $V$ 的剩余部分，$c$ 是它的平方范数。于是更新可以写成 $\Delta\theta=-\eta r$，并且 $\|\Delta\theta\|=\eta\sqrt c$ 精确成立。
+
+正交投影的基本性质是：对任意参数空间向量 $z$，$\operatorname{Proj}_V z\in V$，而 $z-\operatorname{Proj}_V z\in V^\perp$. 因此 $\Delta\theta\in V^\perp$。又因为两个约束梯度都属于 $V$，得到
 
 $$
 \left\langle\nabla_\theta\widetilde{\mathcal L}_f(\theta),
@@ -309,7 +358,7 @@ $$
 \Delta\theta\right\rangle=0.
 $$
 
-这里 $\langle\cdot,\cdot\rangle$ 表示 Euclidean 内积。由于本次更新中 $\theta$ 和梯度固定，$\|\Delta\theta\|$ 不超过某个固定常数乘以 $\eta$. 对修改后的 forget loss 作 Taylor 展开，得到
+这里 $\langle\cdot,\cdot\rangle$ 表示 Euclidean 内积。对修改后的 forget loss 作二阶 Taylor 展开：
 
 $$
 \begin{aligned}
@@ -327,7 +376,7 @@ $$
 \end{aligned}
 $$
 
-这里 $\nabla_\theta^2$ 是 Hessian，$\top$ 表示转置，$o\left(\|\Delta\theta\|^2\right)$ 是相对于 $\|\Delta\theta\|^2$ 可忽略的余项。最后一步使用了固定 Hessian 的二次型绝对值不超过某个固定常数乘以 $\|\Delta\theta\|^2$. 对 remote retain loss 作同样展开，利用其一阶项也为零，就得到
+这里 $\nabla_\theta^2$ 是 Hessian，$\top$ 表示转置，$o\left(\|\Delta\theta\|^2\right)$ 是相对于 $\|\Delta\theta\|^2$ 可忽略的余项。最后一步的理由是：一阶项已经消失，而 $\theta$ 固定使 Hessian 是一个固定的矩阵，二次型 $\frac12\Delta\theta^\top\nabla_\theta^2\widetilde{\mathcal L}_f(\theta)\Delta\theta$ 的绝对值不超过一个固定常数乘以 $\|\Delta\theta\|^2$，再代入 $\|\Delta\theta\|=\eta\sqrt c$ 就是 $\eta^2$ 的量级。对 remote retain loss 作同样展开，利用其一阶项也为零，就得到
 
 $$
 \mathcal L_r^{\mathrm{rem}}(\theta+\Delta\theta)
@@ -338,38 +387,23 @@ $$
 =O(\eta^2).
 $$
 
-接着看 adjacent retain loss. 由于投影分量与剩余分量正交，
+接着看 adjacent retain loss. 设 $z=\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)$、$P=\operatorname{Proj}_V z$，则 $z=P+r$ 且 $P\perp r$，于是 $\langle z,r\rangle=\langle P,r\rangle+\langle r,r\rangle=\|r\|^2$. 代入 $\Delta\theta=-\eta r$ 就得到
 
 $$
 \begin{aligned}
-&\left\langle\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta),
-\Delta\theta\right\rangle\\
-&\quad=-\eta\left\langle
-\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta),
-\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
--\operatorname{Proj}_V\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
-\right\rangle\\
-&\quad=-\eta\left\|
-\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
--\operatorname{Proj}_V\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
-\right\|^2\\
-&\quad=-\eta\left(
+\left\langle\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta),
+\Delta\theta\right\rangle
+&=-\eta\left\langle z,r\right\rangle
+=-\eta\|r\|^2
+=-\eta c\\
+&=-\eta\left(
 \left\|\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)\right\|^2
 -\left\|\operatorname{Proj}_V\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)\right\|^2
 \right).
 \end{aligned}
 $$
 
-定义
-
-$$
-c:=\left\|
-\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
--\operatorname{Proj}_V\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
-\right\|^2.
-$$
-
-若 $\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)\notin V$，投影后的剩余分量非零，因此 $c>0$. 再次使用 Taylor 展开，得到
+最后一行用了勾股定理：$\|z\|^2=\|P\|^2+\|r\|^2$，所以 $\|r\|^2$ 正好是原始梯度平方范数减去投影后平方范数。若 $\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)\notin V$，则 $r\neq0$（否则梯度本身就在 $V$ 中），因此 $c>0$. 再次使用 Taylor 展开，得到
 
 $$
 \begin{aligned}
@@ -390,7 +424,7 @@ $$
 
 ## Proposition 4.2
 
-设 $n\geq2$ 是模型预测的类别数，$\alpha\in(0,1]$，$m>\log n$，$\varepsilon>0$. 假设第一阶段结束后，所有 forget 样本都满足
+设 $n\geq2$ 是模型输出的类别数，$\alpha\in(0,1]$，$m>\log n$，$\varepsilon>0$. 假设第一阶段结束后，所有 forget 样本都满足
 
 $$
 \ell\left(f_{\bar\theta}(x_i),y_i\right)\geq m,
@@ -413,12 +447,13 @@ $$
 +\sqrt{\frac{\varepsilon}{\alpha}}\right)^2.
 $$
 
-这里 $m$ 是每个 forget 样本的初始 loss 下界，$\varepsilon$ 是相对于第一阶段终点的允许偏离量。条件 $m>\log n$ 要求每个 forget 样本的给定标签概率都低于 $1/n$，即低于均匀预测时的概率。它比“平均 forget loss 很大”更强。
+这里 $m$ 是每个 forget 样本的初始 loss 下界，$\varepsilon$ 是相对于第一阶段终点的允许偏离量。命题要求 $\alpha>0$，因为后面要用 $\alpha$ 做除法、也要对 $\varepsilon/\alpha$ 开方。
 
-证明的思路是把准确率变化转化为概率质量的移动。一个样本若被预测正确，它的 cross-entropy 不可能大于 $\log n$. 但参照分布中的所有 loss 都至少为 $m$，因此当前分布中每一份落到 $\log n$ 以下的质量，都必须与距离至少为 $m-\log n$ 的参照 loss 配对。这会消耗 Wasserstein 平方距离；只要我们能控制这个距离，就能控制预测正确的比例。
+条件 $m>\log n$ 要求每个 forget 样本的给定标签概率都低于 $1/n$，即低于均匀预测时的概率：由 $\ell=-\log[f_\theta(x_i)]_{y_i}\geq m>\log n$ 直接得到 $[f_\theta(x_i)]_{y_i}<1/n$. 也就是说，第一阶段结束时模型在这些样本上的表现已经比随机猜测更差，这是 forgetting 真正生效的标志，而不只是 loss 数值大。它比“平均 forget loss 很大”更强，原因在证明里会看到：准确率上界要把当前分布落在 $\log n$ 以下的每一份质量，与参照分布中距离至少 $m-\log n$ 的位置配对。若参照分布里混有少数很小的 loss，这些质量与低 loss 部分配对时距离很小，这个下界就失效了；只有逐样本的下界才能保证参照分布的整个支撑集都在 $[m,\infty)$ 上。
 
-**证明。** 我们先证明，两个 loss 分布的均值差不超过它们的 $W_2$ 距离。取具有联合分布
-$\gamma\in\Gamma\left(P_\theta^{\mathrm{forget}},P_{\bar\theta}^{\mathrm{forget}}\right)$ 的随机变量 $X,Y$，分别表示当前 loss 和参照 loss. 根据边缘分布，它们的期望分别为 $\mathcal L_f(\theta)$ 和 $\mathcal L_f(\bar\theta)$. 利用三角不等式和 Cauchy–Schwarz 不等式，得到
+证明的思路是把准确率变化转化为概率质量的移动。一个样本若被预测正确，它的 cross-entropy 不可能大于 $\log n$. 但参照分布中的所有 loss 都至少为 $m$，因此当前分布中每一份落到 $\log n$ 以下的质量，都必须与距离至少为 $m-\log n$ 的参照 loss 配对。这会消耗 Wasserstein 平方距离；只要我们能控制这个距离，就能控制预测正确的比例。这类“用传输代价下界集合上的概率质量”的做法，是估计 $W_2$ 下界的常用手段。
+
+**证明。** 我们先证明，两个 loss 分布的均值差不超过它们的 $W_2$ 距离。任取 coupling $\gamma\in\Gamma\left(P_\theta^{\mathrm{forget}},P_{\bar\theta}^{\mathrm{forget}}\right)$，以及具有联合分布 $\gamma$ 的随机变量 $X,Y$，它们分别表示当前 loss 和参照 loss. 根据边缘分布，$X$ 的期望就是 $P_\theta^{\mathrm{forget}}$ 的均值，也就是 $\mathcal L_f(\theta)$，因为 $P_\theta^{\mathrm{forget}}$ 是 $|D_f|$ 个 loss 值的均匀混合；同理 $\mathbb E_\gamma[Y]=\mathcal L_f(\bar\theta)$. 利用三角不等式和 Cauchy–Schwarz 不等式，得到
 
 $$
 \begin{aligned}
@@ -529,6 +564,6 @@ $$
 \qquad\square
 $$
 
-这个结果把 forgetting 的保持分成了两个条件：第一阶段让每个 forget 样本都具有足够大的 loss，第二阶段限制 $\widetilde{\mathcal L}_f$ 相对于第一阶段终点的变化。两者共同限制了能重新进入低 loss 区域的样本比例。固定 $m,n,\varepsilon$ 时，增大 $\alpha$ 会减小这个上界；在 $\alpha=1$ 时，它变为 $\varepsilon/(m-\log n)^2$.
+这个结果把 forgetting 的保持分成了两个条件：第一阶段让每个 forget 样本都具有足够大的 loss，第二阶段限制 $\widetilde{\mathcal L}_f$ 相对于第一阶段终点的变化。两者共同限制了能重新进入低 loss 区域的样本比例。固定 $m,n,\varepsilon$ 时，增大 $\alpha$ 会减小这个上界；在 $\alpha=1$ 时，它变为 $\varepsilon/(m-\log n)^2$，上界完全由 $\varepsilon$ 决定。论文的实验中 loss 是按 mini-batch 估计的，这时取 $\alpha=1$ 反而整体效果更差，实际用的是 $\alpha=0.5$.
 
-注意，Proposition 4.1 给出的是单步的局部保证，不能直接推出整个第二阶段都满足 Proposition 4.2 的偏离条件，多步产生的二阶误差仍可能累积。第一阶段的优化目标也不自动保证所有样本都满足 loss 下界。因此，准确率上界是在这些条件成立时的保证，而不是对整个训练过程无条件成立的结论。
+注意，Proposition 4.1 给出的是单步的局部保证，不能直接推出整个第二阶段都满足 Proposition 4.2 的偏离条件：每一步只有 $O(\eta^2)$ 的偏离，但多步之后这些二阶误差仍可能累积。第一阶段的优化目标也不自动保证每个 forget 样本的 loss 都达到 $m$. 因此，准确率上界是在这些条件成立时的保证，而不是对整个训练过程无条件成立的结论。

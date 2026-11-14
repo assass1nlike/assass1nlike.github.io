@@ -1,10 +1,12 @@
-我们关心的问题是：两个 language model 已经同样准确地预测了被 mask 的 token，为什么它们的表示仍然可能有不同的 downstream performance？预训练目标只规定输出的条件概率，并没有唯一规定实现这些概率的内部表示。因此，除了最小化 pre-training loss，我们还需要理解 optimizer 在等价的最优解之间选择了什么。
+我们关心的问题是：两个 language model 已经同样准确地预测了被 mask 的 token，为什么它们的表示仍然可能有不同的 downstream performance？预训练目标只规定输出的条件概率，并没有唯一规定实现这些概率的内部表示。现代网络的表达能力足够强，同一个 pre-training loss 往往对应一个维数很高的解集合；optimizer 最终落在其中哪个点，由它自身的倾向决定。这种“在所有同样好的解里系统性偏向某一类”的倾向称为 implicit bias.
 
-论文用 population loss 的 Hessian trace 衡量 flatness：在局部极小点，Hessian 是半正定矩阵，其 trace 是所有参数方向上的曲率之和。这里“更平坦”始终指这个量更小。理论分成两部分：先研究 SGD 在最优解集合附近的长期运动，再研究一个括号语言中 flatness 与可迁移特征的关系。
+这里的 loss 指 population loss，即在整个数据分布上取的期望，而不是在有限训练集上的平均。论文针对 population loss 论证，是因为自监督预训练中两者通常差距很小：implicit bias 的作用不在于填补这个 gap，而在于在已经达到总体最优的解里面做选择。若改看训练集上的经验最优解，记忆训练集带来的效应会混进来，反而看不清选择的来源。
+
+论文的实证观察是：在 pre-training loss 已经几乎相同的模型之间，继续训练、换用一种训练算法（例如对抗训练）、或者增大模型规模，都会让 downstream accuracy 出现明显差异；而在这些模型之间，Hessian trace 与 downstream accuracy 高度相关。于是论文用 population loss 的 Hessian trace 衡量 flatness：在局部极小点，Hessian 是半正定矩阵，其 trace 是所有参数方向上的曲率之和。这里“更平坦”始终指这个量更小。理论分成两部分：先研究 SGD 在最优解集合附近的长期运动，说明它会在最优解里选择 trace 更小的那些；再在一个括号语言中说明为什么 trace 更小的解学到的是可迁移特征。原文中有若干陈述与它自己的设定或公式不符，我们在相应位置按正确形式重述并指出问题。
 
 ## Lemma 4.2
 
-设词表为 $\mathcal W=\{0,1,\ldots,c\}$，其中 $0$ 是 mask token，$c$ 是普通 token 的数量。句子 $x=[x_1,\ldots,x_T]$ 的长度为 $T$，位置 $t$ 独立、均匀地取自 $[T]=\{1,\ldots,T\}$，$x_{-t}$ 表示把第 $t$ 个 token 替换为 $0$ 的句子。参数 $\theta\in\mathbb R^d$ 包含模型的所有可训练参数；$f_\theta(x_{-t})\in\mathbb R^c$ 是预测的条件概率向量，其第 $j$ 个分量为 $[f_\theta(x_{-t})]_j$.
+设词表为 $\mathcal W=\{0,1,\ldots,c\}$，其中 $0$ 是 mask token，$c$ 是普通 token 的数量。句子 $x=[x_1,\ldots,x_T]$ 的长度为 $T$，位置 $t$ 独立、均匀地取自 $[T]=\{1,\ldots,T\}$，$x_{-t}$ 表示把第 $t$ 个 token 替换为 $0$ 的句子。参数 $\theta\in\mathbb R^d$ 包含模型的所有可训练参数；$f_\theta(x_{-t})\in\mathbb R^c$ 是模型对 $c$ 个普通 token 给出的 softmax 输出，其第 $j$ 个分量 $[f_\theta(x_{-t})]_j$ 表示模型认为真实 token 为 $j$ 的条件概率。这里 $j$ 遍历 $[c]=\{1,\ldots,c\}$，即全部非 mask 的候选 token；所有分量非负且和为 $1$。
 
 预训练使用 population cross-entropy loss
 
@@ -33,7 +35,7 @@ $$
 \end{aligned}
 $$
 
-注意，梯度按列向量理解，covariance 中减去的是外积 $\nabla L(\theta)\nabla L(\theta)^\top$；原文定理陈述中这个乘积的次序写反了。
+注意，梯度按列向量理解，covariance 中减去的是外积 $\nabla L(\theta)\nabla L(\theta)^\top$. 原文把这一项写成 $\nabla L(\theta)^\top\nabla L(\theta)$，按列向量约定那只得到一个标量，不能与前面的 $d\times d$ 矩阵相减；改成外积后两边才有相同的形状，$\Sigma(\theta)$ 也才是真正的 covariance matrix.
 
 **命题。** 在上述条件下，对于任意 $\theta\in\Gamma$，
 
@@ -41,7 +43,9 @@ $$
 \Sigma(\theta)=\nabla^2L(\theta).
 $$
 
-这个等式是 Bartlett identity 在这里的具体形式。它说明，训练样本引起的梯度噪声恰好与 loss 的曲率具有相同的方向和强度。
+这个等式是 Bartlett identity 在这里的具体形式。它比一般的“最优解处梯度为零”给出更多信息：平均梯度为零，但不同真实 token 的随机梯度仍然互不相同，且这些差异的协方差恰好等于 loss 的 Hessian.
+
+这里两边也等于 conditional model 的 Fisher information matrix，即 log probability 的梯度外积的期望；这一解释成立的前提是 loss 为 well-specified 的极大似然损失，且只在全局最优解处取等。在监督分类里，若模型能把每个样本都分对，$f_\theta=y$ 逐样本成立，同一恒等式会迫使 $\Sigma(\theta)=0$，噪声消失，SGD 就停在解上。因此监督学习里若要研究这种选择效应，必须人为加入 label noise；语言建模不需要这一步，条件分布本身的不确定性就是噪声。这条区别是后面整个分析能进行的前提，也是它比监督情形更干净的原因。
 
 **证明。** 我们先固定 mask 后的上下文 $x_{-t}$ 和位置 $t$，只对被遮住的真实 token $x_t$ 取期望。对数求导给出
 
@@ -54,7 +58,7 @@ $$
 &+\mathbb E_{x_t\mid t,x_{-t}}\left[
 \frac{\nabla_\theta[f_\theta(x_{-t})]_{x_t}
 \left(\nabla_\theta[f_\theta(x_{-t})]_{x_t}\right)^\top}
-{[f_\theta(x_{-t})]_{x_t}^{,2}}
+{[f_\theta(x_{-t})]_{x_t}^{2}}
 \right]\\
 ={}&-\nabla_\theta^2\sum\limits_{j=1}^{c}[f_\theta(x_{-t})]_j
 +\mathbb E_{x_t\mid t,x_{-t}}\left[
@@ -68,17 +72,19 @@ $$
 \end{aligned}
 $$
 
-第三行到第四行使用了 saturation 条件，最后一步使用了概率之和恒为 $1$. 注意，我们只在当前参数处把真实概率与模型概率相等代入，不能把这个仅在最优解上成立的等式当作整个参数邻域内的恒等式去求导。
+第二行到第三行做了两件事：一是用 saturation 条件把 $\Pr(x_t=j\mid x_{-t})$ 换成 $[f_\theta(x_{-t})]_j$，从而第一项变成 $-\nabla_\theta^2\sum_j[f_\theta(x_{-t})]_j$；二是把第二项中的 $\nabla_\theta[f_\theta(x_{-t})]_{x_t}/[f_\theta(x_{-t})]_{x_t}$ 认出为 $\nabla_\theta\log[f_\theta(x_{-t})]_{x_t}$. 第三行到第四行使用了 $\sum_j[f_\theta(x_{-t})]_j=1$.
+
+这两步用到的等式性质需要分清。$f_\theta$ 是对 $c$ 个普通 token 的 softmax 输出，对**任意** $\theta$ 都满足 $\sum_j[f_\theta(x_{-t})]_j=1$，所以 $\nabla_\theta^2\sum_j[f_\theta(x_{-t})]_j=0$ 是恒等式，可以直接求导得到。而 $f_\theta(x_{-t})=\Pr(\cdot\mid x_{-t})$ 只在 $\theta\in\Gamma$ 上成立，它只允许我们在当前点代入数值，不能把它当作某个参数邻域内的恒等式去求导。若在后一项上求导，就会把真实分布的导数也带进来，而真实分布并不随 $\theta$ 变。
 
 再对 $t,x_{-t}$ 取期望，左边变成 $\nabla^2L(\theta)$. 由于 $\theta$ 是可微函数的无约束极小点，$\nabla L(\theta)=0$，右边正好就是 $\Sigma(\theta)$. $\square$
 
-这里两边也等于 conditional model 的 Fisher information matrix，即 log probability 的梯度外积的期望。这个解释有一个直接的意义：即使平均梯度已经为零，不同真实 token 的随机梯度仍然可能互不相同。因此 SGD 到达最优 population loss 后，仍然可能继续运动。
-
 ## Theorem 4.3
+
+有了 $\Sigma(\theta)=\nabla^2L(\theta)$，就能看出 SGD 在最优解集合上的行为。平均梯度已经为零，但噪声不会消失，迭代因而不会停住，而是继续在 $\Gamma$ 上运动。下一步的做法是把这团噪声对运动的贡献归结成一个确定性的 drift. 这个 drift 是噪声的二阶效应：每一步的扰动是 $O(\eta)$，而扰动经过曲面的非线性作用产生的平均位移是 $O(\eta^2)$，所以要把时间按 $\eta^2$ 缩放才能看到量级为 $1$ 的位移。
 
 为了描述这种运动，我们需要明确最优解集合的几何结构。沿着一条全部由最优解组成的光滑曲线移动时，loss 不变；曲线的速度就是最优解集合的一个切向量。所有这样的速度组成切空间，垂直于切空间的方向组成法空间。
 
-**Assumption 4.1.** $L$ 是 $C^3$ 函数，即三阶连续可微；$\Gamma\subseteq\mathbb R^d$ 是维数为 $d-M$ 的 $C^2$ submanifold，其中 $1\leq M\leq d$，并且
+**Assumption 4.1.** $L$ 是 $C^3$ 函数，即三阶连续可微；$L$ 的全局极小点集合是 $\mathbb R^d$ 中维数为 $d-M$ 的 $C^2$ submanifold $\Gamma$，其中 $1\leq M\leq d$，并且
 
 $$
 \operatorname{rank}\nabla^2L(\theta)=M,\qquad \theta\in\Gamma.
@@ -106,7 +112,7 @@ $$
 =-\log[f_\theta(x_{-t})]_{x_t}.
 $$
 
-这里 $k$ 是离散更新次数。除 Assumption 4.1 外，我们继续使用 Lemma 4.2 的 realizability 和光滑性条件。应用下面的随机过程极限定理还要求：在所考察轨迹附近，单样本 gradient 和所需导数局部有界，gradient flow 从某个邻域出发会收敛到 $\Gamma$，相应极限过程有唯一解。这些是引用长期 SGD 极限结果时需要的条件，不能仅由“平均 loss 是 $C^3$”替代。在有限样本类型、光滑正概率模型和正常稳定的最优解流形附近，可以局部满足这些要求。
+这里 $k$ 是离散更新次数，$\theta_k^\eta$ 的上标记录学习率。除 Assumption 4.1 外，我们继续使用 Lemma 4.2 的 realizability 和光滑性条件，并且 $\Gamma$ 必须是 $L$ 的全局极小点集合，而不仅是一个临界流形；这一条在 Assumption 4.1 的原文表述里没有重复写出，但没有它 $\nabla L(\theta)=0$ 就不在 $\Gamma$ 上处处成立。应用下面的随机过程极限定理还要求：在所考察轨迹附近，单样本 gradient 和所需导数局部有界，gradient flow 从某个邻域出发会收敛到 $\Gamma$，相应极限过程有唯一解。这些是引用长期 SGD 极限结果时需要的条件，不能仅由“平均 loss 是 $C^3$”替代；下面的推导只用到它们是局部成立的。在有限样本类型、光滑正概率模型和正常稳定的最优解流形附近，这些要求可以局部满足。
 
 **命题。** 定义 $\widehat\theta(t)$ 为下列 ODE 的解：
 
@@ -142,20 +148,34 @@ $$
 $$
 \mathrm d\widehat\theta
 =D\Phi\,\Sigma^{1/2}\,\mathrm dW
-+\frac12D^2\Phi[\Sigma],\mathrm dt.
++\frac12D^2\Phi[\Sigma]\,\mathrm dt.
 $$
 
-这里 $W$ 是 $d$ 维标准 Brownian motion，$\Sigma^{1/2}$ 是 covariance 的半正定平方根。第一项是保留下来的切向随机波动，第二项是法向波动经曲面和 gradient flow 的非线性作用产生的平均位移。这条极限定理是所引用的随机过程工具；下面的计算证明它在本题中恰好化成所述 ODE.
+这里 $W$ 是 $d$ 维标准 Brownian motion，$\Sigma^{1/2}$ 是 covariance 的半正定平方根。第一项是参数空间的随机扰动经投影后的剩余部分，第二项是这团扰动经过曲面和 gradient flow 的非线性作用后产生的平均位移。这条极限定理是所引用的随机过程工具；下面的计算证明它在本题中恰好化成所述 ODE.
 
-在 $\Gamma$ 上，$D\Phi=P_\Gamma^\perp$. 切向扰动已经位于最优解集合中，一阶不会被 gradient flow 改变；法向扰动会因严格正曲率而衰减，一阶最终位移为零。Lemma 4.2 给出 $\Sigma=\nabla^2L$，而 Hessian 的像空间是法空间，因此
+在 $\Gamma$ 上，$D\Phi=P_\Gamma^\perp$. 噪声本身没有切向分量：Lemma 4.2 给出 $\Sigma=\nabla^2L$，切空间恰是 Hessian 的 kernel，所以 $P_\Gamma^\perp\Sigma^{1/2}=0$，即
 
 $$
 D\Phi\,\Sigma^{1/2}=0.
 $$
 
-于是极限中的 Brownian motion 项消失。剩下的任务是计算二阶项。为此，在当前参数处选取 Hessian 的单位特征向量 $v_1,\ldots,v_M$ 及其正特征值 $\lambda_1,\ldots,\lambda_M$.
+每一步的随机扰动都在法向上产生一个 $O(\eta)$ 的偏移，但严格正曲率使它沿 gradient flow 衰减，一阶位移相互抵消；留下来的只是这团扰动经由曲面弯曲而产生的 $O(\eta^2)$ 平均漂移。于是极限中的 Brownian motion 项消失。剩下的任务是计算二阶项。为此，在当前参数处选取 Hessian 的单位特征向量 $v_1,\ldots,v_M$ 及其正特征值 $\lambda_1,\ldots,\lambda_M$.
 
-沿着 gradient flow 运行一段时间不会改变最终收敛点，所以 $D\Phi(z)\nabla L(z)=0$. 在最优解处沿 $v_a$ 作二阶展开，得到
+沿着 gradient flow 运行一段时间不会改变最终收敛点，所以对邻域内的任意 $z$ 都有 $D\Phi(z)\nabla L(z)=0$. 这是一条对 $z$ 的恒等式，可以对它求导。对任意方向 $v$ 求一次导，得
+
+$$
+D^2\Phi[v,\nabla L(z)]+D\Phi(z)\nabla^2L(z)v=0.
+$$
+
+再沿 $v$ 求一次导：
+
+$$
+D^3\Phi[v,v,\nabla L(z)]
++2D^2\Phi\left[v,\nabla^2L(z)v\right]
++D\Phi(z)D^3L[v,v]=0.
+$$
+
+这里三个项分别来自对 $\nabla L$ 求两次导、两个混合导数项（两项相同，所以系数是 $2$）、以及对 $D\Phi$ 求两次导。在 $z=\theta$ 处取 $v=v_a$：第一项因 $\nabla L(\theta)=0$ 消失，第二项中的 $\nabla^2L(\theta)v_a=\lambda_av_a$，第三项中的 $D\Phi(\theta)=P_\Gamma^\perp$，于是
 
 $$
 2\lambda_a D^2\Phi[v_a,v_a]
@@ -163,7 +183,7 @@ $$
 \qquad a\in[M].
 $$
 
-这里 $D^3L[v_a,v_a]$ 是一个向量，其第 $j$ 个分量是 $\sum\limits_{p=1}^{d}\sum\limits_{q=1}^{d}\partial_j\partial_p\partial_qL\,(v_a)_p(v_a)_q$. 上式中的系数 $2$ 来自分别对 $D\Phi$ 和 $\nabla L$ 求一次导数的两个相同交叉项；含有 $\nabla L$ 本身的项在最优解处为零。
+这里 $D^3L[v_a,v_a]$ 是一个向量，其第 $j$ 个分量是 $\sum\limits_{p=1}^{d}\sum\limits_{q=1}^{d}\partial_j\partial_p\partial_qL\,(v_a)_p(v_a)_q$.
 
 我们还需要说明，为什么对法向特征向量求和可以换成对全部坐标求和。对任意单位切向量 $v$，选择 $\gamma(0)=\theta$、$\gamma'(0)=v$ 的流形内曲线。对 $\nabla L(\gamma(s))=0$ 再求一次导数可得
 
@@ -173,7 +193,13 @@ D^3L[v,v]+\nabla^2L\,\gamma''(0)=0,
 P_\Gamma^\perp D^3L[v,v]=0.
 $$
 
-所以切向基向量对投影后的 contraction 没有贡献。由此
+所以切向基向量对投影后的 contraction 没有贡献。另一方面，$v_1,\ldots,v_M$ 是法空间的一组正交单位基，所以
+
+$$
+\sum\limits_{a=1}^{M}v_av_a^\top=I-P_\Gamma^\perp
+$$
+
+是法空间上的正交投影。把它和 $\nabla\operatorname{Tr}[\nabla^2L]$ 对照：trace gradient 的第 $j$ 个分量是 $\sum_p\partial_j\partial_p^2L$，而 $\sum_aD^3L[v_a,v_a]$ 的第 $j$ 个分量是同一批三阶导数在 $\sum_av_av_a^\top$ 上的求和。由于三阶导数对后两个指标对称，这两个向量只相差沿切空间的分量，投影之后相等。由此
 
 $$
 \begin{aligned}
@@ -199,7 +225,9 @@ $$
 \leq0.
 $$
 
-也就是说，pre-training loss 保持最优时，长期 SGD 的极限运动仍会减小 Hessian trace. 注意，这里证明的是沿流形下降，不是一定找到 trace 的全局最小点；$\eta^{-2}$ 的时间尺度也比通常的 gradient flow 时间尺度 $\eta^{-1}$ 更长。
+也就是说，pre-training loss 保持最优时，长期 SGD 的极限运动仍会减小 Hessian trace. 注意，这里证明的是沿流形下降，不是一定找到 trace 的全局最小点：流形上还可能存在别的局部极小点，ODE 停在哪个点取决于初值和流形形状。
+
+这个效应的尺度也值得说明。Theorem 4.3 的时间变量是 $k\eta^2$，也就是要看到量级为 $1$ 的漂移，需要 $k\sim\eta^{-2}$ 步。原因是每一步的随机梯度扰动是 $O(\eta)$，而决定漂移的是扰动的二阶效应，单项为 $O(\eta^2)$；通常的 gradient flow 以 $\eta^{-1}$ 步为单位衡量，这里慢了一个 $\eta^{-1}$ 因子。这对应一个直观图景：SGD 先快速到达 $\Gamma$，然后在这个集合上做长时间的缓慢漂移，flatness 的选择是在后一阶段完成的。因此实验里即使 pre-training loss 早已收敛，继续训练仍会改变模型。
 
 若每一步平均 $B$ 个独立样本梯度，则独立噪声的交叉 covariance 为零，故
 
@@ -207,15 +235,17 @@ $$
 \Sigma_B(\theta)=\frac1B\Sigma(\theta)=\frac1B\nabla^2L(\theta).
 $$
 
-同一计算把 ODE 中的 $1/4$ 改为 $1/(4B)$. 这解释了为什么这里无需人为添加 label noise：语言本身的条件不确定性已经提供了这种噪声。
+同一计算把 ODE 中的 $1/4$ 改为 $1/(4B)$，时间尺度也相应放慢：噪声减小 $B$ 倍，漂移就减小 $B$ 倍。这给出了一个可检验的推论，batch size 越大，达到同样程度的 flatness 选择所需的训练步数越多。
 
 ## Theorem 6.1
 
-接下来我们把“选择更平坦的解”与“学到什么特征”联系起来。这里换用了一个有限的括号语言，以及 squared loss；它不是前面 cross-entropy 定理的直接特例。
+前两节表明，在饱和点附近继续训练会在最优解集合里沿减小 Hessian trace 的方向移动。这把人引向一个自然的问题：trace 更小的解究竟学到了什么？Theorem 6.1 在一个括号语言里给出答案：trace 更小的解学到的恰好是可以迁移到下游任务的特征。
 
-设 $T\geq6$ 为偶数。合法句子含有相同数量的左括号 $\langle$ 和右括号 $\rangle$，不额外要求每个 prefix 的括号数满足不等式。预训练分布 $\mathcal P$ 先均匀抽取一个这样的句子，再均匀选择一个位置 mask 掉。下游分布 $\mathcal P_{\mathrm{ds}}$ 则在全部 $T$ 个位置独立、均匀地抽取左右括号，不放入 mask.
+这里换用到有限括号语言和 squared loss，是因为前面的工具不够用。Theorem 4.3 只说明 SGD 在 cross-entropy 的饱和流形上朝哪个方向漂移，并不给出“漂移终点的特征结构”这样的定量结论；而在括号模型里，squared loss 允许我们把 Hessian trace 对参数完整地算出来，并据此写出精确的极小值条件。所以这一节不是 Theorem 4.3 的特例，而是一个能算到具体形式的模型。这里的“可迁移特征”指括号数量差：它不是记住 mask 位置这类只对预训练分布有效的结构，而是句子的内在统计量，下游任务恰好以它为标签，因此线性读出即可使用。
 
-目标 $g^*(x)$ 是可见右括号数量减去可见左括号数量。对预训练输入，这个数属于 $\{-1,1\}$，并唯一决定被遮住的括号；对下游输入，
+设 $T\geq6$ 为偶数。合法句子含有相同数量的左括号 $\langle$ 和右括号 $\rangle$，不额外要求每个 prefix 的括号数满足不等式。这正是它与标准 Dyck 语言的区别：标准 Dyck 语言要求每个 prefix 的 $\langle$ 不少于 $\rangle$，而这里只保留“总数相等”。放宽的原因是这个模型要考察的对象只有括号总数之差，prefix 约束不会进入任何计算；去掉它让预训练分布的支撑集变成对称的（每个句子整体取反仍合法），后面多处论证要用到这个对称性。预训练分布 $\mathcal P$ 先均匀抽取一个这样的句子，再均匀选择一个位置 mask 掉。下游分布 $\mathcal P_{\mathrm{ds}}$ 则在全部 $T$ 个位置独立、均匀地抽取左右括号，不放入 mask.
+
+目标 $g^*(x)$ 是可见右括号数量减去可见左括号数量。对预训练输入，整个句子中左右括号数量相等，所以把被遮住的括号算进去，这个和为零；去掉它之后，可见部分的和只能是 $+1$ 或 $-1$，它唯一决定被遮住的括号：可见差为 $1$ 说明被遮住的是左括号，为 $-1$ 说明是右括号。对下游输入没有 mask，$T$ 个位置各自独立取符号，因此
 
 $$
 g^*(x)\in\{-T,-T+2,\ldots,T-2,T\}.
@@ -231,7 +261,7 @@ $$
 
 这里 $\mathbf1_T$ 是 $T$ 维全 $1$ 向量，$[\cdot]_{1:T}$ 表示取前 $T$ 个坐标。
 
-模型使用单个 attention head 和宽度为 $m$ 的 ReLU 层。设 query、key 矩阵为 $Q,K\in\mathbb R^{k\times d}$，其中 $k$ 是 query/key 维数；value 矩阵为 $V\in\mathbb R^{m\times d}$，输出权重为 $u\in\mathbb R^m$，并记 $\psi=(Q,K,V)$. 原文的 $V_i\in\mathbb R^d$ 表示 $V$ 第 $i$ 行的转置。我们只取第一个 token 对应的输出，因此
+模型使用单个 attention head 和宽度为 $m$ 的 ReLU 层。设 query、key 矩阵为 $Q,K\in\mathbb R^{k\times d}$，其中 $k$ 是 query/key 维数；value 矩阵为 $V\in\mathbb R^{m\times d}$，输出权重为 $u\in\mathbb R^m$，并记 $\psi=(Q,K,V)$. 原文把 $V$ 的第 $i$ 行也记作 $V_i\in\mathbb R^d$；我们把它写成列向量，所以文中出现的 $V_i^\top h$ 就是原文的 $V_ih$. 我们只取第一个 token 对应的输出，因此
 
 $$
 \begin{aligned}
@@ -271,7 +301,7 @@ $$
 
 原文声称，以至少 $1-2^{-n}$ 的概率有 $L^{\mathcal P_{\mathrm{ds}}}(\widehat\psi,\widetilde u)=0$.
 
-注意，这个概率结论在上述分布下不成立。原证明还把下游的 $g^*(x)$ 当成只取 $\pm1$ 的变量，但 $T$ 为偶数时，下游标签甚至不可能等于 $\pm1$. 我们先给出一个完全显式的最平坦解，说明问题在哪里，再说明原证明想利用的迁移机制。
+注意，这个概率结论在上述分布下不成立。原证明还把下游的 $g^*(x)$ 当成只取 $\pm1$ 的变量，但 $T$ 为偶数时，下游标签甚至不可能等于 $\pm1$. 我们先给出一个满足 $L(\psi,u)=0$ 且取平价值的显式解，说明问题在哪里，再说明原证明想利用的迁移机制。
 
 取 $m=2$、$Q=K=0$，因而所有 attention weight 都等于 $1/T$. 在证明中引入常数 $a=\sqrt m\,T^{3/4}$，令
 
@@ -299,7 +329,7 @@ f_{\psi,u}(x)
 \end{aligned}
 $$
 
-预训练输入上两个 preactivation 都非零，因此该处不存在 ReLU 求导歧义。下文 Lemma D.1 会证明，按照这里的 $1/m$ 输出归一化和没有 $1/2$ 的 squared loss，Hessian trace 的下界为 $4/(m\sqrt T)$；这个构造恰好达到该下界，所以确实是最平坦解。
+预训练输入上两个 preactivation 都非零，因此该处不存在 ReLU 求导歧义。下文 Lemma D.1 会证明，按照这里的 $1/m$ 输出归一化和没有 $1/2$ 的 squared loss，Hessian trace 的下界为 $4/(m\sqrt T)$；这个构造恰好达到该下界，所以它同时是最平坦解。这一点可以直接验证：每个输入只有一个神经元激活，激活方向上 $\|u_i\|=a/\sqrt T$、$\|h_{Q,K}(x)\|_2=1/\sqrt T$、preactivation 为 $a/T$，于是 $\|\nabla_{V_i}f\|_2^2=(a/\sqrt T)^2(1/T)/m^2=a^2/(m^2T^2)$、$\|\nabla_uf\|_2^2=(a/T)^2/m^2=a^2/(m^2T)$，两者之和用 $a^2=mT^{3/2}$ 代简为 $2a^2/(m^2T^2)$，乘 Lemma D.4 的系数 $2$ 得 $4/(m\sqrt T)$，与下界相同。另一个神经元在该输入上 ReLU 输出为零，不贡献 gradient；若取 $m>2$，把其余神经元置零也同样不影响这个计算。
 
 现在只取一个下游样本，即 $n=1$. 如果它的标签为正，则只有第二个神经元激活，训练约束不涉及 $u_1$，minimum-norm 解必定令 $\widetilde u_1=0$. 它在所有负标签输入上输出 $0$，因而 population loss 严格为正。负标签样本的情况对称。如果唯一的训练样本标签为 $0$，两个特征都为零，minimum-norm 解是 $\widetilde u=0$，population loss 同样为正。因此成功概率为 $0$，与原文要求的至少 $1/2$ 矛盾。$\square$
 
@@ -324,7 +354,7 @@ $$
 
 这表示所有神经元只重复编码括号数量差的正、负部分。这个条件在上面的两神经元构造中成立，但不能不加证明地从原文的全部等号条件推出；Lemma D.3 会具体处理这一点。
 
-如果训练集中至少有一个正标签和一个负标签，零训练误差等价于
+如果训练集中至少有一个正标签和一个负标签，零训练误差就要求
 
 $$
 \sum\limits_{i\in I_+}\widetilde u_i c_i=m,
@@ -368,13 +398,15 @@ $$
 1-2\left(\frac{1+p_0}{2}\right)^n+p_0^n.
 $$
 
-这里减去的两个事件分别是“没有正标签”和“没有负标签”，它们的交集是“全部为零标签”。这是上述理想特征下的准确成功概率，而不是 $1-2^{-n}$. $\square$
+这里减去的两个事件分别是“没有正标签”和“没有负标签”，它们的交集是“全部为零标签”。注意，零标签样本对训练约束没有要求：它的标签为 $0$，而理想特征在该点给出 $0$，两边恒等。所以成功事件恰好是“正、负标签都出现过”这一件事。
+
+把这个概率和原文的 $1-2^{-n}$ 比较：当 $n=1$ 时前者为零，后者的要求是 $1/2$；当 $n$ 增大时前者的失败概率是 $2((1+p_0)/2)^n-p_0^n$，它按 $(1+p_0)/2>1/2$ 的速率衰减，而 $2^{-n}$ 对应 $p_0=0$ 这一不成立的假设。$p_0$ 由二项系数给出，当 $T$ 很大时由中心二项系数的渐近式有 $p_0\sim\sqrt{2/(\pi T)}$，并不为零。因此原文的概率界与它自己的分布不相容。$\square$
 
 由此可以看清论文想表达的机制：学到数量差之后，下游只需识别极少数系数；但这个机制本身不能证明原文的概率界，也不能代替“每个最平坦解都具有这种特征”的结构性证明。
 
 ## 附录 B 中的两个辅助论证
 
-在进入括号语言的引理之前，原文还给出了 Hessian trace 的估计方法，以及把小模型嵌入大模型的构造。它们虽然没有编号，但分别支撑了 flatness 的实验测量和不同模型规模之间的比较。
+除了前面几条理论结论，论文的实证部分还依赖两个没有编号的论证：一个把无法直接计算的 Hessian trace 变成可以抽样的量，另一个说明小模型可以嵌入大模型，从而“同一 loss 下 trace 随规模变化”的比较才有意义。它们分别对应 flatness 的测量方式和模型规模之间的比较，与前面 Lemma 4.2、Theorem 4.3 的推导没有依赖关系。
 
 首先，由 Lemma 4.2 和 $\operatorname{Tr}(vv^\top)=\|v\|_2^2$，在 saturation regime 中，
 
@@ -385,7 +417,7 @@ $$
 \left[\left\|\nabla_\theta\log[f_\theta(x_{-t})]_{x_t}\right\|_2^2\right].
 $$
 
-因此，我们可以先抽上下文，再从 $f_\theta(x_{-t})$ 中抽 token，计算 log probability 的 gradient norm 平方，最后取平均。由于此时模型条件分布就是真实条件分布，期望恰好等于上式，所以这是 unbiased estimator，无需显式构造高维 Hessian. $\square$
+因此，我们可以先抽上下文，再从 $f_\theta(x_{-t})$ 中抽 token，计算 log probability 的 gradient norm 平方，最后取平均。由于此时模型条件分布就是真实条件分布，期望恰好等于上式，所以这是 unbiased estimator，不需要显式构造高维 Hessian，也不需要计算任何二阶导数。这是论文实验里实际用来测量 flatness 的方法，也是“相同 pre-training loss 的模型之间 trace 不同”这类比较能够进行的前提。$\square$
 
 注意，离开 saturation regime 后，这种抽样仍然无偏估计模型自身的 Fisher trace，但一般不再无偏估计 population loss 的 Hessian trace；“接近 saturation”只能支持近似使用这个等式。
 
@@ -476,7 +508,7 @@ v_l=\operatorname{LN}\left(h_l+\operatorname{Attn}_l(h_l)\right),\qquad
 h_{l+1}=\operatorname{LN}\left(v_l+U_l\sigma(W_lv_l+b_l)\right).
 $$
 
-令 attention 输出为零且 $U_l=0$ 后，仍然得到 $v_l=\operatorname{LN}(h_l)$ 和 $h_{l+1}=\operatorname{LN}(v_l)$，一般不是 $h_l$. 例如标准 LayerNorm 把 $(2,-2)$ 变成 $(1,-1)$. 先前 block 还具有可训练的 $\gamma,\beta$，所以也不能默认其输出已经是新 LayerNorm 的不动点。原文关于任意增加深度的这段证明缺少必要条件。另一方面，函数保持不变本身也不蕴含所有新旧参数方向上的 Hessian trace 相等；要比较这个量，还需要相应的参数导数论证。
+令 attention 输出为零且 $U_l=0$ 后，得到 $v_l=\operatorname{LN}(h_l)$ 和 $h_{l+1}=\operatorname{LN}(v_l)$. 原文只说把新增参数置零，但没有指定新增 LayerNorm 的 $\gamma,\beta$. 要让它真正不改变函数，需要取 $\gamma$ 与前一 block 一致且各坐标相等、$\beta$ 取前一 block 的值；这时两个 LayerNorm 都作用在已经是自身输出的向量上，因而是恒等的，$h_{l+1}=h_l$. 若取标准初始化 $\gamma=\mathbf1$、$\beta=\mathbf0$，而前一 block 的 $\gamma$ 各坐标不等，两次重新标准化就会改变 $h_l$；例如前一 block 输出 $(2,-2)$ 时，新 LN 把它变成 $(1,-1)$. 所以这段证明缺少对 $\gamma,\beta$ 的必要条件。另一方面，即使函数保持不变，也不蕴含所有新旧参数方向上的 Hessian trace 相等；要比较这个量，还需要相应的参数导数论证，而原文的推理没有给出这一层。
 
 ## Lemma D.1
 
@@ -484,7 +516,7 @@ $$
 
 为了使用普通 Hessian，我们先在模型关于参数可微且 loss 二阶可微的点进行计算；对非零输出权重的神经元，全部预训练输入上的 preactivation 非零就是一个充分条件。注意，ReLU 的零点不能通过随意规定 $\sigma'(0)=0$ 就变成普通意义下的光滑点。
 
-**命题的系数修正。** 按照原文模型的 $f_{\psi,u}=m^{-1}u^\top\sigma(Vh_{Q,K})$ 和 $L=\mathbb E[(f-g^*)^2]$，正确下界为
+**命题。** 在 $L(\psi,u)=0$ 处，
 
 $$
 \operatorname{Tr}\left[\nabla_\psi^2L(\psi,u)\right]
@@ -492,7 +524,7 @@ $$
 \geq\frac4{m\sqrt T}.
 $$
 
-原文写成 $\sqrt{4/T}=2/\sqrt T$. 原计算一处遗漏了 squared loss 二阶求导的系数 $2$，另一处把模型 gradient 平方中的 $1/m^2$ 写成了 $1/m$；两处必须一起改正，不能只修改最后一个常数。
+原文给出的界是 $\sqrt{4/T}=2/\sqrt T$. 按它自己的模型定义把这条链重算一遍，得不到这个数，差异来自两处，方向相反。其一，模型输出含 $1/m$，其 gradient 平方后是 $1/m^2$，原文在中间一步按 $1/m$ 计，使整条链多因子 $m$. 其二，平方损失在零残差点处贡献系数 $2$，原文在 Lemma D.4 中漏掉了它，使整条链少因子 $2$. 合起来，原文的界比正确值大 $m/2$ 倍。两处必须一起改正：只补系数 $2$ 得到 $4/\sqrt T$，只把 $1/m$ 改成 $1/m^2$ 得到 $2/(m\sqrt T)$，都不对。下面从头算一遍。
 
 **证明。** Lemma D.4 会直接证明，在零 loss 处，Hessian trace 是 $2\mathbb E[\|\nabla_\theta f_{\psi,u}(x)\|_2^2]$. 我们先算出两个参数组的 gradient：
 
@@ -566,7 +598,7 @@ $$
 
 4. 每个预训练输入的 attention 都均匀，即 $a_j=1/T$.
 
-第二项是 AM–GM 的等号条件，第三项是实数三角不等式的等号条件，第四项是 Cauchy–Schwarz 的等号条件。原文的式 (4) 把神经元输入写成了整段句子 $x$，维数不匹配，应使用 $h_{Q,K}(x)$. 在这里对称的支持集上，第三项也等价于对所有输入要求两个 preactivation 的乘积不大于零：同时为负会使取反后的输入上两者同时为正。
+第二项是 AM–GM 的等号条件，第三项是实数三角不等式的等号条件，第四项是 Cauchy–Schwarz 的等号条件。注意，原文写出的第三项把神经元输入记作整段句子 $x$，而神经元实际作用于 attention 的输出 $h_{Q,K}(x)\in\mathbb R^{2T}$，两者的维数不同，这里按后一种写法给出。在这个对称的支持集上，第三项也等价于对所有输入要求两个 preactivation 的乘积不大于零：若某个输入上两者同时为负，整体取反后它们就同时为正，从而违反第三项。
 
 注意，原命题只列了后三项，但其证明第一步也要求 $Q,K$ gradient 为零。“attention 均匀”不能代替这个要求。例如取 $Q\ne0$、$K=0$，attention 仍均匀，但稍微扰动 $K$ 通常就会改变 attention 和模型输出，所以 $\nabla_Kf$ 未必为零。取 $Q=K=0$ 才能直接保证两个 gradient 都为零。
 
@@ -588,7 +620,7 @@ $$
 
 这里 $\operatorname{supp}(\mathcal P)$ 是预训练分布中概率为正的输入集合，$I_x$ 是输入 $x$ 激活的神经元集合。注意，原文把 $I_x$ 的索引范围写成 $[T]$，但神经元数量是 $m$，应为 $[m]$.
 
-**命题。** 若同时满足 Lemma D.1 中的激活平衡条件，则
+**命题。** 若同时满足 Lemma D.1 的第 2、3、4 项等号条件（激活平衡、无正负抵消、attention 均匀），则
 
 $$
 x\in D_+\Longrightarrow I_x\subseteq I_+,
@@ -608,7 +640,7 @@ $$
 
 ## Lemma D.3
 
-这个引理承担原证明最关键的结构性步骤：从“每个神经元在所有激活输入上取相同的值”，推出“它只编码括号数量差”。原文的陈述有三处需要先分清：下游标签不只取 $\pm1$；正输出权重应对应正预训练标签，不能与 Fact D.2 相反；不激活意味着 ReLU 输出为零，不意味着 preactivation 本身等于零。
+这个引理承担原证明最关键的结构性步骤：从“每个神经元在所有激活输入上取相同的值”，推出“它只编码括号数量差”。原文的陈述有三处需要先分清。第一，下游标签不只取 $\pm1$，$g^*(x)$ 可以取到 $-T,\ldots,T$ 中的任何偶数值，所以结论应当是关于 $g^*$ 本身、而不是关于它的符号的。第二，原文的 Lemma D.3 陈述把两类神经元与下游标签的对应写反了：按 Fact D.2，$i\in I_-$ 只在 $g^*=1$ 的预训练输入上不激活、在 $g^*=-1$ 的输入上激活，所以它在 $g^*=-1$ 的下游输入上应当取正值，原文写成了 $g^*=1$ 时取正值。下面按 Fact D.2 的方向重述，结论的形式不变。第三，“不激活”指 ReLU 输出为零，即 preactivation 不大于零，并不要求 preactivation 本身等于零；后一种更强的性质在原文的论证里被用到了，但它并没有被证明。
 
 即使修正这些表述，原证明中关于权重方向的推理仍不成立。它声称同一类中的 preactivation 不可能有的为零、有的为固定正值；下面的构造说明这种分裂完全可能，而且满足它使用的等号条件。
 
@@ -668,7 +700,11 @@ $$
 
 注意，这个四神经元构造在一些预训练输入上恰好位于 ReLU 零点。因此它直接反驳的是原文所使用的等号条件蕴含关系；如果把 flatness 严格定义为普通 Hessian，还必须另外处理这些点的不可微性，不能把自动微分取 $\sigma'(0)=0$ 得到的量当作已经存在的 Hessian.
 
-我们可以明确写出一个排除上述问题的条件，并证明在这个条件下原文想要的结构结论。假设每个非零神经元满足
+原证明在缺条件时为什么不够，可以说得更具体。原文分两种情形处理同一类输入上的 preactivation：一种情形假设它在所有输入上取同一个正值，另一种假设它在一部分输入上为零、在另一部分上取正值，然后声称后一种情形“不可能发生”。它给出的依据是：把所有 $h$ 堆成矩阵后有满秩性，而这个满秩性只对“$V_i^\top h$ 在所有 $h\in H_-$ 上等于同一个数”这个等式有用。一旦一部分 $h$ 上取零、另一部分取正值，这个等式本身就不成立，满秩性也就无法推出 $V_i$ 的坐标结构。上面的构造正是这种情形，而且它与等号条件相容，所以原证明的那一步是一个真正的空缺。
+
+再加上预训练分布的对称性，空缺会被放大：一个 preactivation 若在某处为零，取反后的输入会把“部分为零、部分为正”的分裂复制到相反的那一类里，原文随后“把两类特征各压成一个常值”的推理在两类上都失去基础。所以要得到它想要的结构结论，就必须把“每个 preactivation 在整个支撑集上非零”作为条件显式加进来，而不是从等号条件里推出。
+
+加入这个条件后，原文想要的结论可以完整证明。假设每个非零神经元满足
 
 $$
 V_i^\top h_{Q,K}(x)\ne0
@@ -723,7 +759,7 @@ $$
 
 ## Lemma D.4
 
-**命题的系数修正。** 设 $\theta$ 为全部参数，$f_\theta(x)$ 为标量预测，$y$ 为样本标签。假设相关求导存在并能与期望交换，且
+**命题。** 设 $\theta$ 为全部参数，$f_\theta(x)$ 为标量预测，$y$ 为样本标签。假设相关求导存在并能与期望交换，且
 
 $$
 L(\theta)=\mathbb E_x\left[\left(f_\theta(x)-y\right)^2\right]=0.
@@ -736,7 +772,7 @@ $$
 =2\mathbb E_x\left[\|\nabla_\theta f_\theta(x)\|_2^2\right].
 $$
 
-注意，原文右边少了 $2$；只有把 loss 定义成 $\frac12\mathbb E[(f_\theta-y)^2]$ 时，才会得到原文写出的系数。
+注意，原文的结论右边少了系数 $2$，原因可以从证明里看到：平方损失求两次导会留下 $2$，而原文在写出结论时把它丢掉了。只有当 loss 定义成 $\frac12\mathbb E[(f_\theta-y)^2]$ 时，原文的写法才成立。这个系数会原样传进 Lemma D.1 的下界。
 
 **证明。** squared loss 非负而期望为零，故 $f_\theta(x)=y$ 几乎处处成立。直接求导得到
 
@@ -801,7 +837,7 @@ $$
 
 ## Theorem D.6
 
-前面的构造说明，直接提取括号数量差可以把预训练 loss 降到零。最后一个定理想说明另一个事实：即使 $V_i$ 完全随机，只要神经元足够多，调节输出权重也能把预训练 loss 降得很小。因此，低 pre-training loss 本身没有要求每个神经元都对齐那个人类可理解的方向。
+前面的构造说明，直接提取括号数量差可以把预训练 loss 降到零。最后一个定理想说明另一个事实：即使 $V_i$ 完全随机，只要神经元足够多，调节输出权重也能把预训练 loss 降得很小。这条结论的意义在于反方向：低 pre-training loss 本身并不要求神经元对齐到人类可理解的方向，随机特征配上合适的输出层就够了。这里 $V_i$ 是 value 矩阵的第 $i$ 行，抽样时各行独立。
 
 **原命题。** 给定误差 $\epsilon>0$、失败概率 $\delta\in(0,1)$，令各行权重独立抽自 $V_i\sim\mathcal N(0,TI_{2T})$，其中 $I_{2T}$ 是 $2T$ 维单位矩阵。原文声称，当
 
@@ -819,7 +855,7 @@ $$
 
 这里 $\widetilde O$ 表示省略对数因子的数量级，$O$ 中的常数应与 $m,T,\epsilon,\delta$ 无关；“使用这些随机特征”意味着 $V$ 保持抽样结果不变。原证明具体取 $Q=K=0$，所以 $\psi'=(0,0,V)$.
 
-注意，原文的输出权重范数界与 $f=m^{-1}u^\top\sigma(Vh)$ 不一致。它构造 $u_i'=a(V_i)$，若每个 $a(V_i)$ 的二阶矩为 $O(T^2)$，自然得到的是 $\mathbb E\|u'\|_2^2=O(mT^2)$，不能少掉 $m$. 以下先验证这不是一个可以忽略的上界松紧问题，再给出保持原模型归一化的完整 random-feature 构造。
+按原文写出的模型定义 $f=m^{-1}u^\top\sigma(Vh)$，这条输出权重范数界不成立：它构造 $u_i'=a(V_i)$，若每个 $a(V_i)$ 的二阶矩为 $O(T^2)$，自然得到的是 $\mathbb E\|u'\|_2^2=O(mT^2)$，不能少掉 $m$. 若原文另有关于 $u$ 的归一化约定（例如把 $m$ 吸收进输出权重），上述范数界需要相应调整；原文没有写出这样的约定。以下先验证这不是一个可以忽略的上界松紧问题，再给出在原文归一化下能够成立的 random-feature 构造。
 
 固定 $Q=K=0$，并令
 
@@ -857,7 +893,7 @@ $$
 \|u'\|_2^2\geq\frac m8.
 $$
 
-固定例如 $\delta=1/4$ 后，让 $m$ 任意增大，就不可能仍以 $3/4$ 的概率保持一个与 $m$ 无关的 $O(T^2)$ 范数上界。这说明原证明对应的固定随机特征构造确实需要修正。$\square$
+固定例如 $\delta=1/4$ 后，让 $m$ 任意增大，就不可能仍以 $3/4$ 的概率保持一个与 $m$ 无关的 $O(T^2)$ 范数上界。所以按原文写出的模型定义，这个输出权重范数界不成立；若另有关于 $u$ 的归一化约定，结论需要相应调整。$\square$
 
 即使允许重新选择 $Q,K$，也不能恢复一个对任意 $m$ 都成立的宽度无关范数界。因为 attention 是单位向量的 convex combination，始终有 $\|h_{Q,K}(x)\|_2\leq1$，所以全部特征的平方和至多为 $\sum\limits_{i=1}^{m}\|V_i\|_2^2$. 这个随机量的期望是 $2mT^2$，以至少 $3/4$ 的概率不超过 $8mT^2$. 在此事件上重复刚才的 Cauchy–Schwarz 推导，任何 loss 不超过 $1/4$ 的输出头都必须满足 $\|u'\|_2^2\geq m/(32T^2)$. 固定 $T$ 而增大 $m$，仍与原命题的宽度无关上界冲突。$\square$
 
@@ -875,7 +911,7 @@ L(\psi',u')\leq\epsilon,
 \|u'\|_2^2\leq\frac{8mT^2}{\delta}.
 $$
 
-这是针对本文具体目标、保持原有 $1/m$ 归一化的修正结论；它不是原文范数界的另一种写法。
+这是针对本文具体目标、保持原有 $1/m$ 归一化的结论。它的范数界随 $m$ 增长，和上面两段的论证一致；它不是原文范数界的另一种写法。
 
 **证明。** 取 $Q=K=0$，则
 
@@ -989,7 +1025,7 @@ $$
 
 两次失败事件的概率之和至多为 $\delta$，从而两个结论以至少 $1-\delta$ 的概率同时成立。$\square$
 
-这个证明还避免了原文最后一段中的几处错误：用于控制 approximation error 的期望必须是平方误差，截断后保留的事件应是 norm 不超过阈值，应用 Chebyshev inequality 得到指定失败概率时也必须保留相应的 $\delta$ 因子。这里直接计算平方误差，既补全了概率估计，也避免把这些不一致带入结论。
+这个证明还绕开了原文最后一段中的几处不严密之处：用于控制 approximation error 的期望必须是平方误差；截断后保留的事件应当是 norm 不超过阈值；应用 Chebyshev inequality 得到指定失败概率时也必须保留相应的 $\delta$ 因子。这里直接计算平方误差，既补全了概率估计，也避免把这些不一致带入结论。
 
 注意，这个存在性结论只说明随机隐藏权重可以配合一个输出层得到很低的预训练 loss；它本身没有证明这种解的 downstream performance 必然差。
 
@@ -1021,9 +1057,10 @@ $$
 \mathbb E_v\left[\sigma(v^\top h)a(v)\right]
 &=-\frac2{\sqrt T}\mathbf1^\top
 \mathbb E_v\left[v\sigma(v^\top h)\right]\\
-&=-\sqrt T\,\mathbf1^\top h,\\
+&=-\sqrt T\,\mathbf1^\top h,
+\qquad
 \mathbb E_v[a(v)^2]
-&=\frac4T\mathbf1^\top(TI_{2T})\mathbf1
+=\frac4T\mathbf1^\top(TI_{2T})\mathbf1
 =8T
 \leq8T^2.
 \end{aligned}
