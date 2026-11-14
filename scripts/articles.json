@@ -5,7 +5,20 @@
         {
           "path": "everlasting/invisible/learning/math-theoretical",
           "publicIds": true,
-          "files": ["certified-removal.md", "closeness-generalization.md", "closeness-gradient-similarity.md", "least-squares-existence.md", "least-squares-gd.md", "newton-output-distribution.md", "newton-residual-gradient.md", "nexus-implicit-bias.md", "positive-gram-sgd.md", "smooth-strongly-convex-sgd.md", "two-task-convergence.md", "unlearning-akg.md"]
+          "files": [
+            "published/certified-removal.md",
+            "published/closeness-generalization.md",
+            "published/closeness-gradient-similarity.md",
+            "published/least-squares-existence.md",
+            "published/least-squares-gd.md",
+            "published/newton-output-distribution.md",
+            "published/newton-residual-gradient.md",
+            "published/nexus-implicit-bias.md",
+            "published/positive-gram-sgd.md",
+            "published/smooth-strongly-convex-sgd.md",
+            "published/two-task-convergence.md",
+            "published/unlearning-akg.md"
+          ]
         },
         {
           "path": "everlasting/invisible/preliminaries.md"
@@ -54,41 +67,53 @@
       "title": "2025 年终总结",
       "publishedAt": "2026-02-18"
     },
-    "everlasting/invisible/learning/math-theoretical/newton-residual-gradient.md": {
-      "publishedAt": "2026-08-20"
+    "everlasting/invisible/learning/math-theoretical/published/newton-residual-gradient.md": {
+      "publishedAt": "2026-08-20",
+      "publicId": "newton-residual-gradient"
     },
-    "everlasting/invisible/learning/math-theoretical/closeness-generalization.md": {
-      "publishedAt": "2026-08-22"
+    "everlasting/invisible/learning/math-theoretical/published/closeness-generalization.md": {
+      "publishedAt": "2026-08-22",
+      "publicId": "closeness-generalization"
     },
-    "everlasting/invisible/learning/math-theoretical/newton-output-distribution.md": {
-      "publishedAt": "2026-08-24"
+    "everlasting/invisible/learning/math-theoretical/published/newton-output-distribution.md": {
+      "publishedAt": "2026-08-24",
+      "publicId": "newton-output-distribution"
     },
-    "everlasting/invisible/learning/math-theoretical/closeness-gradient-similarity.md": {
-      "publishedAt": "2026-08-26"
+    "everlasting/invisible/learning/math-theoretical/published/closeness-gradient-similarity.md": {
+      "publishedAt": "2026-08-26",
+      "publicId": "closeness-gradient-similarity"
     },
-    "everlasting/invisible/learning/math-theoretical/nexus-implicit-bias.md": {
-      "publishedAt": "2026-08-28"
+    "everlasting/invisible/learning/math-theoretical/published/nexus-implicit-bias.md": {
+      "publishedAt": "2026-08-28",
+      "publicId": "nexus-implicit-bias"
     },
-    "everlasting/invisible/learning/math-theoretical/certified-removal.md": {
-      "publishedAt": "2026-08-30"
+    "everlasting/invisible/learning/math-theoretical/published/certified-removal.md": {
+      "publishedAt": "2026-08-30",
+      "publicId": "certified-removal"
     },
-    "everlasting/invisible/learning/math-theoretical/unlearning-akg.md": {
-      "publishedAt": "2026-08-31"
+    "everlasting/invisible/learning/math-theoretical/published/unlearning-akg.md": {
+      "publishedAt": "2026-08-31",
+      "publicId": "unlearning-akg"
     },
-    "everlasting/invisible/learning/math-theoretical/least-squares-gd.md": {
-      "publishedAt": "2026-09-02"
+    "everlasting/invisible/learning/math-theoretical/published/least-squares-gd.md": {
+      "publishedAt": "2026-09-02",
+      "publicId": "least-squares-gd"
     },
-    "everlasting/invisible/learning/math-theoretical/least-squares-existence.md": {
-      "publishedAt": "2026-09-04"
+    "everlasting/invisible/learning/math-theoretical/published/least-squares-existence.md": {
+      "publishedAt": "2026-09-04",
+      "publicId": "least-squares-existence"
     },
-    "everlasting/invisible/learning/math-theoretical/positive-gram-sgd.md": {
-      "publishedAt": "2026-09-06"
+    "everlasting/invisible/learning/math-theoretical/published/positive-gram-sgd.md": {
+      "publishedAt": "2026-09-06",
+      "publicId": "positive-gram-sgd"
     },
-    "everlasting/invisible/learning/math-theoretical/smooth-strongly-convex-sgd.md": {
-      "publishedAt": "2026-09-08"
+    "everlasting/invisible/learning/math-theoretical/published/smooth-strongly-convex-sgd.md": {
+      "publishedAt": "2026-09-08",
+      "publicId": "smooth-strongly-convex-sgd"
     },
-    "everlasting/invisible/learning/math-theoretical/two-task-convergence.md": {
-      "publishedAt": "2026-09-10"
+    "everlasting/invisible/learning/math-theoretical/published/two-task-convergence.md": {
+      "publishedAt": "2026-09-10",
+      "publicId": "two-task-convergence"
     },
     "everlasting/invisible/tech/claude_web_tool_issues.md": {
       "aliases": [

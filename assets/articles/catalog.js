@@ -1,6 +1,6 @@
 window.ArticleCatalog = [
   {
-    "path": "everlasting/invisible/learning/math-theoretical/two-task-convergence.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/two-task-convergence.md",
     "title": "特定规则下双任务优化的收敛保证",
     "category": "invisible",
     "aliases": [],
@@ -9,7 +9,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-10"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/smooth-strongly-convex-sgd.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/smooth-strongly-convex-sgd.md",
     "title": "损失函数光滑且强凸时 (S)GD 的收敛速率",
     "category": "invisible",
     "aliases": [],
@@ -18,7 +18,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-08"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/positive-gram-sgd.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/positive-gram-sgd.md",
     "title": "Gram 矩阵正定时最小二乘问题的 (S)GD 收敛速率",
     "category": "invisible",
     "aliases": [],
@@ -27,7 +27,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-06"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/least-squares-existence.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/least-squares-existence.md",
     "title": "最小二乘问题解的存在性",
     "category": "invisible",
     "aliases": [],
@@ -36,7 +36,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-04"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/least-squares-gd.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/least-squares-gd.md",
     "title": "最小二乘问题在梯度下降下的收敛速率",
     "category": "invisible",
     "aliases": [],
@@ -45,7 +45,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-09-02"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/unlearning-akg.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/unlearning-akg.md",
     "title": "unlearning 视角下的 AKG 分解",
     "category": "invisible",
     "aliases": [],
@@ -54,7 +54,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-31"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/certified-removal.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/certified-removal.md",
     "title": "结合差分隐私训练的认证删除 (Certified Removal)",
     "category": "invisible",
     "aliases": [],
@@ -63,7 +63,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-30"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/nexus-implicit-bias.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/nexus-implicit-bias.md",
     "title": "Nexus 优化器的 implicit bias：优化梯度相似度",
     "category": "invisible",
     "aliases": [],
@@ -72,7 +72,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-28"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/closeness-gradient-similarity.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/closeness-gradient-similarity.md",
     "title": "不同任务的 closeness 与其梯度余弦相似度的关系",
     "category": "invisible",
     "aliases": [],
@@ -81,7 +81,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-26"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/newton-output-distribution.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/newton-output-distribution.md",
     "title": "牛顿更新法与重新训练模型的输出分布接近性",
     "category": "invisible",
     "aliases": [],
@@ -90,7 +90,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-24"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/closeness-generalization.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/closeness-generalization.md",
     "title": "closeness 视角下的任务泛化能力",
     "category": "invisible",
     "aliases": [],
@@ -99,7 +99,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-22"
   },
   {
-    "path": "everlasting/invisible/learning/math-theoretical/newton-residual-gradient.md",
+    "path": "everlasting/invisible/learning/math-theoretical/published/newton-residual-gradient.md",
     "title": "牛顿更新法的残余梯度理论上界",
     "category": "invisible",
     "aliases": [],
