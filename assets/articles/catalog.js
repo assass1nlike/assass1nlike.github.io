@@ -1,5 +1,14 @@
 window.ArticleCatalog = [
   {
+    "path": "everlasting/invisible/learning/math-theoretical/published/AKG.md",
+    "title": "AKG 分解",
+    "category": "invisible",
+    "aliases": [],
+    "hidePath": true,
+    "publicId": "AKG",
+    "publishedAt": "2026-11-15"
+  },
+  {
     "path": "everlasting/invisible/learning/math-theoretical/published/two-task-convergence.md",
     "title": "特定规则下双任务优化的收敛保证",
     "category": "invisible",

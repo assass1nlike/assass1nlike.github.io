@@ -17,7 +17,8 @@
             "published/positive-gram-sgd.md",
             "published/smooth-strongly-convex-sgd.md",
             "published/two-task-convergence.md",
-            "published/unlearning-akg.md"
+            "published/unlearning-akg.md",
+            "published/AKG.md"
           ]
         },
         {
@@ -139,6 +140,11 @@
     },
     "everlasting/invisible/abstract/fangcuncyber-cybergym.md": {
       "publishedAt": "2026-09-03"
+    },
+    "everlasting/invisible/learning/math-theoretical/published/AKG.md": {
+      "title": "AKG 分解",
+      "publicId": "AKG",
+      "publishedAt": "2026-11-15"
     }
   }
 }
