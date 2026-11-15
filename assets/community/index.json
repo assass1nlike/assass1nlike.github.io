@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T16:35:38Z",
+  "generatedAt": "2026-11-15T04:29:04Z",
   "author": "assass1nlike",
   "repositories": [
     {
@@ -108,6 +108,21 @@
       ]
     },
     {
+      "name": "567-labs/instructor",
+      "stars": 14112,
+      "entries": [
+        {
+          "kind": "pr",
+          "repository": "567-labs/instructor",
+          "number": 3054,
+          "title": "fix(auto_client): forward api_key to Ollama client",
+          "url": "https://github.com/567-labs/instructor/pull/3054",
+          "state": "closed",
+          "createdAt": "2026-11-14"
+        }
+      ]
+    },
+    {
       "name": "huggingface/accelerate",
       "stars": 9942,
       "entries": [
@@ -117,7 +132,7 @@
           "number": 4516,
           "title": "Refuse merging FSDP weights into a checkpoint dir that gets removed",
           "url": "https://github.com/huggingface/accelerate/pull/4516",
-          "state": "open",
+          "state": "closed",
           "createdAt": "2026-11-09"
         }
       ]
@@ -141,6 +156,15 @@
       "name": "huggingface/huggingface_hub",
       "stars": 4046,
       "entries": [
+        {
+          "kind": "issue",
+          "repository": "huggingface/huggingface_hub",
+          "number": 5359,
+          "title": "[Jobs] Auto-generated Job name uses the whole Windows script path (`.\\train.py` -> `--train-<hash>`)",
+          "url": "https://github.com/huggingface/huggingface_hub/issues/5359",
+          "state": "open",
+          "createdAt": "2026-11-14"
+        },
         {
           "kind": "issue",
           "repository": "huggingface/huggingface_hub",
