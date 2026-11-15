@@ -32,7 +32,7 @@ begin
   if p_path is null or char_length(p_path) < 1 or char_length(p_path) > 300 then
     raise exception 'invalid path';
   end if;
-  insert into public.page_views (path) values (p_path)
+  insert into public.page_views (path, views) values (p_path, 1)
   on conflict (path) do update
     set views = public.page_views.views + 1, updated_at = now()
   returning views into total;
