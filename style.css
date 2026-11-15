@@ -23,6 +23,12 @@
   --code-bg: var(--code-bg);
   --scrim: rgba(4, 5, 12, 0.88);
   --scrim-soft: rgba(4, 5, 12, 0.7);
+  /* Contribution calendar: five steps from "nothing" to "a lot", in the site's own accent. */
+  --calendar-0: rgba(255, 255, 255, 0.06);
+  --calendar-1: rgba(var(--accent-rgb), 0.26);
+  --calendar-2: rgba(var(--accent-rgb), 0.46);
+  --calendar-3: rgba(var(--accent-rgb), 0.68);
+  --calendar-4: rgba(var(--accent-rgb), 0.92);
   --glass: rgba(255, 255, 255, 0.04);
   --glass-2: rgba(255, 255, 255, 0.045);
   --glass-3: rgba(255, 255, 255, 0.06);
@@ -74,6 +80,11 @@
   --code-bg: rgba(24, 22, 38, 0.045);
   --scrim: rgba(250, 249, 246, 0.9);
   --scrim-soft: rgba(250, 249, 246, 0.72);
+  --calendar-0: rgba(24, 22, 38, 0.07);
+  --calendar-1: rgba(var(--accent-rgb), 0.24);
+  --calendar-2: rgba(var(--accent-rgb), 0.44);
+  --calendar-3: rgba(var(--accent-rgb), 0.66);
+  --calendar-4: rgba(var(--accent-rgb), 0.92);
   --accent-rgb: 116, 82, 200;
   --accent-strong: #5b3fb0;
   --accent-soft: rgba(var(--accent-rgb), 0.1);
@@ -1804,6 +1815,133 @@ a.contact-value {
   .contribution-list {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* GitHub calendar: one column per week, the way GitHub itself draws it. */
+.contribution-calendar {
+  margin-top: 32px;
+}
+
+.home-category-viewport .contribution-calendar {
+  margin-top: 20px;
+}
+
+.contribution-calendar .contributions-count.is-link {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.contribution-calendar .contributions-count.is-link:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.calendar-scroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.calendar-grid {
+  --gap: 3px;
+  display: flex;
+  gap: 8px;
+}
+
+/* Weekday gutter: the labels sit on the Tuesday, Thursday and Saturday rows. */
+.calendar-days {
+  display: grid;
+  grid-template-rows: repeat(7, 1fr);
+  gap: var(--gap);
+  padding-top: 16px;
+  color: var(--faint);
+  font-size: 0.6rem;
+}
+
+.calendar-days span:nth-child(1) { grid-row: 2; }
+.calendar-days span:nth-child(2) { grid-row: 4; }
+.calendar-days span:nth-child(3) { grid-row: 6; }
+
+.calendar-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* The month row shares the week grid's tracks, so each label starts over its own column. */
+.calendar-month-row {
+  display: grid;
+  grid-template-columns: repeat(var(--weeks), minmax(0, 1fr));
+  gap: var(--gap);
+  height: 16px;
+}
+
+.calendar-weeks {
+  display: grid;
+  grid-template-columns: repeat(var(--weeks), minmax(0, 1fr));
+  gap: var(--gap);
+  /* Square cells: the width of one column times the number of columns over seven rows. */
+  aspect-ratio: var(--weeks) / 7;
+}
+
+.calendar-week {
+  display: grid;
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.calendar-month {
+  grid-row: 1;
+  color: var(--faint);
+  font-size: 0.62rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.calendar-cell {
+  display: block;
+  min-width: 0;
+  border-radius: 2px;
+  background: var(--calendar-0);
+}
+
+.calendar-cell[data-level="1"] { background: var(--calendar-1); }
+.calendar-cell[data-level="2"] { background: var(--calendar-2); }
+.calendar-cell[data-level="3"] { background: var(--calendar-3); }
+.calendar-cell[data-level="4"] { background: var(--calendar-4); }
+
+.calendar-cell.is-empty {
+  background: none;
+}
+
+.calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin-top: 12px;
+  color: var(--faint);
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar-scale {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: auto;
+}
+
+.calendar-legend .calendar-cell {
+  width: 9px;
+  height: 9px;
+}
+
+@media (max-width: 560px) {
+  .calendar-grid { --gap: 2px; }
+  /* The 53 columns shrink to fit instead of hiding half the year behind a scroll. */
+  .calendar-weeks { aspect-ratio: var(--weeks) / 7; }
+  .calendar-month { font-size: 0.55rem; }
+  .calendar-scale { margin-left: 0; }
 }
 
 /* Full-size view for figures inside prose. */

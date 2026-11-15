@@ -27,8 +27,8 @@ def publication_paths(root, only):
         scopes += ['scripts/export-experiments.py', 'scripts/experiments.json', 'assets/experiments']
     scopes += ['scripts/export-search-index.py', 'assets/search-index.js']
     if only in ('all', 'community'):
-        scopes += ['scripts/export-contributions.py', 'assets/community',
-                   'scripts/export-projects.py', 'scripts/projects.json', 'assets/projects']
+        scopes += ['scripts/export-contributions.py', 'scripts/export-contributions-calendar.py',
+                   'assets/community', 'scripts/export-projects.py', 'scripts/projects.json', 'assets/projects']
     if only in ('all', 'papers'):
         scopes += ['assets/papers', 'scripts/paper-exclude.json', 'scripts/paper-links.json', 'scripts/paper-identities.json',
                    'scripts/paper-publications.json', 'scripts/paper-publications-cache.json',
@@ -67,6 +67,7 @@ def publish(root=ROOT, *, only='all', source=Path(r'D:\papers'), message='Update
         run(root, sys.executable, '-B', 'scripts/export-articles.py')
     if only in ('all', 'community'):
         run(root, sys.executable, '-B', 'scripts/export-contributions.py')
+        run(root, sys.executable, '-B', 'scripts/export-contributions-calendar.py')
         run(root, sys.executable, '-B', 'scripts/export-projects.py')
     if only in ('all', 'papers'):
         run(root, sys.executable, '-B', 'scripts/export-paper-tree.py', '--source', str(source))

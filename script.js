@@ -1427,6 +1427,71 @@ async function loadProjectsInto(host) {
     host.innerHTML = `<div class="error-state">${escapeHtml(error.message)}</div>`;
   }
   await appendContributions(host);
+  await appendContributionCalendar(host);
+}
+
+let calendarPromise;
+function loadCalendar() {
+  if (!calendarPromise) {
+    calendarPromise = fetch('/assets/community/contributions.json', { cache: 'no-cache' })
+      .then((response) => (response.ok ? response.json() : null))
+      .catch(() => null);
+  }
+  return calendarPromise;
+}
+
+const MONTH_LABELS = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+
+// One column per week, Monday down to Sunday, shaded by how much happened that day.
+async function appendContributionCalendar(host) {
+  const data = await loadCalendar();
+  if (!data?.weeks?.length) return;
+  // A month label sits above the first column that starts inside it, and may overhang the column.
+  const months = new Map();
+  let lastMonth = -1;
+  data.weeks.forEach((week, index) => {
+    const first = week[0];
+    const month = new Date(`${first.date}T00:00:00Z`).getUTCMonth();
+    if (month === lastMonth) return;
+    lastMonth = month;
+    if (index > 0 && Number(first.date.slice(8)) > 7) return;
+    months.set(index, month);
+  });
+  // A month label sits above the first column that starts inside it, and may overhang the column.
+  const labels = data.weeks.map((week, index) => months.has(index)
+    ? `<span class="calendar-month" style="grid-column:${index + 1}">${MONTH_LABELS[months.get(index)]}</span>` : '').join('');
+  const cells = data.weeks.map((week) => {
+    const days = week.map((day) =>
+      `<span class="calendar-cell" data-level="${day.level}" title="${day.date} · ${day.count} 次贡献"></span>`);
+    // The first and last weeks are partial; empty cells keep every column the same height.
+    while (days.length < 7) days.push('<span class="calendar-cell is-empty"></span>');
+    return `<div class="calendar-week">${days.join('')}</div>`;
+  }).join('');
+  const section = document.createElement('section');
+  section.className = 'contributions contribution-calendar';
+  section.setAttribute('data-site-ui', '');
+  section.innerHTML = `
+    <div class="contributions-head">
+      <h2 class="contributions-title">GitHub 活跃度</h2>
+      <a class="contributions-count is-link" href="https://github.com/${escapeAttr(data.author)}" target="_blank" rel="noopener noreferrer">一年 ${Number(data.total).toLocaleString('zh-CN')} 次贡献</a>
+    </div>
+    <div class="calendar-scroll">
+      <div class="calendar-grid" role="img" aria-label="过去一年的 GitHub 贡献日历，共 ${data.total} 次贡献">
+        <div class="calendar-days" aria-hidden="true"><span>一</span><span>三</span><span>五</span></div>
+        <div class="calendar-body" style="--weeks:${data.weeks.length}">
+          <div class="calendar-month-row" aria-hidden="true">${labels}</div>
+          <div class="calendar-weeks">${cells}</div>
+        </div>
+      </div>
+    </div>
+    <div class="calendar-legend">
+      <span>${data.activeDays} 个活跃日</span>
+      <span>最长连续 ${data.longestStreak} 天</span>
+      <span>当前连续 ${data.currentStreak} 天</span>
+      <span>单日最多 ${data.peakDay} 次</span>
+      <span class="calendar-scale" aria-hidden="true"><span>少</span><span class="calendar-cell" data-level="0"></span><span class="calendar-cell" data-level="1"></span><span class="calendar-cell" data-level="2"></span><span class="calendar-cell" data-level="3"></span><span class="calendar-cell" data-level="4"></span><span>多</span></span>
+    </div>`;
+  host.append(section);
 }
 
 let contributionsPromise;

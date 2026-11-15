@@ -100,10 +100,11 @@ class PublishTests(unittest.TestCase):
         with patch.object(publish, 'run', side_effect=capture):
             publish.publish(self.root, source=Path('custom-papers'))
         self.assertEqual([args[2] for args in calls], [
-            'scripts/export-articles.py', 'scripts/export-contributions.py', 'scripts/export-projects.py',
+            'scripts/export-articles.py', 'scripts/export-contributions.py',
+            'scripts/export-contributions-calendar.py', 'scripts/export-projects.py',
             'scripts/export-paper-tree.py', 'scripts/update-paper-publications.py',
             'scripts/export-experiments.py', 'scripts/export-search-index.py'])
-        self.assertIn('--deep', calls[4])
+        self.assertIn('--deep', calls[5])
         self.assertEqual(calls[4][-1], 'custom-papers')
 
 
