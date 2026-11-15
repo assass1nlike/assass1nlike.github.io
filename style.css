@@ -2050,6 +2050,12 @@ a.contact-value {
   cursor: pointer;
 }
 .reader-annotation-mark:hover { background: rgba(var(--accent-rgb), 0.34); }
+
+/* A passage picked before signing in: kept highlighted, but nothing saved yet. */
+.reader-annotation-mark.is-pending {
+  background: rgba(var(--accent-rgb), 0.14);
+  border-bottom: 1px dashed rgba(var(--accent-rgb), 0.6);
+}
 .reader-annotation-hint-bar {
   position: absolute;
   z-index: 70;
@@ -2071,6 +2077,26 @@ a.contact-value {
   cursor: pointer;
 }
 .reader-annotation-hint-bar span { display: inline-block; padding: 5px 10px; }
+
+/* Signed out: the bar carries the sign-in choices instead of just a notice. */
+.reader-annotation-hint-bar.is-signin {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  max-width: min(360px, calc(100vw - 24px));
+}
+
+.reader-annotation-hint-bar.is-signin .reader-annotation-hint-copy {
+  padding: 0 4px;
+  color: var(--faint);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.reader-annotation-hint-bar.is-signin .reader-annotation-hint-copy:empty {
+  display: none;
+}
 .reader-annotation-pop {
   position: absolute;
   z-index: 70;

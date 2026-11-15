@@ -62,6 +62,8 @@ window.SiteI18n = (() => {
     '搜索全部内容': 'Search everything', '搜索': 'Search',
     '输入关键词': 'Type to search', '正在加载索引…': 'Loading the index…', '没有匹配的内容': 'No matching content',
     '批注这段': 'Annotate this', '登录后可批注': 'Sign in to annotate', '暂无批注': 'No annotations yet',
+    '邮箱': 'Email', '用邮箱登录后即可批注': 'Sign in with email to annotate',
+    '你的邮箱': 'Your email', '邮件里的验证码': 'Code from the email',
     '写下你的批注（Ctrl + Enter 发送）': 'Write a note (Ctrl + Enter to send)',
     '关闭搜索': 'Close search', '内容不能为空。': 'The note cannot be empty.', '正在保存…': 'Saving…',
     '次阅读': 'views',
@@ -108,7 +110,7 @@ window.SiteI18n = (() => {
     '还没有公开留言。': 'No public messages yet.', '匿名访客': 'Anonymous visitor', '已登录访客': 'Signed-in visitor',
   };
   // These are website UI surfaces, not arbitrary Chinese text in the document.
-  const surfaces = '[data-site-ui], [data-language-label-zh], .topbar, .category-intro, .profile-social-links, .home-intro, .refresh-panel, .friend-sites-head, .guestbook, .history-summary, .library-facets, .library-toolbar, .library-overview, .library-group-description, .library-entry-meta, .library-entry-actions, .library-pagination, .library-empty, .library-reader-head, .article-return, .document-outline, .paper-preview-intro, .paper-explorer-head, .paper-taxonomy, .paper-leaf small, .paper-filters, .paper-results-meta, .paper-status, .paper-read-link, .paper-reader-actions, .paper-back, .paper-empty, .loading-state, .error-state';
+  const surfaces = '[data-site-ui], [data-language-label-zh], .topbar, .category-intro, .profile-social-links, .home-intro, .refresh-panel, .friend-sites-head, .guestbook, .history-summary, .library-facets, .library-toolbar, .library-overview, .library-group-description, .library-entry-meta, .library-entry-actions, .library-pagination, .library-empty, .library-reader-head, .article-return, .document-outline, .paper-preview-intro, .paper-explorer-head, .paper-taxonomy, .paper-leaf small, .paper-filters, .paper-results-meta, .paper-status, .paper-read-link, .paper-reader-actions, .paper-back, .paper-empty, .loading-state, .error-state, .reader-annotation-hint-bar, .reader-annotation-pop, .reading-meta';
   const content = '.language-copy, #language-toggle, #daily-quote, .history-quote, #viewer-title, .library-reader-head h1, .library-reader-content, .library-excerpt:not([data-site-ui]), .library-entry h2, .document-outline nav, .paper-reader-body, .paper-reader-title, .paper-excerpt, .paper-folder:not(.paper-all), .paper-branch summary > span, .paper-leaf > span, .doc-card-body, .project-readme-body, .guestbook-item, textarea, pre, code, mjx-container, script, style';
   const originalText = new WeakMap();
   const originalAttributes = new WeakMap();

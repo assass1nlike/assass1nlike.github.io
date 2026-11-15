@@ -145,5 +145,43 @@ window.ReaderData = (() => {
     return data?.session?.user || null;
   }
 
-  return { countView, viewCount, loadAnnotations, addAnnotation, removeAnnotation, currentUser };
+  // Same providers the guestbook offers, and the same client, so one sign-in covers both.
+  function authProviders() {
+    const raw = window.GUESTBOOK_CONFIG || {};
+    return {
+      providers: Array.isArray(raw.authProviders) ? raw.authProviders : [],
+      email: Boolean(raw.emailAuth),
+    };
+  }
+
+  async function signIn(provider) {
+    const c = await ensure();
+    if (!c) throw new Error('登录暂不可用。');
+    // Come back to this exact page, including the query string that picks the document.
+    const redirectTo = `${window.location.origin}${window.location.pathname}${window.location.search}`;
+    const { error } = await c.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo, ...(provider === 'azure' ? { scopes: 'email' } : {}) },
+    });
+    if (error) throw error;
+  }
+
+  async function signInWithEmail(email) {
+    const c = await ensure();
+    if (!c) throw new Error('登录暂不可用。');
+    const { error } = await c.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+    if (error) throw error;
+  }
+
+  async function verifyEmailCode(email, token) {
+    const c = await ensure();
+    if (!c) throw new Error('登录暂不可用。');
+    const { data, error } = await c.auth.verifyOtp({ email, token, type: 'email' });
+    if (error) throw error;
+    if (!data?.session) throw new Error('验证码不正确或已过期。');
+    return data.session.user;
+  }
+
+  return { countView, viewCount, loadAnnotations, addAnnotation, removeAnnotation, currentUser,
+           authProviders, signIn, signInWithEmail, verifyEmailCode };
 })();

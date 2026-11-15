@@ -1,6 +1,8 @@
 /* Inline annotations: select text, leave a note. Highlights are rebuilt from a quote + context. */
 window.ReaderAnnotate = (() => {
   const CONTEXT = 40;
+  const SELECTION_KEY = 'assassinlike.annotation.pending';
+  const PROVIDER_LABELS = { github: 'GitHub 登录', google: 'Google 登录', discord: 'Discord 登录', azure: 'Microsoft 登录' };
   const state = { host: null, key: '', annotations: [], user: null, popover: null, hintBar: null };
 
   function textNodes(root) {
@@ -214,19 +216,117 @@ window.ReaderAnnotate = (() => {
     if (!anchor) return;
     const bar = document.createElement('div');
     bar.className = 'reader-annotation-hint-bar';
-    bar.innerHTML = state.user
-      ? '<button type="button">批注这段</button>'
-      : '<span>登录后可批注</span>';
+    if (state.user) {
+      bar.innerHTML = '<button type="button" data-annotate>批注这段</button>';
+    } else {
+      const { providers, email } = window.ReaderData.authProviders();
+      const options = providers.map((provider) =>
+        `<button type="button" data-provider="${provider}">${PROVIDER_LABELS[provider] || provider}</button>`).join('')
+        + (email ? '<button type="button" data-email-signin>邮箱</button>' : '');
+      bar.classList.add('is-signin');
+      // Short enough to stay on one line; the buttons are the login entry themselves.
+      bar.innerHTML = `<span class="reader-annotation-hint-copy">登录后可批注</span>${options}`;
+    }
     document.body.append(bar);
     const top = anchor.rect.top + window.scrollY - 44;
     bar.style.top = `${Math.max(8, top)}px`;
-    bar.style.left = `${Math.min(Math.max(12, anchor.rect.left + window.scrollX), window.innerWidth - 160)}px`;
-    bar.querySelector('button')?.addEventListener('click', () => {
+    // Keep the whole bar on screen no matter how many sign-in buttons it carries.
+    const width = bar.offsetWidth;
+    bar.style.left = `${Math.max(8, Math.min(anchor.rect.left + window.scrollX, window.innerWidth - width - 12))}px`;
+    bar.querySelector('[data-annotate]')?.addEventListener('click', () => {
       const selection = window.getSelection();
       selection?.removeAllRanges();
       composer(anchor);
     });
+    bar.querySelector('[data-email-signin]')?.addEventListener('click', () => signInByEmail(anchor));
+    bar.querySelectorAll('[data-provider]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        // Keep the selection so the reader does not have to find the passage again after signing in.
+        rememberSelection(anchor);
+        try {
+          await window.ReaderData.signIn(button.dataset.provider);
+        } catch (error) {
+          button.textContent = error.message || '登录失败';
+        }
+      });
+    });
     state.hintBar = bar;
+  }
+
+  // Email sign-in needs the address before the page can leave, so ask for it here.
+  function signInByEmail(anchor) {
+    closeHint();
+    const pop = document.createElement('div');
+    pop.className = 'reader-annotation-pop is-composer';
+    pop.innerHTML = `
+      <div class="reader-annotation-quote">用邮箱登录后即可批注</div>
+      <input class="reader-annotation-email" type="email" inputmode="email" placeholder="你的邮箱" autocomplete="email">
+      <div class="reader-annotation-actions">
+        <span class="reader-annotation-hint"></span>
+        <button type="button" class="reader-annotation-send">发送验证码</button>
+        <button type="button" class="reader-annotation-cancel">取消</button>
+      </div>`;
+    document.body.append(pop);
+    const top = anchor.rect.bottom + window.scrollY + 8;
+    pop.style.top = `${top}px`;
+    pop.style.left = `${Math.max(12, Math.min(anchor.rect.left + window.scrollX, window.innerWidth - 340))}px`;
+    const box = pop.querySelector('input');
+    const hint = pop.querySelector('.reader-annotation-hint');
+    box.focus();
+    pop.querySelector('.reader-annotation-cancel').addEventListener('click', closePopover);
+    pop.querySelector('.reader-annotation-send').addEventListener('click', async () => {
+      const email = box.value.trim();
+      if (!email) { hint.textContent = '请填写邮箱。'; return; }
+      hint.textContent = '正在发送…';
+      try {
+        rememberSelection(anchor);
+        await window.ReaderData.signInWithEmail(email);
+        hint.textContent = '验证码已发送，请查收邮件。';
+        box.value = '';
+        box.placeholder = '邮件里的验证码';
+        pop.querySelector('.reader-annotation-send').textContent = '验证并登录';
+        pop.querySelector('.reader-annotation-send').onclick = async () => {
+          const token = box.value.trim();
+          if (!token) { hint.textContent = '请填写验证码。'; return; }
+          hint.textContent = '正在验证…';
+          try {
+            await window.ReaderData.verifyEmailCode(email, token);
+            closePopover();
+            await enable(state.host, state.key);
+          } catch (error) {
+            hint.textContent = error.message || '验证失败。';
+          }
+        };
+      } catch (error) {
+        hint.textContent = error.message || '发送失败。';
+      }
+    });
+    state.popover = pop;
+  }
+
+  // The sign-in round trip reloads the page, so the selection is kept where a reload can see it.
+  function rememberSelection(anchor) {
+    try {
+      sessionStorage.setItem(SELECTION_KEY, JSON.stringify({ key: state.key, quote: anchor.quote, prefix: anchor.prefix, suffix: anchor.suffix }));
+    } catch { /* Without storage the reader can just select the passage again. */ }
+  }
+
+  function resumeSelection() {
+    let saved = null;
+    try {
+      saved = JSON.parse(sessionStorage.getItem(SELECTION_KEY) || 'null');
+    } catch { /* Ignore a corrupt entry. */ }
+    try { sessionStorage.removeItem(SELECTION_KEY); } catch { /* Nothing to clean up. */ }
+    if (!saved || saved.key !== state.key || !state.user) return;
+    const annotation = { ...saved, id: '__pending__', body: '' };
+    // Highlight the remembered passage so the reader can see it is still there.
+    if (wrap(index(state.host), annotation)) {
+      const mark = state.host.querySelector('.reader-annotation-mark[data-annotation="__pending__"]');
+      mark?.removeAttribute('data-annotation');
+      mark?.classList.add('is-pending');
+      mark?.addEventListener('click', () => composer({ ...saved, rect: mark.getBoundingClientRect() }), { once: true });
+      mark?.scrollIntoView({ block: 'center' });
+    }
   }
 
   function closeHint() {
@@ -244,6 +344,8 @@ window.ReaderAnnotate = (() => {
     state.annotations = annotations;
     state.user = user;
     render();
+    // Back from a sign-in: the reader already picked a passage, so reopen the note box on it.
+    resumeSelection();
   }
 
   function init(host, key) {
