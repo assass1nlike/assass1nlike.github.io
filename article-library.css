@@ -127,7 +127,6 @@
 .library-preview-more { display: inline-block; margin-top: 12px; font-size: .88rem; }
 
 /* Experiment logs: one entry per project, opened into its own retrospectives. */
-.experiment-entry .library-reader-meta a { color: var(--muted); text-decoration: none; }
 .experiment-entry .library-entry-meta { display: flex; }
 .experiment-docs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
 .experiment-docs a {
