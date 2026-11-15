@@ -164,6 +164,23 @@ window.PaperTree = (() => {
     </details></li>`;
   }
 
+  // Views and annotations for the item currently open in the reader.
+  function readingMeta(reader, key) {
+    document.querySelectorAll('.reading-meta').forEach((node) => node.remove());
+    const row = reader.querySelector('.paper-title-row, .paper-reader-heading');
+    const strip = document.createElement('div');
+    strip.className = 'reading-meta';
+    strip.dataset.siteUi = '';
+    strip.innerHTML = '<span class="reading-views" hidden></span><span class="reader-annotation-count"></span>';
+    (row || reader.firstElementChild)?.after(strip);
+    window.ReaderData?.countView(key).then((total) => {
+      if (total === null || total === undefined) return;
+      const views = strip.querySelector('.reading-views');
+      views.hidden = false;
+      views.textContent = `${Number(total).toLocaleString('zh-CN')} 次阅读`;
+    });
+  }
+
   function renderNote(source) {
     // Preserve fenced code while adapting both LaTeX delimiter styles.
     let fence = null;
@@ -321,6 +338,9 @@ window.PaperTree = (() => {
           }
         });
         enhanceMarkdownHost(body);
+        const overviewKey = 'papers/overview/' + (category || 'root');
+        readingMeta(reader, overviewKey);
+        window.ReaderAnnotate?.init(body, overviewKey);
         const url = new URL(window.location.href);
         url.searchParams.delete('paper');
         url.searchParams.set('overview', category);
@@ -409,6 +429,8 @@ window.PaperTree = (() => {
             if (!/^(https?:|mailto:|#)/i.test(anchor.getAttribute('href') || '')) anchor.removeAttribute('href');
           });
           enhanceMarkdownHost(body);
+          readingMeta(reader, `papers/${id}/${selectedMode}`);
+          window.ReaderAnnotate?.init(body, `papers/${id}/${selectedMode}`);
         } catch (error) {
           if (token === request) reader.querySelector('.paper-reader-body').innerHTML = `<p class="paper-empty">${escapeHtml(error.message)}</p>`;
         }

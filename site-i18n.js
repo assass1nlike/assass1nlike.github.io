@@ -59,6 +59,12 @@ window.SiteI18n = (() => {
     '阅读内容': 'Reading content', 'HTML 原文': 'Original HTML',
     '会议': 'Conference', '期刊': 'Journal', '论文集': 'Proceedings', '查看发表来源': 'View publication source',
     '这篇论文暂无可用的 HTML，或当前网络无法加载。可通过上方链接前往 arXiv 阅读原文。': 'HTML is unavailable for this paper, or the network could not load it. Use the link above to read the original on arXiv.',
+    '搜索全部内容': 'Search everything', '搜索': 'Search',
+    '输入关键词': 'Type to search', '正在加载索引…': 'Loading the index…', '没有匹配的内容': 'No matching content',
+    '批注这段': 'Annotate this', '登录后可批注': 'Sign in to annotate', '暂无批注': 'No annotations yet',
+    '写下你的批注（Ctrl + Enter 发送）': 'Write a note (Ctrl + Enter to send)',
+    '关闭搜索': 'Close search', '内容不能为空。': 'The note cannot be empty.', '正在保存…': 'Saving…',
+    '次阅读': 'views',
     '实验记录': 'Experiment Logs', '实验复盘': 'Experiment write-ups',
     '跑过的实验的复盘：做了什么、得到什么、以及能带走什么': 'Write-ups of experiments I have run: what was done, what came out of it, and what carries over.',
     '含 HuggingFace 资源': 'HuggingFace release', '这个板块还没有实验记录。': 'No experiment write-ups yet.',
@@ -113,6 +119,9 @@ window.SiteI18n = (() => {
     if (!result && normalized.endsWith(' ↗') && phrases[normalized.slice(0, -2)]) result = phrases[normalized.slice(0, -2)] + ' ↗';
     if (!result) {
       const patterns = [
+        [/^(\d+) 条结果$/, (_, n) => `${n} result${n === '1' ? '' : 's'}`],
+        [/^([\d,]+) 次阅读$/, (_, n) => `${n} views`],
+        [/^(\d+) 条批注$/, (_, n) => `${n} annotation${n === '1' ? '' : 's'}`],
         [/^(\d+) 个实验$/, (_, n) => `${n} experiment${n === '1' ? '' : 's'}`],
         [/^(\d+) 篇复盘$/, (_, n) => `${n} write-up${n === '1' ? '' : 's'}`],
         [/^查看全部 (\d+) 个实验$/, (_, n) => `View all ${n} experiments`],

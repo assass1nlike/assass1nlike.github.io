@@ -1806,3 +1806,96 @@ a.contact-value {
   .site-search { margin-top: 6vh; max-height: 84vh; }
   .site-search-results { max-height: calc(84vh - 120px); }
 }
+
+/* Views and annotations sit directly under the title, quiet enough to ignore. */
+.reading-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 4px 0 18px;
+  color: var(--faint);
+  font-size: 0.76rem;
+}
+.reading-meta:empty { display: none; }
+.reader-annotation-mark {
+  background: rgba(var(--accent-rgb), 0.22);
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.55);
+  color: inherit;
+  cursor: pointer;
+}
+.reader-annotation-mark:hover { background: rgba(var(--accent-rgb), 0.34); }
+.reader-annotation-hint-bar {
+  position: absolute;
+  z-index: 70;
+  padding: 4px;
+  border: 1px solid var(--line-soft);
+  border-radius: 7px;
+  background: var(--panel-strong);
+  box-shadow: var(--surface-shadow);
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+.reader-annotation-hint-bar button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 5px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font: inherit;
+  cursor: pointer;
+}
+.reader-annotation-hint-bar span { display: inline-block; padding: 5px 10px; }
+.reader-annotation-pop {
+  position: absolute;
+  z-index: 70;
+  width: min(320px, calc(100vw - 24px));
+  padding: 12px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: var(--panel-strong);
+  box-shadow: var(--surface-shadow);
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+.reader-annotation-quote {
+  padding-left: 9px;
+  border-left: 2px solid rgba(var(--accent-rgb), 0.5);
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-bottom: 8px;
+}
+.reader-annotation-body { color: var(--text); overflow-wrap: anywhere; }
+.reader-annotation-meta { margin-top: 8px; color: var(--faint); font-size: 0.72rem; }
+.reader-annotation-remove {
+  margin-top: 8px;
+  padding: 3px 9px;
+  border: 1px solid var(--line-soft);
+  border-radius: 5px;
+  background: none;
+  color: var(--muted);
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.reader-annotation-pop textarea {
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font: inherit;
+  resize: vertical;
+}
+.reader-annotation-actions { display: flex; gap: 8px; align-items: center; }
+.reader-annotation-hint { flex: 1; color: var(--faint); font-size: 0.72rem; }
+.reader-annotation-actions button {
+  padding: 4px 11px;
+  border: 1px solid var(--line-soft);
+  border-radius: 5px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.reader-annotation-actions .reader-annotation-send { background: var(--accent-soft); color: var(--accent-strong); border-color: transparent; }

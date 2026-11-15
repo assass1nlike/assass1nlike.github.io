@@ -541,7 +541,7 @@ function createGuestbookAuthClient() {
   if (!guestbookState.config.enabled || (!guestbookState.config.authProviders.length && !guestbookState.config.emailAuth) || !window.supabase?.createClient) {
     return null;
   }
-  return window.supabase.createClient(
+  return window.__supabaseAuthClient ||= window.supabase.createClient(
     guestbookState.config.supabaseUrl,
     guestbookState.config.supabaseAnonKey,
     {
@@ -985,9 +985,12 @@ async function initViewerPage() {
       host.innerHTML = '<div class="error-state">This document is not publicly available.</div>';
       return;
     }
-    await loadMarkdownInto(host, rootAssetPath(resolved?.path || docInput), {
+    const docPath = resolved?.path || docInput;
+    await loadMarkdownInto(host, rootAssetPath(docPath), {
       outline: true,
+      annotate: String(docPath).replace(/^[./]+/, ''),
     });
+    mountReadingMeta(host, String(docPath).replace(/^[./]+/, ''));
     if (resolved?.category) {
       let returnUrl = categoryHref(resolved.category);
       try {
@@ -1131,6 +1134,10 @@ async function loadMarkdownInto(host, path, options = {}) {
     if (options.outline) host.insertAdjacentHTML('afterbegin', renderDocumentOutline(html));
     enhanceMarkdownHost(host);
     if (options.outline) scrollToDocumentHash(host);
+    if (options.annotate) {
+      const target = host.querySelector('.library-reader-content') || host;
+      window.ReaderAnnotate?.init(target, options.annotate);
+    }
   } catch (error) {
     host.innerHTML = '<div class="error-state">暂时无法加载这篇文档，请稍后重试。</div>';
   }
@@ -1500,6 +1507,25 @@ async function loadProjectViewer(id) {
     scrollToDocumentHash(host);
   } catch (error) {
     host.innerHTML = `<div class="error-state">${escapeHtml(error.message)}</div>`;
+  }
+}
+
+// Views and annotations sit under the title of every long-form page.
+async function mountReadingMeta(host, key) {
+  if (!window.ReaderData || !key) return;
+  const head = host.querySelector('.library-reader-head') || host.querySelector('.paper-title-row') || null;
+  const anchor = head || host.firstElementChild;
+  if (!anchor) return;
+  const strip = document.createElement('div');
+  strip.className = 'reading-meta';
+  strip.dataset.siteUi = '';
+  strip.innerHTML = '<span class="reading-views" hidden></span><span class="reader-annotation-count"></span>';
+  anchor.after(strip);
+  const viewHost = strip.querySelector('.reading-views');
+  const total = await window.ReaderData.countView(key);
+  if (total !== null && total !== undefined) {
+    viewHost.hidden = false;
+    viewHost.textContent = `${Number(total).toLocaleString('zh-CN')} 次阅读`;
   }
 }
 

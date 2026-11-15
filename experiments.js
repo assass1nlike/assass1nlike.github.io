@@ -96,8 +96,17 @@ window.Experiments = (() => {
         <nav class="experiment-docs" aria-label="实验文档">${project.docs.map((doc) => `<a href="${escapeAttr(href(project.id, doc.id))}" data-site-content${doc.id === chosen.id ? ' aria-current="page"' : ''}>${escapeHtml(doc.title)}</a>`).join('')}</nav>
         <div class="experiment-links">${linkTemplates(project)}</div>
       </header>
+      <div class="reading-meta" data-site-ui><span class="reading-views" hidden></span><span class="reader-annotation-count"></span></div>
       <div class="library-reader-workspace without-outline"><div class="library-reader-content">${body.innerHTML}</div></div>`;
     enhanceMarkdownHost(host);
+    const key = 'experiments/' + chosen.file;
+    window.ReaderAnnotate?.init(host.querySelector('.library-reader-content'), key);
+    window.ReaderData?.countView(key).then((total) => {
+      const views = host.querySelector('.reading-views');
+      if (total === null || total === undefined || !views) return;
+      views.hidden = false;
+      views.textContent = `${Number(total).toLocaleString('zh-CN')} 次阅读`;
+    });
     window.scrollTo(0, 0);
   }
 
