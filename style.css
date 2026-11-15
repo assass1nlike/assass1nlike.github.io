@@ -206,6 +206,11 @@ img {
   margin-left: 20px;
 }
 
+/* "AI/ML/CS 之外" is a different kind of section; a gap marks that without a divider. */
+.site-nav a:last-child {
+  padding-left: 30px;
+}
+
 .site-nav a {
   position: relative;
   flex: 0 0 auto;
