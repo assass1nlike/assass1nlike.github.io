@@ -72,6 +72,7 @@ def copy_images(markdown, project, folder, slug):
 def export(site, source, output):
     config = json.loads((site / 'scripts/experiments.json').read_text(encoding='utf-8-sig'))
     overrides = config.get('projects', {})
+    labels = config.get('docs', {})
     skip = {name.casefold() for name in config.get('skip', [])}
     projects = []
     for project in sorted(source.iterdir(), key=lambda path: path.name.casefold()):
@@ -91,7 +92,8 @@ def export(site, source, output):
             text = path.read_text(encoding='utf-8-sig')
             text = copy_images(text, project, folder, slug)
             (folder / path.name).write_text(text, encoding='utf-8', newline='\n')
-            entries.append({'id': path.stem, 'title': first_heading(text) or path.stem,
+            entries.append({'id': path.stem,
+                            'title': labels.get(path.name) or first_heading(text) or path.stem,
                             'file': f'{slug}/{path.name}'})
         lead = next((path for path in docs if path.name == 'experiments.md'), docs[0])
         projects.append({

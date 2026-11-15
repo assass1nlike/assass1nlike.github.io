@@ -9,12 +9,12 @@
       "docs": [
         {
           "id": "experiments",
-          "title": "实验整理",
+          "title": "实验内容",
           "file": "azr-3b-repro/experiments.md"
         },
         {
           "id": "gain",
-          "title": "提炼收获",
+          "title": "总结",
           "file": "azr-3b-repro/gain.md"
         }
       ]

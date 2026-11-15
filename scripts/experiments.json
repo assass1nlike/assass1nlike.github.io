@@ -1,5 +1,9 @@
 {
   "skip": ["others", ".claude"],
+  "docs": {
+    "experiments.md": "实验内容",
+    "gain.md": "总结"
+  },
   "projects": {
     "azr-3b-repro": {
       "title": "AZR 3B 复现",
