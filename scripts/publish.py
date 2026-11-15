@@ -25,11 +25,14 @@ def publication_paths(root, only):
         scopes += ['scripts/articles.json', 'assets/articles/catalog.js']
     if only in ('all', 'experiments'):
         scopes += ['scripts/export-experiments.py', 'scripts/experiments.json', 'assets/experiments']
+    scopes += ['scripts/export-search-index.py', 'assets/search-index.js']
     if only in ('all', 'community'):
         scopes += ['scripts/export-contributions.py', 'assets/community',
                    'scripts/export-projects.py', 'scripts/projects.json', 'assets/projects']
     if only in ('all', 'experiments'):
         run(root, sys.executable, '-B', 'scripts/export-experiments.py')
+    if only in ('all', 'articles', 'papers', 'experiments'):
+        run(root, sys.executable, '-B', 'scripts/export-search-index.py')
     if only in ('all', 'papers'):
         scopes += ['assets/papers', 'scripts/paper-exclude.json', 'scripts/paper-links.json', 'scripts/paper-identities.json',
                    'scripts/paper-publications.json', 'scripts/paper-publications-cache.json',

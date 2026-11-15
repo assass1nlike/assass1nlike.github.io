@@ -160,6 +160,7 @@ const guestbookState = {
 document.addEventListener('DOMContentLoaded', () => {
   renderSiteNav();
   initLanguageToggle();
+  window.SiteSearch?.init();
   const page = document.documentElement.dataset.page || 'home';
   if (page === 'viewer') {
     initViewerPage();
