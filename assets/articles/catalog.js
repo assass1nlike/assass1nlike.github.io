@@ -117,7 +117,7 @@ window.ArticleCatalog = [
     "publishedAt": "2026-08-20"
   },
   {
-    "path": "everlasting/invisible/preliminaries.md",
+    "path": "everlasting/invisible/learning/preliminaries.md",
     "title": "补一些非常basic的知识",
     "category": "invisible",
     "aliases": [],

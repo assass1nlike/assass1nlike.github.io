@@ -101,9 +101,10 @@ class PublishTests(unittest.TestCase):
             publish.publish(self.root, source=Path('custom-papers'))
         self.assertEqual([args[2] for args in calls], [
             'scripts/export-articles.py', 'scripts/export-contributions.py', 'scripts/export-projects.py',
-            'scripts/export-paper-tree.py', 'scripts/update-paper-publications.py'])
-        self.assertIn('--deep', calls[-1])
-        self.assertEqual(calls[-1][-1], 'custom-papers')
+            'scripts/export-paper-tree.py', 'scripts/update-paper-publications.py',
+            'scripts/export-experiments.py', 'scripts/export-search-index.py'])
+        self.assertIn('--deep', calls[4])
+        self.assertEqual(calls[4][-1], 'custom-papers')
 
 
 if __name__ == '__main__':

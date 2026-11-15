@@ -2,6 +2,9 @@
   "exclude": [
     "_archive",
     "inbox",
-    "*_review.md"
+    "*_review.md",
+    "SKILL.md",
+    "CLAUDE.md",
+    "AGENTS.md"
   ]
 }

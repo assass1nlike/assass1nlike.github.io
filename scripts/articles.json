@@ -22,7 +22,7 @@
           ]
         },
         {
-          "path": "everlasting/invisible/preliminaries.md"
+          "path": "everlasting/invisible/learning/preliminaries.md"
         }
       ]
     },
@@ -50,7 +50,7 @@
     }
   },
   "overrides": {
-    "everlasting/invisible/preliminaries.md": {
+    "everlasting/invisible/learning/preliminaries.md": {
       "title": "补一些非常basic的知识",
       "publicId": "preliminaries",
       "publishedAt": "2026-07-15",

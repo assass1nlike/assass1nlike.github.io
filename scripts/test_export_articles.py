@@ -24,7 +24,7 @@ class ArticleCatalogTests(unittest.TestCase):
         self.write('scripts/articles.json', json.dumps(config, ensure_ascii=False))
         for directory in ['learning/math-theoretical', 'others/annual', 'tech', 'abstract']:
             (self.site / 'everlasting/invisible' / directory).mkdir(parents=True)
-        self.write('everlasting/invisible/preliminaries.md', '# opinions')
+        self.write('everlasting/invisible/learning/preliminaries.md', '# opinions')
 
     def write(self, name, content):
         path = self.site / name
@@ -152,7 +152,7 @@ class ArticleCatalogTests(unittest.TestCase):
         self.write(f"{source['path']}/private-draft.md", '# Private draft')
         learning = {doc['path'] for doc in self.export() if doc['category'] == 'invisible'}
         self.assertEqual(learning, {f"{source['path']}/{name}" for name in source['files']}
-                         | {'everlasting/invisible/preliminaries.md'})
+                         | {'everlasting/invisible/learning/preliminaries.md'})
         (self.site / source['path'] / source['files'][0]).unlink()
         with self.assertRaises(FileNotFoundError):
             self.export()
