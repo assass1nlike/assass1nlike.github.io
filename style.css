@@ -208,13 +208,14 @@ img {
 
 /* "AI/ML/CS 之外" is a different kind of section; a gap marks that without a divider. */
 .site-nav a:last-child {
-  padding-left: 30px;
+  margin-left: 40px;
 }
 
 .site-nav a {
+  --nav-pad-x: 12px;
   position: relative;
   flex: 0 0 auto;
-  padding: 8px 12px;
+  padding: 8px var(--nav-pad-x);
   border-radius: var(--radius);
   color: var(--muted);
   font-size: 0.94rem;
@@ -234,9 +235,9 @@ img {
 
 .site-nav a[aria-current="page"]::after {
   position: absolute;
-  right: 12px;
+  right: var(--nav-pad-x);
   bottom: -21px;
-  left: 12px;
+  left: var(--nav-pad-x);
   height: 2px;
   border-radius: 2px;
   background: var(--accent);
