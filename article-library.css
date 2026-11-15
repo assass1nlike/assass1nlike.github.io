@@ -125,3 +125,21 @@
 }
 .library-preview-list .library-entry-meta > span:first-child { color: var(--faint); }
 .library-preview-more { display: inline-block; margin-top: 12px; font-size: .88rem; }
+
+/* Experiment logs: one entry per project, opened into its own retrospectives. */
+.experiment-entry .library-reader-meta a { color: var(--muted); text-decoration: none; }
+.experiment-entry .library-entry-meta { display: flex; }
+.experiment-docs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.experiment-docs a {
+  padding: 4px 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: .78rem;
+  text-decoration: none;
+}
+.experiment-docs a:hover { border-color: rgba(var(--accent-rgb), .5); color: var(--accent-strong); }
+.experiment-docs a[aria-current="page"] { border-color: rgba(var(--accent-rgb), .55); background: var(--accent-soft); color: var(--accent-strong); }
+.experiment-links { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px; }
+.experiment-links:empty { display: none; }
+.library-reader-shell .library-reader-head .library-eyebrow { color: var(--muted); }

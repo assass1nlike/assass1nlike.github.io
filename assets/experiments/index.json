@@ -1,0 +1,23 @@
+{
+  "projects": [
+    {
+      "id": "azr-3b-repro",
+      "title": "AZR 3B 复现",
+      "summary": "在 Qwen2.5-Coder-3B 上把 Absolute Zero Reasoner 的自博弈强化学习小规模跑通，观察它能否在完全无标注的情况下提升代码推理。",
+      "github": "https://github.com/assass1nlike/azr-3b-repro",
+      "huggingface": "",
+      "docs": [
+        {
+          "id": "experiments",
+          "title": "实验整理",
+          "file": "azr-3b-repro/experiments.md"
+        },
+        {
+          "id": "gain",
+          "title": "提炼收获",
+          "file": "azr-3b-repro/gain.md"
+        }
+      ]
+    }
+  ]
+}

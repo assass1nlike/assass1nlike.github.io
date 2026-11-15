@@ -59,6 +59,12 @@ window.SiteI18n = (() => {
     '阅读内容': 'Reading content', 'HTML 原文': 'Original HTML',
     '会议': 'Conference', '期刊': 'Journal', '论文集': 'Proceedings', '查看发表来源': 'View publication source',
     '这篇论文暂无可用的 HTML，或当前网络无法加载。可通过上方链接前往 arXiv 阅读原文。': 'HTML is unavailable for this paper, or the network could not load it. Use the link above to read the original on arXiv.',
+    '实验记录': 'Experiment Logs', '实验复盘': 'Experiment write-ups',
+    '跑过的实验的复盘：做了什么、得到什么、以及能带走什么': 'Write-ups of experiments I have run: what was done, what came out of it, and what carries over.',
+    '含 HuggingFace 资源': 'HuggingFace release', '这个板块还没有实验记录。': 'No experiment write-ups yet.',
+    '正在加载实验记录…': 'Loading experiment logs…', '正在加载复盘…': 'Loading the write-up…',
+    '未找到这个实验。': 'Experiment not found.', '实验文档': 'Experiment documents',
+    '返回实验记录列表': 'Back to experiment logs',
     '历史浏览': 'History', '每天刷新的候选记录': 'Daily passage archive',
     '每天随机刷新一段文字': 'A random passage every day', '无法加载历史记录。': 'Unable to load the archive.',
     '一个对这段文字的“诗意”的量化指标': 'A numerical estimate of how poetic this passage is',
@@ -107,6 +113,9 @@ window.SiteI18n = (() => {
     if (!result && normalized.endsWith(' ↗') && phrases[normalized.slice(0, -2)]) result = phrases[normalized.slice(0, -2)] + ' ↗';
     if (!result) {
       const patterns = [
+        [/^(\d+) 个实验$/, (_, n) => `${n} experiment${n === '1' ? '' : 's'}`],
+        [/^(\d+) 篇复盘$/, (_, n) => `${n} write-up${n === '1' ? '' : 's'}`],
+        [/^查看全部 (\d+) 个实验$/, (_, n) => `View all ${n} experiments`],
         [/^(\d+) 个主题$/, (_, n) => `${n} ${n === '1' ? 'topic' : 'topics'}`],
         [/^(\d+) 篇待补充$/, (_, n) => `${n} in progress`],
         [/^(\d+) 字$/, (_, n) => `${n} words`],

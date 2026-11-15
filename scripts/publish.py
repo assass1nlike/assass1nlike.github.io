@@ -23,9 +23,13 @@ def publication_paths(root, only):
         config = json.loads((root / 'scripts/articles.json').read_text(encoding='utf-8-sig'))
         scopes += [s['path'] for c in config['categories'].values() for s in c['sources']]
         scopes += ['scripts/articles.json', 'assets/articles/catalog.js']
+    if only in ('all', 'experiments'):
+        scopes += ['scripts/export-experiments.py', 'scripts/experiments.json', 'assets/experiments']
     if only in ('all', 'community'):
         scopes += ['scripts/export-contributions.py', 'assets/community',
                    'scripts/export-projects.py', 'scripts/projects.json', 'assets/projects']
+    if only in ('all', 'experiments'):
+        run(root, sys.executable, '-B', 'scripts/export-experiments.py')
     if only in ('all', 'papers'):
         scopes += ['assets/papers', 'scripts/paper-exclude.json', 'scripts/paper-links.json', 'scripts/paper-identities.json',
                    'scripts/paper-publications.json', 'scripts/paper-publications-cache.json',
@@ -82,7 +86,7 @@ def publish(root=ROOT, *, only='all', source=Path(r'D:\papers'), message='Update
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--only', choices=['articles', 'papers', 'community'], default='all')
+    parser.add_argument('--only', choices=['articles', 'papers', 'community', 'experiments'], default='all')
     parser.add_argument('--source', type=Path, default=Path(r'D:\papers'))
     parser.add_argument('-m', '--message', default='Update published content')
     args = parser.parse_args()

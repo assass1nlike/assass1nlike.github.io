@@ -33,7 +33,7 @@ const CATEGORY_DEFINITIONS = {
     title: '实验记录',
     titleEn: 'Experiment Logs',
     heading: '实验记录',
-    description: '',
+    description: '跑过的实验的复盘：做了什么、得到什么、以及能带走什么',
     docs: [],
     entries: [],
   },
@@ -187,7 +187,9 @@ function renderSiteNav() {
   const url = new URL(window.location.href);
   let active = '';
   if (url.pathname.endsWith('/category.html')) active = normalizeKey(url.searchParams.get('cat')) === 'annual' ? 'minors' : normalizeKey(url.searchParams.get('cat'));
-  else if (url.pathname.endsWith('/viewer.html')) active = url.searchParams.has('project') ? 'permanence' : resolveDoc(url.searchParams.get('doc') || '')?.category || '';
+  else if (url.pathname.endsWith('/viewer.html')) active = url.searchParams.has('project') ? 'permanence'
+    : url.searchParams.has('experiment') ? 'experiments'
+    : resolveDoc(url.searchParams.get('doc') || '')?.category || '';
   nav.innerHTML = CATEGORY_ORDER.map((id) => {
     const category = CATEGORY_DEFINITIONS[id];
     return `<a href="${categoryHref(id)}"${id === active ? ' aria-current="page"' : ''} data-language-label-zh="${escapeAttr(category.title)}" data-language-label-en="${escapeAttr(category.titleEn || category.title)}">${escapeHtml(category.title)}</a>`;
@@ -955,6 +957,11 @@ async function initViewerPage() {
     await loadProjectViewer(url.searchParams.get('project'));
     return;
   }
+  if (url.searchParams.has('experiment')) {
+    await window.Experiments.mountViewer(document.getElementById('viewer-article'),
+      url.searchParams.get('experiment'), url.searchParams.get('doc'));
+    return;
+  }
   const docInput = url.searchParams.get('doc') || DEFAULT_DOCUMENT_PATH;
   const resolved = resolveDoc(docInput);
   const host = document.getElementById('viewer-article');
@@ -1022,7 +1029,7 @@ async function initCategoryPage() {
     titleHost.textContent = category.title;
   }
   if (subtitleHost) {
-    subtitleHost.textContent = ['minors', 'invisible', 'tech', 'experience'].includes(category.id) ? '文章与笔记' : category.description;
+    subtitleHost.textContent = category.id === 'experiments' ? '实验复盘' : ['minors', 'invisible', 'tech', 'experience'].includes(category.id) ? '文章与笔记' : category.description;
   }
   if (!host) {
     return;
@@ -1032,7 +1039,11 @@ async function initCategoryPage() {
 }
 
 async function loadCategoryInto(host, category) {
-  // 实验记录目前没有内容，列表由文章系统统一渲染。
+  // 实验记录有自己的列表形态：每个实验一个条目，打开后是各自的复盘文档。
+  if (category.id === 'experiments') {
+    await window.Experiments.mount(host, { compact: host.classList.contains('home-category-viewport') });
+    return;
+  }
   if (['minors', 'invisible', 'tech', 'experience'].includes(category.id)) {
     await window.ArticleLibrary.mount(host, category);
     return;
