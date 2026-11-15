@@ -48,8 +48,6 @@ $$
 =\mathcal L_r^{\mathrm{rem}}(\theta_0).
 $$
 
-这里约束取等式，即要求 remote retain loss 保持在原始值，而不只是“不上升”。
-
 我们暂时不加入 adjacent retain 的优化目标。adjacent samples 与 forget samples 高度相关，如果同时要求“忘掉 $D_f$”和“恢复 $D_r^{\mathrm{adj}}$”，两个目标会在同一批特征上互相拉扯，优化过程容易在两者之间振荡；先让 $D_f$ 的 loss 升上去、$D_r^{\mathrm{rem}}$ 保持住，问题会简单得多，adjacent retain 留到第二阶段单独处理。
 
 为求解这个约束问题，一个直接的想法是把约束偏离的平方加入目标：
@@ -79,9 +77,9 @@ $$
 \quad\Longrightarrow\quad x=\frac1\mu.
 $$
 
-这说明有限的惩罚系数未必能消除约束偏差。虽然增大 $\mu$ 可以缩小偏差，却也会增大惩罚项沿约束法向的曲率，使参数更新需要更小的步长。在标量例子里，偏差和曲率都随 $1/\mu$ 变化：$\mu$ 增大十倍，偏差缩小十倍，而梯度下降的稳定步长上界也缩小十倍，两者始终按同样的速度互相抵消。
+这说明有限的惩罚系数未必能消除约束偏差。增大 $\mu$ 可以缩小偏差，但惩罚项沿约束法向的曲率也随之增大，梯度下降因此只能取更小的步长。在标量例子里，偏差按 $1/\mu$ 缩小，曲率按 $\mu$ 增大，稳定步长上界 $2/\mu$ 与偏差以同样的速度缩小：$\mu$ 增大十倍，偏差和步长上界都缩小十倍，两者互相抵消，收敛所需的迭代次数不变。
 
-我们希望更新最终停在这样的位置：remote retain loss 满足约束，而且在附近所有满足约束的参数中，已经无法进一步降低 $-\mathcal L_f$. 这就是约束内的局部最优点。为了设计能停在这种位置的更新规则，我们先看它需要怎样的梯度平衡，再据此构造目标函数。平方惩罚在约束满足时不再提供梯度，因此我们还需要一个即使此时也能抵消 forgetting 梯度的分量。
+我们希望更新最终停在这样的位置：remote retain loss 满足约束，而且在附近所有满足约束的参数中，已经无法进一步降低 $-\mathcal L_f$. 这就是约束内的局部最优点。平方惩罚在约束满足时不再提供梯度，因此我们还需要一个即使此时也能抵消 forgetting 梯度的分量。
 
 设 $\theta^\star$ 是这样的局部最优点。若两个 loss 在它附近连续可微，且 $\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta^\star)\neq0$，那么必定存在一个系数 $\lambda^\star\in\mathbb R$，使
 
@@ -94,7 +92,7 @@ $$
 \end{aligned}
 $$
 
-第一行是等式约束优化的一阶必要条件（KKT 条件里的平稳性条件），第二行就是约束本身。为什么最优点处的两个梯度必须满足第一行？我们先看哪些方向允许参数在保持约束的同时移动。设 $v$ 是参数移动的瞬时方向，remote retain loss 沿这个方向的变化率为
+第一行是等式约束优化的一阶必要条件（KKT 条件里的平稳性条件）。为什么最优点处的两个梯度必须满足第一行？我们先看哪些方向允许参数在保持约束的同时移动。设 $v$ 是参数移动的瞬时方向，remote retain loss 沿这个方向的变化率为
 
 $$
 \left\langle\nabla_\theta\mathcal L_r^{\mathrm{rem}}(\theta^\star),v\right\rangle.
@@ -166,7 +164,7 @@ $$
 
 所以这两条规则对 $\theta$ 做下降、对 $\lambda$ 做上升。乘子的作用是强化尚未满足的约束，不能把它当成普通模型参数一起最小化。
 
-将乘子步长取为 $\mu$ 还有一个直接的依据：前面参数梯度中方括号内的系数，恰好就是更新后的乘子。若固定旧乘子后，参数子问题已经优化到梯度为零的位置，那么更新后的乘子就使这一位置满足上面的一阶梯度平衡条件。我们随后继续调整参数与乘子，尝试同时消除约束偏离。注意，论文每轮只对参数做一步梯度下降，并未将子问题求解到驻点，因此这解释的是更新的设计原理，不代表每轮都已满足最优性条件，也不保证非凸训练无条件收敛。
+将乘子步长取为 $\mu$ 还有一个直接的依据：前面参数梯度中方括号内的系数，恰好就是更新后的乘子。若固定旧乘子后，参数子问题已经优化到梯度为零的位置，那么更新后的乘子就使这一位置满足上面的一阶梯度平衡条件。
 
 ## 第二阶段：Wasserstein 距离与梯度投影
 
@@ -222,7 +220,7 @@ $$
 
 也就是说，$P_\theta^{\mathrm{forget}}(B)$ 就是 loss 落在 $B$ 中的样本比例。我们从这个分布抽取一个 loss，等价于从 $D_f$ 均匀抽取一个样本，再返回它的 loss；若多个样本的 loss 相同，它们的概率会累加在同一个数值上。
 
-我们用 Wasserstein-2 distance 衡量两个分布之间的距离。这里选 $W_2$ 而不是 KL divergence，理由在计算上：KL 需要对分布做密度估计，或者假设分布属于某个参数族（例如假定高斯），两者都会引入近似误差；而两个一维经验分布之间的 $W_2$ 有只靠排序就能算的闭式表达，既不需要密度估计，也不需要任何参数假设。下面先把 $W_2$ 定义出来，再推导这个闭式表达。
+我们用 Wasserstein-2 distance 衡量两个分布之间的距离。这里选 $W_2$ 而不是 KL divergence，理由在计算上：KL 需要对分布做密度估计，或者假设分布属于某个参数族（例如假定高斯），两者都会引入近似误差；而两个一维经验分布之间的 $W_2$ 有只靠排序就能算的闭式表达，既不需要密度估计，也不需要任何参数假设。
 
 对于 $\mathbb R^d$ 上具有有限二阶矩的概率分布 $P,Q$，定义
 
@@ -292,7 +290,7 @@ P_\theta^{\mathrm{forget}}\right),
 \qquad \alpha\in[0,1].
 $$
 
-这里 $\alpha$ 控制平均 loss 与分布距离的权重：$\alpha=0$ 时只剩平均 loss，退化为前面的经典投影；$\alpha=1$ 时完全由分布距离决定。第二阶段不直接最小化这个量，而是在降低 adjacent retain loss 时，尽量保持它不变。接下来的两个命题分别回答：投影更新能否做到这种局部保持，以及保持这个量为什么有助于限制 forget accuracy.
+这里 $\alpha$ 控制平均 loss 与分布距离的权重：$\alpha=0$ 时只剩平均 loss，退化为前面的经典投影；$\alpha=1$ 时完全由分布距离决定。第二阶段不直接最小化这个量，而是在降低 adjacent retain loss 时，尽量保持它不变。
 
 ## Proposition 4.1
 
@@ -346,9 +344,9 @@ r:=\nabla_\theta\mathcal L_r^{\mathrm{adj}}(\theta)
 \qquad c:=\|r\|^2,
 $$
 
-这里 $r$ 是 adjacent retain 梯度中垂直于 $V$ 的剩余部分，$c$ 是它的平方范数。于是更新可以写成 $\Delta\theta=-\eta r$，并且 $\|\Delta\theta\|=\eta\sqrt c$ 精确成立。
+这里 $r$ 是 adjacent retain 梯度中垂直于 $V$ 的剩余部分，$c$ 是它的平方范数。于是更新可以写成 $\Delta\theta=-\eta r$，并且 $\|\Delta\theta\|=\eta\sqrt c$。
 
-正交投影的基本性质是：对任意参数空间向量 $z$，$\operatorname{Proj}_V z\in V$，而 $z-\operatorname{Proj}_V z\in V^\perp$. 因此 $\Delta\theta\in V^\perp$。又因为两个约束梯度都属于 $V$，得到
+正交投影的基本性质是：$z-\operatorname{Proj}_V z\in V^\perp$. 由于 $\Delta\theta$ 正是 adjacent retain 梯度的这一剩余部分的 $-\eta$ 倍，所以 $\Delta\theta\in V^\perp$。又因为两个约束梯度都属于 $V$，得到
 
 $$
 \left\langle\nabla_\theta\widetilde{\mathcal L}_f(\theta),
@@ -358,7 +356,7 @@ $$
 \Delta\theta\right\rangle=0.
 $$
 
-这里 $\langle\cdot,\cdot\rangle$ 表示 Euclidean 内积。对修改后的 forget loss 作二阶 Taylor 展开：
+对修改后的 forget loss 作二阶 Taylor 展开：
 
 $$
 \begin{aligned}
@@ -420,7 +418,7 @@ $$
 
 取常数 $C>0$，使最后的余项绝对值在充分小的 $\eta$ 下不超过 $C\eta^2$. 再令 $\eta<c/(2C)$，总变化量便不超过 $-c\eta/2<0$，这就证明了严格下降。$\square$
 
-这个命题说明，在有可用下降方向时，adjacent retain loss 获得一阶改善，而两个约束量只产生二阶变化。注意，直接受到保护的是 $\widetilde{\mathcal L}_f$，其平均 loss 项与 Wasserstein 项仍可能相互抵消；我们还需要说明这种抵消最多允许 forget accuracy 恢复到什么程度。
+这个命题说明，在有可用下降方向时，adjacent retain loss 获得一阶改善，而两个约束量只产生二阶变化。直接受到保护的是 $\widetilde{\mathcal L}_f$，其平均 loss 项与 Wasserstein 项仍可能相互抵消。
 
 ## Proposition 4.2
 
@@ -449,7 +447,7 @@ $$
 
 这里 $m$ 是每个 forget 样本的初始 loss 下界，$\varepsilon$ 是相对于第一阶段终点的允许偏离量。命题要求 $\alpha>0$，因为后面要用 $\alpha$ 做除法、也要对 $\varepsilon/\alpha$ 开方。
 
-条件 $m>\log n$ 要求每个 forget 样本的给定标签概率都低于 $1/n$，即低于均匀预测时的概率：由 $\ell=-\log[f_\theta(x_i)]_{y_i}\geq m>\log n$ 直接得到 $[f_\theta(x_i)]_{y_i}<1/n$. 也就是说，第一阶段结束时模型在这些样本上的表现已经比随机猜测更差，这是 forgetting 真正生效的标志，而不只是 loss 数值大。它比“平均 forget loss 很大”更强，原因在证明里会看到：准确率上界要把当前分布落在 $\log n$ 以下的每一份质量，与参照分布中距离至少 $m-\log n$ 的位置配对。若参照分布里混有少数很小的 loss，这些质量与低 loss 部分配对时距离很小，这个下界就失效了；只有逐样本的下界才能保证参照分布的整个支撑集都在 $[m,\infty)$ 上。
+条件 $m>\log n$ 要求每个 forget 样本的给定标签概率都低于 $1/n$，即低于均匀预测时的概率：由 $\ell=-\log[f_\theta(x_i)]_{y_i}\geq m>\log n$ 直接得到 $[f_\theta(x_i)]_{y_i}<1/n$. 也就是说，第一阶段结束时模型在这些样本上的表现已经比随机猜测更差，这是 forgetting 真正生效的标志。它比“平均 forget loss 很大”更强：准确率上界要把当前分布落在 $\log n$ 以下的每一份质量，与参照分布中距离至少 $m-\log n$ 的位置配对。若参照分布里混有少数很小的 loss，这些质量与低 loss 部分配对时距离很小，这个下界就失效了；只有逐样本的下界才能保证参照分布的整个支撑集都在 $[m,\infty)$ 上。
 
 证明的思路是把准确率变化转化为概率质量的移动。一个样本若被预测正确，它的 cross-entropy 不可能大于 $\log n$. 但参照分布中的所有 loss 都至少为 $m$，因此当前分布中每一份落到 $\log n$ 以下的质量，都必须与距离至少为 $m-\log n$ 的参照 loss 配对。这会消耗 Wasserstein 平方距离；只要我们能控制这个距离，就能控制预测正确的比例。这类“用传输代价下界集合上的概率质量”的做法，是估计 $W_2$ 下界的常用手段。
 
@@ -527,8 +525,6 @@ $$
 \leq P_\theta^{\mathrm{forget}}\left((-\infty,\log n]\right).
 $$
 
-注意，这里只需要“预测正确蕴含 loss 不超过 $\log n$”，不需要反向推论。
-
 参照分布 $P_{\bar\theta}^{\mathrm{forget}}$ 的全部质量都位于 $[m,\infty)$. 因而，对于任意 coupling
 $\gamma\in\Gamma\left(P_\theta^{\mathrm{forget}},P_{\bar\theta}^{\mathrm{forget}}\right)$，只要当前 loss $u\leq\log n$，与它配对的参照 loss $v$ 就满足 $v\geq m$，从而 $|u-v|\geq m-\log n$. 我们据此估计成本：
 
@@ -566,4 +562,4 @@ $$
 
 这个结果把 forgetting 的保持分成了两个条件：第一阶段让每个 forget 样本都具有足够大的 loss，第二阶段限制 $\widetilde{\mathcal L}_f$ 相对于第一阶段终点的变化。两者共同限制了能重新进入低 loss 区域的样本比例。固定 $m,n,\varepsilon$ 时，增大 $\alpha$ 会减小这个上界；在 $\alpha=1$ 时，它变为 $\varepsilon/(m-\log n)^2$，上界完全由 $\varepsilon$ 决定。论文的实验中 loss 是按 mini-batch 估计的，这时取 $\alpha=1$ 反而整体效果更差，实际用的是 $\alpha=0.5$.
 
-注意，Proposition 4.1 给出的是单步的局部保证，不能直接推出整个第二阶段都满足 Proposition 4.2 的偏离条件：每一步只有 $O(\eta^2)$ 的偏离，但多步之后这些二阶误差仍可能累积。第一阶段的优化目标也不自动保证每个 forget 样本的 loss 都达到 $m$. 因此，准确率上界是在这些条件成立时的保证，而不是对整个训练过程无条件成立的结论。
+Proposition 4.1 给出的是单步的局部保证，不能直接推出整个第二阶段都满足 Proposition 4.2 的偏离条件：每一步只有 $O(\eta^2)$ 的偏离，但多步之后这些二阶误差仍可能累积。第一阶段的优化目标也不自动保证每个 forget 样本的 loss 都达到 $m$.

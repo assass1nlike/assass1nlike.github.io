@@ -63,8 +63,6 @@ $$
 
 这套等价关系是后文反复使用的工具：它把关于检验曲线的比较翻译成关于随机处理的存在性陈述，从而让可行域的计算变成 kernel 的构造。反过来，任何在随机处理后不增加的分布差异量，例如 KL、TV 以及一般的 $f$-divergence，都被曲线的排序控制，这正是 Proposition 1、Proposition 2 与 Lemma 20 的内容。
 
-以下按各项结果在论文中首次出现的顺序展开。正文与附录有若干重复陈述，只写一次。有些结果的证明依赖后面才给出的引理，例如 Proposition 3 用到 Lemma 15、Proposition 5 用到 Lemma 28，引用处会说明。论文有几处陈述需要修正才能成立，我们直接给出正确的版本，并指出原文的问题。
-
 ## Proposition 1
 
 若 $p$ 满足 $(f_d,f_c)$-distributional unlearning，其中 $f_d=T(P_d,Q_d)$、$f_c=T(P_c,Q_c)$，则
@@ -200,7 +198,7 @@ $$
 
 随后对 Proposition 1 中的两个 kernel $R_d$、$R_c$ 应用这一 data-processing inequality，就得到两个 TV 不等式。 $\square$
 
-这条结论把分布层面的 unlearning 与下游任务的损失联系起来。Preservation 的上界说明：对任何取值于 $[-1,1]$ 的 loss $h$，$p$ 与 $q_1$ 上的期望 loss 之差不超过 $\operatorname{TV}(P_c,Q_c)$，而且是对一整族 $h$ 同时成立，不是对某个固定预测器。Removal 的下界则说明存在某个这样的函数能区分编辑分布与 unwanted 分布。注意，它不能保证每一个指定预测器的 loss 都上升，也不能仅由绝对差推断变化方向；论文 Remark 6 把它读作 unwanted 域上 loss 增大、retained 域上 loss 减小，这一读法只在存在某个 $h$ 的意义下成立。
+这条结论把分布层面的 unlearning 与下游任务的损失联系起来。Preservation 的上界说明：对任何取值于 $[-1,1]$ 的 loss $h$，$p$ 与 $q_1$ 上的期望 loss 之差不超过 $\operatorname{TV}(P_c,Q_c)$，而且是对一整族 $h$ 同时成立，不是对某个固定预测器。Removal 的下界则说明存在某个这样的函数能区分编辑分布与 unwanted 分布。论文 Remark 6 把它读作 unwanted 域上 loss 增大、retained 域上 loss 减小，这个读法只在存在某个 $h$ 的意义下成立：这里得到的是绝对差，并不给出每个指定预测器的方向。
 
 对于 Gaussian baseline，两个密度在均值中点 $\alpha/2$ 相交，直接积分得到
 
@@ -373,7 +371,7 @@ $$
 
 对 $h,f$ 和 $h,g$ 分别应用这一结果，得到距离形式。Hilbert 空间的三角不等式给出非空条件的必要性，取 $h=g+\varepsilon(g-f)/\Delta$ 给出 $\Delta>0$ 时的充分性；$\Delta=0$ 时任选单位方向。 $\square$
 
-这个结论说明 Proposition 3 的几何不是有限维的偶然：无限维非参数模型中可行域的形状完全相同，只是把 Mahalanobis 距离换成 $L^2$ 距离。代价是可行域不再能用有限个参数描述，前沿上的每一个点都对应信号空间中一个具体的方向；但在固定方向上的截面仍与有限维情形同构，这正是可以把 Proposition 3 的论证逐字搬过来的原因。
+这个结论说明 Proposition 3 的几何不是有限维的偶然：无限维非参数模型中可行域的形状完全相同，只是把 Mahalanobis 距离换成 $L^2$ 距离。代价是可行域不再能用有限个参数描述，前沿上的每一个点都对应信号空间中一个具体的方向；但在固定方向上的截面仍与有限维情形同构。
 
 ## Proposition 5
 
@@ -489,7 +487,7 @@ $$
 
 Proposition 3 将两条距离界转成所需的 trade-off bounds. $\square$
 
-注意，$\gamma$ 的公式本身没有笔误，只是常数约定容易混淆：$\gamma(n,d,\delta)$ 对应失败概率 $\delta$，于是两次估计合计 $\delta$ 时每次要用 $\delta/2$，此时函数式为 $\gamma(n,d,\delta/2)=n^{-1/2}\sqrt{d+2\sqrt{d\log(2/\delta)}+2\log(2/\delta)}$. 若 $n_1'=0$，直接令 $\mu=\hat\nu_1$，只应用一次均值界即可，无需计算未定义的 $\gamma(0,d,\delta)$.
+$\gamma(n,d,\delta)$ 对应失败概率 $\delta$，于是两次估计合计 $\delta$ 时每次要用 $\delta/2$，此时函数式为 $\gamma(n,d,\delta/2)=n^{-1/2}\sqrt{d+2\sqrt{d\log(2/\delta)}+2\log(2/\delta)}$. 若 $n_1'=0$，直接令 $\mu=\hat\nu_1$，只应用一次均值界即可.
 
 上述推导还给出两个方向的控制：
 
@@ -502,7 +500,7 @@ $$
 \end{aligned}
 $$
 
-因此，当估计误差趋于零时，random removal 的中心仍位于两个总体中心之间，表现趋于 $(\alpha,\varepsilon)=(n_2\Delta/(n_1'+n_2),n_1'\Delta/(n_1'+n_2))$. 这与 Lemma 8 中可以越过 retained 中心的信息论最优构造不同：算法只用加权均值，能到达的位置被限制在连线上的一个凸组合。不过，这只证明该特定算法的限制，并未证明所有高效算法都存在 computational hardness barrier.
+因此，当估计误差趋于零时，random removal 的中心仍位于两个总体中心之间，表现趋于 $(\alpha,\varepsilon)=(n_2\Delta/(n_1'+n_2),n_1'\Delta/(n_1'+n_2))$. 这与 Lemma 8 中可以越过 retained 中心的信息论最优构造不同：算法只用加权均值，能到达的位置被限制在连线上的一个凸组合。这是该特定算法的限制，不是所有高效算法的 hardness 结论。
 
 ## Proposition 7
 
@@ -562,7 +560,7 @@ $$
 
 最后用 $\|\mu-\mu_1\|_2\ge\sigma\Delta-\|\mu-\nu_1\|_2$ 得到 removal 界。 $\square$
 
-分位数条件保证这里的上界有限；若分位数参数达到或超过 $1$，原式不能给出有限保证。证明还说明 $2\gamma$ 可以保留为较紧的 $\left(1+n_1'/(n_1'+n_2)\right)\gamma$，Proposition 16 用的正是这个版本。注意，$\varepsilon_m(S)$ 是可证明的上界，不能据此断言更小的 preservation 误差实际无法达到；后文 Lemma 46 的注记会说明为什么反向的下界难以得到。
+分位数条件保证这里的上界有限。证明还说明 $2\gamma$ 可以保留为较紧的 $\left(1+n_1'/(n_1'+n_2)\right)\gamma$，Proposition 16 用的正是这个版本。$\varepsilon_m(S)$ 只是这个算法可证明的上界，反向陈述见 Lemma 46 的注记。
 
 ## Lemma 15
 
@@ -593,15 +591,13 @@ $$
 =f_{G,\sup_{i\in I}|\varepsilon_i|}(u).
 $$
 
-一族 Gaussian 曲线的逐点下确界仍是一条 Gaussian 曲线，参数取上确界。
-
 第四，维度无关：若 $\Sigma\succ0$ 且 $\varepsilon^2=\langle\mu_1-\nu_1,\Sigma^{-1}(\mu_1-\nu_1)\rangle$，则
 
 $$
 T(N(\mu_1,\Sigma),N(\nu_1,\Sigma))=f_{G,\varepsilon}.
 $$
 
-也就是说，$d$ 维 Gaussian 检验的曲线只依赖 Mahalanobis 距离，不依赖维数。这是高维情形仍然可用的关键：控制误差的量没有随维数增长。
+也就是说，$d$ 维 Gaussian 检验的曲线只依赖 Mahalanobis 距离，不依赖维数；控制误差的量没有随维数增长。
 
 **证明。** 正参数时的显式公式已在 Proposition 3 中由阈值检验得到；对负参数，将观察值乘 $-1$，分布对变成 $(N(0,1),N(|\varepsilon|,1))$，得到参数 $|\varepsilon|$，这同时给出对称性。对 $0<u<1$，$\Phi$ 严格递增，因而公式对 $|\varepsilon|$ 严格递减，这证明排序的两个方向。
 
@@ -609,7 +605,7 @@ $$
 
 对于共同 covariance 的多维 Gaussian，whitening 后可再作 orthogonal rotation，把均值差旋转到第一坐标。其余坐标在两种假设下相同且独立，可以被丢弃，也可以独立生成，因此它们不改变检验能力，剩余第一坐标就是距离参数为 $\varepsilon$ 的一维实验。交换两个均值不改变该距离，故也不改变曲线。 $\square$
 
-注意，参数无界时，逐点下确界在 $u=0$ 等于 $1$，在 $u>0$ 等于 $0$；它不是某个有限距离的 Gaussian trade-off function. 所以把下确界仍写成同一有限参数族成员，需要上面的有界条件。
+参数无界时，逐点下确界在 $u=0$ 等于 $1$、在 $u>0$ 等于 $0$，不是某个有限距离的 Gaussian trade-off function，因此上面的有界条件不能去掉。
 
 ## Lemma 16
 
@@ -654,7 +650,7 @@ $$
 
 单调性直接来自 $F$ 不减。若 $F$ 在整个实线上严格递增，任何两个不同距离都在 $0<u<1$ 处产生严格不同的曲线。若支撑为 $[-a,a]$，距离达到 $2a$ 后，两分布已互相奇异，曲线恒为 $0$. 在 $0\le\varepsilon_1<\varepsilon_2<2a$ 时，可选择一个阈值，使平移后的两个阈值在支撑内部或其中一个刚低于左端点，得到严格的 CDF 差。因此不同距离只有在都达到 $2a$ 后才会给出同一条曲线。 $\square$
 
-注意，uniform 分布属于 symmetric log-concave 分布；对支撑为 $[-a,a]$ 的噪声，平移超过 $2a$ 后两分布完全分离，继续增加距离不会增强已经完美的可区分性。这是原文无条件使用严格参数排序所遗漏的情形，后文 Proposition 10 与 Proposition 12 会用到截断后的版本。
+uniform 分布属于这类对称 log-concave 分布。对支撑为 $[-a,a]$ 的噪声，平移超过 $2a$ 后两分布完全分离，继续增加距离不会增强可区分性。原文无条件使用严格参数排序，遗漏了这一截断情形；后文 Proposition 10 与 Proposition 12 用的是截断后的版本。
 
 ## Lemma 17
 
@@ -826,7 +822,7 @@ $$
 
 第二个等号用到 $p_1(x,y)/p(x,y)=\big[p_{1,X}(x)/p_X(x)\big]\big[p_1(y\mid x)/p(y\mid x)\big]$；最后一个等号是两项各自的 KL. 将 $p_1$ 替换成 $q_1$，同一计算给出第二个不等式。 $\square$
 
-结合 Proposition 1，我们可以令 $\alpha=\operatorname{KL}(Q_d\Vert P_d)$、$\varepsilon=\operatorname{KL}(Q_c\Vert P_c)$. 这个结论中的边缘 KL 不能省略：它度量两个分布在输入分布上的差异，如果分布差异完全来自输入频率变化而 label 条件分布没有变化，那么下游预测器并不需要因此改变，第一个不等式就会比 KL 的差值弱出 $\delta_1$。它的含义是：编辑后的分布 $p$ 上训练出的 Bayes predictor，在 unwanted 域上的表现至少差到某个程度，在 retained 域上的表现至多差到某个程度，于是 unlearning 的分布层面保证可以翻译成下游模型的行为保证。注意，在不包含 Bayes predictor 的受限模型族中，仅有"最小化了训练分布的 log-loss"不足以得到上述等式。
+结合 Proposition 1，我们可以令 $\alpha=\operatorname{KL}(Q_d\Vert P_d)$、$\varepsilon=\operatorname{KL}(Q_c\Vert P_c)$. 这个结论中的边缘 KL 不能省略：它度量两个分布在输入分布上的差异，如果分布差异完全来自输入频率变化而 label 条件分布没有变化，那么下游预测器并不需要因此改变，第一个不等式就会比 KL 的差值弱出 $\delta_1$。它的含义是：编辑后的分布 $p$ 上训练出的 Bayes predictor，在 unwanted 域上的表现至少差到某个程度，在 retained 域上的表现至多差到某个程度，于是 unlearning 的分布层面保证可以翻译成下游模型的行为保证。这要求模型族包含 Bayes predictor；仅"最小化了训练分布的 log-loss"不足以得到上述等式。
 
 ## Proposition 10
 
@@ -854,7 +850,7 @@ $$
 
 完整支撑保证距离排序与曲线排序等价，因此得到两个绝对值约束。保留区间内距 $\mu_1$ 最远的端点具有距离 $\Delta+\varepsilon$，最小距离为 $\max\{\Delta-\varepsilon,0\}$；故非空性和 frontier 随之得到。 $\square$
 
-与 Gaussian 情形相比，这里的可行域只由距离决定，形状与噪声的具体形式无关；噪声的形式只进入 $f_X$ 这一条曲线，而它是否单调由 Lemma 16 保证。注意，上述相交集合可以由两个区间组成。例如 $\mu_1=\nu_1=0$、$0<\alpha<\varepsilon$ 时，它等于 $[-\varepsilon,-\alpha]\cup[\alpha,\varepsilon]$. 因此原文将所有部分相交情形写成一个子区间并不成立。
+与 Gaussian 情形相比，这里的可行域只由距离决定，形状与噪声的具体形式无关；噪声的形式只进入 $f_X$ 这一条曲线，而它是否单调由 Lemma 16 保证。上述相交集合可以由两个区间组成：$\mu_1=\nu_1=0$、$0<\alpha<\varepsilon$ 时，它等于 $[-\varepsilon,-\alpha]\cup[\alpha,\varepsilon]$。原文将所有部分相交情形写成一个子区间，这会漏掉后一个区间。
 
 对于 bounded support，设其闭包为 $[-a,a]$. 由 Lemma 16 的截断，准确的距离条件改为
 
@@ -869,7 +865,7 @@ $$
 
 **证明。** 把 Lemma 16 中的截断距离排序分别代入 removal 与 preservation 即得。当 $\varepsilon<2a$ 时，非空条件为 $\min\{\alpha,2a\}\le\Delta+\varepsilon$；当 $\varepsilon\ge2a$ 时 $f_{X,\varepsilon}\equiv0$，preservation 约束 $T(p,q_1)\ge0$ 自动成立，因为 trade-off function 本身非负，于是可行集由 removal 的截断条件单独决定，即 $|\mu-\mu_1|\ge\min\{\alpha,2a\}$. $\square$
 
-因此若 $\varepsilon<2a$ 且 $\Delta+\varepsilon<2a$，最大 $\alpha$ 仍为 $\Delta+\varepsilon$；达到完全分离后，任意更大的 $\alpha$ 都代表同一条 baseline，不能再把 $\alpha$ 的数值增长当作更强的 removal. 当 $\varepsilon\ge2a$ 时 preservation 一侧没有信息，可行域只剩 removal 的截断条件。原文的 Proposition 10 直接援引 Lemma 16 的距离排序等价性，因此上述截断只在完整支撑时与原文一致；有界支撑时若沿用未截断的条件，会错误地用 $\alpha$ 的数值增长当作更强的 removal.
+因此若 $\varepsilon<2a$ 且 $\Delta+\varepsilon<2a$，最大 $\alpha$ 仍为 $\Delta+\varepsilon$；达到完全分离后，任意更大的 $\alpha$ 都代表同一条 baseline，不能把 $\alpha$ 的数值增长当作更强的 removal. 当 $\varepsilon\ge2a$ 时 preservation 一侧没有信息，可行域只剩 removal 的截断条件。
 
 ## Proposition 11
 
@@ -902,7 +898,7 @@ $$
 
 这个集合为空，当且仅当 retained 区间本身为空，或整个 retained 区间被该开区间并集覆盖。
 
-注意，原文把这个并集替换成从最左端点到最右端点的一个大开区间，会删掉本来可行的间隙。例如 $\mu_1=-2,\mu_2=2,\alpha_1=\alpha_2=1$，retained 约束为 $[-1/2,1/2]$ 时，整个 retained 区间都可行，但该替换会错误地判为空。在多维情形下，可行域是若干球体的交减去若干开球的并，判断它是否非空本身就是计算困难的问题，原文在 Remark 25 中指出这一点。
+原文把这个并集替换成从最左端点到最右端点的一个大开区间，会删掉本来可行的间隙。例如 $\mu_1=-2,\mu_2=2,\alpha_1=\alpha_2=1$，retained 约束为 $[-1/2,1/2]$ 时，整个 retained 区间都可行，但该替换会错误地判为空。在多维情形下，可行域是若干球体的交减去若干开球的并，判断它是否非空本身就是计算困难的问题（原文 Remark 25）。
 
 ## Proposition 12
 
@@ -968,7 +964,7 @@ $$
 
 证明的思路与 Proposition 4 完全一致：无限维观察的信息全部集中在一个方向 $v$ 上，其余坐标在两种假设下同分布，被噪声淹没。区别只在于坐标的噪声尺度是 $\lambda_j$ 而不是 $1$，于是 $\ell^2$ 距离换成了 Cameron–Martin 范数。
 
-注意，一般只有 $\overline{\operatorname{Range}(K^{1/2})}=(\ker K)^\perp$，不能像原文一样去掉闭包。并且 $K^{-1}v$ 或 $K^{-1/2}X$ 未必是 $H$ 中的元素；上面的收敛随机级数才是 likelihood 中相应线性项的严格含义。
+一般只有 $\overline{\operatorname{Range}(K^{1/2})}=(\ker K)^\perp$，不能去掉闭包；原文的写法在这一点上不准确。并且 $K^{-1}v$ 或 $K^{-1/2}X$ 未必是 $H$ 中的元素，上面的收敛随机级数才是 likelihood 中相应线性项的严格含义。
 
 ## Proposition 13
 
@@ -1103,7 +1099,7 @@ $$
 \end{cases}
 $$
 
-这些表达式来自相应区间的左端点不大于右端点。这里 $\alpha=1$ 时 removal baseline 为 $1-u$，约束恒成立；$\varepsilon=1$ 时 preservation 强制 $\mu=\nu_1$，只需把这个均值代入 removal 条件。注意，上式是全部可行参数，并非其中每一点都是 Pareto 最优点。
+这些表达式来自相应区间的左端点不大于右端点。这里 $\alpha=1$ 时 removal baseline 为 $1-u$，约束恒成立；$\varepsilon=1$ 时 preservation 强制 $\mu=\nu_1$，只需把这个均值代入 removal 条件。上式是全部可行参数，其中并非每一点都是 Pareto 最优点。
 
 ## Lemma 29
 
@@ -1167,7 +1163,7 @@ $$
 
 当 $t<0$ 或 $t>1$ 时，$x^t$ 为凸函数，不等号反向；零值导致的无穷按扩展实数处理。$t=0,1$ 时两侧均为 $1$. $\square$
 
-注意，$0\le t\le1$ 时的方向与 $t>1$ 时相反，这不是笔误：$t$ 在 $(0,1)$ 时 $H_t$ 关于两个分布对称且起类似"重叠度"的作用，随机处理只会让它变大；$t$ 在区间外时它衡量的是尾部，随机处理只会让它变小。Lemma 28 的比值条件用的正是 $t>1$ 那一侧。
+$0\le t\le1$ 时的方向与 $t>1$ 时相反：$t$ 在 $(0,1)$ 时 $H_t$ 关于两个分布对称，起类似"重叠度"的作用，随机处理只会让它变大；$t$ 在区间外时它衡量尾部，随机处理只会让它变小。Lemma 28 的比值条件用的是 $t>1$ 那一侧。
 
 ## Lemma 34
 
@@ -1195,7 +1191,7 @@ $$
 
 **证明。** Lemma 35 将相同 $n$ 的 Binomial 实验排序化为 Bernoulli likelihood ratio 的最小值与最大值排序。在 removal 中，输入实验是 $(B(n,p),B(n,\mu_1))$，目标实验是 baseline；代入 $a=p,b=\mu_1,c=1/2,d=\alpha$ 并注意 $2\min\{1/2,\alpha\}$ 之类的因子，得到前两式。在 preservation 中交换实验的方向，代入 $a=1/2,b=\varepsilon,c=p,d=\nu_1$ 得到后两式。 $\square$
 
-注意，原文在刻画中额外要求参数对同序，这在 Binomial 情形并不必要：把观察到的成功次数 $X$ 换成 $n-X$ 是可逆处理，它把参数 $(a,b)$ 变成 $(1-a,1-b)$ 并反转大小关系，而 trade-off function 完全不变。于是任何一对 $(a,b)$ 都能换成逆序的等价对，同序要求就会把本来可行的组合排除掉。上面的四条 min/max 不等式不依赖同序，才是完整的条件。
+原文在刻画中额外要求参数对同序，这在 Binomial 情形并不必要：把观察到的成功次数 $X$ 换成 $n-X$ 是可逆处理，它把参数 $(a,b)$ 变成 $(1-a,1-b)$ 并反转大小关系，而 trade-off function 完全不变。于是任何一对 $(a,b)$ 都能换成逆序的等价对，同序要求会把本来可行的组合排除掉。上面的四条 min/max 不等式不依赖同序，才是完整的条件。
 
 ## Lemma 35
 
@@ -1320,14 +1316,14 @@ $$
 
 ## Proposition 14
 
-下一节把 random removal 从 Gaussian 推广到一般的 location family。设 $p_1=\mu_1+X$、$q_1=\nu_1+X$，其中 $d=1$，$X$ 关于 $0$ 对称且具有 log-concave density，例如 Laplace 噪声。$\mathcal P=\{\mu+X:\mu\in\mathbb R\}$. 两组样本分别含 $n_1,n_2$ 个 IID observations，两组相互独立；从第一组独立于数据值均匀删除 $n_r$ 个，令 $n_1'=n_1-n_r\ge1$，然后用两组剩余样本的加权 empirical mean 拟合 $p=\mu+X$：
+设 $p_1=\mu_1+X$、$q_1=\nu_1+X$，其中 $d=1$，$X$ 关于 $0$ 对称且具有 log-concave density，例如 Laplace 噪声。$\mathcal P=\{\mu+X:\mu\in\mathbb R\}$. 两组样本分别含 $n_1,n_2$ 个 IID observations，两组相互独立；从第一组独立于数据值均匀删除 $n_r$ 个，令 $n_1'=n_1-n_r\ge1$，然后用两组剩余样本的加权 empirical mean 拟合 $p=\mu+X$：
 
 $$
 \mu=\frac{n_1'\hat\mu_1'+n_2\hat\nu_1}{n_1'+n_2},\qquad
 \Delta=|\mu_1-\nu_1|.
 $$
 
-注意这里拟合的不是 MLE：对一般的 log-concave location family，均值不是 MLE，例如 Laplace 的 MLE 是 median. 用均值而不用 MLE，是因为均值的误差可以直接分解成两个中心估计误差与一个残余权重，证明结构与 Gaussian 情形逐字相同；这是为可分析性做的选择。
+这里拟合的不是 MLE：对一般的 log-concave location family，均值不是 MLE，例如 Laplace 的 MLE 是 median. 用均值是因为它的误差可以直接分解成两个中心估计误差与一个残余权重，证明结构与 Gaussian 情形逐字相同。
 
 设 $\gamma_X(n,1,\delta)$ 满足
 
@@ -1371,7 +1367,7 @@ $$
 
 Lemma 16 的单向单调性已经足以将这两个距离界变成检验约束：这里只需要"距离越大曲线越低"，不需要反向，因此不需要假设 $X$ 具有 full support. $\square$
 
-与 Proposition 6 相比，结论的形状完全相同，只是把 $\sigma\gamma(n,d,\cdot)$ 换成了 $\gamma_X(n,1,\cdot)$. 这说明 Gaussian 结论中的常数结构并不依赖 Gaussian，维数只通过 $\gamma$ 进入。
+结论的形状与 Proposition 6 完全相同，只是把 $\sigma\gamma(n,d,\cdot)$ 换成了 $\gamma_X(n,1,\cdot)$：Gaussian 结论中的常数结构不依赖 Gaussian，维数只通过 $\gamma$ 进入。
 
 论文给出的几类 noise 可以选取以下界（$n\gamma_X(n,1,\delta)$ 的值）：
 
@@ -1407,7 +1403,7 @@ $$
 \mathbb P\!\left(|\hat\nu-\nu|>\gamma_\nu(n,1,\delta)\right)\le\frac\delta2,
 $$
 
-那么在 $\varepsilon_m(R)$、$\alpha_M(R)$ 中分别以 $\gamma_{\mu_1}(n_1',1,\delta)$、$\gamma_{\nu_1}(n_2,1,\delta)$ 替换两个 $\gamma_X$，同一证明仍成立。这是 Remark 42 的内容。这里加权组合的是两组 location estimates；即使每一组估计量都是 MLE，它们的加权平均也未必是合并数据的 MLE.
+那么在 $\varepsilon_m(R)$、$\alpha_M(R)$ 中分别以 $\gamma_{\mu_1}(n_1',1,\delta)$、$\gamma_{\nu_1}(n_2,1,\delta)$ 替换两个 $\gamma_X$，同一证明仍成立。加权组合的是两组 location estimates；即使每一组估计量都是 MLE，它们的加权平均也未必是合并数据的 MLE.
 
 对于 density 为 $p_\nu(x)=\frac12e^{-|x-\nu|}$ 的 Laplace location family，设 $n=2k+1$ 为奇数。MLE 是 sample median $\hat\nu=X_{(k+1)}$，其中 $X_{(1)}\le\cdots\le X_{(n)}$ 是排序样本。当 $n>2\log(4/\delta)$ 时，一个有效的估计误差界为
 
@@ -1438,7 +1434,7 @@ $$
 
 令该上界等于 $\delta/2$，解出 $c$ 即得显示的 $\gamma_\nu$. 样本数条件保证对数内的量为正。 $\square$
 
-固定 $\delta$、令 $n\to\infty$，由 $-\log(1-x)\sim x$，median 的这个界为 $\sqrt{2\log(4/\delta)/n}$ 的量级；上述 empirical mean 界的主项为 $2\sqrt{\log(4/\delta)/n}$. 这里比较的是这两条 concentration bounds 的常数，不是两种估计量的统计效率：median 在 Laplace 下是 MLE，主项常数更小正是它更有效的体现。
+固定 $\delta$、令 $n\to\infty$，由 $-\log(1-x)\sim x$，median 的这个界为 $\sqrt{2\log(4/\delta)/n}$ 的量级；上述 empirical mean 界的主项为 $2\sqrt{\log(4/\delta)/n}$. 主项常数更小与 median 在 Laplace 下是 MLE 一致。
 
 ## Lemma 44
 
@@ -1457,7 +1453,7 @@ $$
 
 因此，采用 $d(n,\delta)=\sqrt{\dfrac{\log(4/\delta)}{2n}}$ 时，失败概率至多为 $\delta/2$. 原文把这一常数写成 $d(n,2\delta)$，但函数式印成了 $\sqrt{\log(1/(2\delta))/(2n)}$，$\delta>1/2$ 时根号内为负，是笔误；按 $2e^{-2nr^2}$ 反解，失败概率为 $\delta$ 的阈值应是 $\sqrt{\log(2/\delta)/(2n)}$，而 $d(n,\delta)$ 对应失败概率 $\delta/2$，与这里一致。后续证明需要的正是这个双侧形式。
 
-这是一项被直接引用的 empirical-process concentration theorem，意义在于它同时控制所有阈值，而不是只控制一个固定 $t$，所以可以用于由数据决定的删除阈值。其 sharp 概率工具是 uniform empirical process 的双侧越界界：若 $U_i$ IID uniform on $[0,1]$，$G_n(u)=n^{-1}\sum\limits_{i=1}^{n}\mathbf 1_{\{U_i\le u\}}$，则
+它同时控制所有阈值，而不是只控制一个固定 $t$，所以可以用于由数据决定的删除阈值。其 sharp 概率工具是 uniform empirical process 的双侧越界界：若 $U_i$ IID uniform on $[0,1]$，$G_n(u)=n^{-1}\sum\limits_{i=1}^{n}\mathbf 1_{\{U_i\le u\}}$，则
 
 $$
 \mathbb P\!\left(\sup_{0\le u\le1}|G_n(u)-u|>r\right)\le2e^{-2nr^2}.
@@ -1530,7 +1526,7 @@ $$
 
 **证明。** 第 $n_1'$ 小真实距离处的 empirical CDF 为 $n_1'/n_1$，DKW 界使总体 CDF 至少为 $n_1'/n_1-d(n_1,\delta)$，因此真实 order statistic 至少为显示的分位数。再利用真实与估计 order statistics 之间的误差界即可。 $\square$
 
-但这不能变成同样大小的 $\|\hat\mu_1'-\hat\nu_1\|_2$ 下界：多个方向上的位移在平均后会抵消，最大半径很大并不意味着均值离中心很远。这正是 Proposition 7 的充分界不能直接当作算法极限的原因，也是原文在 Remark 47 中把它称为一个 open direction 的地方。
+这不能变成同样大小的 $\|\hat\mu_1'-\hat\nu_1\|_2$ 下界：多个方向上的位移在平均后会抵消，最大半径很大并不意味着均值离中心很远。因此 Proposition 7 的充分界不能直接当作算法极限（原文 Remark 47 把这一反向问题列为 open direction）。
 
 ## Proposition 15
 
@@ -1579,7 +1575,7 @@ $$
 
 最后应用 Lemma 16 的单向单调性即得结论。 $\square$
 
-注意，距离 CDF 中使用的是 $|X+\mu_1-\nu_1|$，不是它的平方；否则分位数与 location 距离的单位不一致。与 Proposition 7 一样，$2\gamma_X$ 可以收紧为 $\left(1+n_1'/(n_1'+n_2)\right)\gamma_X$，Proposition 16 用的正是收紧后的版本。
+距离 CDF 中的量是 $|X+\mu_1-\nu_1|$ 而不是它的平方，否则分位数与 location 距离的单位不一致。与 Proposition 7 一样，$2\gamma_X$ 可以收紧为 $\left(1+n_1'/(n_1'+n_2)\right)\gamma_X$，Proposition 16 用的正是收紧后的版本。
 
 ## Proposition 16
 
@@ -1596,7 +1592,7 @@ F_1^{-1}\!\left(\frac{n_1'}{n_1}+d(n_1,\delta)\right)
 \end{aligned}
 $$
 
-这里 $\delta$ 是总失败概率，因此两次估计各用 $\gamma(\cdot,\cdot,\delta/2)$；$F_1(t)=\mathbb P(|Z+\Delta|\le t)$、$Z\sim N(0,1)$，即 $d=1$ 时的 $F_X$. 注意 $\varepsilon_m(R)$ 与 $\varepsilon_m(S)$ 都是 $1-\delta$ 概率下的上界，两者的比较因此是同一置信水平下的比较。定义
+这里 $\delta$ 是总失败概率，因此两次估计各用 $\gamma(\cdot,\cdot,\delta/2)$；$F_1(t)=\mathbb P(|Z+\Delta|\le t)$、$Z\sim N(0,1)$，即 $d=1$ 时的 $F_X$. $\varepsilon_m(R)$ 与 $\varepsilon_m(S)$ 都是 $1-\delta$ 概率下的上界，两者的比较是同一置信水平下的比较。定义
 
 $$
 A=2\gamma(n_2,1,\delta/2)-\gamma(n_1',1,\delta/2),\qquad
@@ -1670,6 +1666,6 @@ $$
 
 $\square$
 
-当 $\delta$ 固定且 $n_1',n_2\to\infty$ 时，$A\to0$，$\Phi(A)\to1/2$；若同时 $n_1\to\infty$，删除比例条件的阈值趋于 $1/2$. 因而这组充分保证要体现 selective removal 的优势，通常需要删除约一半或更多的 unwanted 样本，并满足相应的分布间距条件。注意，这只是两条已证明上界的比较，不是 selective removal 真正优于 random removal 的必要条件：原文 Remark 48 也指出，这里只有 selective removal 的充分界，缺少与之匹配的下界。
+当 $\delta$ 固定且 $n_1',n_2\to\infty$ 时，$A\to0$，$\Phi(A)\to1/2$；若同时 $n_1\to\infty$，删除比例条件的阈值趋于 $1/2$. 因而这组充分保证要体现 selective removal 的优势，通常需要删除约一半或更多的 unwanted 样本，并满足相应的分布间距条件。这里只有 selective removal 的充分界，缺少与之匹配的下界，所以这不是 selective removal 真正优于 random removal 的必要条件（原文 Remark 48）。
 
-所有结果放在一起，论文的论证线索是这样的。检验曲线把两个分布的可区分性压缩成一个函数，Blackwell ordering 又把曲线的比较与随机处理的存在性对上，于是 unlearning 的要求变成可行域的描述，KL、TV 以及任何满足 data-processing 的度量则自动被曲线控制（Proposition 1、2、9 与 Lemma 20）。可行域的几何在平移 Gaussian 下是球与球的差，这一形状对 log-concave location family、Gaussian white noise model 与 Hilbert 空间上的 Gaussian 测度都保持（Proposition 3、4、10、13），对多域情形是这些约束的交（Proposition 11、12）。Poisson 与 Binomial 族不是 location family，可行域由均值比与均值差的联合约束决定，刻画依赖 thinning、superposition 与 Hellinger transform 的不变量（Proposition 5 与 Lemma 28、34、35）。算法层面的结论说明：用有限样本拟合中心，无论是随机删除还是选择性删除，都只能达到信息论可行域的一个子区域，两种算法的 preservation 上界之差由 $\gamma$、$d(n,\delta)$ 与 $F_1^{-1}$ 的相互作用决定（Proposition 6、7、14、15、16）。信息论与算法之间的这段距离，就是论文所说的 information-computation gap.
+论文的论证线索是这样的。检验曲线把两个分布的可区分性压缩成一个函数，Blackwell ordering 又把曲线的比较与随机处理的存在性对上，于是 unlearning 的要求变成可行域的描述，KL、TV 以及任何满足 data-processing 的度量则自动被曲线控制（Proposition 1、2、9 与 Lemma 20）。可行域的几何在平移 Gaussian 下是球与球的差，这一形状对 log-concave location family、Gaussian white noise model 与 Hilbert 空间上的 Gaussian 测度都保持（Proposition 3、4、10、13），对多域情形是这些约束的交（Proposition 11、12）。Poisson 与 Binomial 族不是 location family，可行域由均值比与均值差的联合约束决定，刻画依赖 thinning、superposition 与 Hellinger transform 的不变量（Proposition 5 与 Lemma 28、34、35）。算法层面的结论说明：用有限样本拟合中心，无论是随机删除还是选择性删除，都只能达到信息论可行域的一个子区域，两种算法的 preservation 上界之差由 $\gamma$、$d(n,\delta)$ 与 $F_1^{-1}$ 的相互作用决定（Proposition 6、7、14、15、16）。信息论与算法之间的这段距离，就是论文所说的 information-computation gap.

@@ -1,6 +1,6 @@
 我们希望从 text-to-image diffusion model 中移除一个目标概念，同时保留其他概念。例如，删除 horse 后，模型既不能被 jockey、saddle 等间接描述重新诱导出马，也应当继续正常生成 donkey. 论文用内部 activation 的重叠来解释这两个目标之间的冲突：如果目标概念与其他概念占用相近的表示区域，覆盖整个目标区域的修改，就可能同时影响其他概念。
 
-这套论证的核心是 Theorem 4.6 及其 Corollary 4.8。不过，原证明有几处无法仅靠补齐计算步骤消除的缺口。我们先保留原命题并说明问题，再给出明确增加假设后能够成立的证明。
+这套论证的核心是 Theorem 4.6 及其 Corollary 4.8。原证明有几处无法仅靠补齐计算步骤消除的缺口。
 
 ## 概念区域与 unlearning 的两个目标
 
@@ -15,7 +15,7 @@ g_c\left(\theta',p\right)
 \qquad \theta'\in\left\{\theta,\hat{\theta}\right\}.
 $$
 
-Diffusion model 从噪声开始逐步 denoise，并通过 cross-attention 让文本信息参与图像生成。按照正文及 Definition A.1，我们固定一个 cross-attention 层 $\ell^*$ 和 denoising timestep $t^*$。在这一层，cross-attention 的输出是一个张量：prompt 的每个 token 对应一个 feature 向量，每个 feature 向量的各个分量称为 channel；同时这一层还对图像 latent 的每个空间位置给出输出。我们对空间维度和 token 维度同时取平均（附录 D 的记法为 mean-pooled across spatial and token dimensions），最终对每个 prompt 得到一条长度为 $d_{\ell^*}$ 的向量。这就是 spatial mean-pooling 的实际作用：把整张 latent 在各个空间位置、各个 token 上的响应汇总成单个向量，同时保留各个 channel. 对 prompt $p$，得到的向量记为
+Diffusion model 从噪声开始逐步 denoise，并通过 cross-attention 让文本信息参与图像生成。按照正文及 Definition A.1，我们固定一个 cross-attention 层 $\ell^*$ 和 denoising timestep $t^*$。在这一层，cross-attention 的输出是一个张量：prompt 的每个 token 对应一个 feature 向量，每个 feature 向量的各个分量称为 channel；同时这一层还对图像 latent 的每个空间位置给出输出。我们对空间维度和 token 维度同时取平均（附录 D 的记法为 mean-pooled across spatial and token dimensions），最终对每个 prompt 得到一条长度为 $d_{\ell^*}$ 的向量。对 prompt $p$，得到的向量记为
 
 $$
 \Phi_{\theta,\ell^*,t^*}\left(p\right)
@@ -45,7 +45,7 @@ $$
 
 这里 $x_{\theta}\left(p\right)$ 是一次生成的图像。因此，$\mathcal{R}_c$ 收集的是生成结果包含 $c$ 时对应的内部表示；它不要求 prompt 必须直接出现概念名称。
 
-注意，原定义没有交代生成随机性如何进入 $\Phi_{\theta}$，而筛选区域时又使用了一次随机生成的结果。我们不能因此把区域成员资格直接理解成 $g_c\left(\theta,p\right)=1$. 在后面的补充假设下，我们会明确要求 activation 提取时的随机性事先固定，并单独声明所需的生成概率条件。
+原定义没有交代生成随机性如何进入 $\Phi_{\theta}$，而筛选区域时又使用了一次随机生成的结果，因此区域成员资格不能直接理解成 $g_c\left(\theta,p\right)=1$.
 
 对于半径 $\rho>0$，定义区域的闭 $\rho$-neighborhood：
 
@@ -107,7 +107,7 @@ $$
 
 就称 $E$ 为 Lebesgue 可测集，并定义 $\operatorname{vol}\left(E\right)=\operatorname{vol}^{*}\left(E\right)$. 这个条件要求按 $E$ 的内外拆分任意集合时，体积可以相加；开集、闭集以及它们的可数并与可数交都可测。这里使用的闭邻域及其有限并、交因而可测。要使 $\kappa$ 的比值有定义，我们还要求 $0<\operatorname{vol}\left(\mathcal{R}_{c_u}^{(\rho)}\right)<\infty$. 因为分子对应分母区域的子集，所以 $0\leq\kappa\left(c_u,\rho\right)\leq 1$.
 
-这个比例回答的是：目标概念扩张后的区域中，有多少体积也属于其他概念的扩张区域。它的分母是目标区域的体积，不是非目标区域的总体积，也不是非目标 prompt 的数量；这一点对后面的证明很重要。
+这个比例的分母是目标区域的体积，不是非目标区域的总体积，也不是非目标 prompt 的数量。
 
 **Definition 4.2（$\varepsilon$-robust unlearning）** 要求
 
@@ -117,7 +117,7 @@ g_{c_u}\left(\hat{\theta},p\right)\leq\varepsilon,
 \qquad 0\leq\varepsilon\leq 1.
 $$
 
-这里 $\varepsilon$ 是允许残留的目标生成概率上界。条件覆盖所有 prompt，所以既包括直接说 horse 的 prompt，也包括只提供相关情境的间接 prompt. 注意，当 $\varepsilon=0$ 时，对每个 prompt，“生成结果包含目标”这件事的概率都为零；此后我们用它表示“任何 prompt 都不能再生成目标概念”。
+这里 $\varepsilon$ 是允许残留的目标生成概率上界。条件覆盖所有 prompt，所以既包括直接说 horse 的 prompt，也包括只提供相关情境的间接 prompt. 当 $\varepsilon=0$ 时，任何 prompt 都不能再生成目标概念。
 
 **Definition 4.3（$\gamma$-concept preservation）** 使用非目标 prompt 分布
 
@@ -142,7 +142,7 @@ $$
 \right]<\gamma.
 $$
 
-这里 $\gamma$ 是非目标 prompt 上平均 activation 位移的严格上界。因此，本文的形式化 preservation 衡量的是内部表示的稳定性，它要求平均位移严格小于 $\gamma$；它没有直接要求编辑前后图像相同，也没有直接定义生成质量损失。
+这里 $\gamma$ 是非目标 prompt 上平均 activation 位移的严格上界。本文的 formal preservation 衡量内部表示的稳定性，不直接要求编辑前后图像相同，也不直接定义生成质量损失。
 
 **Assumption 4.4（Lipschitz continuity of generation）** 假设对每个概念 $c$，存在有限常数 $L>0$，使所有 $p,p'\in\mathcal{P}$ 和 $\theta',\theta''\in\{\theta,\hat{\theta}\}$ 都满足
 
@@ -155,9 +155,9 @@ L\left\|
 \right\|_2.
 $$
 
-Lipschitz 条件表示生成概率变化不能超过 activation 距离的 $L$ 倍。这里 $L$ 可以随概念 $c$ 变化，这是原文的写法；我们后面使用的是目标概念 $c_u$ 对应的常数，并保持原记号 $L$. 证明的想法是反过来使用这个上界：如果必须让生成概率下降一大截，那么 activation 就必须移动足够远。
+Lipschitz 条件表示生成概率变化不能超过 activation 距离的 $L$ 倍。这里 $L$ 可以随概念 $c$ 变化，这是原文的写法；我们后面使用的是目标概念 $c_u$ 对应的常数，并保持原记号 $L$. 证明反过来使用这个上界：生成概率下降一大截，activation 就必须移动足够远。
 
-注意，这比通常所说的“网络是光滑的”更强。若两个 prompt 或两种模型状态有完全相同的 probe activation，上式就要求它们生成 $c$ 的概率相同。论文把 $L$ 解释为吸收其他层、skip connections 等变化的有效常数，但这仍然是一个假设。尤其重要的是，论文在同一未编辑模型上改变 prompt 得到的经验结果，只能验证同一模型状态下的情形，不能单独验证编辑前后模型之间所需的这个条件。
+这个条件比通常所说的“网络是光滑的”更强：若两个 prompt 或两种模型状态有完全相同的 probe activation，上式就要求它们生成 $c$ 的概率相同。论文把 $L$ 解释为吸收其他层、skip connections 等变化的有效常数，但这是一个假设。论文在同一未编辑模型上改变 prompt 得到的经验结果，只验证了同一模型状态下的情形，没有验证编辑前后模型之间所需的这个条件。
 
 **Assumption 4.5（minimum displacement for erasure）** 假设存在 $\Delta>0$，使实现 $\varepsilon$-robust unlearning 的编辑满足
 
@@ -171,7 +171,7 @@ $$
 \right\|_2\geq\Delta.
 $$
 
-这里 $\Delta$ 是对所有映射到 $\mathcal{R}_{c_u}$ 的 prompt 都成立的位移下界。论文把它作为对任何实现 $c_u$ 的 $\varepsilon$-robust unlearning 的编辑 $\theta\to\hat{\theta}$ 的要求提出来，它不是平均位移，也不是只在若干测量样本上成立的下界。这个假设还没有对 $\mathcal{R}_{c_u}^{(\rho)}\setminus\mathcal{R}_{c_u}$ 中的 activation 作出要求。
+这里 $\Delta$ 是对所有映射到 $\mathcal{R}_{c_u}$ 的 prompt 都成立的位移下界。它是逐点的下界，不是平均位移，也不是只在若干测量样本上成立的下界。这个假设没有对 $\mathcal{R}_{c_u}^{(\rho)}\setminus\mathcal{R}_{c_u}$ 中的 activation 作出要求。
 
 ## Theorem 4.6
 
@@ -200,13 +200,13 @@ $$
 \varepsilon\geq 1-\frac{L\gamma}{\kappa\left(c_u,\rho\right)}.
 $$
 
-这个证明希望把两件事连接起来：删除目标要求目标区域中的 activation 至少移动一定距离；如果足够多非目标 prompt 的 activation 也落在必须移动的区域，它们的平均位移就有正下界。关键不只是几何上的“靠近”，而是这些非目标 prompt 确实承受同样的位移约束。
+这个证明把两件事连接起来：删除目标要求目标区域中的 activation 至少移动一定距离；如果足够多非目标 prompt 的 activation 也落在必须移动的区域，它们的平均位移就有正下界。关键不只是几何上的“靠近”，而是这些非目标 prompt 确实承受同样的位移约束。
 
 ### 原证明中的缺口
 
-原证明在附录 G 中给出，原文另外在 Appendix D、E 中分别验证 Assumptions 4.5 和 4.4. 我们逐项检查后，发现下列问题。先说明一处与数学内容无关的原文编辑问题：论文开头的 contributions 把不可能性结论写成 Theorem 4.8，而第 4.3 节的标题与正文一致地写成 Corollary 4.8. 我们按 Corollary 4.8 处理。
+原证明在附录 G 中给出，原文另外在 Appendix D、E 中分别验证 Assumptions 4.5 和 4.4. 论文开头的 contributions 把不可能性结论写成 Theorem 4.8，而第 4.3 节的标题与正文一致地写成 Corollary 4.8；我们按 Corollary 4.8 处理。
 
-首先，原证明把 $\mathbb{O}_{\mathcal{X}}\left(x_{\theta}\left(p\right),c_u\right)=1$ 当成 $g_{c_u}\left(\theta,p\right)=1$. 前者只说一次图像生成成功，后者说每次生成几乎必然成功。二者不同。附录 G 的 Step 1 正是从这里开始：它声称“由 $\mathcal{R}_{c_u}$ 的构造，每个 $h\in\mathcal{R}_{c_u}$ 都对应一个编辑前生成本身包含 $c_u$ 的 prompt，即 $g_{c_u}\left(\theta,p\right)=1$”，但 Definition A.1 只用一次抽样 $x_{\theta}\left(p\right)$ 判定，这句话并不由定义直接推出。仅由 robustness 和 Lipschitz 条件，我们能直接得到的是
+首先，原证明把 $\mathbb{O}_{\mathcal{X}}\left(x_{\theta}\left(p\right),c_u\right)=1$ 当成 $g_{c_u}\left(\theta,p\right)=1$. 前者只说一次图像生成成功，后者说每次生成几乎必然成功。附录 G 的 Step 1 正是从这里开始：它声称“由 $\mathcal{R}_{c_u}$ 的构造，每个 $h\in\mathcal{R}_{c_u}$ 都对应一个编辑前生成本身包含 $c_u$ 的 prompt，即 $g_{c_u}\left(\theta,p\right)=1$”，但 Definition A.1 只用一次抽样 $x_{\theta}\left(p\right)$ 判定，这句话并不由定义直接推出。仅由 robustness 和 Lipschitz 条件，我们能直接得到的是
 
 $$
 \begin{aligned}
@@ -235,7 +235,7 @@ $$
 
 只有当一个点能被目标区域内的点任意逼近时，我们才能取极限，把这些点上的 $\Delta$ 下界传到该点。这些点构成目标区域的闭包。闭 $\rho$-neighborhood 则还包含与目标区域相隔正距离的点，无法通过上述取极限得到下界；这里的“闭”只表示邻域包含自身的边界，不表示它等于目标区域的闭包。
 
-此外，“位移随原 activation 连续变化”首先要求位移能够由原 activation 唯一确定。若两个 prompt 的原 activation 相同，编辑后的 activation 却不同，它们的位移大小就可能不同，此时我们连“这个 activation 对应多大位移”都不能唯一指定，更不能直接把位移视为 activation 空间上的连续函数。
+此外，“位移随原 activation 连续变化”首先要求位移能够由原 activation 唯一确定。若两个 prompt 的原 activation 相同，编辑后的 activation 却不同，它们的位移大小就可能不同，此时“这个 activation 对应多大位移”没有唯一指定的值。
 
 还有一处同样没有依据的过渡。附录 G 的 Step 2 在定义 $O$ 之后写道：由 Definition 4.3，非目标 prompt 分布 $\mathcal{P}_{-u}$ 的 support 落在 $\bigcup_{c'\ne c_u}\mathcal{R}_{c'}^{(\rho)}$ 上。但 Definition 4.3 只规定了怎样从各 $\mathcal{P}_{c'}$ 抽取 prompt，并没有说非目标概念的 activation 必然落在这些概念的 $\rho$-扩张区域内；prompt 的 activation 与“生成结果被判定包含该概念”本来就是两回事，前者更不会自动落进后者的邻域。这一步决定了后面所有非目标 prompt 都能享受到位移下界，但它和 mass-volume regularity 一样没有被列为条件。
 
@@ -247,17 +247,17 @@ $$
 \geq\kappa\left(c_u,\rho\right).
 $$
 
-附录 G 把它额外称为 mass-volume regularity，并写明“我们明确引入这个正则性假设”，但 Theorem 4.6 的条件里没有列出它。我们必须把它当作一个独立假设。这里所谓 push-forward measure，就是先按 $\mathcal{P}_{-u}$ 抽取 prompt，再把它映射成 $\Phi_{\theta}\left(p\right)$，从而在 activation 空间得到的概率分布。上式要求这个分布落在 $O$ 中的概率，至少等于以目标体积为分母的几何重叠比例。
+附录 G 把它额外称为 mass-volume regularity，并写明“我们明确引入这个正则性假设”，但 Theorem 4.6 的条件里没有列出它，因此它是一个独立假设。所谓 push-forward measure，就是先按 $\mathcal{P}_{-u}$ 抽取 prompt，再把它映射成 $\Phi_{\theta}\left(p\right)$，从而在 activation 空间得到的概率分布。上式要求这个分布落在 $O$ 中的概率，至少等于以目标体积为分母的几何重叠比例。
 
 即使非目标 activation 均匀分布，这个条件也不会自动成立。例如目标扩张区域为 $[0,1]$，唯一非目标扩张区域为 $[0,100]$，那么 $O=[0,1]$ 且 $\kappa=1$；但在后一个区域均匀抽样，落入 $O$ 的概率只有 $1/100$. 均匀性不能消除两个比例分母的差异。
 
-因此，原命题列出的两个假设不足以支撑上述证明。下面把所需条件完整地放到命题前面。
+因此，原命题列出的两个假设不足以支撑上述证明。
 
 ### 补充假设下的命题与证明
 
 我们固定非空目标区域 $\mathcal{R}_{c_u}$、半径 $\rho>0$ 和前述重叠区域 $O$，要求集合与 activation 映射可测，且 $0<\operatorname{vol}\left(\mathcal{R}_{c_u}^{(\rho)}\right)<\infty$. 区域筛选使用的生成样本以及 activation 提取时的随机性事先固定，使 $\Phi_{\theta}$ 与 $\Phi_{\hat{\theta}}$ 是确定的 prompt 映射；生成概率 $g_c$ 仍对生成图像的随机性取概率。
 
-除 $\varepsilon$-robust unlearning、Assumption 4.4 和 Assumption 4.5 外，我们明确增加以下三个条件。这些是条件化论证所需的假设，不是论文已经证明或通过实验完整验证的性质。条件 1 和条件 3 分别对应前面指出的两处缺口（区域成员资格与生成概率的混淆、mass-volume regularity），条件 2 则把位移下界从 $\mathcal{R}_{c_u}$ 延伸到 $O$，替代原证明中依赖连续性和 support 断言的那一步。
+除 $\varepsilon$-robust unlearning、Assumption 4.4 和 Assumption 4.5 外，我们增加以下三个条件。条件 1 和条件 3 分别对应前面指出的两处缺口（区域成员资格与生成概率的混淆、mass-volume regularity），条件 2 把位移下界从 $\mathcal{R}_{c_u}$ 延伸到 $O$，替代原证明中依赖连续性和 support 断言的那一步。
 
 1. 原模型在所有映射到目标区域的 prompt 上都必然生成目标：
 
@@ -288,7 +288,7 @@ $$
    \right\|_2.
    $$
 
-   这个条件明确要求：编辑对目标区域施加的最小位移，也延伸到了涉及非目标概念的重叠区域。它是实质性的编辑行为约束，不能由区域距离或连续性单独推出。我们直接对 prompt 的位移作要求，因此不需要额外假定编辑后 activation 只由编辑前 activation 决定。这个下确界在 Assumption 4.5 下不小于 $\Delta$，而在条件 1 和 Lipschitz 条件下又不小于 $(1-\varepsilon)/L$，所以条件 2 同时继承了这两个下界。
+   这个条件要求：编辑对目标区域施加的最小位移，也延伸到了涉及非目标概念的重叠区域，它不能由区域距离或连续性单独推出。条件直接约束 prompt 的位移，因此不需要假定编辑后 activation 只由编辑前 activation 决定。这个下确界在 Assumption 4.5 下不小于 $\Delta$，而在条件 1 和 Lipschitz 条件下又不小于 $(1-\varepsilon)/L$，所以条件 2 同时继承了这两个下界。
 
 3. 非目标 prompt 在重叠区域中具有足够的概率质量：
 
@@ -315,7 +315,7 @@ $$
 \max\left\{\Delta,\frac{1-\varepsilon}{L}\right\}.
 $$
 
-**证明。** 我们先在目标区域取得逐点下界，再对非目标 prompt 求平均。对任何满足 $\Phi_{\theta}\left(q\right)\in\mathcal{R}_{c_u}$ 的 prompt $q$，条件 1、robustness 和 Lipschitz 条件给出
+**证明。** 先在目标区域取得逐点下界，再对非目标 prompt 求平均。对任何满足 $\Phi_{\theta}\left(q\right)\in\mathcal{R}_{c_u}$ 的 prompt $q$，条件 1、robustness 和 Lipschitz 条件给出
 
 $$
 \begin{aligned}
@@ -349,7 +349,7 @@ $$
 \geq\max\left\{\Delta,\frac{1-\varepsilon}{L}\right\}.
 $$
 
-这一步才真正把删除目标所需的位移传给了重叠区域中的非目标 prompt. 接下来用 $\mathbf{1}\{\cdot\}$ 表示 indicator：括号内事件成立时取 $1$，否则取 $0$. 因为位移非负，我们可以只保留落入 $O$ 的那部分期望：
+这一步把删除目标所需的位移传给了重叠区域中的非目标 prompt. 接下来用 $\mathbf{1}\{\cdot\}$ 表示 indicator：括号内事件成立时取 $1$，否则取 $0$. 因为位移非负，我们可以只保留落入 $O$ 的那部分期望：
 
 $$
 \begin{aligned}
@@ -397,19 +397,19 @@ $$
 
 因而也得到原文较弱的非严格不等式 $\gamma\geq\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$. 当 $\kappa\left(c_u,\rho\right)>0$ 时，将其乘以 $L/\kappa\left(c_u,\rho\right)$ 并移项，就得到 $\varepsilon\geq1-L\gamma/\kappa\left(c_u,\rho\right)$. $\square$
 
-这里还可以看清证明的骨架：$\kappa\left(c_u,\rho\right)$ 决定有多少比例的 prompt 被迫移动，$\Delta$（或概率降幅除以 $L$）决定每个被迫移动的 prompt 至少移动多远，平均只是把这两部分乘起来。三项条件各自封住一个环节。条件 1 和 Lipschitz 条件保证目标区域内的位移不小于 $(1-\varepsilon)/L$，Assumption 4.5 保证它不小于 $\Delta$，条件 2 把这个下界原封不动地运到重叠区域，条件 3 保证重叠区域在 $\mathcal{P}_{-u}$ 下占有足够概率质量。缺任何一项，这个乘积式的下界都无法得到：缺条件 3，我们只知道 $\Pr\left[\Phi_{\theta}\left(p\right)\in O\right]$ 是某个未知的非负数，不能用 $\kappa\left(c_u,\rho\right)$ 替换它；缺条件 2，$O$ 中的 prompt 可能只移动了小于 $(1-\varepsilon)/L$ 的距离；缺条件 1，$1-\varepsilon$ 要换成 $g_{c_u}\left(\theta,q\right)-\varepsilon$，其大小取决于原模型在目标区域上生成目标的概率。反过来，这也说明原论文的直觉没有错：只要把“目标区域整体受抑制”这句话翻译成对 $O$ 和 $\mathcal{P}_{-u}$ 的明确要求，重叠比例确实以乘积的形式进入下界。
+$\kappa\left(c_u,\rho\right)$ 决定有多少比例的 prompt 被迫移动，$\Delta$（或概率降幅除以 $L$）决定每个被迫移动的 prompt 至少移动多远，平均只是把这两部分乘起来。三项条件各自封住一个环节。条件 1 和 Lipschitz 条件保证目标区域内的位移不小于 $(1-\varepsilon)/L$，Assumption 4.5 保证它不小于 $\Delta$，条件 2 把这个下界原封不动地运到重叠区域，条件 3 保证重叠区域在 $\mathcal{P}_{-u}$ 下占有足够概率质量。缺任何一项，这个乘积式的下界都无法得到：缺条件 3，我们只知道 $\Pr\left[\Phi_{\theta}\left(p\right)\in O\right]$ 是某个未知的非负数，不能用 $\kappa\left(c_u,\rho\right)$ 替换它；缺条件 2，$O$ 中的 prompt 可能只移动了小于 $(1-\varepsilon)/L$ 的距离；缺条件 1，$1-\varepsilon$ 要换成 $g_{c_u}\left(\theta,q\right)-\varepsilon$，其大小取决于原模型在目标区域上生成目标的概率。
 
 ## Remark 4.7
 
 结论不依赖生成 $\hat{\theta}$ 的具体算法。证明只使用编辑前后的生成概率、activation 位移以及 prompt 分布，因此可以涵盖 closed-form weight editing、gradient-based fine-tuning 和 inference-time intervention.
 
-不过，“不依赖算法形式”不等于“无条件适用于所有算法”。一种编辑方法只有满足前述全部条件时，才能代入这个下界；尤其需要验证跨模型的 Lipschitz 条件，以及位移从目标区域传到重叠区域的条件。
+一种编辑方法只有满足前述全部条件时，才能代入这个下界；尤其需要验证跨模型的 Lipschitz 条件，以及位移从目标区域传到重叠区域的条件。
 
 ## Corollary 4.8
 
 原推论为：若 $\kappa\left(c_u,\rho\right)>0$，就不可能同时实现 $\varepsilon=0$ 的 perfect erasure 和 $\gamma=0$ 的 perfect preservation.
 
-注意，Definition 4.3 使用严格不等式“平均位移 $<\gamma$”，所以把 $\gamma=0$ 直接代入，即使完全不修改模型（平均位移为 $0$）也无法满足。原文的 Corollary 4.8 因此依赖这一约定：它把 $\gamma=0$ 理解为“preservation 要求任意严苛”的极限，而不是 Definition 4.3 在 $\gamma=0$ 时的字面可行性。为了把它变成一个关于模型本身、而不是关于参数约定的陈述，我们把 perfect preservation 明确写为“平均位移等于 $0$”：
+Definition 4.3 使用严格不等式“平均位移 $<\gamma$”，把 $\gamma=0$ 直接代入，即使完全不修改模型（平均位移为 $0$）也无法满足。原文的 Corollary 4.8 因此依赖这一约定：它把 $\gamma=0$ 理解为“preservation 要求任意严苛”的极限，而不是 Definition 4.3 在 $\gamma=0$ 时的字面可行性。我们把 perfect preservation 明确写为“平均位移等于 $0$”：
 
 $$
 \mathbb{E}_{p\sim\mathcal{P}_{-u}}
@@ -436,11 +436,11 @@ $$
 
 这个结论排除的是“彻底删除目标，同时所有非目标 prompt 的内部表示在平均意义下完全不动”。它尚未排除“内部表示发生变化，但非目标图像的生成质量保持不变”。Assumption 4.4 给的是概率变化的上界；即使 activation 位移很大，概率变化仍然可以为零。因此，不能把内部位移的正下界直接当作生成质量下降的正下界。
 
-对固定的 $L$、$c_u$ 与 $\rho$，不等式 $\gamma\geq\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$ 给出一个必要的可行性边界：越严格地限制目标残留概率，允许的非目标平均位移上界 $\gamma$ 就必须越大，不能低于这条曲线。注意，下界本身不证明边界上的每个点都能实现，因此不能直接把这条曲线认作已经刻画完整的 Pareto frontier.
+对固定的 $L$、$c_u$ 与 $\rho$，不等式 $\gamma\geq\kappa\left(c_u,\rho\right)(1-\varepsilon)/L$ 给出一个必要的可行性边界：越严格地限制目标残留概率，允许的非目标平均位移上界 $\gamma$ 就必须越大，不能低于这条曲线。下界本身不证明边界上的每个点都能实现，这条曲线未必是完整的 Pareto frontier.
 
 ## Definition C.1 与经验重叠指标
 
-为了理解论文怎样把上述几何对象用于实验，我们还需要区分理论中的 $\kappa$ 与样本统计量 $\hat{\kappa}$. Definition A.1 的 activation region 已在前面引入；Definition C.1 进一步定义实际估计时使用的 semantic neighborhood.
+理论中的重叠比例是 $\kappa$，样本统计量是 $\hat{\kappa}$. Definition A.1 的 activation region 已在前面引入；Definition C.1 进一步定义实际估计时使用的 semantic neighborhood.
 
 对于目标 $c_u$，候选集合为
 
@@ -482,9 +482,9 @@ d_{\cos}\left(\bar{\mathbf{a}}_{c_u},\bar{\mathbf{a}}_c\right)
 \right\}.
 $$
 
-Control 概念用于比较编辑对不相关概念的影响，论文要求 $\mathcal{C}_{c_u}^{\mathrm{ctrl}}\cap\mathcal{N}\left(c_u\right)=\varnothing$. 从上面的定义看，neighbor 只从候选集合 $\mathcal{C}_{c_u}^{\mathrm{cand}}$ 中选取，因此只要 control 与候选集合分开，这个要求就自动满足。它本身不保证 control 在 activation 空间中距离目标较远。
+Control 概念用于比较编辑对不相关概念的影响，论文要求 $\mathcal{C}_{c_u}^{\mathrm{ctrl}}\cap\mathcal{N}\left(c_u\right)=\varnothing$. Neighbor 只从候选集合 $\mathcal{C}_{c_u}^{\mathrm{cand}}$ 中选取，只要 control 与候选集合分开，这个要求就自动满足，因此它不检验 control 在 activation 空间中与目标的距离。
 
-注意，$\delta_{c_u}$ 与 $\mathcal{N}\left(c_u\right)$ 是估计侧的量：它们只出现在下面的 $\hat{\kappa}$ 中，在 Theorem 4.6 的理论表述里不出现。这一点决定了后面能证明什么。Centroid 只用于筛选接下来考察哪些概念，重叠比例则通过逐个样本计算：
+$\delta_{c_u}$ 与 $\mathcal{N}\left(c_u\right)$ 是估计侧的量：它们只出现在下面的 $\hat{\kappa}$ 中，在 Theorem 4.6 的理论表述里不出现。Centroid 只用于筛选接下来考察哪些概念，重叠比例则通过逐个样本计算：
 
 $$
 \hat{\kappa}\left(c_u\right)
@@ -509,13 +509,13 @@ d_{\cos}\left(\mathbf{a},\mathbf{a}'\right)
 \right\}.
 $$
 
-这里 $\mathbf{b}$ 是 neighbor 概念的 activation 样本，$\mathbf{a}'$ 是另一个目标样本，$\operatorname{median}$ 表示中位数。我们先计算目标概念内部所有不同样本对的 cosine distance，取其中位数作为 $\rho_{c_u}$. 这个半径用目标概念自身的样本分散程度，规定“多近才算接近”。
+这里 $\mathbf{b}$ 是 neighbor 概念的 activation 样本，$\mathbf{a}'$ 是另一个目标样本，$\operatorname{median}$ 表示中位数。先计算目标概念内部所有不同样本对的 cosine distance，取其中位数作为 $\rho_{c_u}$. 这个半径用目标概念自身的样本分散程度，规定“多近才算接近”。
 
-然后逐个检查目标样本 $\mathbf{a}$. 公式内层的 $\min_{\mathbf{b}\in\mathcal{S}_{c'}}$ 找到概念 $c'$ 中离它最近的样本；外层的 $\min_{c'\in\mathcal{N}\left(c_u\right)}$ 再比较所有 neighbor 概念，得到 $\mathbf{a}$ 到全部 neighbor 样本的最近距离。如果这个距离不超过 $\rho_{c_u}$，indicator 就记为 $1$，否则记为 $0$. 因此，只要有一个 neighbor 样本足够近，就把 $\mathbf{a}$ 算作被覆盖；附近有多个 neighbor 样本也只计一次。
+公式内层的 $\min_{\mathbf{b}\in\mathcal{S}_{c'}}$ 找到概念 $c'$ 中离 $\mathbf{a}$ 最近的样本；外层的 $\min_{c'\in\mathcal{N}\left(c_u\right)}$ 再比较所有 neighbor 概念，得到 $\mathbf{a}$ 到全部 neighbor 样本的最近距离。如果这个距离不超过 $\rho_{c_u}$，indicator 就记为 $1$，否则记为 $0$.
 
 最后，把这些 $0$ 或 $1$ 相加，再除以目标样本总数 $\left|\mathcal{S}_{c_u}\right|$，就得到 $\hat{\kappa}\left(c_u\right)$：目标样本中，被 neighbor 样本覆盖的比例。它衡量的是有多少目标样本与至少一个 neighbor 接近，不是它们到 neighbor 的平均距离。
 
-原文把 $\hat{\kappa}$ 称为理论 $\kappa$ 的 lower-bound estimator，其理由是只统计部分非目标概念，应当少算重叠。我们先在原本的体积定义中检查这个理由：$\kappa$ 统计目标区域与所有非目标概念区域的重叠；如果只保留 $\mathcal{N}\left(c_u\right)$ 中的概念，有些原来计入的重叠点可能不再计入，却不会增加新的重叠点。因此，在区域、半径和体积定义均不变的条件下，确实有
+原文把 $\hat{\kappa}$ 称为理论 $\kappa$ 的 lower-bound estimator，理由是只统计部分非目标概念会少算重叠。在原本的体积定义中检查这个理由：$\kappa$ 统计目标区域与所有非目标概念区域的重叠；如果只保留 $\mathcal{N}\left(c_u\right)$ 中的概念，有些原来计入的重叠点可能不再计入，却不会增加新的重叠点。因此，在区域、半径和体积定义均不变的条件下，有
 
 $$
 \frac{
@@ -530,9 +530,9 @@ $$
 
 **证明。** 左侧分子中的每个点都同时属于目标扩张区域和某个 neighbor 的扩张区域。由于 neighbor 也是非目标概念，这个点必然也被 $\kappa$ 的分子计入。于是左侧分子的集合是右侧分子的子集，体积不超过后者；两侧再除以相同的正数 $\operatorname{vol}\left(\mathcal{R}_{c_u}^{(\rho)}\right)$，不等式仍成立。$\square$
 
-但是，实际 $\hat{\kappa}$ 的分母是目标 activation 样本数，抽样也不是在整个扩张区域上按体积均匀进行。样本可以集中在一个体积很小的重叠部分，使样本覆盖率高于体积重叠率。因此，上面的集合不等式并不能证明观测到的 $\hat{\kappa}\leq\kappa$；原文没有给出消除这项差异的抽样条件或统计误差界。
+但是，实际 $\hat{\kappa}$ 的分母是目标 activation 样本数，抽样也不是在整个扩张区域上按体积均匀进行。样本可以集中在一个体积很小的重叠部分，使样本覆盖率高于体积重叠率。因此，上面的集合不等式并不能证明观测到的 $\hat{\kappa}\leq\kappa$.
 
-原文还用单位向量之间的恒等式说明 cosine distance 与 Euclidean distance 的关系。当 $\left\|\mathbf{a}\right\|_2=\left\|\mathbf{b}\right\|_2=1$ 时，
+当 $\left\|\mathbf{a}\right\|_2=\left\|\mathbf{b}\right\|_2=1$ 时，
 
 $$
 \begin{aligned}
@@ -545,19 +545,19 @@ $$
 \end{aligned}
 $$
 
-因此，在单位球面上，cosine distance 不超过 $\rho$ 与 Euclidean distance 不超过 $\sqrt{2\rho}$ 等价。注意，这个恒等式的前提是两个向量都已经归一化。原文的 metric compatibility 讨论正是基于它：集合层面的内容（扩张区域之间的体积重叠）在两种距离下只差一个对半径 $\rho$ 的单调重参数化，因此可以把 $\hat{\kappa}$ 当作 $\kappa$ 的估计来用；而 $L$ 始终只与 $\ell_2$ 形式绑定。验证 $L$ 在归一化后的距离下是否仍成立，并不是原论文要给出的结论。
+因此，在单位球面上，cosine distance 不超过 $\rho$ 与 Euclidean distance 不超过 $\sqrt{2\rho}$ 等价。集合层面的内容（扩张区域之间的体积重叠）在两种距离下只差一个对半径 $\rho$ 的单调重参数化，而 $L$ 始终只与 $\ell_2$ 形式绑定。
 
-不过，归一化并不是单纯更换距离的写法。把原 activation 除以自身长度，会将同方向、不同长度的向量压到同一个点，丢掉长度信息。因此，原空间中两个区域各有多大、重叠比例是多少，不能由归一化后的距离判定直接恢复。
+把原 activation 除以自身长度，会把同方向、不同长度的向量压到同一个点，丢掉长度信息。因此，原空间中两个区域各有多大、重叠比例是多少，不能由归一化后的距离判定恢复。
 
 归一化还把所有非零向量放到了单位球面上。这个球面虽然有表面积，但在 $d_{\ell^*}$ 维空间中没有厚度，$d_{\ell^*}$ 维 Lebesgue volume 为零。所以，若要在球面上按体积谈论“扩张区域”，就需要改用球面上的 $(d_{\ell^*}-1)$ 维面积（surface measure）；用面积算出的重叠比例，与原来用空间体积算出的 $\kappa$ 是不同的定义，不能直接视为相等。此外，实验中的 activation 是否都恰好落在单位球面上，论文也没有说明。
 
-所以，实验中的 $\hat{\kappa}$ 可以描述样本的 neighbor 覆盖程度，并且确实是对 $\kappa$ 的一个单调相关的估计；但要把它直接代入 Theorem 4.6 的定量下界，还缺少从归一化的样本统计量到原始 $\ell_2$ 体积测度的定量转换。
+所以，实验中的 $\hat{\kappa}$ 可以描述样本的 neighbor 覆盖程度，但要把它直接代入 Theorem 4.6 的定量下界，还缺少从归一化的样本统计量到原始 $\ell_2$ 体积测度的定量转换。
 
 ## Remark F.1
 
 原文认为：当重叠区域恰好占目标扩张区域的 $\kappa\left(c_u,\rho\right)$ 比例，并且编辑在目标扩张区域上产生均匀位移时，下界是 tight 的。
 
-但这两句话合起来仍不足以推出取等：第二句的“均匀”没有控制非目标 prompt 落入 $O$ 的概率，也没有控制 $O$ 之外的位移是否为零。要说明何时取等，我们应当逐项检查证明中丢掉的量。
+但这两句话合起来仍不足以推出取等：第二句的“均匀”没有控制非目标 prompt 落入 $O$ 的概率，也没有控制 $O$ 之外的位移是否为零。
 
 对于下界
 
@@ -606,7 +606,7 @@ $$
 
 论文把这种训练解释为对目标 activation 区域更广泛、更强的抑制，并观察到删除 horse 后 donkey、zebra 的生成也受损。若这种修改确实在目标区域上建立更大的统一位移下界 $\Delta$，又满足 Theorem 4.6 的其余条件，那么 $\kappa\left(c_u,\rho\right)\Delta$ 会给出更大的非目标平均位移下界。
 
-注意，这条 Remark 没有证明 compositional objective 必然压制整个相关子空间，也没有证明每个 neighbor 都必须受损。论文自己在 Remark F.2 里写的是“directly implies large collateral displacement in $\mathcal{R}_{c'}$ for all neighbors $c'$ with $\kappa\left(c_u,\rho\right)>0$”，这一步只能理解为定性地概括机制；Theorem 4.6 约束的是非目标分布的总体平均位移，不能仅凭 $\kappa\left(c_u,\rho\right)>0$ 就给每个单独的 neighbor 推出正的位移下界。若某个 neighbor 与目标的 overlap 远小于全部非目标概念的并，它在平均值中的权重就相应很小。STEREO 的具体生成质量变化仍属于实验观察。
+论文自己在 Remark F.2 里写的是“directly implies large collateral displacement in $\mathcal{R}_{c'}$ for all neighbors $c'$ with $\kappa\left(c_u,\rho\right)>0$”，但 Theorem 4.6 约束的是非目标分布的总体平均位移，不能仅凭 $\kappa\left(c_u,\rho\right)>0$ 就给每个单独的 neighbor 推出正的位移下界。若某个 neighbor 与目标的 overlap 远小于全部非目标概念的并，它在平均值中的权重就相应很小。
 
 ## Remark F.3
 
@@ -614,14 +614,14 @@ $$
 
 SAeUron 用 sparse autoencoder 把内部 activation 表示为少数 feature 方向的组合，寻找与目标概念密切相关的 feature，并在 inference 时抑制其中的 $\tau_c$ 个。这里 $\tau_c$ 是对概念 $c$ 选出的 feature 数量。与覆盖整个目标区域的干预相比，这种方法只改变选中的 feature 分量，因此可能避开其他概念依赖的表示。
 
-论文的解释是，间接 prompt 仍可能利用未被抑制的 feature 组合生成目标，于是方法表现为较小的非目标变化与较大的目标残留。不过，feature 数量少本身既不证明位移小，也不证明一定存在 leakage；feature 的幅度及其对生成结果的作用同样重要。这里给出的是对实验现象的机制解释，没有独立的数学证明。
+论文的解释是，间接 prompt 仍可能利用未被抑制的 feature 组合生成目标，于是方法表现为较小的非目标变化与较大的目标残留。这一解释成立与否取决于未被抑制的 feature 的幅度及其对生成结果的作用，数量本身的多少不足以决定结果。
 
-在条件化定理适用时，我们能严格说的是：如果 $\kappa\left(c_u,\rho\right)>0$，并且非目标平均位移可以被很小的 $\gamma$ 控制，那么 $\varepsilon$ 必须满足 $\varepsilon\geq1-L\gamma/\kappa\left(c_u,\rho\right)$. 这限制了能够同时达到的 robustness，但不指定实际泄漏发生在哪个 prompt 上。
+在定理的条件成立时，$\kappa\left(c_u,\rho\right)>0$ 且非目标平均位移不超过 $\gamma$ 意味着 $\varepsilon\geq1-L\gamma/\kappa\left(c_u,\rho\right)$. 这个界限制的是 robustness 与 preservation 能够同时达到的水平，它不指出实际泄漏会出现在哪个 prompt 上。
 
 ## Remark F.4
 
 论文最后把这些方法放到同一个比较中：影响 trade-off 的是编辑在目标区域 $\mathcal{R}_{c_u}$ 上把 activation 推动得多广，而不只是它属于 weight editing 还是 inference-time intervention. 两类方法都可能广泛修改表示，也都可能只修改很少的 feature.
 
-Theorem 4.6 对此提供的是条件性的必要约束：如果编辑必须在目标区域上产生至少 $\Delta$ 的位移，并且这项约束传到了具有足够非目标概率质量的重叠区域，那么非目标平均位移至少为 $\kappa\left(c_u,\rho\right)\Delta$. 它没有给出“增大位移就一定改善 erasure”的充分条件，也没有保证不同概念上的实际损伤随 $\kappa$ 单调增加；不同概念还可能具有不同的 $L$、不同的实际残留概率，以及不同程度的额外位移。
+Theorem 4.6 给出的是条件性的必要约束：如果编辑必须在目标区域上产生至少 $\Delta$ 的位移，并且这项约束传到了具有足够非目标概率质量的重叠区域，那么非目标平均位移至少为 $\kappa\left(c_u,\rho\right)\Delta$. 它不构成“增大位移就改善 erasure”的充分条件；不同概念还可能具有不同的 $L$、不同的实际残留概率，以及不同程度的额外位移，因此实际损伤不必随 $\kappa$ 单调增加。
 
-因此，这篇论文的可证明部分描述的是：在明确的概率、位移传递和分布条件下，robust erasure 对非目标内部表示的稳定性施加一个下界约束。STEREO、SAeUron 等方法的实验表现为这种解释提供现象上的支持，但不替代上述条件，也不把 activation 位移下界自动变成生成质量损失下界。
+因此，这篇论文的可证明部分描述的是：在明确的概率、位移传递和分布条件下，robust erasure 对非目标内部表示的稳定性施加一个下界约束。STEREO、SAeUron 等方法的实验表现为这种解释提供现象上的支持。
