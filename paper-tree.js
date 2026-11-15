@@ -6,7 +6,24 @@ window.PaperTree = (() => {
   const notes = new Map();
   const themeKey = 'assassinlike.paper-theme';
   let htmlTheme = 'dark';
-  try { if (localStorage.getItem(themeKey) === 'light') htmlTheme = 'light'; } catch (_) {}
+  try {
+    const chosen = localStorage.getItem(themeKey);
+    // Until the reader picks a colour for arXiv HTML, follow the site theme.
+    htmlTheme = chosen === 'light' || chosen === 'dark' ? chosen : document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+  } catch (_) {}
+  document.addEventListener('site-theme-change', (event) => {
+    // Only the site-wide default follows; an explicit choice for arXiv HTML wins.
+    try { if (localStorage.getItem(themeKey)) return; } catch (_) {}
+    htmlTheme = event.detail.theme === 'light' ? 'light' : 'dark';
+    const frame = document.querySelector('.paper-html-frame');
+    if (frame) {
+      frame.dataset.theme = htmlTheme;
+      frame.contentWindow?.postMessage({ type: 'paper-theme', theme: htmlTheme }, '*');
+    }
+    document.querySelectorAll('[data-paper-theme]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.dataset.paperTheme === htmlTheme));
+    });
+  });
 
   function overviewManifest() {
     if (!overviewPromise) {

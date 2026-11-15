@@ -55,7 +55,7 @@ window.SiteI18n = (() => {
     '这篇尚未单独整理概述，以下为完整讲解。': 'No separate summary yet. The full notes are shown below.',
     '正在加载讲解…': 'Loading notes…', '已收录原论文，尚未添加讲解。': 'This paper is cataloged; notes have not been added yet.',
     '论文阅读': 'Paper reader', '正在加载 arXiv HTML 原文…': 'Loading the original paper from arXiv…',
-    '原文配色': 'Paper theme', '暗色': 'Dark', '亮色': 'Light',
+    '原文配色': 'Paper theme', '暗色': 'Dark', '亮色': 'Light', '深色': 'Dark', '浅色': 'Light',
     '阅读内容': 'Reading content', 'HTML 原文': 'Original HTML',
     '会议': 'Conference', '期刊': 'Journal', '论文集': 'Proceedings', '查看发表来源': 'View publication source',
     '这篇论文暂无可用的 HTML，或当前网络无法加载。可通过上方链接前往 arXiv 阅读原文。': 'HTML is unavailable for this paper, or the network could not load it. Use the link above to read the original on arXiv.',
