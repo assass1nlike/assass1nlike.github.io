@@ -1,11 +1,20 @@
 {
-  "generatedAt": "2026-11-15T04:29:04Z",
+  "generatedAt": "2026-11-17T02:17:10Z",
   "author": "assass1nlike",
   "repositories": [
     {
       "name": "gradio-app/gradio",
       "stars": 44044,
       "entries": [
+        {
+          "kind": "issue",
+          "repository": "gradio-app/gradio",
+          "number": 14068,
+          "title": "`/gradio_api/file=` returns 500 for a multi-range `Range` header (`file_fetch` unpacks `split(\"-\")` into two values)",
+          "url": "https://github.com/gradio-app/gradio/issues/14068",
+          "state": "open",
+          "createdAt": "2026-11-15"
+        },
         {
           "kind": "issue",
           "repository": "gradio-app/gradio",
@@ -39,6 +48,15 @@
         {
           "kind": "pr",
           "repository": "huggingface/datasets",
+          "number": 9056,
+          "title": "Serialize SeqRecord and Structure in the BioSequence/BioStructure feature's format",
+          "url": "https://github.com/huggingface/datasets/pull/9056",
+          "state": "open",
+          "createdAt": "2026-11-16"
+        },
+        {
+          "kind": "pr",
+          "repository": "huggingface/datasets",
           "number": 8977,
           "title": "Fix IterableDataset.rename_columns with arrow, pandas and polars formats",
           "url": "https://github.com/huggingface/datasets/pull/8977",
@@ -51,6 +69,15 @@
       "name": "pydantic/pydantic-ai",
       "stars": 21189,
       "entries": [
+        {
+          "kind": "issue",
+          "repository": "pydantic/pydantic-ai",
+          "number": 13594,
+          "title": "`WindowsWorkspaceBackend` returns PowerShell errors as raw `#< CLIXML` in `stderr` on Windows PowerShell 5.1",
+          "url": "https://github.com/pydantic/pydantic-ai/issues/13594",
+          "state": "open",
+          "createdAt": "2026-11-16"
+        },
         {
           "kind": "issue",
           "repository": "pydantic/pydantic-ai",
@@ -102,7 +129,7 @@
           "number": 1247,
           "title": "Freeze stem BatchNorm stats in ModifiedResNet.lock",
           "url": "https://github.com/mlfoundations/open_clip/pull/1247",
-          "state": "open",
+          "state": "merged",
           "createdAt": "2026-11-11"
         }
       ]
@@ -126,6 +153,15 @@
       "name": "huggingface/accelerate",
       "stars": 9942,
       "entries": [
+        {
+          "kind": "pr",
+          "repository": "huggingface/accelerate",
+          "number": 4566,
+          "title": "Accept ACCELERATE_DEBUG_MODE=1 in notebook_launcher, as documented",
+          "url": "https://github.com/huggingface/accelerate/pull/4566",
+          "state": "closed",
+          "createdAt": "2026-11-15"
+        },
         {
           "kind": "pr",
           "repository": "huggingface/accelerate",
