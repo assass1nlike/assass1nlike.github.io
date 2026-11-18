@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T02:17:10Z",
+  "generatedAt": "2026-11-18T02:17:09Z",
   "author": "assass1nlike",
   "repositories": [
     {
@@ -96,6 +96,15 @@
         {
           "kind": "pr",
           "repository": "huggingface/sentence-transformers",
+          "number": 4404,
+          "title": "[fix] Make DenoisingAutoEncoderDataset picklable with the default noise_fn",
+          "url": "https://github.com/huggingface/sentence-transformers/pull/4404",
+          "state": "open",
+          "createdAt": "2026-11-17"
+        },
+        {
+          "kind": "pr",
+          "repository": "huggingface/sentence-transformers",
           "number": 4369,
           "title": "[fix] Accept pathlib.Path as model_name_or_path in the other model classes",
           "url": "https://github.com/huggingface/sentence-transformers/pull/4369",
@@ -123,6 +132,15 @@
       "name": "mlfoundations/open_clip",
       "stars": 14263,
       "entries": [
+        {
+          "kind": "pr",
+          "repository": "mlfoundations/open_clip",
+          "number": 1259,
+          "title": "Fix forward_intermediates(normalize_intermediates=True) on legacy CoCa vision tower",
+          "url": "https://github.com/mlfoundations/open_clip/pull/1259",
+          "state": "open",
+          "createdAt": "2026-11-17"
+        },
         {
           "kind": "pr",
           "repository": "mlfoundations/open_clip",
