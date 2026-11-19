@@ -1,11 +1,20 @@
 {
-  "generatedAt": "2026-11-18T02:17:09Z",
+  "generatedAt": "2026-11-19T06:33:39Z",
   "author": "assass1nlike",
   "repositories": [
     {
       "name": "gradio-app/gradio",
       "stars": 44044,
       "entries": [
+        {
+          "kind": "issue",
+          "repository": "gradio-app/gradio",
+          "number": 14078,
+          "title": "Masked `markdown` reference in `gr.Workflow` builds a `gr.Textbox` with `lines=3`, raising a spurious `lines` warning on every load",
+          "url": "https://github.com/gradio-app/gradio/issues/14078",
+          "state": "open",
+          "createdAt": "2026-11-18"
+        },
         {
           "kind": "issue",
           "repository": "gradio-app/gradio",
@@ -84,7 +93,7 @@
           "number": 13351,
           "title": "`Dataset.to_file()` saves an evaluator's `init=False` dataclass fields, so `Dataset.from_file()` can't load the file",
           "url": "https://github.com/pydantic/pydantic-ai/issues/13351",
-          "state": "open",
+          "state": "closed",
           "createdAt": "2026-11-13"
         }
       ]
@@ -99,7 +108,7 @@
           "number": 4404,
           "title": "[fix] Make DenoisingAutoEncoderDataset picklable with the default noise_fn",
           "url": "https://github.com/huggingface/sentence-transformers/pull/4404",
-          "state": "open",
+          "state": "merged",
           "createdAt": "2026-11-17"
         },
         {
@@ -225,7 +234,7 @@
           "number": 5327,
           "title": "Inference Endpoints: token passed to `HfApi` is dropped by `list_inference_endpoints(namespace=\"*\")` and by returned `InferenceEndpoint` objects",
           "url": "https://github.com/huggingface/huggingface_hub/issues/5327",
-          "state": "open",
+          "state": "closed",
           "createdAt": "2026-11-10"
         }
       ]
