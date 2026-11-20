@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T06:33:39Z",
+  "generatedAt": "2026-11-20T02:40:31Z",
   "author": "assass1nlike",
   "repositories": [
     {
@@ -147,7 +147,7 @@
           "number": 1259,
           "title": "Fix forward_intermediates(normalize_intermediates=True) on legacy CoCa vision tower",
           "url": "https://github.com/mlfoundations/open_clip/pull/1259",
-          "state": "open",
+          "state": "merged",
           "createdAt": "2026-11-17"
         },
         {
