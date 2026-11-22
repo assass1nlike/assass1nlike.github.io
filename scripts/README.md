@@ -24,20 +24,13 @@ OAuth 的平台回调地址是 Supabase 的 `/auth/v1/callback`，不要填成�
 
 验证前端留言逻辑：`node --test scripts/test-guestbook.cjs`。实际数据库的建表、读写及非公开留言权限还需在新项目初始化后验收。
 
-# GitHub / OneDrive 分区备份
+# 内容仓库
 
-`everlasting/.gitignore` 同时作为 Git 排除规则和 OneDrive 备份清单，路径相对 `everlasting/`，例如 `/research/`、`/everlasting.md`。不要写 `./` 前缀。支持 Git 原生通配符和 `!` 例外；清单文件本身应保留在 GitHub。
+网站代码在本仓库（公开），具体内容在私有仓库 `assass1nlike/everlasting`，clone 在本仓库的 `everlasting/` 下，本仓库的 `.gitignore` 忽略整个目录。笔记、科研项目、草稿都在那里正常 commit / push；`everlasting/research/` 是其中的一个目录，原来的独立仓库 `assass1nlike/research` 的历史已合并进来。
 
-```powershell
-python scripts/sync-onedrive.py
-python scripts/sync-onedrive.py --apply
-```
+公开仓库只保存网站要展示的副本：文章由 `export-articles.py` 复制到 `assets/articles/`，实验记录由 `export-experiments.py` 复制到 `assets/experiments/`。换一台电脑时，先 clone 本仓库，再把 `assass1nlike/everlasting` clone 到 `everlasting/`，导出脚本才能运行。
 
-第一条只预览，第二条执行。`everlasting/research/` 同时是独立的私有仓库 `assass1nlike/research`，在该目录里正常 commit / push 即可；其中自带 `.git` 的第三方 clone 与 IdeaScientist 不进入该仓库。默认目标是 `C:\Users\15951\OneDrive\everlasting`，可用 `--destination` 指定其他电脑的同名目录。脚本先拉取 `origin`，按远程 `main` 当前提交核对备份；已安装 GitHub CLI 时使用其当前登录账号。
-
-以本地仓库 `everlasting/` 为准：清单内的现存文件按原路径复制到 OneDrive，逐一校验后取消 Git 跟踪；本地已删除的文件也从 OneDrive 当前备份中移除。清单外但本地仍存在的 OneDrive 文件，只有在相同路径、相同内容已存在于远程当前版本时才移出备份目录（文本允许 CRLF/LF 差异）；远程缺失或内容不同的副本会保留并列出。
-
-被替换、清理和随本地删除的旧副本移入 OneDrive 下的 `.everlasting-sync-history/`，可恢复。已在本地删除的清单内文件会先从 Git 暂存区保存旧版本到恢复历史，再取消跟踪。它是独立的恢复历史，不属于当前 `everlasting/` 分区。脚本不提交、不推送、不改写 Git 历史；取消跟踪产生的暂存删除需要正常提交推送。它只能确认本机 OneDrive 副本已写入，云端上传由 OneDrive 客户端完成。
+内容仓库自己的 `.gitignore` 排除超过 GitHub 100 MB 上限的文件、成片和可重新生成的产物（各项目目录下的 `.gitignore` 排除 `build/`、`out/`、`vendor/` 等），以及嵌套的独立仓库（第三方 clone、`azr-3b-repro`）。这些文件只存在本机。
 
 # 一键发布
 
@@ -51,7 +44,7 @@ python scripts/sync-onedrive.py --apply
 
 每天自动同步由 `scripts/daily-community.ps1` 完成：Windows 计划任务 `assassinlike-community-sync` 每天 10:17 运行它，刷新两块数据、提交并推送；日志在 `scripts/.cache/daily-community.log`（不提交）。安装或重装用 `powershell -ExecutionPolicy Bypass -File scripts/install-daily-community.ps1`。
 
-论文库默认是 `D:\papers`，可用 `--source` 指定；`-m "提交说明"` 可自定义提交信息。命令提交配置的文章发布目录（包含图片）、生成的目录和论文数据／配置；跳过 Git 忽略项、隐藏文件、临时目录、说明文件和符号链接，不收录发布目录之外的草稿。网站代码改动仍单独提交。请在 `main` 分支、暂存区为空时运行；更新或提交失败会停止，推送失败保留本地提交，不强制覆盖远程。录用来源暂时不可用时保留已有记录，未确认情况记录在检查清单中。
+论文库默认是 `D:\papers`，可用 `--source` 指定；`-m "提交说明"` 可自定义提交信息。命令提交 `assets/articles/` 下的文章副本与目录、论文数据／配置等导出结果，不提交 `everlasting/` 里的任何源文件；内容仓库的改动要在 `everlasting/` 里单独提交推送。网站代码改动仍单独提交。请在 `main` 分支、暂存区为空时运行；更新或提交失败会停止，推送失败保留本地提交，不强制覆盖远程。录用来源暂时不可用时保留已有记录，未确认情况记录在检查清单中。
 
 下方的独立更新命令仍用于本地预览，不自动提交或推送。
 
@@ -67,21 +60,22 @@ python scripts/export-articles.py
 
 | 栏目 | 发布目录（相对仓库根目录） |
 | --- | --- |
-| 学习积累 | `everlasting/invisible/learning/math-theoretical/` 中 `files` 列出的文件 |
+| 学习积累 | `everlasting/invisible/learning/math-theoretical/` 中 `files` 列出的文件，以及 `everlasting/invisible/learning/preliminaries.md` |
 | 技术杂记 | `everlasting/invisible/tech/` |
 | AI/ML/CS 之外（目前只有年终总结） | `everlasting/invisible/others/annual/` |
+| 项目经历 | `everlasting/invisible/abstract/` |
 
 写好后把 Markdown 和图片放入对应发布目录，可创建子文件夹，文件名不限。学习积累栏目的 `learning/math-theoretical/` 里还有未公开的笔记，所以只发布 `scripts/articles.json` 中该来源 `files` 列出的文件，新增一篇需要把文件名加进列表；列表中的文件缺失时导出会报错。AI/ML/CS 之外目前只有年终总结。文章首个 `# 一级标题` 用作列表标题；没有一级标题时使用文件名。标题提取跳过 YAML 元数据与代码块。
 
-**图片放置：** 每篇文章的图片放在文章同级或子目录下（如 `tech/article-name/figures/` 或 `learning/math-theoretical/note-name/images/`），保持文章自包含，方便移动和归档。图片使用相对路径引用，例如 `![说明](./figures/demo.png)`，发布时连同图片一起提交。不要使用顶层共享目录。
+**图片放置：** 每篇文章的图片放在文章同级或子目录下（如 `tech/article-name/figures/` 或 `learning/math-theoretical/note-name/images/`），保持文章自包含，方便移动和归档。图片使用相对路径引用，例如 `![说明](./figures/demo.png)` 或 `<img src="figures/demo.png">`。导出时只复制文章实际引用、且位于 `everlasting/` 内的图片。不要使用顶层共享目录。
 
-新增、改名、删除文章或修改标题后运行命令，刷新本地页面即可检查。仅修改正文或图片时可直接刷新，重新运行脚本也无妨。预览可运行 `python -m http.server 8000`，打开 `http://localhost:8000/`。脚本生成 `assets/articles/catalog.js`，不修改文章、不暂存、不提交、不推送；正式发布时只提交准备公开的 Markdown、图片及生成的目录文件，再 push。首页预览、分类列表和阅读页共用此目录，无需再编辑 `script.js`。
+新增、改名、删除文章或修改标题后运行命令，刷新本地页面即可检查；修改正文或图片后也要重新运行，因为网站读取的是副本。预览可运行 `python -m http.server 8000`，打开 `http://localhost:8000/`。脚本把每篇文章及其图片复制到 `assets/articles/`（`everlasting/invisible/x.md` 对应 `assets/articles/invisible/x.md`），删除已撤下文章的旧副本，并生成 `assets/articles/catalog.js`；它不修改源文件、不暂存、不提交、不推送。文章在目录、链接、阅读数和批注中仍以 `everlasting/...` 路径标识，前端的 `rootAssetPath()` 把它映射到副本，所以副本的位置变化不影响已有链接和批注。
 
-除学习积累栏目外，发布目录中所有 Markdown 都会被收录；草稿请放在这些目录之外。脚本跳过 `.gitignore` 排除的文件、隐藏文件与目录、`tmp`、`__pycache__`、`node_modules`、符号链接／目录联接，以及 `AGENTS.md`、`CLAUDE.md`、`README.md`。不扫描 `research/`、`minors/` 等其它目录。未被目录收录不等于私密：已提交到公开仓库的文件仍可被直接访问。
+除学习积累栏目外，发布目录中所有 Markdown 都会被收录；草稿请放在这些目录之外。脚本跳过内容仓库 `.gitignore` 排除的文件、隐藏文件与目录、`tmp`、`__pycache__`、`node_modules`、符号链接／目录联接，以及 `AGENTS.md`、`CLAUDE.md`、`README.md`。`sources` 必须位于 `everlasting/` 内，否则导出报错。没有发布的文章只存在于私有仓库，网站上访问不到。
 
 特殊设置在 `scripts/articles.json`：`sources` 指定扫描目录，`overrides` 可指定显示标题、发布日期或旧链接别名。除学习积累笔记外，新增文章通常不需要修改该文件。学习积累、AI/ML/CS 之外和技术杂记按发布日期从晚到早排列，同日文章保留扫描顺序。`preliminaries.md` 显示“补一些非常basic的知识”，日期为 `2026-07-15`，现有阅读链接与年终总结筛选保留。
 
-列表与阅读页显示首次发布日期 `publishedAt`，格式为 `YYYY-MM-DD`，按上海时区记录。已有文章用当前 Git 历史中该文件首次加入的日期补齐（跟随已提交的改名记录），不是文件修改时间或年终总结的年份；更早的实际发表日期如已无法从历史恢复，可在 `scripts/articles.json` 的 `overrides` 中为对应路径设置 `"publishedAt": "2023-12-31"`。新文章没有提交记录时，首次生成目录的当天作为默认发布日期，保存在生成目录中；预览与实际发布间隔较长时可用同样方式指定日期。以后修改正文或重新生成目录都会保留日期。提交时保留生成目录，换电脑后也不会重置。
+列表与阅读页显示首次发布日期 `publishedAt`，格式为 `YYYY-MM-DD`，按上海时区记录。日期一旦写入 `catalog.js` 就保留下来，修改正文或重新生成目录都不会变，换电脑后也不会重置。新文章的日期取内容仓库 `everlasting/` 历史中该文件首次提交的日期；还没提交过的新文章用首次生成目录的当天。内容仓库建于 2026-11-22，在此之前发布的文章都已有保存的日期。需要指定日期时，在 `scripts/articles.json` 的 `overrides` 中为对应路径设置 `"publishedAt": "2023-12-31"`，它优先于保存的日期。
 
 页面只显示日期数字。现有三篇年终总结的日期指定为次年正月初二；12 篇导入的学习笔记按原下载文件的日期、编号升序分配在 `2026-08-20` 至 `2026-09-10`，属于人工补定日期，已写入 `overrides`，不会被 Git 日期覆盖。
 
