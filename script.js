@@ -1,6 +1,6 @@
 const SITE_TIME_ZONE = 'Asia/Shanghai';
 const QUOTE_START_DATE_KEY = '2026-05-11';
-const DEFAULT_DOCUMENT_PATH = 'everlasting/invisible/preliminaries.md';
+const DEFAULT_DOCUMENT_PATH = 'everlasting/invisible/learning/preliminaries.md';
 const QUOTE_CSV_PATH = '/assets/quotes/poetic_diffs.csv';
 const GUESTBOOK_CACHE_KEY = 'assassinlike.guestbook.profile.v1';
 const GUESTBOOK_REMOTE_POLL_MS = 15000;
@@ -987,10 +987,13 @@ async function initViewerPage() {
       return;
     }
     const docPath = resolved?.path || docInput;
-    await loadMarkdownInto(host, rootAssetPath(docPath), {
+    const loaded = await loadMarkdownInto(host, rootAssetPath(docPath), {
       outline: true,
       annotate: String(docPath).replace(/^[./]+/, ''),
     });
+    // A document that failed to load is not counted: the page_views table is public, and an
+    // unpublished path must not end up in it.
+    if (!loaded) return;
     mountReadingMeta(host, String(docPath).replace(/^[./]+/, ''));
     if (resolved?.category) {
       let returnUrl = categoryHref(resolved.category);
@@ -1139,8 +1142,10 @@ async function loadMarkdownInto(host, path, options = {}) {
       const target = host.querySelector('.library-reader-content') || host;
       window.ReaderAnnotate?.init(target, options.annotate);
     }
+    return true;
   } catch (error) {
     host.innerHTML = '<div class="error-state">暂时无法加载这篇文档，请稍后重试。</div>';
+    return false;
   }
 }
 
@@ -1967,9 +1972,11 @@ function viewerHref(docPath) {
   return `/viewer.html?doc=${encodeURIComponent(publicId || docPath)}`;
 }
 
+// Articles are named by their path in the private everlasting/ folder, which links, view counts and
+// annotations all use; the site serves the published copy that export-articles.py writes.
 function rootAssetPath(path) {
   const value = String(path || '').replace(/^[./]+/, '');
-  return `/${value}`;
+  return value.startsWith('everlasting/') ? `/assets/articles/${value.slice('everlasting/'.length)}` : `/${value}`;
 }
 
 function getDailyQuote() {

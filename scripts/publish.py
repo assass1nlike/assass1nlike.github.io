@@ -1,7 +1,6 @@
 """Update public content, commit its files, and push main to origin."""
 
 import argparse
-import json
 from pathlib import Path
 import subprocess
 import sys
@@ -20,9 +19,8 @@ def run(root, *args, capture=False, input=None):
 def publication_paths(root, only):
     scopes = []
     if only in ('all', 'articles'):
-        config = json.loads((root / 'scripts/articles.json').read_text(encoding='utf-8-sig'))
-        scopes += [s['path'] for c in config['categories'].values() for s in c['sources']]
-        scopes += ['scripts/articles.json', 'assets/articles/catalog.js']
+        # Sources live in the private everlasting/ repository; only the exported copies are published.
+        scopes += ['scripts/articles.json', 'assets/articles']
     if only in ('all', 'experiments'):
         scopes += ['scripts/export-experiments.py', 'scripts/experiments.json', 'assets/experiments']
     scopes += ['scripts/export-search-index.py', 'assets/search-index.js']

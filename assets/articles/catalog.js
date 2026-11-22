@@ -154,6 +154,14 @@ window.ArticleCatalog = [
     "publishedAt": "2024-02-11"
   },
   {
+    "path": "everlasting/invisible/tech/vscode-remote-ext-command-not-found.md",
+    "title": "VS Code Remote-SSH 下扩展快捷键报 command not found",
+    "category": "tech",
+    "aliases": [],
+    "hidePath": true,
+    "publishedAt": "2026-11-22"
+  },
+  {
     "path": "everlasting/invisible/tech/cc-env-or-folder.md",
     "title": "cc-env-or-folder",
     "category": "tech",

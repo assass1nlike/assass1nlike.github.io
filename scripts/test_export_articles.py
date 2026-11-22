@@ -97,12 +97,45 @@ class ArticleCatalogTests(unittest.TestCase):
         self.assertNotIn('old.md', output.read_text(encoding='utf-8'))
 
     def test_gitignored_notes_never_enter_catalog_even_if_tracked(self):
-        subprocess.run(['git', 'init', '-q', str(self.site)], check=True, capture_output=True)
+        content = self.site / 'everlasting'
+        subprocess.run(['git', 'init', '-q', str(content)], check=True, capture_output=True)
         path = 'everlasting/invisible/learning/math-theoretical/private.md'
         self.write(path, '# Private')
-        subprocess.run(['git', '-C', str(self.site), 'add', path], check=True, capture_output=True)
-        self.write('.gitignore', '/everlasting/invisible/learning/math-theoretical/private.md\n')
+        subprocess.run(['git', '-C', str(content), 'add', 'invisible/learning/math-theoretical/private.md'],
+                       check=True, capture_output=True)
+        self.write('everlasting/.gitignore', '/invisible/learning/math-theoretical/private.md\n')
         self.assertFalse(any(doc['path'] == path for doc in self.export()))
+        self.assertFalse((self.site / 'assets/articles/invisible/learning/math-theoretical/private.md').exists())
+
+    def test_published_copies_carry_their_images_and_drop_stale_files(self):
+        note = 'everlasting/invisible/tech/tool.md'
+        self.write('everlasting/invisible/tech/figures/a b.png', 'image a')
+        self.write('everlasting/invisible/tech/figures/html.png', 'image b')
+        self.write('everlasting/invisible/tech/unused.png', 'not referenced')
+        self.write('outside.png', 'outside the content folder')
+        self.write(note, '# Tool\n![a](./figures/a%20b.png)\n<img src="figures/html.png">\n'
+                         '![far](../../../outside.png)\n![web](https://example.com/x.png)\n')
+        self.export()
+        published = self.site / 'assets/articles/invisible/tech'
+        self.assertEqual((published / 'tool.md').read_text(encoding='utf-8'),
+                         (self.site / note).read_text(encoding='utf-8'))
+        self.assertTrue((published / 'figures/a b.png').exists())
+        self.assertTrue((published / 'figures/html.png').exists())
+        self.assertFalse((published / 'unused.png').exists())
+        self.assertFalse(any(path.name == 'outside.png' for path in (self.site / 'assets').rglob('*')))
+        (self.site / note).unlink()
+        self.export()
+        self.assertFalse(published.exists())
+        self.assertTrue((self.site / 'assets/articles/catalog.js').exists())
+
+    def test_sources_outside_the_content_folder_are_rejected(self):
+        config_path = self.site / 'scripts/articles.json'
+        config = json.loads(config_path.read_text(encoding='utf-8'))
+        config['categories']['tech']['sources'] = [{'path': 'notes'}]
+        config_path.write_text(json.dumps(config), encoding='utf-8')
+        (self.site / 'notes').mkdir()
+        with self.assertRaises(ValueError):
+            self.export()
 
     def test_failure_keeps_previous_catalog(self):
         self.export()

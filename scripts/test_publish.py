@@ -23,10 +23,10 @@ class PublishTests(unittest.TestCase):
         subprocess.run(['git', 'init', '--bare', str(self.remote)], check=True, capture_output=True)
         self.git('remote', 'add', 'origin', str(self.remote))
         self.write('scripts/articles.json', json.dumps({'categories': {'learning': {
-            'sources': [{'path': 'public'}]}}}))
-        self.write('public/old.md', '# Old article')
+            'sources': [{'path': 'everlasting/public'}]}}}))
+        self.write('assets/articles/public/old.md', '# Old article')
         self.write('index.html', 'Existing website')
-        self.write('.gitignore', 'public/private/\n')
+        self.write('.gitignore', '/everlasting/\n')
         self.git('add', '.')
         self.git('commit', '-m', 'Initial')
 
@@ -41,27 +41,27 @@ class PublishTests(unittest.TestCase):
 
     def update(self, root, *args, **kwargs):
         if args[0] == sys.executable:
+            # Stands in for export-articles.py: it rewrites the catalog and the published copies.
             self.write('assets/articles/catalog.js', 'updated catalog')
+            self.write('assets/articles/public/new.md', '# New article')
+            self.write('assets/articles/public/images/figure.png', 'image')
+            (self.root / 'assets/articles/public/old.md').unlink(missing_ok=True)
             return None
         return REAL_RUN(root, *args, **kwargs)
 
-    def test_publication_pushes_content_and_deletions_but_leaves_private_and_code_changes(self):
-        (self.root / 'public/old.md').unlink()
-        for name in ['public/new.md', 'public/images/figure.png', 'public/private/secret.md',
-                     'public/tmp/scratch.md', 'public/.draft.md', 'public/AGENTS.md', 'research/draft.md']:
-            self.write(name, 'new content')
+    def test_publication_pushes_copies_and_deletions_but_never_private_sources_or_code(self):
+        for name in ['everlasting/public/new.md', 'everlasting/public/draft.md', 'everlasting/research/draft.md']:
+            self.write(name, 'private source')
         self.write('index.html', 'Unrelated pending website edit')
         with patch.object(publish, 'run', side_effect=self.update):
             publish.publish(self.root, only='articles')
         files = set(subprocess.run(['git', '--git-dir', str(self.remote), 'ls-tree', '-r', '--name-only', 'main'],
                                    check=True, capture_output=True, text=True).stdout.splitlines())
-        self.assertIn('public/new.md', files)
-        self.assertIn('public/images/figure.png', files)
+        self.assertIn('assets/articles/public/new.md', files)
+        self.assertIn('assets/articles/public/images/figure.png', files)
         self.assertIn('assets/articles/catalog.js', files)
-        self.assertNotIn('public/old.md', files)
-        for excluded in ['public/private/secret.md', 'public/tmp/scratch.md', 'public/.draft.md',
-                         'public/AGENTS.md', 'research/draft.md']:
-            self.assertNotIn(excluded, files)
+        self.assertNotIn('assets/articles/public/old.md', files)
+        self.assertFalse(any(name.startswith('everlasting/') for name in files))
         self.assertEqual(self.git('show', 'HEAD:index.html'), 'Existing website')
         self.assertIn('index.html', self.git('diff', '--name-only'))
         first_commit = self.git('rev-parse', 'HEAD')
