@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T02:17:10Z",
+  "generatedAt": "2026-11-26T02:30:51Z",
   "author": "assass1nlike",
   "repositories": [
     {
@@ -45,7 +45,7 @@
           "number": 22132,
           "title": "Fix Fabric `consolidate_checkpoint` script not saving to fsspec URLs",
           "url": "https://github.com/Lightning-AI/pytorch-lightning/pull/22132",
-          "state": "open",
+          "state": "merged",
           "createdAt": "2026-11-08"
         }
       ]
