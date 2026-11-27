@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T02:30:51Z",
+  "generatedAt": "2026-11-27T04:37:43Z",
   "author": "assass1nlike",
   "repositories": [
     {
@@ -225,7 +225,7 @@
           "number": 5359,
           "title": "[Jobs] Auto-generated Job name uses the whole Windows script path (`.\\train.py` -> `--train-<hash>`)",
           "url": "https://github.com/huggingface/huggingface_hub/issues/5359",
-          "state": "open",
+          "state": "closed",
           "createdAt": "2026-11-14"
         },
         {
